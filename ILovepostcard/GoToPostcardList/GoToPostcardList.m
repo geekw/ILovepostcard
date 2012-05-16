@@ -10,11 +10,14 @@
 #import "SBJson.h"
 
 #define NumberInOnePage 4 //每页显示个数
-#define template @"http://61.155.238.30:port/postcards/interface/template_list"//模板列表接口
+#define template @"http://61.155.238.30/postcards/interface/template_list"//模板列表接口
+#define template_Keyword @"http://61.155.238.30/postcards/interface/query_template"//模板列表接口
 
 @implementation GoToPostcardList
+@synthesize keyword;
 
-static int currentPage = 1;
+int currentPage;
+int currentPage_Keyword;
 
 #pragma mark - goBack - 返回按钮
 -(IBAction)goBack
@@ -25,6 +28,7 @@ static int currentPage = 1;
 #pragma mark - View lifecycle - 系统函数
 -(void)dealloc
 {
+    keyword = nil;[keyword release];
     templateScrollView = nil;[templateScrollView release];
     displayEachTemplateDetals = nil;[displayEachTemplateDetals release];
     backButton = nil;[backButton release];
@@ -34,8 +38,7 @@ static int currentPage = 1;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) 
-    {
+    if (self) {
     }
     return self;
 }
@@ -49,30 +52,324 @@ static int currentPage = 1;
     [super didReceiveMemoryWarning];
 }
 
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-#pragma mark - getJsonData - 解析json数据
+#pragma mark - ViewDidLoad - 解析json数据
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     self.navigationController.navigationBarHidden = NO;
-    addTemplatePageNumber = 0;
-    [self performSelector:@selector(loadHttpRequset) withObject:nil];
+
     rotationAngle = 0;
+    
+    currentPage = 1;
+    currentPage_Keyword = 1;
+    
+    addTemplatePageNumber = 0;
+    addTemplatePageNumber_keyword = 0;
+    
+    [self performSelector:@selector(loadHttpRequset) withObject:nil];
+    [self performSelector:@selector(dealWithSearchBar)];//美化searchBar
+    
+    addMoreTemplateButton.enabled = YES;
+    addMoreTemplateButton.hidden = NO;
+    [addMoreTemplateButton setImage:[UIImage imageNamed:@"addMoreTemplateButton.png"] forState:UIControlStateNormal];
+    
+    addMoreTemplateFlag_Keyword = NO;
+    
+    addMoreTemplateButton_Keyword.hidden = YES;
+    templateScrollView_keyword.hidden = YES;
+    [addMoreTemplateButton_Keyword setImage:[UIImage imageNamed:@"addMoreTemplateButton.png"] forState:UIControlStateNormal];
 }
 
+
+#pragma mark - SearchBar - 1.美化searchBar 2.点击search事件
+- (void)dealWithSearchBar//美化searchBar
+{
+    [[mySearchBar.subviews objectAtIndex:0] removeFromSuperview];
+    mySearchBar.placeholder = [NSString stringWithFormat:@"请输入您感兴趣的模板"];
+    mySearchBar.translucent = YES;//半透明
+    mySearchBar.delegate = self;
+    mySearchBar.showsCancelButton = NO;//未输入文字前显示取消按钮
+}
+
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
+{
+    mySearchBar.showsCancelButton = YES;
+}
+
+- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar
+{
+	mySearchBar.showsCancelButton = NO;
+}
+
+-(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+{
+    self.keyword = nil;
+    self.keyword = [NSString stringWithFormat:@"%@",searchText];
+}
+
+-(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+{
+	[mySearchBar resignFirstResponder];
+}
+
+-(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    [templateScrollView_keyword removeFromSuperview];
+
+    [self performSelector:@selector(searchOnline_Keyword)];
+}
+
+#pragma mark - Request_Keyword - 带关键字请求模板列表
+-(void)searchOnline_Keyword
+{
+    currentPage_Keyword = 1;
+    addTemplatePageNumber_keyword = 0;
+    [mySearchBar resignFirstResponder];
+    NSString *keywordString = [self urlEncodedString:self.keyword];//中文字符转换成url可用的字符串
+    NSString *requsetString = [template_Keyword stringByAppendingFormat:@"?t=%@&p=%d&s=%d",keywordString,currentPage_Keyword,NumberInOnePage];
+    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:requsetString]];
+    request.delegate = self;
+    [request setDidFinishSelector:@selector(getTemplateFinished_Keyword:)];//带关键字-取json数据
+    [request setDidFailSelector:@selector(getTemplateFailed:)];//联网失败提示
+    [request startAsynchronous];
+}
+
+- (NSString *)urlEncodedString:(NSString *)string//中文字符转换成url可用的字符串
+{
+    NSData *utf8Data = [string dataUsingEncoding:NSUTF8StringEncoding];
+	char *hex = "0123456789ABCDEF";
+	unsigned char * data = (unsigned char*)[utf8Data bytes];
+	int len = [utf8Data length];
+	NSMutableString* s = [NSMutableString string];
+	for(int i = 0;i<len;i++){
+		unsigned char c = data[i];
+		if( ('a' <= c && c <= 'z') || ('A' <= c && c <= 'Z') || ('0' <= c && c <= '9') )
+        {
+			NSString *ts = [[NSString alloc] initWithCString:(char *)&c length:1];
+			[s appendString:ts];
+			[ts release];
+		} 
+        else 
+        {
+			[s appendString:@"%"];
+			char ts1 = hex[c >> 4];
+			NSString *ts = [[NSString alloc] initWithCString:&ts1 length:1];
+			[s appendString:ts];
+			[ts release];
+            
+			char ts2 = hex[c & 15];
+			ts = [[NSString alloc] initWithCString:&ts2 length:1];
+			[s appendString:ts];
+			[ts release];
+		}
+	}
+	return s;
+}
+
+-(void)getTemplateFinished_Keyword:(ASIHTTPRequest *)request
+{
+    NSDictionary *dict = [request responseString].JSONValue;
+    NSLog(@"dict = %@",dict);
+
+    NSString *result_codeString = [dict objectForKey:@"result_code"];
+    if ([result_codeString intValue] == 0)//没有找到模板
+    {
+        [self performSelector:@selector(showNoneSearchResult)];//没有模板的提示    
+    }
+    else if ([result_codeString intValue] == 1)
+    {
+        templateScrollView.hidden = YES;
+        templateScrollView_keyword.hidden = NO;
+        
+        addMoreTemplateButton.hidden = YES;
+        addMoreTemplateButton_Keyword.hidden = NO;
+        
+        NSString *pageTotal = [dict objectForKey:@"page_total"];//---第一级解析
+        page_total = [pageTotal intValue];  
+        
+        NSArray *templatesArray = [dict objectForKey:@"templates"];//---第一级解析
+        NSNumber *numberInOnePage = [NSNumber numberWithInt:[templatesArray count]];
+        
+        if ([ILPostcardList sharedILPostcardList].templateAbstractList != nil) 
+        {
+            [[ILPostcardList sharedILPostcardList].templateAbstractList removeAllObjects];
+        }
+        
+        for (int i = 0; i < [numberInOnePage intValue]; i++) 
+        {
+            NSDictionary *tempDict = [templatesArray objectAtIndex:i];
+            [self performSelector:@selector(layOutTemplate:) withObject:tempDict];//解析json数据
+        }
+        
+        [self performSelector:@selector(displayEachTemplate_Keyword:) withObject:numberInOnePage];//读取保存到单例的数组,并展示  
+        
+        currentPage_Keyword ++;//预先加一,方便下一次请求-------重要!
+        if (currentPage_Keyword > page_total)
+        {
+            addMoreTemplateButton_Keyword.enabled = NO;
+            [addMoreTemplateButton_Keyword setImage:[UIImage imageNamed:@"noMoreTemplateButton.png"] forState:UIControlStateNormal];
+//            addMoreTemplateFlag_Keyword = YES;
+        }
+    }
+}
+
+-(void)showNoneSearchResult//没有模板的提示
+{
+    PromptView *tmpProptView = [[PromptView alloc] init];
+    [tmpProptView showPromptWithParentView:self.view
+                                withPrompt:@"还没有相关模板" 
+                                 withFrame:CGRectMake(40, 120, 240, 240)];
+    [tmpProptView  release];
+}
+
+-(IBAction)addMoreTemplate_Keyword
+{
+    addTemplatePageNumber_keyword ++;//页数加一
+    templateScrollView.contentSize = CGSizeMake(320, 406 * (addTemplatePageNumber_keyword +1));
+    [self performSelector:@selector(searchOnline_Keyword)];
+}
+
+
+#pragma mark - displayEachTemplate_Keyword - 带关键字显示每一个框架(放在哪一页,哪一个位置)
+-(void)displayEachTemplate_Keyword:(NSNumber *)numberInOnePage
+{
+    for (int i = 0; i < [numberInOnePage intValue]; i ++) 
+    {
+        NSDictionary *tmpDict =[[ILPostcardList sharedILPostcardList].templateAbstractList objectAtIndex:i];
+        NSString *idString = [tmpDict objectForKey:@"id"];
+        int idName = [idString intValue];
+        
+        templateNameString = nil;
+        templateNameString = [tmpDict objectForKey:@"name"];
+        
+        //NSString *tagsString = [tmpDict objectForKey:@"tags"];
+        
+        NSString *backgroundPicUrl = [tmpDict objectForKey:@"preview"];
+        UIImage *backgroundPic = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:backgroundPicUrl]]];
+        
+        if (idName == 1 + addTemplatePageNumber_keyword * 4) 
+        {
+            UIButton *templateButton = [UIButton buttonWithType:UIButtonTypeCustom];
+            templateButton.tag = idName ;
+            int y = -40 + addTemplatePageNumber_keyword * 406;
+            templateButton.frame = CGRectMake(0, y, 150, 200);
+            [templateButton setImage:backgroundPic
+                            forState:UIControlStateNormal];
+            templateButton.transform = CGAffineTransformMakeRotation(rotationAngle);//(M_PI/2) ;        
+            [templateButton addTarget:self 
+                               action:@selector(displayEachTemplateDetals:) 
+                     forControlEvents:UIControlEventTouchUpInside];
+            [templateScrollView_keyword addSubview:templateButton];
+            
+            UILabel *tmpLable = [[UILabel alloc] initWithFrame:CGRectMake(20, 120 +addTemplatePageNumber_keyword * 406, 150, 20)];
+            tmpLable.text = templateNameString; 
+            tmpLable.textColor = [UIColor redColor];
+            tmpLable.alpha = 0.7;
+            [templateScrollView_keyword addSubview:tmpLable];
+            [tmpLable release];
+        }
+        
+        if (idName == 2 + addTemplatePageNumber_keyword * 4) 
+        {
+            UIButton *templateButton = [UIButton buttonWithType:UIButtonTypeCustom];
+            templateButton.tag = idName;
+            int y = -40 + addTemplatePageNumber_keyword * 406; 
+            templateButton.frame = CGRectMake(170, y, 150, 200);
+            [templateButton setImage:backgroundPic
+                            forState:UIControlStateNormal];
+            templateButton.transform = CGAffineTransformMakeRotation(rotationAngle) ;        
+            [templateButton addTarget:self 
+                               action:@selector(displayEachTemplateDetals:) 
+                     forControlEvents:UIControlEventTouchUpInside];
+            [templateScrollView_keyword addSubview:templateButton];
+            
+            UILabel *tmpLable = [[UILabel alloc] initWithFrame:CGRectMake(190, 120 + addTemplatePageNumber_keyword * 406, 150, 20)];
+            tmpLable.text = templateNameString; 
+            tmpLable.textColor = [UIColor redColor];
+            tmpLable.alpha = 0.7;
+            [templateScrollView_keyword addSubview:tmpLable];
+            [tmpLable release];
+            
+        }
+        
+        if (idName == 3 + addTemplatePageNumber_keyword * 4) 
+        {
+            UIButton *templateButton = [UIButton buttonWithType:UIButtonTypeCustom];
+            templateButton.tag = idName;
+            int y = 160 + addTemplatePageNumber_keyword * 406; 
+            templateButton.frame = CGRectMake(0, y, 150, 200);
+            templateButton.transform = CGAffineTransformMakeRotation(rotationAngle) ;        
+            [templateButton setImage:backgroundPic
+                            forState:UIControlStateNormal];
+            [templateButton addTarget:self 
+                               action:@selector(displayEachTemplateDetals:) 
+                     forControlEvents:UIControlEventTouchUpInside];
+            [templateScrollView_keyword addSubview:templateButton];
+            
+            UILabel *tmpLable = [[UILabel alloc] initWithFrame:CGRectMake(20, 320 + addTemplatePageNumber_keyword * 406, 150, 20)];
+            tmpLable.text = templateNameString; 
+            tmpLable.textColor = [UIColor redColor];
+            tmpLable.alpha = 0.7;
+            [templateScrollView_keyword addSubview:tmpLable];
+            [tmpLable release];
+        }
+        
+        if (idName == 4 + addTemplatePageNumber_keyword * 4) 
+        {
+            UIButton *templateButton = [UIButton buttonWithType:UIButtonTypeCustom];
+            templateButton.tag = idName;
+            int y = 160 + addTemplatePageNumber_keyword * 406; 
+            templateButton.frame = CGRectMake(170, y, 150, 200);
+            [templateButton setImage:backgroundPic
+                            forState:UIControlStateNormal];
+            templateButton.transform = CGAffineTransformMakeRotation(rotationAngle) ;        
+            [templateButton addTarget:self 
+                               action:@selector(displayEachTemplateDetals:) 
+                     forControlEvents:UIControlEventTouchUpInside];
+            [templateScrollView_keyword addSubview:templateButton];
+            
+            UILabel *tmpLable = [[UILabel alloc] initWithFrame:CGRectMake(190, 320 + addTemplatePageNumber_keyword * 406, 150, 20)];
+            tmpLable.text = templateNameString; 
+            tmpLable.textColor = [UIColor redColor];
+            tmpLable.alpha = 0.7;
+            [templateScrollView_keyword addSubview:tmpLable];
+            [tmpLable release];
+            
+        }
+    } 
+}
+
+
+
+
+#pragma mark - NormalRequest - 正常请求模板列表
 - (void)loadHttpRequset
 {
     NSLog(@"currentPage = %d",currentPage);
     NSString *loadString = [template stringByAppendingFormat:@"?p=%d&s=%d",currentPage,NumberInOnePage];
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:loadString]];
     request.delegate = self;
-    [request setDidFinishSelector:@selector(getTemplateFinished:)];//取得json数据
-    [request setDidFailSelector:@selector(getTemplateFailed:)];//获取失败的提示
+    [request setDidFinishSelector:@selector(getTemplateFinished:)];//正常情况取得json数据
+    [request setDidFailSelector:@selector(getTemplateFailed:)];//正常情况获取失败的提示
     [request startAsynchronous];
+}
+
+-(void)getTemplateFailed:(ASIHTTPRequest *)request//网络故障提示
+{
+    PromptView *tmpProptView = [[PromptView alloc] init];
+    [tmpProptView showPromptWithParentView:self.view
+                                withPrompt:@"网络不通" 
+                                 withFrame:CGRectMake(40, 120, 240, 240)];
+    [tmpProptView  release];
+    
+    NSError *error = [request error];
+    NSLog(@"error:%@", error);
 }
 
 - (void)getTemplateFinished:(ASIHTTPRequest *)request//取得json数据
@@ -86,28 +383,28 @@ static int currentPage = 1;
     
     NSArray *templatesArray = [dict objectForKey:@"templates"];//---第一级解析
     NSLog(@"templatesArray = %@",templatesArray);
+//    NSString *numberInOnePage = [NSString stringWithFormat:@"%@",[templatesArray count]];
+    NSNumber *numberInOnePage = [NSNumber numberWithInt:[templatesArray count]];
     
-    if (addTemplatePageNumber < page_total - 1) //如果没到最后一页
+    if ([ILPostcardList sharedILPostcardList].templateAbstractList != nil) 
     {
-        for (int i = 0 ; i < NumberInOnePage ; i++)
-        {
-            NSDictionary *tempDict = [templatesArray objectAtIndex:i + addTemplatePageNumber * 4];
-            [self performSelector:@selector(layOutTemplate:) withObject:tempDict];//解析json数据
-        }
+        [[ILPostcardList sharedILPostcardList].templateAbstractList removeAllObjects];
     }
-    else if (addTemplatePageNumber == page_total - 1)//如果到了最后一页
+
+    for (int i = 0; i < [numberInOnePage intValue]; i ++)
     {
-        NSLog(@"templatesArray.count = %d",templatesArray.count);
-        for (int i = 0; i < templatesArray.count - addTemplatePageNumber * 4; i ++)
-        {
-            NSDictionary *tempDict = [templatesArray objectAtIndex:i + addTemplatePageNumber * 4];
-            NSLog(@"tempDict = %@",tempDict);
-            [self performSelector:@selector(layOutTemplate:) withObject:tempDict];//解析json数据
-        }
+        NSDictionary *tempDict = [templatesArray objectAtIndex:i];
+        NSLog(@"tempDict = %@",tempDict);
+        [self performSelector:@selector(layOutTemplate:) withObject:tempDict];//解析json数据
     }
     
-    [self performSelector:@selector(displayEachTemplate)];//保存到单例的数组之后,展示
+    [self performSelector:@selector(displayEachTemplate:) withObject:numberInOnePage];//读取保存到单例的数组,并展示  
     currentPage ++;//预先加一,方便下一次请求-------重要!
+    if (currentPage > page_total)
+    {
+        addMoreTemplateButton.enabled = NO;
+        [addMoreTemplateButton setImage:[UIImage imageNamed:@"noMoreTemplateButton"] forState:UIControlStateNormal];
+    }
 }
 
 -(void)layOutTemplate:(NSDictionary *)dict//解析json数据
@@ -117,8 +414,8 @@ static int currentPage = 1;
     NSString *idString = [dict objectForKey:@"id"];
     [tmpDictionary setObject:idString forKey:@"id"];
 
-    NSString *nameString = [dict objectForKey:@"name"]; 
-    [tmpDictionary setObject:nameString forKey:@"name"];
+    templateNameString = [dict objectForKey:@"name"]; 
+    [tmpDictionary setObject:templateNameString forKey:@"name"];
 
     NSString *backgroundPicUrl = [dict objectForKey:@"preview"];
     [tmpDictionary setObject:backgroundPicUrl forKey:@"preview"];
@@ -129,98 +426,123 @@ static int currentPage = 1;
     [[ILPostcardList sharedILPostcardList].templateAbstractList addObject:tmpDictionary];
     NSLog(@"ipl.templateAbstractList = %@",[ILPostcardList sharedILPostcardList].templateAbstractList);
 
-//    [self displayEachTemplate:idString 
-//                backgroundPic:backgroundPic 
-//                         name:nameString 
-//                          tag:tagsString];
-}
-
--(void)getTemplateFailed:(ASIHTTPRequest *)request//网络故障提示
-{
-    PromptView *tmpProptView = [[PromptView alloc] init];
-    [tmpProptView showPromptWithParentView:self.view
-                                withPrompt:@"网络不通" 
-                                 withFrame:CGRectMake(40, 120, 240, 240)];
-    [tmpProptView  release];
+    [tmpDictionary release];
 }
 
 #pragma mark - displayEachTemplate - 显示每一个框架(放在哪一页,哪一个位置)
-
--(void)displayEachTemplate
+-(void)displayEachTemplate:(NSNumber *)numberInOnePage
 {
-    for (int i = 0; i < 4; i ++) 
-    {
-        NSDictionary *tmpDict =[[ILPostcardList sharedILPostcardList].templateAbstractList objectAtIndex:i];
-        NSString *idString = [tmpDict objectForKey:@"id"];
-        int idName = [idString intValue];
-        
-//        NSString *nameString = [tmpDict objectForKey:@"name"]; 
-//        NSString *tagsString = [tmpDict objectForKey:@"tags"];
+    for (int i = 0; i < [numberInOnePage intValue]; i ++) 
+        {
+            NSDictionary *tmpDict =[[ILPostcardList sharedILPostcardList].templateAbstractList objectAtIndex:i];
+            NSString *idString = [tmpDict objectForKey:@"id"];
+            int idName = [idString intValue];
+            
+            templateNameString = nil;
+            templateNameString = [tmpDict objectForKey:@"name"];
+            
+            //NSString *tagsString = [tmpDict objectForKey:@"tags"];
+            
+            NSString *backgroundPicUrl = [tmpDict objectForKey:@"preview"];
+            UIImage *backgroundPic = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:backgroundPicUrl]]];
+            
+            if (idName == 1 + addTemplatePageNumber * 4) 
+            {
+                UIButton *templateButton = [UIButton buttonWithType:UIButtonTypeCustom];
+                templateButton.tag = idName ;
+                int y = -40 + addTemplatePageNumber * 406;
+                templateButton.frame = CGRectMake(0, y, 150, 200);
+                [templateButton setImage:backgroundPic
+                                forState:UIControlStateNormal];
+                templateButton.transform = CGAffineTransformMakeRotation(rotationAngle);//(M_PI/2) ;        
+                [templateButton addTarget:self 
+                                   action:@selector(displayEachTemplateDetals:) 
+                         forControlEvents:UIControlEventTouchUpInside];
+                [templateScrollView addSubview:templateButton];
+                
+                UILabel *tmpLable = [[UILabel alloc] initWithFrame:CGRectMake(20, 120 +addTemplatePageNumber * 406, 150, 20)];
+                tmpLable.text = templateNameString; 
+                tmpLable.textColor = [UIColor redColor];
+                tmpLable.alpha = 0.7;
+                [templateScrollView addSubview:tmpLable];
+                [tmpLable release];
+            }
+            
+            if (idName == 2 + addTemplatePageNumber * 4) 
+            {
+                UIButton *templateButton = [UIButton buttonWithType:UIButtonTypeCustom];
+                templateButton.tag = idName;
+                int y = -40 + addTemplatePageNumber * 406; 
+                templateButton.frame = CGRectMake(170, y, 150, 200);
+                [templateButton setImage:backgroundPic
+                                forState:UIControlStateNormal];
+                templateButton.transform = CGAffineTransformMakeRotation(rotationAngle) ;        
+                [templateButton addTarget:self 
+                                   action:@selector(displayEachTemplateDetals:) 
+                         forControlEvents:UIControlEventTouchUpInside];
+                [templateScrollView addSubview:templateButton];
+                
+                UILabel *tmpLable = [[UILabel alloc] initWithFrame:CGRectMake(190, 120 + addTemplatePageNumber * 406, 150, 20)];
+                tmpLable.text = templateNameString; 
+                tmpLable.textColor = [UIColor redColor];
+                tmpLable.alpha = 0.7;
+                [templateScrollView addSubview:tmpLable];
+                [tmpLable release];
+                
+            }
+            
+            if (idName == 3 + addTemplatePageNumber * 4) 
+            {
+                UIButton *templateButton = [UIButton buttonWithType:UIButtonTypeCustom];
+                templateButton.tag = idName;
+                int y = 160 + addTemplatePageNumber * 406; 
+                templateButton.frame = CGRectMake(0, y, 150, 200);
+                templateButton.transform = CGAffineTransformMakeRotation(rotationAngle) ;        
+                [templateButton setImage:backgroundPic
+                                forState:UIControlStateNormal];
+                [templateButton addTarget:self 
+                                   action:@selector(displayEachTemplateDetals:) 
+                         forControlEvents:UIControlEventTouchUpInside];
+                [templateScrollView addSubview:templateButton];
+                
+                UILabel *tmpLable = [[UILabel alloc] initWithFrame:CGRectMake(20, 320 + addTemplatePageNumber * 406, 150, 20)];
+                tmpLable.text = templateNameString; 
+                tmpLable.textColor = [UIColor redColor];
+                tmpLable.alpha = 0.7;
+                [templateScrollView addSubview:tmpLable];
+                [tmpLable release];
+            }
+            
+            if (idName == 4 + addTemplatePageNumber * 4) 
+            {
+                UIButton *templateButton = [UIButton buttonWithType:UIButtonTypeCustom];
+                templateButton.tag = idName;
+                int y = 160 + addTemplatePageNumber * 406; 
+                templateButton.frame = CGRectMake(170, y, 150, 200);
+                [templateButton setImage:backgroundPic
+                                forState:UIControlStateNormal];
+                templateButton.transform = CGAffineTransformMakeRotation(rotationAngle) ;        
+                [templateButton addTarget:self 
+                                   action:@selector(displayEachTemplateDetals:) 
+                         forControlEvents:UIControlEventTouchUpInside];
+                [templateScrollView addSubview:templateButton];
+                
+                UILabel *tmpLable = [[UILabel alloc] initWithFrame:CGRectMake(190, 320 + addTemplatePageNumber * 406, 150, 20)];
+                tmpLable.text = templateNameString; 
+                tmpLable.textColor = [UIColor redColor];
+                tmpLable.alpha = 0.7;
+                [templateScrollView addSubview:tmpLable];
+                [tmpLable release];
+                
+            }
+        } 
+}
 
-        NSString *backgroundPicUrl = [tmpDict objectForKey:@"preview"];
-        UIImage *backgroundPic = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:backgroundPicUrl]]];
-        
-        
-        if (idName == 1 + addTemplatePageNumber * 4) 
-        {
-            UIButton *templateButton = [UIButton buttonWithType:UIButtonTypeCustom];
-            templateButton.tag = idName ;
-            int y = 0 + addTemplatePageNumber * 480;
-            templateButton.frame = CGRectMake(0, y, 150, 200);
-            [templateButton setImage:backgroundPic
-                            forState:UIControlStateNormal];
-            templateButton.transform = CGAffineTransformMakeRotation(rotationAngle);//(M_PI/2) ;        
-            [templateButton addTarget:self 
-                               action:@selector(displayEachTemplateDetals:) 
-                     forControlEvents:UIControlEventTouchUpInside];
-            [templateScrollView addSubview:templateButton];
-        }
-        
-        if (idName == 2 + addTemplatePageNumber * 4) 
-        {
-            UIButton *templateButton = [UIButton buttonWithType:UIButtonTypeCustom];
-            templateButton.tag = idName;
-            int y = 0 + addTemplatePageNumber * 480; 
-            templateButton.frame = CGRectMake(170, y, 150, 200);
-            [templateButton setImage:backgroundPic
-                            forState:UIControlStateNormal];
-            templateButton.transform = CGAffineTransformMakeRotation(rotationAngle) ;        
-            [templateButton addTarget:self 
-                               action:@selector(displayEachTemplateDetals:) 
-                     forControlEvents:UIControlEventTouchUpInside];
-            [templateScrollView addSubview:templateButton];
-        }
-        
-        if (idName == 3 + addTemplatePageNumber * 4) 
-        {
-            UIButton *templateButton = [UIButton buttonWithType:UIButtonTypeCustom];
-            templateButton.tag = idName;
-            int y = 217 + addTemplatePageNumber * 480; 
-            templateButton.frame = CGRectMake(0, y, 150, 200);
-            templateButton.transform = CGAffineTransformMakeRotation(rotationAngle) ;        
-            [templateButton setImage:backgroundPic
-                            forState:UIControlStateNormal];
-            [templateButton addTarget:self 
-                               action:@selector(displayEachTemplateDetals:) 
-                     forControlEvents:UIControlEventTouchUpInside];
-            [templateScrollView addSubview:templateButton];
-        }
-        
-        if (idName == 4 + addTemplatePageNumber * 4) 
-        {
-            UIButton *templateButton = [UIButton buttonWithType:UIButtonTypeCustom];
-            templateButton.tag = idName;
-            int y = 217 + addTemplatePageNumber * 480; 
-            templateButton.frame = CGRectMake(170, y, 150, 200);
-            [templateButton setImage:backgroundPic
-                            forState:UIControlStateNormal];
-            templateButton.transform = CGAffineTransformMakeRotation(rotationAngle) ;        
-            [templateButton addTarget:self 
-                               action:@selector(displayEachTemplateDetals:) 
-                     forControlEvents:UIControlEventTouchUpInside];
-            [templateScrollView addSubview:templateButton];
-        }
-    }
+-(IBAction)addMoreTemplate
+{
+    addTemplatePageNumber ++;//页数加一
+    templateScrollView.contentSize = CGSizeMake(320, 406 * (addTemplatePageNumber +1));
+    [self loadHttpRequset];
 }
 
 
@@ -258,6 +580,7 @@ static int currentPage = 1;
                            action:@selector(displayEachTemplateDetals:) 
                  forControlEvents:UIControlEventTouchUpInside];
         [templateScrollView addSubview:templateButton];
+        
     }
     
     if ([idName intValue] == 2 + addTemplatePageNumber * 4) 
@@ -305,8 +628,6 @@ static int currentPage = 1;
         [templateScrollView addSubview:templateButton];
     }
 }
-
-
 - (int) getRandomWithRange:(int)rangeValue//生成随机数,旋转角度
 {
 	NSInteger ran = abs(arc4random());
@@ -314,15 +635,9 @@ static int currentPage = 1;
 	return re;
 }
 
-#pragma mark - addMoreTemplate - 增加一页明信片模板
--(IBAction)addMoreTemplate
-{
-    addTemplatePageNumber ++;//页数加一
-    templateScrollView.contentSize = CGSizeMake(320, 480 * (addTemplatePageNumber +2));
-}
 
 
-#pragma mark - displayEachTemplateDetals - 点击进入每个模板
+#pragma mark - displayEachTemplateDetals - 点击进入每个模板详情
 -(void)displayEachTemplateDetals:(UIButton *)sender
 {
     DisplayEachTemplateDetals *tmpDisplayEachTemplateDetals = [[DisplayEachTemplateDetals alloc] initWithNibName:@"DisplayEachTemplateDetals" bundle:nil];

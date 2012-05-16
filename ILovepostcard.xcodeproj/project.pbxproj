@@ -12,6 +12,7 @@
 		B102FF6F155BB314008DC42D /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B102FF6E155BB314008DC42D /* MobileCoreServices.framework */; };
 		B102FF71155BB327008DC42D /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B102FF70155BB327008DC42D /* libz.dylib */; };
 		B102FF73155BB33A008DC42D /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B102FF72155BB33A008DC42D /* libxml2.dylib */; };
+		B10DA9671563A3D000058685 /* noMoreTemplateButton.png in Resources */ = {isa = PBXBuildFile; fileRef = B10DA9661563A3D000058685 /* noMoreTemplateButton.png */; };
 		B1106F5A156119080035CFAA /* ILPostcardList.m in Sources */ = {isa = PBXBuildFile; fileRef = B1106F59156119080035CFAA /* ILPostcardList.m */; };
 		B15EDD9B155A577A00B0C873 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B15EDD9A155A577A00B0C873 /* UIKit.framework */; };
 		B15EDD9D155A577A00B0C873 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B15EDD9C155A577A00B0C873 /* Foundation.framework */; };
@@ -40,7 +41,6 @@
 		B19D65EC1560A1430028A9F4 /* FirstViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B19D65E31560A1430028A9F4 /* FirstViewController.xib */; };
 		B19D65ED1560A1430028A9F4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B19D65E51560A1430028A9F4 /* InfoPlist.strings */; };
 		B19D65EE1560A1430028A9F4 /* SecondViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B19D65E71560A1430028A9F4 /* SecondViewController.xib */; };
-		B19D65EF1560A1430028A9F4 /* ILovepostcard-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B19D65E91560A1430028A9F4 /* ILovepostcard-Info.plist */; };
 		B19D65F01560A1430028A9F4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B19D65EB1560A1430028A9F4 /* main.m */; };
 		B19D65F31560A16B0028A9F4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B19D65F21560A16B0028A9F4 /* AppDelegate.m */; };
 		B19D66251560A1940028A9F4 /* ASIAuthenticationDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = B19D65F61560A1940028A9F4 /* ASIAuthenticationDialog.m */; };
@@ -76,6 +76,7 @@
 		B102FF6E155BB314008DC42D /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		B102FF70155BB327008DC42D /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		B102FF72155BB33A008DC42D /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
+		B10DA9661563A3D000058685 /* noMoreTemplateButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = noMoreTemplateButton.png; path = Resources/pic/noMoreTemplateButton.png; sourceTree = SOURCE_ROOT; };
 		B1106F58156119080035CFAA /* ILPostcardList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ILPostcardList.h; path = ILovepostcard/ILPostcardList/ILPostcardList.h; sourceTree = SOURCE_ROOT; };
 		B1106F59156119080035CFAA /* ILPostcardList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ILPostcardList.m; path = ILovepostcard/ILPostcardList/ILPostcardList.m; sourceTree = SOURCE_ROOT; };
 		B15EDD96155A577A00B0C873 /* ILovepostcard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ILovepostcard.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -240,6 +241,7 @@
 		B102FF09155B95D4008DC42D /* Pic */ = {
 			isa = PBXGroup;
 			children = (
+				B10DA9661563A3D000058685 /* noMoreTemplateButton.png */,
 				B19D65D81560A0C70028A9F4 /* addMoreTemplateButton.png */,
 				B19D65D91560A0C70028A9F4 /* change_it.png */,
 				B19D65DA1560A0C70028A9F4 /* NavBar_01_s.png */,
@@ -504,7 +506,7 @@
 		B15EDD8D155A577A00B0C873 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0420;
+				LastUpgradeCheck = 0430;
 				ORGANIZATIONNAME = "开趣";
 			};
 			buildConfigurationList = B15EDD90155A577A00B0C873 /* Build configuration list for PBXProject "ILovepostcard" */;
@@ -546,8 +548,8 @@
 				B19D65EC1560A1430028A9F4 /* FirstViewController.xib in Resources */,
 				B19D65ED1560A1430028A9F4 /* InfoPlist.strings in Resources */,
 				B19D65EE1560A1430028A9F4 /* SecondViewController.xib in Resources */,
-				B19D65EF1560A1430028A9F4 /* ILovepostcard-Info.plist in Resources */,
 				B19D66511560A6D10028A9F4 /* GoToPostcardList.xib in Resources */,
+				B10DA9671563A3D000058685 /* noMoreTemplateButton.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -643,7 +645,7 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -660,7 +662,7 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -676,6 +678,7 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ILovepostcard/ILovepostcard-Prefix.pch";
+				GCC_THUMB_SUPPORT = NO;
 				HEADER_SEARCH_PATHS = /usr/include/libxml;
 				INFOPLIST_FILE = "ILovepostcard/ILovepostcard-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
@@ -685,6 +688,7 @@
 					"\"$(SRCROOT)/ILovepostcard/TabCustomLib\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -696,8 +700,10 @@
 					armv6,
 					armv7,
 				);
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ILovepostcard/ILovepostcard-Prefix.pch";
+				GCC_THUMB_SUPPORT = NO;
 				HEADER_SEARCH_PATHS = /usr/include/libxml;
 				INFOPLIST_FILE = "ILovepostcard/ILovepostcard-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
@@ -707,6 +713,8 @@
 					"\"$(SRCROOT)/ILovepostcard/TabCustomLib\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
