@@ -43,6 +43,8 @@
 						<int key="NSvFlags">274</int>
 						<string key="NSFrame">{{0, 74}, {320, 406}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="414561385"/>
 						<string key="NSReuseIdentifierKey">_NS:190</string>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<bool key="IBUIMultipleTouchEnabled">YES</bool>
@@ -54,6 +56,7 @@
 						<int key="NSvFlags">274</int>
 						<string key="NSFrame">{{0, 74}, {320, 406}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="291393829"/>
 						<string key="NSReuseIdentifierKey">_NS:190</string>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -65,7 +68,8 @@
 						<int key="NSvFlags">290</int>
 						<string key="NSFrame">{{0, 30}, {320, 44}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
-						<reference key="NSNextKeyView" ref="414561385"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="1054165859"/>
 						<string key="NSReuseIdentifierKey">_NS:597</string>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">1</int>
@@ -95,6 +99,7 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrameSize">{72, 30}</string>
 								<reference key="NSSuperview" ref="158555894"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="260778642"/>
 								<string key="NSReuseIdentifierKey">_NS:225</string>
 								<bool key="IBUIOpaque">NO</bool>
@@ -129,6 +134,7 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{112, 0}, {80, 30}}</string>
 								<reference key="NSSuperview" ref="158555894"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="715353201"/>
 								<string key="NSReuseIdentifierKey">_NS:328</string>
 								<bool key="IBUIOpaque">NO</bool>
@@ -157,6 +163,7 @@
 						</array>
 						<string key="NSFrameSize">{320, 30}</string>
 						<reference key="NSSuperview" ref="191373211"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="606865176"/>
 						<string key="NSReuseIdentifierKey">_NS:196</string>
 						<object class="NSColor" key="IBUIBackgroundColor">
@@ -171,6 +178,7 @@
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{124, 400}, {72, 61}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="197592455"/>
 						<string key="NSReuseIdentifierKey">_NS:225</string>
 						<bool key="IBUIOpaque">NO</bool>
@@ -203,6 +211,7 @@
 						<int key="NSvFlags">-2147483356</int>
 						<string key="NSFrame">{{124, 400}, {72, 61}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:225</string>
 						<bool key="IBUIOpaque">NO</bool>
@@ -223,6 +232,7 @@
 				</array>
 				<string key="NSFrameSize">{320, 480}</string>
 				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="158555894"/>
 				<object class="NSColor" key="IBUIBackgroundColor">
 					<int key="NSColorSpace">3</int>
@@ -302,11 +312,11 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">templateScrollView_keyword</string>
+						<string key="label">templateScrollView_Keyword</string>
 						<reference key="source" ref="372490531"/>
 						<reference key="destination" ref="1054165859"/>
 					</object>
-					<int key="connectionID">32</int>
+					<int key="connectionID">33</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
@@ -436,9 +446,73 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">32</int>
+			<int key="maxID">33</int>
 		</object>
-		<object class="IBClassDescriber" key="IBDocument.Classes"/>
+		<object class="IBClassDescriber" key="IBDocument.Classes">
+			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
+				<object class="IBPartialClassDescription">
+					<string key="className">GoToPostcardList</string>
+					<string key="superclassName">UIViewController</string>
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="addMoreTemplate">id</string>
+						<string key="addMoreTemplate_Keyword">id</string>
+						<string key="goBack">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="addMoreTemplate">
+							<string key="name">addMoreTemplate</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="addMoreTemplate_Keyword">
+							<string key="name">addMoreTemplate_Keyword</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="goBack">
+							<string key="name">goBack</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="addMoreTemplateButton">UIButton</string>
+						<string key="addMoreTemplateButton_Keyword">UIButton</string>
+						<string key="backButton">UIButton</string>
+						<string key="mySearchBar">UISearchBar</string>
+						<string key="templateScrollView">UIScrollView</string>
+						<string key="templateScrollView_Keyword">UIScrollView</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="addMoreTemplateButton">
+							<string key="name">addMoreTemplateButton</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="addMoreTemplateButton_Keyword">
+							<string key="name">addMoreTemplateButton_Keyword</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="backButton">
+							<string key="name">backButton</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="mySearchBar">
+							<string key="name">mySearchBar</string>
+							<string key="candidateClassName">UISearchBar</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="templateScrollView">
+							<string key="name">templateScrollView</string>
+							<string key="candidateClassName">UIScrollView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="templateScrollView_Keyword">
+							<string key="name">templateScrollView_Keyword</string>
+							<string key="candidateClassName">UIScrollView</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/GoToPostcardList.h</string>
+					</object>
+				</object>
+			</array>
+		</object>
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaTouchFramework</string>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>

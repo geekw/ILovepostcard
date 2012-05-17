@@ -9,7 +9,15 @@
 #import <UIKit/UIKit.h>
 #import "DisplayEachTemplateDetals-Back.h"
 
-@interface DisplayEachTemplateDetals : UIViewController
+#import "SBJson.h"
+#import "ASIFormDataRequest.h"
+#import "ASIHTTPRequest.h"
+
+#import "PromptView.h"
+
+#import "TemplateDetails-Singleton.h"
+
+@interface DisplayEachTemplateDetals : UIViewController<ASIHTTPRequestDelegate>
 {
     DisplayEachTemplateDetals_Back *displayEachTemplateDetals_Back;
     

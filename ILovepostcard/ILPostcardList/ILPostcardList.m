@@ -23,9 +23,6 @@ const int LIST_CAPACITY = 1000;
     return instance;
 }
 
-//ILPostcardList *ilplist = [ILPostcardList sharedILPostcardList];
-//[ilplist.template add]
-
 - (id)init
 {
     if (self == [super init])

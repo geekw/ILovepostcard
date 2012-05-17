@@ -14,6 +14,7 @@
 		B102FF73155BB33A008DC42D /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B102FF72155BB33A008DC42D /* libxml2.dylib */; };
 		B10DA9671563A3D000058685 /* noMoreTemplateButton.png in Resources */ = {isa = PBXBuildFile; fileRef = B10DA9661563A3D000058685 /* noMoreTemplateButton.png */; };
 		B1106F5A156119080035CFAA /* ILPostcardList.m in Sources */ = {isa = PBXBuildFile; fileRef = B1106F59156119080035CFAA /* ILPostcardList.m */; };
+		B15E86EA1564F06F00108271 /* TemplateDetails-Singleton.m in Sources */ = {isa = PBXBuildFile; fileRef = B15E86E91564F06F00108271 /* TemplateDetails-Singleton.m */; };
 		B15EDD9B155A577A00B0C873 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B15EDD9A155A577A00B0C873 /* UIKit.framework */; };
 		B15EDD9D155A577A00B0C873 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B15EDD9C155A577A00B0C873 /* Foundation.framework */; };
 		B15EDD9F155A577A00B0C873 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B15EDD9E155A577A00B0C873 /* CoreGraphics.framework */; };
@@ -79,6 +80,8 @@
 		B10DA9661563A3D000058685 /* noMoreTemplateButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = noMoreTemplateButton.png; path = Resources/pic/noMoreTemplateButton.png; sourceTree = SOURCE_ROOT; };
 		B1106F58156119080035CFAA /* ILPostcardList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ILPostcardList.h; path = ILovepostcard/ILPostcardList/ILPostcardList.h; sourceTree = SOURCE_ROOT; };
 		B1106F59156119080035CFAA /* ILPostcardList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ILPostcardList.m; path = ILovepostcard/ILPostcardList/ILPostcardList.m; sourceTree = SOURCE_ROOT; };
+		B15E86E81564F06F00108271 /* TemplateDetails-Singleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "TemplateDetails-Singleton.h"; path = "ILovepostcard/TemplateDetails-Singleton/TemplateDetails-Singleton.h"; sourceTree = "<group>"; };
+		B15E86E91564F06F00108271 /* TemplateDetails-Singleton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "TemplateDetails-Singleton.m"; path = "ILovepostcard/TemplateDetails-Singleton/TemplateDetails-Singleton.m"; sourceTree = "<group>"; };
 		B15EDD96155A577A00B0C873 /* ILovepostcard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ILovepostcard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B15EDD9A155A577A00B0C873 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		B15EDD9C155A577A00B0C873 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -264,10 +267,10 @@
 			isa = PBXGroup;
 			children = (
 				B19D66561560ED110028A9F4 /* Indicator */,
+				B1106F5B156119230035CFAA /* ListSingleton */,
 				B19D664D1560A6D10028A9F4 /* GoToPostcardList.h */,
 				B19D664E1560A6D10028A9F4 /* GoToPostcardList.m */,
 				B19D664F1560A6D10028A9F4 /* GoToPostcardList.xib */,
-				B1106F5B156119230035CFAA /* ILPostcardList */,
 			);
 			name = GoToPostcardList;
 			path = ..;
@@ -291,13 +294,29 @@
 			name = Main;
 			sourceTree = "<group>";
 		};
-		B1106F5B156119230035CFAA /* ILPostcardList */ = {
+		B1106F5B156119230035CFAA /* ListSingleton */ = {
 			isa = PBXGroup;
 			children = (
 				B1106F58156119080035CFAA /* ILPostcardList.h */,
 				B1106F59156119080035CFAA /* ILPostcardList.m */,
 			);
-			name = ILPostcardList;
+			name = ListSingleton;
+			sourceTree = "<group>";
+		};
+		B15E86E31564E5CB00108271 /* TemplateDetails-Singleton */ = {
+			isa = PBXGroup;
+			children = (
+				B15E86E81564F06F00108271 /* TemplateDetails-Singleton.h */,
+				B15E86E91564F06F00108271 /* TemplateDetails-Singleton.m */,
+			);
+			name = "TemplateDetails-Singleton";
+			sourceTree = "<group>";
+		};
+		B15E86E41564E5E200108271 /* Back-Singleton */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "Back-Singleton";
 			sourceTree = "<group>";
 		};
 		B15EDD8B155A577A00B0C873 = {
@@ -365,6 +384,7 @@
 		B18EAE70155E117400B909C6 /* DisplayEachTemplateDetals--Front */ = {
 			isa = PBXGroup;
 			children = (
+				B15E86E31564E5CB00108271 /* TemplateDetails-Singleton */,
 				B19D65BA1560A0840028A9F4 /* DisplayEachTemplateDetals.h */,
 				B19D65BB1560A0840028A9F4 /* DisplayEachTemplateDetals.m */,
 				B19D65BC1560A0840028A9F4 /* DisplayEachTemplateDetals.xib */,
@@ -376,6 +396,7 @@
 		B18EAE71155E3C0E00B909C6 /* DisplayEachTemplateDetals--Back */ = {
 			isa = PBXGroup;
 			children = (
+				B15E86E41564E5E200108271 /* Back-Singleton */,
 				B19D65BF1560A0910028A9F4 /* DisplayEachTemplateDetals-Back.h */,
 				B19D65C01560A0910028A9F4 /* DisplayEachTemplateDetals-Back.m */,
 				B19D65C11560A0910028A9F4 /* DisplayEachTemplateDetals-Back.xib */,
@@ -593,6 +614,7 @@
 				B19D665B1560ED110028A9F4 /* LoadingIndicator.m in Sources */,
 				B19D665C1560ED110028A9F4 /* PromptView.m in Sources */,
 				B1106F5A156119080035CFAA /* ILPostcardList.m in Sources */,
+				B15E86EA1564F06F00108271 /* TemplateDetails-Singleton.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

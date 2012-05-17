@@ -19,7 +19,7 @@
     
     IBOutlet UIButton *backButton;
     IBOutlet UIScrollView *templateScrollView;
-    IBOutlet UIScrollView *templateScrollView_keyword;
+    IBOutlet UIScrollView *templateScrollView_Keyword;
     IBOutlet UIButton *addMoreTemplateButton;//增加一页模板
     IBOutlet UIButton *addMoreTemplateButton_Keyword;//带关键字增加模板
     IBOutlet UISearchBar *mySearchBar;//关键字搜索栏
@@ -29,7 +29,7 @@
     BOOL addMoreTemplateFlag_Keyword;//为YES,所有页数加载完毕
     NSString *templateNameString;//模板名称
     int addTemplatePageNumber;//增加的模板的页数
-    int addTemplatePageNumber_keyword;
+    int addTemplatePageNumber_Keyword;
     int page_total;//模板页数
     CGFloat rotationAngle;//模板旋转的角度
 }
