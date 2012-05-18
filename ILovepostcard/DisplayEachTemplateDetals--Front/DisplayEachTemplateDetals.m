@@ -124,10 +124,11 @@
 }
 
 #pragma mark - showFrontDetails - 加载正面素材
-
 -(void)showFrontDetails
 {
     [self performSelector:@selector(showBackgroundPic_Front)];//加载正面背景图片
+    [self performSelector:@selector(showHollowOutPart)];//加载镂空部分
+    [self performSelector:@selector(showMaterials)];//加载素材
 }
 
 -(void)showBackgroundPic_Front
@@ -137,21 +138,16 @@
     UIImageView *tmpImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 400)];
     tmpImgView.image = tmpimg;
     [postcard_FrontView addSubview:tmpImgView];
-    
-    [self performSelector:@selector(showHollowOutPart:) withObject:tmpImgView];//加载镂空部分
-    [self performSelector:@selector(showMaterials:) withObject:tmpImgView];//加载素材部分
-
     [tmpImgView release];
 }
 
--(void)showHollowOutPart:(UIImageView *)imageView
+-(void)showHollowOutPart
 {
     NSArray *areasArray = [[TemplateDetails_Singleton sharedTemplateDetails_Singleton].templateDetailsDict objectForKey:@"areas"];
     NSLog(@"areasDict = %@",areasArray);
     
     NSDictionary *areasDict = [areasArray objectAtIndex:0];
     NSLog(@"areasDict = %@",areasDict);
-    
 //    NSString *degreeStr = [areasDict objectForKey:@"degree"];
     NSString *hStr = [areasDict objectForKey:@"h"];
     NSString *wStr = [areasDict objectForKey:@"w"];
@@ -159,16 +155,19 @@
     NSString *yStr = [areasDict objectForKey:@"y"];
     
     UIButton *cameraButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    cameraButton.frame = CGRectMake([xStr intValue]+10, [yStr intValue]+150,[wStr intValue]+40, [hStr intValue]+40);
+    cameraButton.frame = CGRectMake([xStr intValue]+30, [yStr intValue]+300,[wStr intValue]+40, [hStr intValue]+40);
     [cameraButton setImage:[UIImage imageNamed:@"addMoreTemplateButton.png"] forState:UIControlStateNormal];
-    [cameraButton addTarget:self action:@selector(loadCamera) forControlEvents:UIControlEventTouchUpInside];//打开相机
-    [imageView addSubview:cameraButton];
+    [cameraButton addTarget:self 
+                     action:@selector(loadCamera) 
+           forControlEvents:UIControlEventTouchUpInside];//打开相机
+    cameraButton.userInteractionEnabled = YES;
+    [postcard_FrontView addSubview:cameraButton];
 }
 
--(void)showMaterials:(UIImageView *)imageView
+-(void)showMaterials
 {
     NSArray *materialsArray = [[TemplateDetails_Singleton sharedTemplateDetails_Singleton].templateDetailsDict objectForKey:@"materials"];
-    NSLog(@"materialsArray = %@",materialsArray);
+//    NSLog(@"materialsArray = %@",materialsArray);
     
     for (int i = 0; i < materialsArray.count; i ++)
     {
@@ -182,13 +181,181 @@
         NSString *picUrl = [tmpDict objectForKey:@"src"];
         UIImage *tmpimg = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:picUrl]]];
         
-        UIImageView *tmpImageView = [[UIImageView alloc] initWithFrame:CGRectMake([xStr intValue]+10, [yStr intValue]+40,[wStr intValue]+40, [hStr intValue]+40)];  
-        tmpImageView.image = tmpimg;
-        [imageView addSubview:tmpImageView];
-        [tmpImageView release];
+        UIImageView *tmpImgView = [[UIImageView alloc] initWithFrame:CGRectMake([xStr intValue] + 100, [yStr intValue] + 100, [wStr intValue] + 80, [hStr intValue] + 80)];
+        tmpImgView.image = tmpimg;
+        tmpImgView.multipleTouchEnabled = YES;
+        tmpImgView.userInteractionEnabled = YES;
+        [postcard_FrontView addSubview:tmpImgView];
+        [tmpImgView release];
     }
 }
 
+#pragma mark - loadCamera - 打开相机
+-(void)loadCamera
+{
+    UIImagePickerControllerSourceType sourceType;
+    sourceType = UIImagePickerControllerSourceTypeCamera;
+    if ([UIImagePickerController isSourceTypeAvailable:sourceType]) 
+    {
+        imagePickerCamera = [[UIImagePickerController alloc] init];
+        imagePickerCamera.sourceType = sourceType;
+        imagePickerCamera.delegate = self; 
+        
+        //此处要禁止系统拍照界面,否则后面的takePicture方法不能使用!
+        imagePickerCamera.showsCameraControls = NO;
+        imagePickerCamera.toolbarHidden = YES;
+        imagePickerCamera.wantsFullScreenLayout = YES;
+        imagePickerCamera.allowsEditing = NO;
+        
+        //叠加一透明层到界面上,用来放各种按钮的图标,设透明
+        cameraOverlayView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 480)];
+        imagePickerCamera.cameraOverlayView = cameraOverlayView;
+        [imagePickerCamera.cameraOverlayView becomeFirstResponder];
+        cameraOverlayView.alpha = 1.0f;
+        
+        //判断是否有闪光灯
+        if ([UIImagePickerController isFlashAvailableForCameraDevice:sourceType] == YES) 
+        {
+            CGRect flashLightChangeFrame = CGRectMake(15, 20, 67.5, 33);
+            UIButton *flashLightChangeButton = [[UIButton alloc] initWithFrame:flashLightChangeFrame];
+            [flashLightChangeButton addTarget:self
+                                       action:@selector(changeFlashlight)
+                             forControlEvents:UIControlEventTouchUpInside];
+            [flashLightChangeButton setImage:[UIImage imageNamed:@ "flashauto.png"]
+                                    forState:UIControlStateNormal];
+            [cameraOverlayView addSubview:flashLightChangeButton];
+            [flashLightChangeButton release];
+        }
+        
+        //加载切换摄像头的按钮
+        UIButton *changeCameraButton = [[UIButton alloc] initWithFrame:CGRectMake(240, 20, 67.5, 33)];
+        [changeCameraButton setImage:[UIImage imageNamed:@"changcamera.png"]
+                            forState:UIControlStateNormal];
+        [changeCameraButton setImage:[UIImage imageNamed:@"changcamera.png"]
+                            forState:UIControlStateSelected];
+        [changeCameraButton addTarget:self
+                               action:@selector(changeCamera)//切换摄像头方法
+                     forControlEvents:UIControlEventTouchUpInside];
+        [cameraOverlayView addSubview:changeCameraButton];
+        [changeCameraButton release];
+        
+        //加载拍照按钮
+        UIButton *shootButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        shootButton.frame = CGRectMake(100, 380, 123.5, 46.8);
+        [shootButton setImage:[UIImage imageNamed:@"take.png"] forState:UIControlStateNormal]; 
+        [shootButton setImage:[UIImage imageNamed:@"takeon.png"] forState:UIControlStateHighlighted]; 
+        [shootButton addTarget:imagePickerCamera 
+                        action:@selector(takePicture) 
+              forControlEvents:UIControlEventTouchUpInside];
+        shootButton.backgroundColor = [UIColor redColor];
+        shootButton.hidden = NO;
+        shootButton.userInteractionEnabled = YES;
+        [cameraOverlayView addSubview:shootButton];
+    }
+    //打开摄像头的动画
+    [self presentModalViewController:imagePickerCamera 
+                                      animated:YES];
+    //打开界面的动画 begin 和 commit
+    [UIView beginAnimations:nil context:NULL];
+    //打开界面的动画的延时时间
+    [UIView setAnimationDelay:1.0f];
+    //摄像机前景的透明度
+    cameraOverlayView.alpha = 1.0f;
+    [UIView commitAnimations];
+}
+
+
+//takePicture得到的图片
+- (void)imagePickerController:(UIImagePickerController *)picker
+		didFinishPickingImage:(UIImage *)image
+				  editingInfo:(NSDictionary *)editingInfo
+{   
+    //带动画效果隐藏cameraImagePicker界面
+    [self dismissModalViewControllerAnimated:YES];
+    
+    NSArray *areasArray = [[TemplateDetails_Singleton sharedTemplateDetails_Singleton].templateDetailsDict objectForKey:@"areas"];
+    NSLog(@"areasDict = %@",areasArray);
+    
+    NSDictionary *areasDict = [areasArray objectAtIndex:0];
+    NSLog(@"areasDict = %@",areasDict);
+    //    NSString *degreeStr = [areasDict objectForKey:@"degree"];
+    NSString *hStr = [areasDict objectForKey:@"h"];
+    NSString *wStr = [areasDict objectForKey:@"w"];
+    NSString *xStr = [areasDict objectForKey:@"x"];
+    NSString *yStr = [areasDict objectForKey:@"y"];
+
+    
+    TouchView *fileContent = [[TouchView alloc] initWithFrame:CGRectMake([xStr intValue] + 10, [yStr intValue] + 90,[wStr intValue] + 200, [hStr intValue] + 200)];
+    [fileContent setImage:image];
+    [fileContent setViewTag: [idName intValue]];
+    fileContent.delegate = self;
+    
+    [self.view addSubview:fileContent];
+    [postcard_FrontView addSubview:fileContent];
+    
+    [fileContent release];
+
+}
+
+
+//切换闪光灯
+- (void)changeFlashlight:(UIButton *)button
+{
+    static NSInteger i = 0;
+    if (i == 0)
+    {
+        imagePickerCamera.cameraFlashMode = -1;
+        [button setImage:[UIImage imageNamed:@ "flashon.png"]
+                forState:UIControlStateNormal];
+        i = i + 1;
+    }
+    else if ( i == 1)
+    {
+        imagePickerCamera.cameraFlashMode = 1;
+        [button setImage:[UIImage imageNamed:@ "flashoff.png"]
+                forState:UIControlStateNormal];
+        i = i +1;
+    }
+    else if ( i == 3)
+    {
+        imagePickerCamera.cameraFlashMode = 0;
+        [button setImage:[UIImage imageNamed:@ "flashauto.png"]
+                forState:UIControlStateNormal];
+        i = 0;
+    }
+}
+
+//切换前后摄像头
+- (void)changeCamera
+{
+    if( [UIImagePickerController isCameraDeviceAvailable: UIImagePickerControllerCameraDeviceFront] && imagePickerCamera !=nil)
+    {
+        imagePickerCamera.cameraDevice = !imagePickerCamera.cameraDevice;
+    }
+}
+
+
+#pragma optional
+- (void)TouchViewActionBegin:(NSNumber *)tag
+{
+    int index = [tag intValue];
+    
+    switch (index)
+    {
+        case 0:
+        {
+            NSLog(@"a```sa");
+        }
+            break;
+        case 1:
+        {
+            NSLog(@"asa");
+        }
+            break;    
+        default:
+            break;
+    }
+}
 
 #pragma mark - goDisplayEachTemplateDetals - 去编辑明信片反面
 -(IBAction)goDisplayEachTemplateDetals

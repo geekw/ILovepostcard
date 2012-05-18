@@ -8,18 +8,19 @@
 
 #import <UIKit/UIKit.h>
 #import "DisplayEachTemplateDetals-Back.h"
-
 #import "SBJson.h"
 #import "ASIFormDataRequest.h"
 #import "ASIHTTPRequest.h"
-
 #import "PromptView.h"
-
 #import "TemplateDetails-Singleton.h"
+#import "TouchView.h"
 
-@interface DisplayEachTemplateDetals : UIViewController<ASIHTTPRequestDelegate>
+@interface DisplayEachTemplateDetals : UIViewController<ASIHTTPRequestDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,TouchVieweDelegate>
 {
     DisplayEachTemplateDetals_Back *displayEachTemplateDetals_Back;
+    
+    UIImagePickerController *imagePickerCamera;//相机
+    UIView *cameraOverlayView;//相机层
     
     IBOutlet UIButton *backButton;
     IBOutlet UIButton *goDisplayEachTemplateDetals_BackButton;

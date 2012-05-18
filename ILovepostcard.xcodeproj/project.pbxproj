@@ -14,6 +14,11 @@
 		B102FF73155BB33A008DC42D /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B102FF72155BB33A008DC42D /* libxml2.dylib */; };
 		B10DA9671563A3D000058685 /* noMoreTemplateButton.png in Resources */ = {isa = PBXBuildFile; fileRef = B10DA9661563A3D000058685 /* noMoreTemplateButton.png */; };
 		B1106F5A156119080035CFAA /* ILPostcardList.m in Sources */ = {isa = PBXBuildFile; fileRef = B1106F59156119080035CFAA /* ILPostcardList.m */; };
+		B111B82F156631010041127F /* TouchView.m in Sources */ = {isa = PBXBuildFile; fileRef = B111B82E156631010041127F /* TouchView.m */; };
+		B141042D1565EB49004DF34C /* changcamera.png in Resources */ = {isa = PBXBuildFile; fileRef = B14104291565EB49004DF34C /* changcamera.png */; };
+		B141042E1565EB49004DF34C /* flashauto.png in Resources */ = {isa = PBXBuildFile; fileRef = B141042A1565EB49004DF34C /* flashauto.png */; };
+		B141042F1565EB49004DF34C /* flashoff.png in Resources */ = {isa = PBXBuildFile; fileRef = B141042B1565EB49004DF34C /* flashoff.png */; };
+		B14104301565EB49004DF34C /* flashon.png in Resources */ = {isa = PBXBuildFile; fileRef = B141042C1565EB49004DF34C /* flashon.png */; };
 		B15E86EA1564F06F00108271 /* TemplateDetails-Singleton.m in Sources */ = {isa = PBXBuildFile; fileRef = B15E86E91564F06F00108271 /* TemplateDetails-Singleton.m */; };
 		B15EDD9B155A577A00B0C873 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B15EDD9A155A577A00B0C873 /* UIKit.framework */; };
 		B15EDD9D155A577A00B0C873 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B15EDD9C155A577A00B0C873 /* Foundation.framework */; };
@@ -80,6 +85,12 @@
 		B10DA9661563A3D000058685 /* noMoreTemplateButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = noMoreTemplateButton.png; path = Resources/pic/noMoreTemplateButton.png; sourceTree = SOURCE_ROOT; };
 		B1106F58156119080035CFAA /* ILPostcardList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ILPostcardList.h; path = ILovepostcard/ILPostcardList/ILPostcardList.h; sourceTree = SOURCE_ROOT; };
 		B1106F59156119080035CFAA /* ILPostcardList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ILPostcardList.m; path = ILovepostcard/ILPostcardList/ILPostcardList.m; sourceTree = SOURCE_ROOT; };
+		B111B82D156631010041127F /* TouchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TouchView.h; sourceTree = "<group>"; };
+		B111B82E156631010041127F /* TouchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TouchView.m; sourceTree = "<group>"; };
+		B14104291565EB49004DF34C /* changcamera.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = changcamera.png; path = Resources/pic/changcamera.png; sourceTree = SOURCE_ROOT; };
+		B141042A1565EB49004DF34C /* flashauto.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = flashauto.png; path = Resources/pic/flashauto.png; sourceTree = SOURCE_ROOT; };
+		B141042B1565EB49004DF34C /* flashoff.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = flashoff.png; path = Resources/pic/flashoff.png; sourceTree = SOURCE_ROOT; };
+		B141042C1565EB49004DF34C /* flashon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = flashon.png; path = Resources/pic/flashon.png; sourceTree = SOURCE_ROOT; };
 		B15E86E81564F06F00108271 /* TemplateDetails-Singleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "TemplateDetails-Singleton.h"; path = "ILovepostcard/TemplateDetails-Singleton/TemplateDetails-Singleton.h"; sourceTree = "<group>"; };
 		B15E86E91564F06F00108271 /* TemplateDetails-Singleton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "TemplateDetails-Singleton.m"; path = "ILovepostcard/TemplateDetails-Singleton/TemplateDetails-Singleton.m"; sourceTree = "<group>"; };
 		B15EDD96155A577A00B0C873 /* ILovepostcard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ILovepostcard.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -244,6 +255,10 @@
 		B102FF09155B95D4008DC42D /* Pic */ = {
 			isa = PBXGroup;
 			children = (
+				B14104291565EB49004DF34C /* changcamera.png */,
+				B141042A1565EB49004DF34C /* flashauto.png */,
+				B141042B1565EB49004DF34C /* flashoff.png */,
+				B141042C1565EB49004DF34C /* flashon.png */,
 				B10DA9661563A3D000058685 /* noMoreTemplateButton.png */,
 				B19D65D81560A0C70028A9F4 /* addMoreTemplateButton.png */,
 				B19D65D91560A0C70028A9F4 /* change_it.png */,
@@ -303,6 +318,16 @@
 			name = ListSingleton;
 			sourceTree = "<group>";
 		};
+		B111B82C156631010041127F /* TouchView */ = {
+			isa = PBXGroup;
+			children = (
+				B111B82D156631010041127F /* TouchView.h */,
+				B111B82E156631010041127F /* TouchView.m */,
+			);
+			name = TouchView;
+			path = ILovepostcard/TouchView;
+			sourceTree = "<group>";
+		};
 		B15E86E31564E5CB00108271 /* TemplateDetails-Singleton */ = {
 			isa = PBXGroup;
 			children = (
@@ -310,13 +335,6 @@
 				B15E86E91564F06F00108271 /* TemplateDetails-Singleton.m */,
 			);
 			name = "TemplateDetails-Singleton";
-			sourceTree = "<group>";
-		};
-		B15E86E41564E5E200108271 /* Back-Singleton */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = "Back-Singleton";
 			sourceTree = "<group>";
 		};
 		B15EDD8B155A577A00B0C873 = {
@@ -384,6 +402,7 @@
 		B18EAE70155E117400B909C6 /* DisplayEachTemplateDetals--Front */ = {
 			isa = PBXGroup;
 			children = (
+				B111B82C156631010041127F /* TouchView */,
 				B15E86E31564E5CB00108271 /* TemplateDetails-Singleton */,
 				B19D65BA1560A0840028A9F4 /* DisplayEachTemplateDetals.h */,
 				B19D65BB1560A0840028A9F4 /* DisplayEachTemplateDetals.m */,
@@ -396,7 +415,6 @@
 		B18EAE71155E3C0E00B909C6 /* DisplayEachTemplateDetals--Back */ = {
 			isa = PBXGroup;
 			children = (
-				B15E86E41564E5E200108271 /* Back-Singleton */,
 				B19D65BF1560A0910028A9F4 /* DisplayEachTemplateDetals-Back.h */,
 				B19D65C01560A0910028A9F4 /* DisplayEachTemplateDetals-Back.m */,
 				B19D65C11560A0910028A9F4 /* DisplayEachTemplateDetals-Back.xib */,
@@ -571,6 +589,10 @@
 				B19D65EE1560A1430028A9F4 /* SecondViewController.xib in Resources */,
 				B19D66511560A6D10028A9F4 /* GoToPostcardList.xib in Resources */,
 				B10DA9671563A3D000058685 /* noMoreTemplateButton.png in Resources */,
+				B141042D1565EB49004DF34C /* changcamera.png in Resources */,
+				B141042E1565EB49004DF34C /* flashauto.png in Resources */,
+				B141042F1565EB49004DF34C /* flashoff.png in Resources */,
+				B14104301565EB49004DF34C /* flashon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -615,6 +637,7 @@
 				B19D665C1560ED110028A9F4 /* PromptView.m in Sources */,
 				B1106F5A156119080035CFAA /* ILPostcardList.m in Sources */,
 				B15E86EA1564F06F00108271 /* TemplateDetails-Singleton.m in Sources */,
+				B111B82F156631010041127F /* TouchView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -694,13 +717,14 @@
 		B15EDDC3155A577A00B0C873 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					armv6,
-					armv7,
-				);
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Wei Wei (D4S7U535YV)";
+				DEBUG_INFORMATION_FORMAT = stabs;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ILovepostcard/ILovepostcard-Prefix.pch";
 				GCC_THUMB_SUPPORT = NO;
+				GCC_VERSION = "";
 				HEADER_SEARCH_PATHS = /usr/include/libxml;
 				INFOPLIST_FILE = "ILovepostcard/ILovepostcard-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
@@ -709,7 +733,15 @@
 					"\"$(SRCROOT)/TabCustomLib\"",
 					"\"$(SRCROOT)/ILovepostcard/TabCustomLib\"",
 				);
+				OTHER_LDFLAGS = (
+					"-lstdc++",
+					"-lz",
+					"-all_load",
+					"-Objc",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "76887534-6B8F-45E2-8C4B-9EAA5E4D3D26";
+				SDKROOT = iphoneos4.3;
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
@@ -718,14 +750,14 @@
 		B15EDDC4155A577A00B0C873 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					armv6,
-					armv7,
-				);
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEBUG_INFORMATION_FORMAT = stabs;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ILovepostcard/ILovepostcard-Prefix.pch";
 				GCC_THUMB_SUPPORT = NO;
+				GCC_VERSION = "";
 				HEADER_SEARCH_PATHS = /usr/include/libxml;
 				INFOPLIST_FILE = "ILovepostcard/ILovepostcard-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
@@ -734,8 +766,15 @@
 					"\"$(SRCROOT)/TabCustomLib\"",
 					"\"$(SRCROOT)/ILovepostcard/TabCustomLib\"",
 				);
+				OTHER_LDFLAGS = (
+					"-lstdc++",
+					"-lz",
+					"-all_load",
+					"-Objc",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				SDKROOT = iphoneos4.3;
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};

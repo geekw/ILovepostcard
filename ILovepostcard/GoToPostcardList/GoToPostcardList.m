@@ -75,14 +75,14 @@ int currentPage_Keyword;
     templateScrollView.hidden = NO;
     addMoreTemplateButton.enabled = YES;
     addMoreTemplateButton.hidden = NO;
-    [addMoreTemplateButton setImage:[UIImage imageNamed:@"addMoreTemplateButton.png"] forState:UIControlStateNormal];
+    [addMoreTemplateButton setImage:[UIImage imageNamed:@"addMoreTemplateButton.png"]
+                           forState:UIControlStateNormal];
     
     addMoreTemplateButton_Keyword.hidden = YES;
     templateScrollView_Keyword.hidden = YES;
-    [addMoreTemplateButton_Keyword setImage:[UIImage imageNamed:@"addMoreTemplateButton.png"] forState:UIControlStateNormal];
+    [addMoreTemplateButton_Keyword setImage:[UIImage imageNamed:@"addMoreTemplateButton.png"]
+                                   forState:UIControlStateNormal];
 }
-
-
 
 #pragma mark - NormalRequest - 正常请求模板列表
 - (void)loadHttpRequset

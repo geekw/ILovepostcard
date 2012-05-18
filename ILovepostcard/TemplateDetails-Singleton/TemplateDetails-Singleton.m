@@ -37,7 +37,6 @@ const int TEMPLATEDETAILS_CAPACITY = 1000;
         templateDetailsDict = [[NSMutableDictionary dictionaryWithCapacity:TEMPLATEDETAILS_CAPACITY] retain];
     }
     return self;
-
 }
 
 @end
