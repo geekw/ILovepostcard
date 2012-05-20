@@ -17,16 +17,11 @@
     self = [super initWithFrame:frame];
     if (self) 
     {
-        self.backgroundColor = [UIColor greenColor];
-        
+        self.backgroundColor = [UIColor clearColor];
         self.clipsToBounds = YES;
-        
         self.autoresizesSubviews = YES;
-        
         self.contentMode = UIViewContentModeScaleAspectFill;
-        
         delegate = nil;
-        
         imageFrame = frame;
         
         // 使图片视图支持交互和多点触摸
@@ -51,6 +46,9 @@
     return self;
 }
 
+
+
+
 #pragma mark - Private Methods
 - (void)scale:(id)sender
 {
@@ -66,6 +64,7 @@
     CGAffineTransform newTransform = CGAffineTransformScale(currentTransform, scale, scale);
     [photoImageView setTransform:newTransform];    
     _lastScale = [(UIPinchGestureRecognizer*)sender scale];
+    
 }
 
 - (void)rotate:(id)sender 

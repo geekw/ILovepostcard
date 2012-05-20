@@ -23,6 +23,7 @@
 		B15EDD9B155A577A00B0C873 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B15EDD9A155A577A00B0C873 /* UIKit.framework */; };
 		B15EDD9D155A577A00B0C873 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B15EDD9C155A577A00B0C873 /* Foundation.framework */; };
 		B15EDD9F155A577A00B0C873 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B15EDD9E155A577A00B0C873 /* CoreGraphics.framework */; };
+		B1846B941568D4BA00635271 /* ScaleAndRotateView.m in Sources */ = {isa = PBXBuildFile; fileRef = B1846B931568D4BA00635271 /* ScaleAndRotateView.m */; };
 		B19D659A15609FBA0028A9F4 /* libUITab.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B19D659815609FBA0028A9F4 /* libUITab.a */; };
 		B19D65A215609FE70028A9F4 /* first.png in Resources */ = {isa = PBXBuildFile; fileRef = B19D659E15609FE70028A9F4 /* first.png */; };
 		B19D65A315609FE70028A9F4 /* first@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B19D659F15609FE70028A9F4 /* first@2x.png */; };
@@ -97,6 +98,8 @@
 		B15EDD9A155A577A00B0C873 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		B15EDD9C155A577A00B0C873 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		B15EDD9E155A577A00B0C873 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		B1846B921568D4BA00635271 /* ScaleAndRotateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScaleAndRotateView.h; sourceTree = "<group>"; };
+		B1846B931568D4BA00635271 /* ScaleAndRotateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScaleAndRotateView.m; sourceTree = "<group>"; };
 		B19D659815609FBA0028A9F4 /* libUITab.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libUITab.a; path = ILovepostcard/TabCustomLib/libUITab.a; sourceTree = SOURCE_ROOT; };
 		B19D659915609FBA0028A9F4 /* UICustomTabController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UICustomTabController.h; path = ILovepostcard/TabCustomLib/UICustomTabController.h; sourceTree = SOURCE_ROOT; };
 		B19D659E15609FE70028A9F4 /* first.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = first.png; path = FirstViewController/first.png; sourceTree = "<group>"; };
@@ -399,10 +402,21 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		B1846B911568D4BA00635271 /* ScaleAndRotateView */ = {
+			isa = PBXGroup;
+			children = (
+				B1846B921568D4BA00635271 /* ScaleAndRotateView.h */,
+				B1846B931568D4BA00635271 /* ScaleAndRotateView.m */,
+			);
+			name = ScaleAndRotateView;
+			path = ILovepostcard/ScaleAndRotateView;
+			sourceTree = "<group>";
+		};
 		B18EAE70155E117400B909C6 /* DisplayEachTemplateDetals--Front */ = {
 			isa = PBXGroup;
 			children = (
 				B111B82C156631010041127F /* TouchView */,
+				B1846B911568D4BA00635271 /* ScaleAndRotateView */,
 				B15E86E31564E5CB00108271 /* TemplateDetails-Singleton */,
 				B19D65BA1560A0840028A9F4 /* DisplayEachTemplateDetals.h */,
 				B19D65BB1560A0840028A9F4 /* DisplayEachTemplateDetals.m */,
@@ -638,6 +652,7 @@
 				B1106F5A156119080035CFAA /* ILPostcardList.m in Sources */,
 				B15E86EA1564F06F00108271 /* TemplateDetails-Singleton.m in Sources */,
 				B111B82F156631010041127F /* TouchView.m in Sources */,
+				B1846B941568D4BA00635271 /* ScaleAndRotateView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

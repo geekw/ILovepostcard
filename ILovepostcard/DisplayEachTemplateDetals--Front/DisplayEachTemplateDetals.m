@@ -25,6 +25,9 @@
 {
     idName = nil;[idName release];
     backButton = nil;[backButton release];
+    showOrHideMapButton = nil;[showOrHideMapButton release];
+    openPhotoLibraryButton = nil;[openPhotoLibraryButton release];
+    scaleAndRotateView = nil;[scaleAndRotateView release];
     displayEachTemplateDetals_Back = nil;[displayEachTemplateDetals_Back release];
     goDisplayEachTemplateDetals_BackButton = nil;[goDisplayEachTemplateDetals_BackButton release];
     [super dealloc];
@@ -180,13 +183,18 @@
 
         NSString *picUrl = [tmpDict objectForKey:@"src"];
         UIImage *tmpimg = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:picUrl]]];
-        
-        UIImageView *tmpImgView = [[UIImageView alloc] initWithFrame:CGRectMake([xStr intValue] + 100, [yStr intValue] + 100, [wStr intValue] + 80, [hStr intValue] + 80)];
-        tmpImgView.image = tmpimg;
-        tmpImgView.multipleTouchEnabled = YES;
-        tmpImgView.userInteractionEnabled = YES;
-        [postcard_FrontView addSubview:tmpImgView];
-        [tmpImgView release];
+
+        UIImageView *picImgView = [[UIImageView alloc] initWithFrame:CGRectMake([xStr intValue] + 100, [yStr intValue] + 100, [wStr intValue] + 80, [hStr intValue] + 80)];
+        picImgView.image = tmpimg;
+//        [self.view addSubview:picImgView];
+        picImgView.userInteractionEnabled = YES;
+        [postcard_FrontView addSubview:picImgView];
+        [picImgView release];
+        if (!scaleAndRotateView) 
+        {
+            scaleAndRotateView = [[ScaleAndRotateView alloc] init];
+        }
+        [scaleAndRotateView addScaleAndRotateView:picImgView];
     }
 }
 
@@ -255,6 +263,7 @@
     //打开摄像头的动画
     [self presentModalViewController:imagePickerCamera 
                                       animated:YES];
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"fromCameraOrAlbum"];
     //打开界面的动画 begin 和 commit
     [UIView beginAnimations:nil context:NULL];
     //打开界面的动画的延时时间
@@ -273,27 +282,44 @@
     //带动画效果隐藏cameraImagePicker界面
     [self dismissModalViewControllerAnimated:YES];
     
-    NSArray *areasArray = [[TemplateDetails_Singleton sharedTemplateDetails_Singleton].templateDetailsDict objectForKey:@"areas"];
-    NSLog(@"areasDict = %@",areasArray);
-    
-    NSDictionary *areasDict = [areasArray objectAtIndex:0];
-    NSLog(@"areasDict = %@",areasDict);
-    //    NSString *degreeStr = [areasDict objectForKey:@"degree"];
-    NSString *hStr = [areasDict objectForKey:@"h"];
-    NSString *wStr = [areasDict objectForKey:@"w"];
-    NSString *xStr = [areasDict objectForKey:@"x"];
-    NSString *yStr = [areasDict objectForKey:@"y"];
+    if (picker.sourceType == UIImagePickerControllerSourceTypeCamera) 
+    {
+        NSArray *areasArray = [[TemplateDetails_Singleton sharedTemplateDetails_Singleton].templateDetailsDict objectForKey:@"areas"];
+        NSLog(@"areasDict = %@",areasArray);
+        
+        NSDictionary *areasDict = [areasArray objectAtIndex:0];
+        NSLog(@"areasDict = %@",areasDict);
+        //    NSString *degreeStr = [areasDict objectForKey:@"degree"];
+        NSString *hStr = [areasDict objectForKey:@"h"];
+        NSString *wStr = [areasDict objectForKey:@"w"];
+        NSString *xStr = [areasDict objectForKey:@"x"];
+        NSString *yStr = [areasDict objectForKey:@"y"];
+        
+        TouchView *fileContent = [[TouchView alloc] initWithFrame:CGRectMake([xStr intValue] + 10, [yStr intValue] + 90,[wStr intValue] + 200, [hStr intValue] + 200)];
+        [fileContent setImage:image];
+        [fileContent setViewTag: [idName intValue]];
+        fileContent.delegate = self;
+        [self.view addSubview:fileContent];
+        [postcard_FrontView addSubview:fileContent];
+        [fileContent release];
+    }
+    if (picker.sourceType == UIImagePickerControllerSourceTypePhotoLibrary) 
+    {
+        UIImageView *photoImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 480)]; 
+        photoImgView.image = image;
+        [photoImgView setUserInteractionEnabled:YES];
+        [postcard_FrontView addSubview:photoImgView];
+        [photoImgView release];
+        
+        if (!scaleAndRotateView) 
+        {
+            scaleAndRotateView = [[ScaleAndRotateView alloc] init];
+        }
+        [scaleAndRotateView addScaleAndRotateView:photoImgView];
 
-    
-    TouchView *fileContent = [[TouchView alloc] initWithFrame:CGRectMake([xStr intValue] + 10, [yStr intValue] + 90,[wStr intValue] + 200, [hStr intValue] + 200)];
-    [fileContent setImage:image];
-    [fileContent setViewTag: [idName intValue]];
-    fileContent.delegate = self;
-    
-    [self.view addSubview:fileContent];
-    [postcard_FrontView addSubview:fileContent];
-    
-    [fileContent release];
+        
+        
+    }
 
 }
 
@@ -356,6 +382,26 @@
             break;
     }
 }
+#pragma mark - bottomViewButtonActions - 底部三个按钮的动作
+-(IBAction)openPhotoLibrary//打开本地相册
+{
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) 
+    {
+        UIImagePickerController *photoPickerController = [[UIImagePickerController alloc] init];
+        photoPickerController.delegate = self;
+        photoPickerController.allowsEditing = YES;
+        photoPickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        [self presentModalViewController:photoPickerController animated:YES];
+        [photoPickerController release];
+    }
+}
+
+
+-(IBAction)showOrHideMap//显示隐藏地图
+{
+
+}
+
 
 #pragma mark - goDisplayEachTemplateDetals - 去编辑明信片反面
 -(IBAction)goDisplayEachTemplateDetals

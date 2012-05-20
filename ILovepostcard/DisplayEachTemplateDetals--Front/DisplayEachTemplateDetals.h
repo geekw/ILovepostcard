@@ -14,9 +14,11 @@
 #import "PromptView.h"
 #import "TemplateDetails-Singleton.h"
 #import "TouchView.h"
+#import "ScaleAndRotateView.h"
 
 @interface DisplayEachTemplateDetals : UIViewController<ASIHTTPRequestDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,TouchVieweDelegate>
 {
+    ScaleAndRotateView *scaleAndRotateView;
     DisplayEachTemplateDetals_Back *displayEachTemplateDetals_Back;
     
     UIImagePickerController *imagePickerCamera;//相机
@@ -26,11 +28,15 @@
     IBOutlet UIButton *goDisplayEachTemplateDetals_BackButton;
     IBOutlet UIView *toolBar_FrontView;//侧面工具栏--添加素材
     IBOutlet UIView *postcard_FrontView;//明信片正面
+    IBOutlet UIButton *openPhotoLibraryButton;//打开本地相册按钮
+    IBOutlet UIButton *showOrHideMapButton;//隐藏或者显示地图
+    
 }
 
 @property(nonatomic, retain) NSString *idName;
 
 -(IBAction)goback;
-
+-(IBAction)openPhotoLibrary;//打开本地相册
+-(IBAction)showOrHideMap;//隐藏或者显示地图
 -(IBAction)goDisplayEachTemplateDetals;//去编辑明信片反面
 @end
