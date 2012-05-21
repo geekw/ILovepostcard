@@ -7,22 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "FirstViewController.h"
-#import "SecondViewController.h"
-#import "ThirdViewController.h"
-#import "UICustomTabController.h"
 
-
+@class ViewController;
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
-{
-    UICustomTabController *tabbar_controller;
-}
 
 @property (strong, nonatomic) UIWindow *window;
-@property (nonatomic, retain) UICustomTabController *tabbar_controller;
+
+@property (strong, nonatomic) ViewController *viewController;
 
 
-//@property (strong, nonatomic) UITabBarController *tabBarController;
 
 @end

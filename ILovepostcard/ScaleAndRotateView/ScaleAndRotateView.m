@@ -15,14 +15,14 @@
 // adds a set of gesture recognizers to one of our piece subviews
 - (void)addGestureRecognizersToPiece:(UIView *)piece
 {
-    UIRotationGestureRecognizer *rotationGesture = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(rotatePiece:)];
-    [piece addGestureRecognizer:rotationGesture];
-    [rotationGesture release];
-    
-    UIPinchGestureRecognizer *pinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(scalePiece:)];
-    [pinchGesture setDelegate:self];
-    [piece addGestureRecognizer:pinchGesture];
-    [pinchGesture release];
+//    UIRotationGestureRecognizer *rotationGesture = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(rotatePiece:)];
+//    [piece addGestureRecognizer:rotationGesture];
+//    [rotationGesture release];
+//    
+//    UIPinchGestureRecognizer *pinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(scalePiece:)];
+//    [pinchGesture setDelegate:self];
+//    [piece addGestureRecognizer:pinchGesture];
+//    [pinchGesture release];
     
     UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panPiece:)];
     [panGesture setMaximumNumberOfTouches:1];

@@ -35,6 +35,7 @@
 }
 
 @property(nonatomic, retain) NSString *keyword;//搜索关键字
+@property (retain, nonatomic) IBOutlet UIView *bottomKeywordView;
 
 
 -(IBAction)goBack;

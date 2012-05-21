@@ -1,23 +1,21 @@
 //
-//  ThirdViewController.m
+//  ViewController.m
 //  ILovepostcard
 //
-//  Created by 进 吴 on 12-5-10.
+//  Created by 进 吴 on 12-5-21.
 //  Copyright (c) 2012年 开趣. All rights reserved.
 //
 
-#import "ThirdViewController.h"
+#import "ViewController.h"
 
-@implementation ThirdViewController
+@implementation ViewController
+@synthesize goToPostcardListButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.title = NSLocalizedString(@"更多", @"更多");
-        self.view.backgroundColor = [UIColor yellowColor];
-
-//        self.tabBarItem.image = [UIImage imageNamed:@"third"];
+        // Custom initialization
     }
     return self;
 }
@@ -27,7 +25,6 @@
     // Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
     
-    // Release any cached data, images, etc that aren't in use.
 }
 
 #pragma mark - View lifecycle
@@ -40,6 +37,7 @@
 
 - (void)viewDidUnload
 {
+    [self setGoToPostcardListButton:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -49,6 +47,22 @@
 {
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+- (void)dealloc 
+{
+    [goToPostcardListButton release];
+    [super dealloc];
+}
+
+#pragma mark - goToPostcardScene --进入明信片选择界面
+
+-(IBAction)goToPostcardList
+{
+    GoToPostcardList *myGoToPostcardList = [[GoToPostcardList alloc] initWithNibName:@"GoToPostcardList" bundle:nil];
+    goToPostcardList = myGoToPostcardList;
+    [self presentModalViewController:goToPostcardList animated:YES];
+    [myGoToPostcardList release];
 }
 
 @end

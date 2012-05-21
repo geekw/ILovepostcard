@@ -7,63 +7,27 @@
 //
 
 #import "AppDelegate.h"
+#import "ViewController.h"
 
 
 @implementation AppDelegate
 
 @synthesize window = _window;
-@synthesize tabbar_controller = _tabbar_controller;
-
+@synthesize viewController = _viewController;
 - (void)dealloc
 {
     [_window release];
-    [tabbar_controller release];
+    [_viewController release];
     [super dealloc];
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
-    self.window.backgroundColor = [UIColor whiteColor];
+    // Override point for customization after application launch.
+    self.viewController = [[[ViewController alloc] initWithNibName:@"ViewController" bundle:nil] autorelease];
+    self.window.rootViewController = self.viewController;
     [self.window makeKeyAndVisible];
-
-    NSMutableArray *view_manager = [[NSMutableArray alloc] initWithCapacity:0];
-    
-    //要显示的controller
-    FirstViewController  *firstViewController = [[FirstViewController alloc] init];
-    UINavigationController *first_nav = [[UINavigationController alloc] initWithRootViewController:firstViewController];
-    [view_manager addObject:first_nav];
-    first_nav.navigationBarHidden = YES;
-    [firstViewController release];
-    [first_nav release];
-    
-    SecondViewController *secondViewController = [[SecondViewController alloc] init];
-    UINavigationController *second_nav = [[UINavigationController alloc] initWithRootViewController:secondViewController];
-    [view_manager addObject:second_nav];
-    second_nav.navigationBarHidden = YES;
-    [secondViewController release];
-    [second_nav release];
-    
-    ThirdViewController *thirdViewController = [[ThirdViewController alloc] init];
-    UINavigationController *third_nav = [[UINavigationController alloc] initWithRootViewController:thirdViewController];
-    [view_manager addObject:third_nav];
-    third_nav.navigationBarHidden = YES;
-    [thirdViewController release];
-    [third_nav release];
-
-    tabbar_controller= [[UICustomTabController alloc] init];
-    [tabbar_controller setNeed_to_custom:YES];
-    [tabbar_controller setTab_bar_bg:[UIImage imageNamed:@"tools_bar_bg.png"]];
-    [tabbar_controller setNormal_image:[UIImage imageNamed:@"NavBar_01.png"]];
-    [tabbar_controller setSelect_image:[UIImage imageNamed:@"NavBar_01_s.png"]];
-    [tabbar_controller setShow_style:UItabbarControllerShowStyleOnlyText];
-    [tabbar_controller setViewControllers:view_manager]; 
-    [tabbar_controller setSelectedIndex:1];
-    [tabbar_controller setShow_size:40];
-    tabbar_controller.hidesBottomBarWhenPushed = YES;
-    
-    [view_manager release];
-    [self.window addSubview:tabbar_controller.view];
     return YES;
 }
 
