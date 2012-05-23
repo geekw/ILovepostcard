@@ -15,6 +15,10 @@
 		B10DA9671563A3D000058685 /* noMoreTemplateButton.png in Resources */ = {isa = PBXBuildFile; fileRef = B10DA9661563A3D000058685 /* noMoreTemplateButton.png */; };
 		B1106F5A156119080035CFAA /* ILPostcardList.m in Sources */ = {isa = PBXBuildFile; fileRef = B1106F59156119080035CFAA /* ILPostcardList.m */; };
 		B111B82F156631010041127F /* TouchView.m in Sources */ = {isa = PBXBuildFile; fileRef = B111B82E156631010041127F /* TouchView.m */; };
+		B12E8514156CBEB400B0737B /* ActivityListView.m in Sources */ = {isa = PBXBuildFile; fileRef = B12E8512156CBEB400B0737B /* ActivityListView.m */; };
+		B12E8515156CBEB400B0737B /* ActivityListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B12E8513156CBEB400B0737B /* ActivityListView.xib */; };
+		B12E8518156CC28100B0737B /* activityList_1.png in Resources */ = {isa = PBXBuildFile; fileRef = B12E8517156CC28100B0737B /* activityList_1.png */; };
+		B12E851C156CC46B00B0737B /* ILActivityList.m in Sources */ = {isa = PBXBuildFile; fileRef = B12E851B156CC46B00B0737B /* ILActivityList.m */; };
 		B141042D1565EB49004DF34C /* changcamera.png in Resources */ = {isa = PBXBuildFile; fileRef = B14104291565EB49004DF34C /* changcamera.png */; };
 		B141042E1565EB49004DF34C /* flashauto.png in Resources */ = {isa = PBXBuildFile; fileRef = B141042A1565EB49004DF34C /* flashauto.png */; };
 		B141042F1565EB49004DF34C /* flashoff.png in Resources */ = {isa = PBXBuildFile; fileRef = B141042B1565EB49004DF34C /* flashoff.png */; };
@@ -84,6 +88,8 @@
 		B1D1D3D3156A52060015A054 /* postBack4.png in Resources */ = {isa = PBXBuildFile; fileRef = B1D1D3CE156A52060015A054 /* postBack4.png */; };
 		B1D1D3D4156A52060015A054 /* postBack5.png in Resources */ = {isa = PBXBuildFile; fileRef = B1D1D3CF156A52060015A054 /* postBack5.png */; };
 		B1D1D3D5156A52060015A054 /* postBack6.png in Resources */ = {isa = PBXBuildFile; fileRef = B1D1D3D0156A52060015A054 /* postBack6.png */; };
+		B1FF8133156C845600DA895E /* MapController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1FF8132156C845600DA895E /* MapController.m */; };
+		B1FF8136156C88B200DA895E /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1FF8134156C88A000DA895E /* MapKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -97,6 +103,12 @@
 		B1106F59156119080035CFAA /* ILPostcardList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ILPostcardList.m; path = ILovepostcard/ILPostcardList/ILPostcardList.m; sourceTree = SOURCE_ROOT; };
 		B111B82D156631010041127F /* TouchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TouchView.h; sourceTree = "<group>"; };
 		B111B82E156631010041127F /* TouchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TouchView.m; sourceTree = "<group>"; };
+		B12E8511156CBEB400B0737B /* ActivityListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ActivityListView.h; path = ActivityListView/ActivityListView.h; sourceTree = "<group>"; };
+		B12E8512156CBEB400B0737B /* ActivityListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ActivityListView.m; path = ActivityListView/ActivityListView.m; sourceTree = "<group>"; };
+		B12E8513156CBEB400B0737B /* ActivityListView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ActivityListView.xib; path = ActivityListView/ActivityListView.xib; sourceTree = "<group>"; };
+		B12E8517156CC28100B0737B /* activityList_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = activityList_1.png; path = Resources/pic/Pic_ActivityListView/activityList_1.png; sourceTree = SOURCE_ROOT; };
+		B12E851A156CC46B00B0737B /* ILActivityList.h */ = {isa = PBXFileReference; fileEncoding = 4; name = ILActivityList.h; path = ILActivityList/ILActivityList.h; sourceTree = "<group>"; };
+		B12E851B156CC46B00B0737B /* ILActivityList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ILActivityList.m; path = ILActivityList/ILActivityList.m; sourceTree = "<group>"; };
 		B14104291565EB49004DF34C /* changcamera.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = changcamera.png; path = Resources/pic/changcamera.png; sourceTree = SOURCE_ROOT; };
 		B141042A1565EB49004DF34C /* flashauto.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = flashauto.png; path = Resources/pic/flashauto.png; sourceTree = SOURCE_ROOT; };
 		B141042B1565EB49004DF34C /* flashoff.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = flashoff.png; path = Resources/pic/flashoff.png; sourceTree = SOURCE_ROOT; };
@@ -205,6 +217,9 @@
 		B1D1D3CE156A52060015A054 /* postBack4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = postBack4.png; path = Resources/pic/Pic_PoatBack/postBack4.png; sourceTree = "<group>"; };
 		B1D1D3CF156A52060015A054 /* postBack5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = postBack5.png; path = Resources/pic/Pic_PoatBack/postBack5.png; sourceTree = "<group>"; };
 		B1D1D3D0156A52060015A054 /* postBack6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = postBack6.png; path = Resources/pic/Pic_PoatBack/postBack6.png; sourceTree = "<group>"; };
+		B1FF8131156C845600DA895E /* MapController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MapController.h; path = ILovepostcard/MapController/MapController.h; sourceTree = "<group>"; };
+		B1FF8132156C845600DA895E /* MapController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MapController.m; path = ILovepostcard/MapController/MapController.m; sourceTree = "<group>"; };
+		B1FF8134156C88A000DA895E /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -212,6 +227,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B1FF8136156C88B200DA895E /* MapKit.framework in Frameworks */,
 				B102FF73155BB33A008DC42D /* libxml2.dylib in Frameworks */,
 				B102FF71155BB327008DC42D /* libz.dylib in Frameworks */,
 				B102FF6F155BB314008DC42D /* MobileCoreServices.framework in Frameworks */,
@@ -308,6 +324,35 @@
 			path = ILovepostcard/TouchView;
 			sourceTree = "<group>";
 		};
+		B12E850D156CBD2000B0737B /* ActivityListView */ = {
+			isa = PBXGroup;
+			children = (
+				B12E8519156CC3DF00B0737B /* ActivityListSingleton */,
+				B12E8516156CC23B00B0737B /* Pic_activityList */,
+				B12E8511156CBEB400B0737B /* ActivityListView.h */,
+				B12E8512156CBEB400B0737B /* ActivityListView.m */,
+				B12E8513156CBEB400B0737B /* ActivityListView.xib */,
+			);
+			name = ActivityListView;
+			sourceTree = "<group>";
+		};
+		B12E8516156CC23B00B0737B /* Pic_activityList */ = {
+			isa = PBXGroup;
+			children = (
+				B12E8517156CC28100B0737B /* activityList_1.png */,
+			);
+			name = Pic_activityList;
+			sourceTree = "<group>";
+		};
+		B12E8519156CC3DF00B0737B /* ActivityListSingleton */ = {
+			isa = PBXGroup;
+			children = (
+				B12E851A156CC46B00B0737B /* ILActivityList.h */,
+				B12E851B156CC46B00B0737B /* ILActivityList.m */,
+			);
+			name = ActivityListSingleton;
+			sourceTree = "<group>";
+		};
 		B15E86E31564E5CB00108271 /* TemplateDetails-Singleton */ = {
 			isa = PBXGroup;
 			children = (
@@ -339,6 +384,7 @@
 		B15EDD99155A577A00B0C873 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B1FF8134156C88A000DA895E /* MapKit.framework */,
 				B102FF72155BB33A008DC42D /* libxml2.dylib */,
 				B102FF70155BB327008DC42D /* libz.dylib */,
 				B102FF6E155BB314008DC42D /* MobileCoreServices.framework */,
@@ -356,6 +402,7 @@
 			children = (
 				B102FF23155BB143008DC42D /* Main */,
 				B102FF13155B9FCD008DC42D /* GoToPostcardList */,
+				B12E850D156CBD2000B0737B /* ActivityListView */,
 				B18EAE70155E117400B909C6 /* DisplayEachTemplateDetals--Front */,
 				B18EAE71155E3C0E00B909C6 /* DisplayEachTemplateDetals--Back */,
 				B19D658D15609C110028A9F4 /* ShareAndBuy */,
@@ -391,6 +438,7 @@
 				B1D1D3C6156A3E890015A054 /* Pic_PostcardFront */,
 				B111B82C156631010041127F /* TouchView */,
 				B1846B911568D4BA00635271 /* ScaleAndRotateView */,
+				B1FF812F156C83F900DA895E /* MapController */,
 				B15E86E31564E5CB00108271 /* TemplateDetails-Singleton */,
 				B19D65BA1560A0840028A9F4 /* DisplayEachTemplateDetals.h */,
 				B19D65BB1560A0840028A9F4 /* DisplayEachTemplateDetals.m */,
@@ -554,6 +602,15 @@
 			name = Pic_PostcardBack;
 			sourceTree = "<group>";
 		};
+		B1FF812F156C83F900DA895E /* MapController */ = {
+			isa = PBXGroup;
+			children = (
+				B1FF8131156C845600DA895E /* MapController.h */,
+				B1FF8132156C845600DA895E /* MapController.m */,
+			);
+			name = MapController;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -640,6 +697,8 @@
 				B1D1D3D3156A52060015A054 /* postBack4.png in Resources */,
 				B1D1D3D4156A52060015A054 /* postBack5.png in Resources */,
 				B1D1D3D5156A52060015A054 /* postBack6.png in Resources */,
+				B12E8515156CBEB400B0737B /* ActivityListView.xib in Resources */,
+				B12E8518156CC28100B0737B /* activityList_1.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -684,6 +743,9 @@
 				B111B82F156631010041127F /* TouchView.m in Sources */,
 				B1846B941568D4BA00635271 /* ScaleAndRotateView.m in Sources */,
 				B1D1D3B01569E6B80015A054 /* ViewController.m in Sources */,
+				B1FF8133156C845600DA895E /* MapController.m in Sources */,
+				B12E8514156CBEB400B0737B /* ActivityListView.m in Sources */,
+				B12E851C156CC46B00B0737B /* ILActivityList.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -787,7 +849,7 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "76887534-6B8F-45E2-8C4B-9EAA5E4D3D26";
-				SDKROOT = iphoneos4.3;
+				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
@@ -820,7 +882,7 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				SDKROOT = iphoneos4.3;
+				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};

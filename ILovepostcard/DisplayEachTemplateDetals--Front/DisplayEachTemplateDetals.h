@@ -15,8 +15,10 @@
 #import "TemplateDetails-Singleton.h"
 #import "TouchView.h"
 #import "ScaleAndRotateView.h"
+#import "MapKit/MapKit.h"
 
-@interface DisplayEachTemplateDetals : UIViewController<ASIHTTPRequestDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,TouchVieweDelegate>
+
+@interface DisplayEachTemplateDetals : UIViewController<ASIHTTPRequestDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,TouchVieweDelegate,MKMapViewDelegate>
 {
     ScaleAndRotateView *scaleAndRotateView;
     DisplayEachTemplateDetals_Back *displayEachTemplateDetals_Back;
@@ -31,6 +33,10 @@
     IBOutlet UIButton *openPhotoLibraryButton;//打开本地相册按钮
     IBOutlet UIButton *showOrHideMapButton;//隐藏或者显示地图
     
+    MKMapView *myMapView;
+    UIImageView *mapImgView;
+    
+    BOOL hidden;
 }
 
 @property(nonatomic, retain) NSString *idName;
@@ -39,4 +45,6 @@
 -(IBAction)openPhotoLibrary;//打开本地相册
 -(IBAction)showOrHideMap;//隐藏或者显示地图
 -(IBAction)goDisplayEachTemplateDetals;//去编辑明信片反面
+
+-(void)getGoogleStaticMap:(CGFloat)latitude Longitude:(CGFloat)longitude;
 @end

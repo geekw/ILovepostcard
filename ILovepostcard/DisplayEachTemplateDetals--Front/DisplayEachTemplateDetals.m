@@ -9,9 +9,13 @@
 #import "DisplayEachTemplateDetals.h"
 
 #define Template_Front @"http://61.155.238.30/postcards/interface/get_template"//单个模板详情接口
+#define googleMapUrl   @"http://maps.google.com/maps/api/staticmap"
+#define pinUrl @"http://cdn1.iconfinder.com/data/icons/customicondesign-office6-shadow/32/pin-red.png"
+
 
 @implementation DisplayEachTemplateDetals
 @synthesize idName;
+
 
 
 #pragma mark - goBack - 返回按钮
@@ -23,6 +27,7 @@
 #pragma mark - View lifecycle - 系统函数
 -(void)dealloc
 {
+    mapImgView = nil;[mapImgView release];
     idName = nil;[idName release];
     backButton = nil;[backButton release];
     showOrHideMapButton = nil;[showOrHideMapButton release];
@@ -36,6 +41,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self performSelector:@selector(readMapInfo)];//获得经纬度
     [self performSelector:@selector(requestFrontDetails)];//请求明信片正面素材
 }
 
@@ -186,7 +192,6 @@
 
         UIImageView *picImgView = [[UIImageView alloc] initWithFrame:CGRectMake([xStr intValue] + 100, [yStr intValue] + 100, [wStr intValue] + 80, [hStr intValue] + 80)];
         picImgView.image = tmpimg;
-//        [self.view addSubview:picImgView];
         picImgView.userInteractionEnabled = YES;
         [postcard_FrontView addSubview:picImgView];
         [picImgView release];
@@ -316,11 +321,7 @@
             scaleAndRotateView = [[ScaleAndRotateView alloc] init];
         }
         [scaleAndRotateView addScaleAndRotateView:photoImgView];
-
-        
-        
     }
-
 }
 
 
@@ -399,9 +400,82 @@
 
 -(IBAction)showOrHideMap//显示隐藏地图
 {
+    if (hidden == YES) 
+    {
+        hidden = NO;
+        mapImgView.hidden = NO;
+    }
+    else if(hidden == NO)
+    {
+        hidden = YES;
+        mapImgView.hidden = YES;
+    }
 
 }
 
+#pragma mark - ReadMapInfo - 读取经纬度信息
+-(void)readMapInfo
+{
+    myMapView = [[MKMapView alloc] init];
+    myMapView.showsUserLocation = YES;
+    myMapView.delegate = self;
+}
+
+-(void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation
+{
+    CGFloat latitudeValue ;
+    CGFloat longitudeValue;
+    
+    latitudeValue  = userLocation.coordinate.latitude;
+    longitudeValue = userLocation.coordinate.longitude;
+        NSLog(@"latitude = %f",latitudeValue);
+        NSLog(@"longitude = %f",longitudeValue);
+    
+    if (latitudeValue != 0.000000 || longitudeValue != 0.000000) 
+    {
+        [self getGoogleStaticMap:latitudeValue Longitude:longitudeValue];
+    }
+}
+
+-(void)getGoogleStaticMap:(CGFloat)latitude Longitude:(CGFloat)longitude
+{
+    NSString *latitudeValue  = [NSString stringWithFormat:@"%f",latitude];
+    NSString *longitudeValue = [NSString stringWithFormat:@"%f",longitude];
+    
+    NSString *centerStr = [[NSString stringWithFormat:@"%@ , %@",latitudeValue,longitudeValue] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSLog(@"centerStr = %@",centerStr);
+
+
+    NSString *markersStr = [[NSString stringWithFormat:@"icon:%@|%@ , %@",pinUrl,latitudeValue,longitudeValue] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSLog(@"markersStr = %@",markersStr);
+    
+    NSString *sizeStr = [NSString stringWithFormat:@"111x111"];
+    NSLog(@"sizeStr = %@",sizeStr);
+    
+    NSString *loadString = [googleMapUrl stringByAppendingFormat:@"?center=%@&size=%@&zoom=11&language=zh-cn&markers=%@&sensor=true",centerStr,sizeStr,markersStr];
+    NSLog(@"loadString = %@",loadString);
+
+    
+    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:loadString]];
+    request.delegate = self;
+    [request setDidFinishSelector:@selector(getStaticMapFinished:)];
+    [request startAsynchronous];
+}
+
+-(void)getStaticMapFinished:(ASIHTTPRequest *)request
+{
+    NSData *pngData = [request responseData];
+    
+    mapImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 111, 111)];
+    mapImgView.image = [UIImage imageWithData:pngData];
+    [postcard_FrontView addSubview:mapImgView];
+    mapImgView.hidden = YES;
+    hidden = YES;
+    if (mapImgView.image != nil) 
+    {
+        [myMapView release];
+    }
+}
 
 #pragma mark - goDisplayEachTemplateDetals - 去编辑明信片反面
 -(IBAction)goDisplayEachTemplateDetals

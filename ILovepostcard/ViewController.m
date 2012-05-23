@@ -10,6 +10,7 @@
 
 @implementation ViewController
 @synthesize goToPostcardListButton;
+@synthesize goToActivityListButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -28,7 +29,6 @@
 }
 
 #pragma mark - View lifecycle
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -38,6 +38,7 @@
 - (void)viewDidUnload
 {
     [self setGoToPostcardListButton:nil];
+    [self setGoToActivityListButton:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -52,17 +53,27 @@
 - (void)dealloc 
 {
     [goToPostcardListButton release];
+    [goToActivityListButton release];
     [super dealloc];
 }
 
-#pragma mark - goToPostcardScene --进入明信片选择界面
-
+#pragma mark - GoToPostcardScene --进入明信片模板界面
 -(IBAction)goToPostcardList
 {
     GoToPostcardList *myGoToPostcardList = [[GoToPostcardList alloc] initWithNibName:@"GoToPostcardList" bundle:nil];
     goToPostcardList = myGoToPostcardList;
     [self presentModalViewController:goToPostcardList animated:YES];
     [myGoToPostcardList release];
+}
+
+
+#pragma mark - GoToActivity_list --进入全部活动界面
+- (IBAction)goToActivityList 
+{
+    ActivityListView *myActivityListView = [[ActivityListView alloc] initWithNibName:@"ActivityListView" bundle:nil];
+    activityListView = myActivityListView;
+    [self presentModalViewController:activityListView animated:YES];
+    [myActivityListView release];
 }
 
 @end

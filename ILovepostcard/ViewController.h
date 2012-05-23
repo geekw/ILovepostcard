@@ -8,16 +8,20 @@
 
 #import <UIKit/UIKit.h>
 #import "GoToPostcardList.h"
+#import "ActivityListView.h"
 
 
 @interface ViewController : UIViewController
 {
     GoToPostcardList *goToPostcardList;
+    ActivityListView *activityListView;
 }
 
 @property (retain, nonatomic) IBOutlet UIButton *goToPostcardListButton;
+@property (retain, nonatomic) IBOutlet UIButton *goToActivityListButton;
 
+- (IBAction)goToActivityList;
 
--(IBAction)goToPostcardList;
+- (IBAction)goToPostcardList;
 
 @end
