@@ -9,16 +9,21 @@
 #import <UIKit/UIKit.h>
 #import "GoToPostcardList.h"
 #import "ActivityListView.h"
+#import "VoiceMessageView.h"
 
 
 @interface ViewController : UIViewController
-{
-    GoToPostcardList *goToPostcardList;
-    ActivityListView *activityListView;
-}
 
+
+@property (retain, nonatomic) GoToPostcardList *postcardList;
+@property (retain, nonatomic) ActivityListView *activityListView;
+@property (retain, nonatomic) VoiceMessageView *voiceMessageView;
+
+@property (retain, nonatomic) IBOutlet UIButton *listenVoiceMessageButton;
 @property (retain, nonatomic) IBOutlet UIButton *goToPostcardListButton;
 @property (retain, nonatomic) IBOutlet UIButton *goToActivityListButton;
+
+- (IBAction)goToVoiceMessageView;
 
 - (IBAction)goToActivityList;
 
