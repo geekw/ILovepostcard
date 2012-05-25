@@ -9,6 +9,8 @@
 #import "DisplayEachTemplateDetals-Back.h"
 
 @implementation DisplayEachTemplateDetals_Back
+@synthesize shareAndBuyViewButton,shareAndBuyView;
+
 
 #pragma mark - goBack - 返回按钮
 -(IBAction)goback
@@ -19,7 +21,9 @@
 #pragma mark - View lifecycle - 系统函数
 -(void)dealloc
 {
+    shareAndBuyView = nil;[shareAndBuyView release];
     backButton = nil;[backButton release];
+    [shareAndBuyViewButton release];
     [super dealloc];
 }
 
@@ -46,6 +50,7 @@
 
 - (void)viewDidUnload
 {
+    [self setShareAndBuyViewButton:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -55,6 +60,17 @@
 {
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+#pragma mark - GoShareAndBuyView - 进入微博分享,购买界面
+- (IBAction)goShareAndBuyView 
+{
+    if (!shareAndBuyView)
+    {
+        shareAndBuyView = [[ShareAndBuyView alloc] init];
+    }
+    self.shareAndBuyView.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+    [self presentModalViewController:self.shareAndBuyView animated:YES];
 }
 
 @end

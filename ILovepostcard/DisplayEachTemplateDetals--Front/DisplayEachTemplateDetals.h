@@ -21,7 +21,6 @@
 @interface DisplayEachTemplateDetals : UIViewController<ASIHTTPRequestDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,TouchVieweDelegate,MKMapViewDelegate>
 {
     ScaleAndRotateView *scaleAndRotateView;
-    DisplayEachTemplateDetals_Back *displayEachTemplateDetals_Back;
     
     UIImagePickerController *imagePickerCamera;//相机
     UIView *cameraOverlayView;//相机层
@@ -39,7 +38,9 @@
     BOOL hidden;
 }
 
-@property(nonatomic, retain) NSString *idName;
+//@property (retain, nonatomic) UIImageView *materialsImgView;
+@property (retain, nonatomic) DisplayEachTemplateDetals_Back *displayEachTemplateDetals_Back;
+@property (nonatomic, retain) NSString *idName;
 
 -(IBAction)goback;
 -(IBAction)openPhotoLibrary;//打开本地相册

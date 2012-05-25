@@ -14,7 +14,7 @@
 
 
 @implementation DisplayEachTemplateDetals
-@synthesize idName;
+@synthesize idName,displayEachTemplateDetals_Back;
 
 
 
@@ -190,18 +190,42 @@
         NSString *picUrl = [tmpDict objectForKey:@"src"];
         UIImage *tmpimg = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:picUrl]]];
 
-        UIImageView *picImgView = [[UIImageView alloc] initWithFrame:CGRectMake([xStr intValue] + 100, [yStr intValue] + 100, [wStr intValue] + 80, [hStr intValue] + 80)];
-        picImgView.image = tmpimg;
-        picImgView.userInteractionEnabled = YES;
-        [postcard_FrontView addSubview:picImgView];
-        [picImgView release];
+        UIImageView *materialsImgView = [[UIImageView alloc] initWithFrame:CGRectMake([xStr intValue] + 100, [yStr intValue] + 100, [wStr intValue] + 80, [hStr intValue] + 80)];
+        materialsImgView.image = tmpimg;
+        materialsImgView.userInteractionEnabled = YES;
+        [materialsImgView setTag:i];
+        NSLog(@"tag = %d",materialsImgView.tag);
         if (!scaleAndRotateView) 
         {
             scaleAndRotateView = [[ScaleAndRotateView alloc] init];
         }
-        [scaleAndRotateView addScaleAndRotateView:picImgView];
+        [scaleAndRotateView addScaleAndRotateView:materialsImgView];
+        [postcard_FrontView addSubview:materialsImgView];
+        [materialsImgView release];
     }
 }
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    UITouch *touch = [touches anyObject];
+    if ([touch tapCount] == 1) 
+    {
+        
+        for (int i = 0; i < 3; i++) 
+        {
+         UIImageView *tmpImgView = (UIImageView *)[self.view viewWithTag:i];
+            if (touch.view == tmpImgView)
+            {
+                if ([tmpImgView superview]) 
+                {
+                    [[tmpImgView superview] bringSubviewToFront:tmpImgView];
+                }
+            }
+        }
+    } 
+}
+
+
 
 #pragma mark - loadCamera - 打开相机
 -(void)loadCamera
@@ -324,7 +348,6 @@
     }
 }
 
-
 //切换闪光灯
 - (void)changeFlashlight:(UIButton *)button
 {
@@ -383,6 +406,7 @@
             break;
     }
 }
+
 #pragma mark - bottomViewButtonActions - 底部三个按钮的动作
 -(IBAction)openPhotoLibrary//打开本地相册
 {
@@ -480,12 +504,14 @@
 #pragma mark - goDisplayEachTemplateDetals - 去编辑明信片反面
 -(IBAction)goDisplayEachTemplateDetals
 {
-    DisplayEachTemplateDetals_Back *tmpDisplayEachTemplateDetals_Back = [[DisplayEachTemplateDetals_Back alloc] initWithNibName:@"DisplayEachTemplateDetals-Back" bundle:nil];
-    tmpDisplayEachTemplateDetals_Back.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-    displayEachTemplateDetals_Back = tmpDisplayEachTemplateDetals_Back;
-    [self presentModalViewController:displayEachTemplateDetals_Back 
+    if (!displayEachTemplateDetals_Back)
+    {
+      displayEachTemplateDetals_Back = [[DisplayEachTemplateDetals_Back alloc] initWithNibName:@"DisplayEachTemplateDetals-Back" bundle:nil];  
+    }
+    
+    self.displayEachTemplateDetals_Back.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    [self presentModalViewController:self.displayEachTemplateDetals_Back 
                             animated:YES];
-    [tmpDisplayEachTemplateDetals_Back release];
 }
 
 

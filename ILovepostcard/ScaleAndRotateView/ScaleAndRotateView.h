@@ -8,11 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ScaleAndRotateView : UIView<UIGestureRecognizerDelegate>
-{
-	CGPoint startTouchPosition; 
-}
+@interface ScaleAndRotateView : UIView <UIGestureRecognizerDelegate>
 
--(void)addScaleAndRotateView:(UIView *)view;
+
+-(void)addScaleAndRotateView:(UIView *)gestureView;
 
 @end

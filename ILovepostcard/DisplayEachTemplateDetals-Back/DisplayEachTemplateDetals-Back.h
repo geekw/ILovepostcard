@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ShareAndBuyView.h"
 
 @interface DisplayEachTemplateDetals_Back : UIViewController<UINavigationControllerDelegate>
 {
@@ -15,6 +16,15 @@
     IBOutlet UIView *postcard_BackView;//明信片反面
 }
 
+@property (retain, nonatomic) ShareAndBuyView *shareAndBuyView;
+@property (retain, nonatomic) IBOutlet UIButton *shareAndBuyViewButton;
+
+
+
 -(IBAction)goback;
+
+
+- (IBAction)goShareAndBuyView;
+
 
 @end

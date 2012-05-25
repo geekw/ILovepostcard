@@ -37,7 +37,6 @@
     readQRView.readerDelegate = nil;
     [readQRView release];
     readQRView = nil;
-    
 }
 
 -(void)dealloc
@@ -52,7 +51,8 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
+    if (self)
+    {
         // Custom initialization
     }
     return self;

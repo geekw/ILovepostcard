@@ -42,17 +42,7 @@
 #pragma mark - PlayAndStop - 播放或者停止音乐
 - (IBAction)playAndStop
 {
-//    if (PlayOrStop == YES) 
-//    {
-//        PlayOrStop = NO;
-        [audioPlayer play];
-//    }
-//    else
-//    {
-//        PlayOrStop = YES;
-//        [audioPlayer stop];
-//        [audioPlayer prepareToPlay];
-//    }
+    [audioPlayer play];
 }
 
 #pragma mark - OpenWebView - 打开网页播放器播放

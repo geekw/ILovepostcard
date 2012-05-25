@@ -29,6 +29,12 @@
 		B1348FE0156E29C30099B9D2 /* PlayVoiceView.m in Sources */ = {isa = PBXBuildFile; fileRef = B1348FDE156E29C30099B9D2 /* PlayVoiceView.m */; };
 		B1348FE1156E29C30099B9D2 /* PlayVoiceView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1348FDF156E29C30099B9D2 /* PlayVoiceView.xib */; };
 		B1348FE3156E2F770099B9D2 /* libzbar.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B1348FE2156E2F770099B9D2 /* libzbar.a */; };
+		B1361721156F716200746F90 /* ShareAndBuyView.m in Sources */ = {isa = PBXBuildFile; fileRef = B136171F156F716200746F90 /* ShareAndBuyView.m */; };
+		B1361722156F716200746F90 /* ShareAndBuyView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1361720156F716200746F90 /* ShareAndBuyView.xib */; };
+		B1361728156F752300746F90 /* shareAndBuyView1.png in Resources */ = {isa = PBXBuildFile; fileRef = B1361724156F752300746F90 /* shareAndBuyView1.png */; };
+		B1361729156F752300746F90 /* shareAndBuyView2.png in Resources */ = {isa = PBXBuildFile; fileRef = B1361725156F752300746F90 /* shareAndBuyView2.png */; };
+		B136172A156F752300746F90 /* shareAndBuyView3.png in Resources */ = {isa = PBXBuildFile; fileRef = B1361726156F752300746F90 /* shareAndBuyView3.png */; };
+		B136172B156F752300746F90 /* shareAndBuyView4.png in Resources */ = {isa = PBXBuildFile; fileRef = B1361727156F752300746F90 /* shareAndBuyView4.png */; };
 		B141042D1565EB49004DF34C /* changcamera.png in Resources */ = {isa = PBXBuildFile; fileRef = B14104291565EB49004DF34C /* changcamera.png */; };
 		B141042E1565EB49004DF34C /* flashauto.png in Resources */ = {isa = PBXBuildFile; fileRef = B141042A1565EB49004DF34C /* flashauto.png */; };
 		B141042F1565EB49004DF34C /* flashoff.png in Resources */ = {isa = PBXBuildFile; fileRef = B141042B1565EB49004DF34C /* flashoff.png */; };
@@ -149,6 +155,13 @@
 		B1348FDE156E29C30099B9D2 /* PlayVoiceView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PlayVoiceView.m; path = VoiceMessageView/PlayVoiceView/PlayVoiceView.m; sourceTree = "<group>"; };
 		B1348FDF156E29C30099B9D2 /* PlayVoiceView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PlayVoiceView.xib; path = VoiceMessageView/PlayVoiceView/PlayVoiceView.xib; sourceTree = "<group>"; };
 		B1348FE2156E2F770099B9D2 /* libzbar.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libzbar.a; path = ../../libzbar.a; sourceTree = "<group>"; };
+		B136171E156F716200746F90 /* ShareAndBuyView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShareAndBuyView.h; path = ILovepostcard/ShareAndBuyView/ShareAndBuyView.h; sourceTree = "<group>"; };
+		B136171F156F716200746F90 /* ShareAndBuyView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ShareAndBuyView.m; path = ILovepostcard/ShareAndBuyView/ShareAndBuyView.m; sourceTree = "<group>"; };
+		B1361720156F716200746F90 /* ShareAndBuyView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ShareAndBuyView.xib; path = ILovepostcard/ShareAndBuyView/ShareAndBuyView.xib; sourceTree = "<group>"; };
+		B1361724156F752300746F90 /* shareAndBuyView1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = shareAndBuyView1.png; path = Resources/pic/Pic_ShareAndBuyView/shareAndBuyView1.png; sourceTree = "<group>"; };
+		B1361725156F752300746F90 /* shareAndBuyView2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = shareAndBuyView2.png; path = Resources/pic/Pic_ShareAndBuyView/shareAndBuyView2.png; sourceTree = "<group>"; };
+		B1361726156F752300746F90 /* shareAndBuyView3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = shareAndBuyView3.png; path = Resources/pic/Pic_ShareAndBuyView/shareAndBuyView3.png; sourceTree = "<group>"; };
+		B1361727156F752300746F90 /* shareAndBuyView4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = shareAndBuyView4.png; path = Resources/pic/Pic_ShareAndBuyView/shareAndBuyView4.png; sourceTree = "<group>"; };
 		B14104291565EB49004DF34C /* changcamera.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = changcamera.png; path = Resources/pic/changcamera.png; sourceTree = SOURCE_ROOT; };
 		B141042A1565EB49004DF34C /* flashauto.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = flashauto.png; path = Resources/pic/flashauto.png; sourceTree = SOURCE_ROOT; };
 		B141042B1565EB49004DF34C /* flashoff.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = flashoff.png; path = Resources/pic/flashoff.png; sourceTree = SOURCE_ROOT; };
@@ -455,6 +468,29 @@
 			name = PlayVoiceView;
 			sourceTree = "<group>";
 		};
+		B136171C156F713900746F90 /* ShareAndBuyView */ = {
+			isa = PBXGroup;
+			children = (
+				B1361723156F74FD00746F90 /* Pic_ShareAndBuyView */,
+				B136171E156F716200746F90 /* ShareAndBuyView.h */,
+				B136171F156F716200746F90 /* ShareAndBuyView.m */,
+				B1361720156F716200746F90 /* ShareAndBuyView.xib */,
+			);
+			name = ShareAndBuyView;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		B1361723156F74FD00746F90 /* Pic_ShareAndBuyView */ = {
+			isa = PBXGroup;
+			children = (
+				B1361724156F752300746F90 /* shareAndBuyView1.png */,
+				B1361725156F752300746F90 /* shareAndBuyView2.png */,
+				B1361726156F752300746F90 /* shareAndBuyView3.png */,
+				B1361727156F752300746F90 /* shareAndBuyView4.png */,
+			);
+			name = Pic_ShareAndBuyView;
+			sourceTree = "<group>";
+		};
 		B15E86E31564E5CB00108271 /* TemplateDetails-Singleton */ = {
 			isa = PBXGroup;
 			children = (
@@ -511,6 +547,7 @@
 				B102FF13155B9FCD008DC42D /* GoToPostcardList */,
 				B18EAE70155E117400B909C6 /* DisplayEachTemplateDetals--Front */,
 				B18EAE71155E3C0E00B909C6 /* DisplayEachTemplateDetals--Back */,
+				B136171C156F713900746F90 /* ShareAndBuyView */,
 				B12E850D156CBD2000B0737B /* ActivityListView */,
 				B1330B54156E0A0E0013CC62 /* VoiceMessageView */,
 				B15EDDA1155A577A00B0C873 /* Supporting Files */,
@@ -796,6 +833,11 @@
 				B12E8518156CC28100B0737B /* activityList_1.png in Resources */,
 				B1330B59156E0AD80013CC62 /* VoiceMessageView.xib in Resources */,
 				B1348FE1156E29C30099B9D2 /* PlayVoiceView.xib in Resources */,
+				B1361722156F716200746F90 /* ShareAndBuyView.xib in Resources */,
+				B1361728156F752300746F90 /* shareAndBuyView1.png in Resources */,
+				B1361729156F752300746F90 /* shareAndBuyView2.png in Resources */,
+				B136172A156F752300746F90 /* shareAndBuyView3.png in Resources */,
+				B136172B156F752300746F90 /* shareAndBuyView4.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -844,6 +886,7 @@
 				B12E851C156CC46B00B0737B /* ILActivityList.m in Sources */,
 				B1330B58156E0AD80013CC62 /* VoiceMessageView.m in Sources */,
 				B1348FE0156E29C30099B9D2 /* PlayVoiceView.m in Sources */,
+				B1361721156F716200746F90 /* ShareAndBuyView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

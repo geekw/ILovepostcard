@@ -65,34 +65,38 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-
 #pragma mark - GoToPostcardScene --进入明信片模板界面
 -(IBAction)goToPostcardList
 {
-    GoToPostcardList *myGoToPostcardList = [[GoToPostcardList alloc] initWithNibName:@"GoToPostcardList" bundle:nil];
-    self.postcardList = myGoToPostcardList;
+    if (!postcardList)
+    {
+        postcardList = [[GoToPostcardList alloc] init];
+    }
+    self.postcardList.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
     [self presentModalViewController:self.postcardList animated:YES];
-    [myGoToPostcardList release];
 }
-
 
 #pragma mark - GoToActivity_list --进入全部活动界面
 
 - (IBAction)goToActivityList 
 {
-    ActivityListView *myActivityListView = [[ActivityListView alloc] initWithNibName:@"ActivityListView" bundle:nil];
-    self.activityListView = myActivityListView;
+    if (!activityListView)
+    {
+        activityListView = [[ActivityListView alloc] init];
+    }
+    self.activityListView.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
     [self presentModalViewController:self.activityListView animated:YES];
-    [myActivityListView release];
 }
 
 #pragma mark - GoToVoiceMessage --进入读取语音留言界面
 - (IBAction)goToVoiceMessageView 
 {
-    VoiceMessageView *myVoiceMessageView = [[VoiceMessageView alloc] initWithNibName:@"VoiceMessageView" bundle:nil];
-    self.voiceMessageView = myVoiceMessageView;
+    if (!voiceMessageView)
+    {
+        voiceMessageView = [[VoiceMessageView alloc] init];
+    }
+    self.voiceMessageView.modalTransitionStyle = UIModalTransitionStyleCoverVertical;;
     [self presentModalViewController:self.voiceMessageView animated:YES];
-    [myVoiceMessageView release];
 }
 
 @end

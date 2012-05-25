@@ -32,9 +32,9 @@
 }
 
 
--(void)addScaleAndRotateView:(UIView *)view
+-(void)addScaleAndRotateView:(UIView *)gestureView
 {
-    [self addGestureRecognizersToPiece:view];
+    [self addGestureRecognizersToPiece:gestureView];
 }
 
 -(void)dealloc
@@ -156,6 +156,7 @@
     
     return YES;
 }
+
 
 
 @end

@@ -15,7 +15,6 @@
 
 @interface PlayVoiceView : UIViewController<ASIHTTPRequestDelegate,AVAudioPlayerDelegate,UIWebViewDelegate>
 
-
 @property (retain, nonatomic) IBOutlet UIButton *openWebViewButton;
 
 @property (retain, nonatomic) IBOutlet UIButton *playAndStopButton;
@@ -23,6 +22,7 @@
 @property (retain, nonatomic) IBOutlet UIButton *goBackButton;
 
 @property (retain, nonatomic) AVAudioPlayer *audioPlayer;
+
 @property (retain, nonatomic) IBOutlet UIWebView *voiceWebView;
 
 - (IBAction)goBack;
