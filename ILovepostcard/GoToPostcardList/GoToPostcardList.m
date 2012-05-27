@@ -20,7 +20,7 @@
 int currentPage;
 int currentPage_Keyword;
 
-#pragma mark - goBack - 返回按钮
+#pragma mark - GoBack - 返回按钮
 -(IBAction)goBack
 {
     [self dismissModalViewControllerAnimated:YES];

@@ -19,12 +19,13 @@
 @property (retain, nonatomic) ShareAndBuyView *shareAndBuyView;
 @property (retain, nonatomic) IBOutlet UIButton *shareAndBuyViewButton;
 
+@property (retain, nonatomic) IBOutlet UIButton *voiceRecordButton;
 
 
--(IBAction)goback;
-
+- (IBAction)goback;
 
 - (IBAction)goShareAndBuyView;
 
+- (IBAction)goVoiceRecordView;
 
 @end

@@ -6,14 +6,18 @@
 //  Copyright (c) 2012年 开趣. All rights reserved.
 //
 
+#define ClientIdURL @"http://61.155.238.30/postcards/interface/client_id"
+
 #import "AppDelegate.h"
 #import "ViewController.h"
-
+#import "UIDevice+IdentifierAddition.h"
 
 @implementation AppDelegate
 
 @synthesize window = _window;
 @synthesize viewController = _viewController;
+
+#pragma mark - View lifecycle - 系统函数
 - (void)dealloc
 {
     [_window release];
@@ -28,8 +32,13 @@
     self.viewController = [[[ViewController alloc] initWithNibName:@"ViewController" bundle:nil] autorelease];
     self.window.rootViewController = self.viewController;
     [self.window makeKeyAndVisible];
-//    [ZBarReaderView class];
 
+    NSString *clienIdStr = [[NSUserDefaults standardUserDefaults] stringForKey:@"ClientId"];
+    if (clienIdStr == nil)
+    {
+        [self performSelector:@selector(getClientId)];//获取ClientId
+    }
+    
     return YES;
 }
 
@@ -85,5 +94,13 @@
 {
 }
 */
+
+#pragma mark - GetClientId - 返回按钮
+-(void)getClientId
+{
+    NSString *ClientStr = [[UIDevice currentDevice] uniqueDeviceIdentifier];
+;
+    
+}
 
 @end

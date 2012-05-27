@@ -12,6 +12,8 @@
 @synthesize listenVoiceMessageButton;
 @synthesize goToPostcardListButton;
 @synthesize goToActivityListButton;
+@synthesize goToPostOfficeButton;
+@synthesize getMoreButton;
 @synthesize postcardList, activityListView, voiceMessageView;
 
 
@@ -23,6 +25,8 @@
     [goToPostcardListButton release];
     [goToActivityListButton release];
     [listenVoiceMessageButton release];
+    [goToPostOfficeButton release];
+    [getMoreButton release];
     [super dealloc];
 }
 
@@ -46,7 +50,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    [goToPostcardListButton setBackgroundImage:[UIImage imageNamed:@"makepress.png"] forState:UIControlStateHighlighted];
+    [listenVoiceMessageButton setBackgroundImage:[UIImage imageNamed:@"listenpress.png"] forState:UIControlStateHighlighted];
+    [goToPostOfficeButton setBackgroundImage:[UIImage imageNamed:@"postofficepress.png"] forState:UIControlStateHighlighted];
+    [getMoreButton setBackgroundImage:[UIImage imageNamed:@"morepress.png"] forState:UIControlStateHighlighted];
+
 }
 
 - (void)viewDidUnload
@@ -54,6 +62,8 @@
     [self setGoToPostcardListButton:nil];
     [self setGoToActivityListButton:nil];
     [self setListenVoiceMessageButton:nil];
+    [self setGoToPostOfficeButton:nil];
+    [self setGetMoreButton:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -74,6 +84,14 @@
     }
     self.postcardList.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
     [self presentModalViewController:self.postcardList animated:YES];
+}
+
+- (IBAction)goToPostOfficeView
+{
+    
+}
+
+- (IBAction)getMore {
 }
 
 #pragma mark - GoToActivity_list --进入全部活动界面

@@ -193,8 +193,7 @@
         UIImageView *materialsImgView = [[UIImageView alloc] initWithFrame:CGRectMake([xStr intValue] + 100, [yStr intValue] + 100, [wStr intValue] + 80, [hStr intValue] + 80)];
         materialsImgView.image = tmpimg;
         materialsImgView.userInteractionEnabled = YES;
-        [materialsImgView setTag:i];
-        NSLog(@"tag = %d",materialsImgView.tag);
+        [materialsImgView setTag:i + 100];
         if (!scaleAndRotateView) 
         {
             scaleAndRotateView = [[ScaleAndRotateView alloc] init];
@@ -207,11 +206,12 @@
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
+    NSArray *materialsArray = [[TemplateDetails_Singleton sharedTemplateDetails_Singleton].templateDetailsDict objectForKey:@"materials"];
+    int y = [materialsArray count];
     UITouch *touch = [touches anyObject];
     if ([touch tapCount] == 1) 
     {
-        
-        for (int i = 0; i < 3; i++) 
+        for (int i = 100; i < 100 + y; i++) 
         {
          UIImageView *tmpImgView = (UIImageView *)[self.view viewWithTag:i];
             if (touch.view == tmpImgView)

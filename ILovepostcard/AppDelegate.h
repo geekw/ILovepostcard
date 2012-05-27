@@ -6,11 +6,14 @@
 //  Copyright (c) 2012年 开趣. All rights reserved.
 //
 
+
 #import <UIKit/UIKit.h>
+#import "ASIFormDataRequest.h"
+
 
 @class ViewController;
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate,ASIHTTPRequestDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 

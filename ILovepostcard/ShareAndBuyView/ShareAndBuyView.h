@@ -7,8 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PaymentView.h"
 
 @interface ShareAndBuyView : UIViewController
+
+@property (retain, nonatomic) PaymentView *paymentView;
 
 @property (retain, nonatomic) IBOutlet UIButton *goBackButton;
 

@@ -20,13 +20,26 @@
 @property (retain, nonatomic) VoiceMessageView *voiceMessageView;
 
 @property (retain, nonatomic) IBOutlet UIButton *listenVoiceMessageButton;
+
 @property (retain, nonatomic) IBOutlet UIButton *goToPostcardListButton;
+
 @property (retain, nonatomic) IBOutlet UIButton *goToActivityListButton;
+
+@property (retain, nonatomic) IBOutlet UIButton *goToPostOfficeButton;
+
+@property (retain, nonatomic) IBOutlet UIButton *getMoreButton;
+
+
 
 - (IBAction)goToVoiceMessageView;
 
 - (IBAction)goToActivityList;
 
 - (IBAction)goToPostcardList;
+
+- (IBAction)goToPostOfficeView;
+
+- (IBAction)getMore;
+
 
 @end

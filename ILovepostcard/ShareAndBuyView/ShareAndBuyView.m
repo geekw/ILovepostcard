@@ -20,6 +20,7 @@
 @synthesize shareButton;
 @synthesize buyButton;
 @synthesize flipView;
+@synthesize paymentView;
 
 
 #pragma mark - goBack - 返回按钮
@@ -62,7 +63,9 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-- (void)dealloc {
+- (void)dealloc 
+{
+    paymentView = nil;[paymentView release];
     [goBackButton release];
     [flipButton release];
     [shareButton release];
@@ -77,7 +80,7 @@
 	[UIView setAnimationDuration:0.75];
     
 	[UIView setAnimationTransition:([self.flipView superview] ?
-                                    UIViewAnimationTransitionCurlDown : UIViewAnimationTransitionCurlUp)
+                                    UIViewAnimationTransitionFlipFromLeft : UIViewAnimationTransitionFlipFromRight)
                            forView:self.flipView cache:YES];
 	if ([flipButton superview])
 	{
@@ -89,18 +92,20 @@
 		[self.flipButton_Back removeFromSuperview];
 		[self.flipView addSubview:flipButton];
 	}
-	
 	[UIView commitAnimations];
-
 }
 
 - (IBAction)shareToSIna
 {
     
 }
-
 - (IBAction)buyThisCard
 {
-    
+    if (!paymentView)
+    {
+        paymentView = [[PaymentView alloc] init];
+    }
+    self.paymentView.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+    [self presentModalViewController:paymentView animated:YES];
 }
 @end
