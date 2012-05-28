@@ -54,7 +54,6 @@
     [listenVoiceMessageButton setBackgroundImage:[UIImage imageNamed:@"listenpress.png"] forState:UIControlStateHighlighted];
     [goToPostOfficeButton setBackgroundImage:[UIImage imageNamed:@"postofficepress.png"] forState:UIControlStateHighlighted];
     [getMoreButton setBackgroundImage:[UIImage imageNamed:@"morepress.png"] forState:UIControlStateHighlighted];
-
 }
 
 - (void)viewDidUnload

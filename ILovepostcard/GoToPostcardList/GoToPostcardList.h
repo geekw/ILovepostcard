@@ -13,7 +13,7 @@
 #import "DisplayEachTemplateDetals.h"
 #import "ILPostcardList.h"
 
-@interface GoToPostcardList : UIViewController<ASIHTTPRequestDelegate,UIAlertViewDelegate,UINavigationControllerDelegate,UISearchBarDelegate>
+@interface GoToPostcardList : UIViewController<ASIHTTPRequestDelegate,UIAlertViewDelegate,UINavigationControllerDelegate,UISearchBarDelegate,UIScrollViewDelegate>
 {
     DisplayEachTemplateDetals *displayEachTemplateDetals;
     
@@ -22,7 +22,6 @@
     IBOutlet UIScrollView *templateScrollView_Keyword;
     IBOutlet UIButton *addMoreTemplateButton;//增加一页模板
     IBOutlet UIButton *addMoreTemplateButton_Keyword;//带关键字增加模板
-    IBOutlet UISearchBar *mySearchBar;//关键字搜索栏
 
     //BOOL addMoreTemplateFlag;//为YES,所有页数加载完毕
     
@@ -34,8 +33,10 @@
     CGFloat rotationAngle;//模板旋转的角度
 }
 
-@property(nonatomic, retain) NSString *keyword;//搜索关键字
+@property (nonatomic, retain) NSString *keyword;//搜索关键字
 @property (retain, nonatomic) IBOutlet UIView *bottomKeywordView;
+@property (retain, nonatomic) IBOutlet UISearchBar *mySearchBar;//关键字搜索栏
+@property (retain, nonatomic) IBOutlet UIScrollView *bottomKeywordScrollView;
 
 
 -(IBAction)goBack;
