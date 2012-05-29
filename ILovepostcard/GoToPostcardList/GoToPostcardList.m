@@ -26,7 +26,6 @@ int currentPage_Keyword;
 #pragma mark - GoBack - 返回按钮
 -(IBAction)goBack
 {
-    [backButton setImage:[UIImage imageNamed:@"titlebtnbackclick.png"] forState:UIControlStateHighlighted];
     [self dismissModalViewControllerAnimated:YES];
 }
 
@@ -66,15 +65,12 @@ int currentPage_Keyword;
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-
-#pragma mark - ViewDidLoad - 解析json数据
-- (void)viewDidLoad
+-(void)viewWillAppear:(BOOL)animated
 {
-    [super viewDidLoad];
     self.navigationController.navigationBarHidden = NO;
-
+    
     rotationAngle = 0;
-
+    
     currentPage = 1;
     
     addTemplatePageNumber = 0;
@@ -93,6 +89,24 @@ int currentPage_Keyword;
     templateScrollView_Keyword.hidden = YES;
     [addMoreTemplateButton_Keyword setImage:[UIImage imageNamed:@"addMoreTemplateButton.png"]
                                    forState:UIControlStateNormal];
+    
+    self.bottomKeywordScrollView.bounces = YES;
+    self.bottomKeywordScrollView.showsVerticalScrollIndicator   = NO;
+    self.bottomKeywordScrollView.showsHorizontalScrollIndicator = NO;
+    self.bottomKeywordScrollView.pagingEnabled = YES;
+    self.bottomKeywordScrollView.directionalLockEnabled = YES;
+    
+    [backButton setImage:[UIImage imageNamed:@"titlebtnbackclick.png"] forState:UIControlStateHighlighted];   
+    
+}
+
+
+
+#pragma mark - ViewDidLoad - 解析json数据
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
 }
 
 #pragma mark - NormalRequest - 正常请求模板列表
@@ -146,6 +160,7 @@ int currentPage_Keyword;
     }
     
     [self performSelector:@selector(displayEachTemplate:) withObject:numberInOnePage];//读取保存到单例的数组,并展示  
+    
     currentPage ++;//预先加一,方便下一次请求-------重要!
     if (currentPage > page_total)
     {
@@ -621,8 +636,8 @@ int currentPage_Keyword;
         {
             UIButton *templateButton = [UIButton buttonWithType:UIButtonTypeCustom];
             templateButton.tag = idName ;
-            int y = 20 + addTemplatePageNumber_Keyword * 391;
-            templateButton.frame = CGRectMake(12, y, 136, 90);
+            int y = 10 + addTemplatePageNumber_Keyword * 391;
+            templateButton.frame = CGRectMake(12, y, 135, 90);
             [templateButton setImage:[UIImage imageNamed:@"sendbk.png"]
                             forState:UIControlStateNormal];
             templateButton.transform = CGAffineTransformMakeRotation(rotationAngle);//(M_PI/2) ;        
@@ -631,7 +646,7 @@ int currentPage_Keyword;
                      forControlEvents:UIControlEventTouchUpInside];
             [templateScrollView_Keyword addSubview:templateButton];
             
-            UILabel *tmpLable = [[UILabel alloc] initWithFrame:CGRectMake(34, 100 +addTemplatePageNumber_Keyword * 391, 120, 20)];
+            UILabel *tmpLable = [[UILabel alloc] initWithFrame:CGRectMake(34, 104 +addTemplatePageNumber_Keyword * 391, 120, 20)];
             tmpLable.text = templateNameString; 
             tmpLable.backgroundColor = [UIColor clearColor];
             tmpLable.textColor = [UIColor blueColor];
@@ -644,7 +659,7 @@ int currentPage_Keyword;
             UIButton *templateButton = [UIButton buttonWithType:UIButtonTypeCustom];
             templateButton.tag = idName;
             int y = 10 + addTemplatePageNumber_Keyword * 391; 
-            templateButton.frame = CGRectMake(164, y,136, 90);
+            templateButton.frame = CGRectMake(164, y,135, 90);
             [templateButton setImage:[UIImage imageNamed:@"sendbk.png"]
                             forState:UIControlStateNormal];
             templateButton.transform = CGAffineTransformMakeRotation(rotationAngle) ;        
@@ -653,7 +668,7 @@ int currentPage_Keyword;
                      forControlEvents:UIControlEventTouchUpInside];
             [templateScrollView_Keyword addSubview:templateButton];
             
-            UILabel *tmpLable = [[UILabel alloc] initWithFrame:CGRectMake(178, 100 + addTemplatePageNumber_Keyword * 391, 120, 20)];
+            UILabel *tmpLable = [[UILabel alloc] initWithFrame:CGRectMake(178, 104 + addTemplatePageNumber_Keyword * 391, 120, 20)];
             tmpLable.text = templateNameString; 
             tmpLable.textColor = [UIColor blueColor];
             tmpLable.backgroundColor = [UIColor clearColor];
@@ -667,7 +682,7 @@ int currentPage_Keyword;
             UIButton *templateButton = [UIButton buttonWithType:UIButtonTypeCustom];
             templateButton.tag = idName;
             int y = 130 + addTemplatePageNumber_Keyword * 391; 
-            templateButton.frame = CGRectMake(20, y, 136, 90);
+            templateButton.frame = CGRectMake(20, y, 135, 90);
             templateButton.transform = CGAffineTransformMakeRotation(rotationAngle) ;        
             [templateButton setImage:[UIImage imageNamed:@"sendbk.png"]
                             forState:UIControlStateNormal];
@@ -676,7 +691,7 @@ int currentPage_Keyword;
                      forControlEvents:UIControlEventTouchUpInside];
             [templateScrollView_Keyword addSubview:templateButton];
             
-            UILabel *tmpLable = [[UILabel alloc] initWithFrame:CGRectMake(34, 220 + addTemplatePageNumber_Keyword * 391, 120, 20)];
+            UILabel *tmpLable = [[UILabel alloc] initWithFrame:CGRectMake(34, 224 + addTemplatePageNumber_Keyword * 391, 120, 20)];
             tmpLable.text = templateNameString; 
             tmpLable.textColor = [UIColor blueColor];
             tmpLable.backgroundColor = [UIColor clearColor];
@@ -689,7 +704,7 @@ int currentPage_Keyword;
             UIButton *templateButton = [UIButton buttonWithType:UIButtonTypeCustom];
             templateButton.tag = idName;
             int y = 130 + addTemplatePageNumber_Keyword * 391; 
-            templateButton.frame = CGRectMake(164, y, 136, 90);
+            templateButton.frame = CGRectMake(164, y, 135, 90);
             [templateButton setImage:[UIImage imageNamed:@"sendbk.png"]
                             forState:UIControlStateNormal];
             templateButton.transform = CGAffineTransformMakeRotation(rotationAngle) ;        
@@ -698,7 +713,7 @@ int currentPage_Keyword;
                      forControlEvents:UIControlEventTouchUpInside];
             [templateScrollView_Keyword addSubview:templateButton];
             
-            UILabel *tmpLable = [[UILabel alloc] initWithFrame:CGRectMake(178, 220 + addTemplatePageNumber_Keyword * 391, 120, 20)];
+            UILabel *tmpLable = [[UILabel alloc] initWithFrame:CGRectMake(178, 224 + addTemplatePageNumber_Keyword * 391, 120, 20)];
             tmpLable.text = templateNameString; 
             tmpLable.textColor = [UIColor blueColor];
             tmpLable.backgroundColor = [UIColor clearColor];
@@ -710,7 +725,7 @@ int currentPage_Keyword;
             UIButton *templateButton = [UIButton buttonWithType:UIButtonTypeCustom];
             templateButton.tag = idName;
             int y = 250 + addTemplatePageNumber_Keyword * 391; 
-            templateButton.frame = CGRectMake(20, y, 136, 90);
+            templateButton.frame = CGRectMake(20, y, 135, 90);
             templateButton.transform = CGAffineTransformMakeRotation(rotationAngle) ;        
             [templateButton setImage:[UIImage imageNamed:@"sendbk.png"]
                             forState:UIControlStateNormal];
@@ -719,7 +734,7 @@ int currentPage_Keyword;
                      forControlEvents:UIControlEventTouchUpInside];
             [templateScrollView_Keyword addSubview:templateButton];
             
-            UILabel *tmpLable = [[UILabel alloc] initWithFrame:CGRectMake(34, 340 + addTemplatePageNumber_Keyword * 391, 120, 20)];
+            UILabel *tmpLable = [[UILabel alloc] initWithFrame:CGRectMake(34, 344 + addTemplatePageNumber_Keyword * 391, 120, 20)];
             tmpLable.text = templateNameString; 
             tmpLable.textColor = [UIColor blueColor];
             tmpLable.backgroundColor = [UIColor clearColor];
@@ -732,7 +747,7 @@ int currentPage_Keyword;
             UIButton *templateButton = [UIButton buttonWithType:UIButtonTypeCustom];
             templateButton.tag = idName;
             int y = 250 + addTemplatePageNumber_Keyword * 391; 
-            templateButton.frame = CGRectMake(164, y, 136, 90);
+            templateButton.frame = CGRectMake(164, y, 135, 90);
             [templateButton setImage:[UIImage imageNamed:@"sendbk.png"]
                             forState:UIControlStateNormal];
             templateButton.transform = CGAffineTransformMakeRotation(rotationAngle) ;        
@@ -741,7 +756,7 @@ int currentPage_Keyword;
                      forControlEvents:UIControlEventTouchUpInside];
             [templateScrollView_Keyword addSubview:templateButton];
             
-            UILabel *tmpLable = [[UILabel alloc] initWithFrame:CGRectMake(178, 340 + addTemplatePageNumber_Keyword * 391, 120, 20)];
+            UILabel *tmpLable = [[UILabel alloc] initWithFrame:CGRectMake(178, 344 + addTemplatePageNumber_Keyword * 391, 120, 20)];
             tmpLable.text = templateNameString; 
             tmpLable.textColor = [UIColor blueColor];
             tmpLable.backgroundColor =[UIColor clearColor];
@@ -766,33 +781,31 @@ int currentPage_Keyword;
 -(void)getHotWordsFinished_Keyword:(ASIHTTPRequest *)request
 {
     NSArray *hotWords = [request responseString].JSONValue;
-    NSLog(@"hotWords = %@",hotWords);
     
-    NSLog(@"arrayNumber = %d",[hotWords count]);
-    
-
     if (4 < [hotWords count] <= 8)
     {
-        [self.bottomKeywordScrollView setContentSize:CGSizeMake(320, 80)]; 
+        [self.bottomKeywordScrollView setContentSize:CGSizeMake(320, 25)]; 
     }
     if (8 < [hotWords count] <= 12)
     {
-        [self.bottomKeywordScrollView setContentSize:CGSizeMake(320*2, 80)];
+        [self.bottomKeywordScrollView setContentSize:CGSizeMake(320*2, 25)];
     }
     if (12 < [hotWords count] <= 16)
     {
-        [self.bottomKeywordScrollView setContentSize:CGSizeMake(320*3, 80)];
+        [self.bottomKeywordScrollView setContentSize:CGSizeMake(320*3, 25)];
     }
 
     for (int i = 0; i < [hotWords count]; i++)
     {
         NSDictionary *tmpDict = [hotWords objectAtIndex:i];
         NSString *tmpStr = [tmpDict objectForKey:@"tags"];
-        UIButton *tmpButton = [[UIButton alloc] initWithFrame:CGRectMake(4 + i * 80, 21, 72, 37)];
-        [tmpButton setBackgroundImage:[UIImage imageNamed:@"tagclick.png.png"] forState:UIControlStateNormal];
+        UIButton *tmpButton = [[UIButton alloc] initWithFrame:CGRectMake(4 + i * 80, 0, 73, 25)];
+        [tmpButton setBackgroundImage:[UIImage imageNamed:@"tag.png"] forState:UIControlStateNormal];
+        [tmpButton setBackgroundImage:[UIImage imageNamed:@"tagclick.png"] forState:UIControlStateHighlighted];
+        tmpButton.tag = 500 + i;
         [tmpButton setTitle:tmpStr 
                        forState:UIControlStateNormal];
-        [tmpButton addTarget:self action:@selector(searchOnlineFromBottomView_Keyword) forControlEvents:UIControlEventTouchUpInside];
+        [tmpButton addTarget:self action:@selector(searchOnlineFromBottomView_Keyword:) forControlEvents:UIControlEventTouchUpInside];
         [self.bottomKeywordScrollView addSubview:tmpButton];
         [tmpButton release];
     }
@@ -800,9 +813,15 @@ int currentPage_Keyword;
 }
 
 
--(void)searchOnlineFromBottomView_Keyword
-{    
+-(void)searchOnlineFromBottomView_Keyword:(UIButton *)sender
+{ 
+    UILabel *tmpLable =[[UILabel alloc] init];
+    tmpLable.text = sender.titleLabel.text;
+    
+    NSLog(@"hotWordStr = %@",tmpLable.text);
+    
     currentPage_Keyword = 1;
+    
     addTemplatePageNumber_Keyword = 0;
     
     [templateScrollView_Keyword removeFromSuperview];
@@ -814,9 +833,10 @@ int currentPage_Keyword;
                             forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:addMoreTemplateButton_Keyword];
 
+    NSString *cidStr = [[NSUserDefaults standardUserDefaults] valueForKey:@"ClientId"];
     
-    NSString *keywordString = [self urlEncodedString:self.keyword];//中文字符转换成url可用的字符串
-    NSString *requsetString = [Template_Keyword stringByAppendingFormat:@"?t=%@&p=%d&s=%d",keywordString,currentPage_Keyword,NumberInOnePage];
+    NSString *keywordString = [self urlEncodedString:tmpLable.text];//中文字符转换成url可用的字符串
+    NSString *requsetString = [Template_Keyword stringByAppendingFormat:@"?t=%@&p=%d&s=%d&cid=4",keywordString,currentPage_Keyword,NumberInOnePage];
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:requsetString]];
     request.delegate = self;
     [request setDidFinishSelector:@selector(getTemplateFinished_Keyword:)];//带关键字-取json数据

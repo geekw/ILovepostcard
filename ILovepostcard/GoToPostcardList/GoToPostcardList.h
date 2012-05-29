@@ -54,4 +54,6 @@
 
 -(int)getRandomWithRange:(int)rangeValue;//生成随机数
 
+-(void)searchOnlineFromBottomView_Keyword:(UIButton *)sender;
+
 @end

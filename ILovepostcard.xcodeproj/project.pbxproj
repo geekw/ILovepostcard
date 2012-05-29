@@ -54,7 +54,6 @@
 		B13E9990157206DB00D03344 /* UIDevice+IdentifierAddition.m in Sources */ = {isa = PBXBuildFile; fileRef = B13E998E157206DB00D03344 /* UIDevice+IdentifierAddition.m */; };
 		B13E99A315721EBF00D03344 /* bannerbk.png in Resources */ = {isa = PBXBuildFile; fileRef = B13E999515721EBE00D03344 /* bannerbk.png */; };
 		B13E99A415721EBF00D03344 /* bannerlight.png in Resources */ = {isa = PBXBuildFile; fileRef = B13E999615721EBE00D03344 /* bannerlight.png */; };
-		B13E99A515721EBF00D03344 /* bk.png in Resources */ = {isa = PBXBuildFile; fileRef = B13E999715721EBE00D03344 /* bk.png */; };
 		B13E99A615721EBF00D03344 /* listen.png in Resources */ = {isa = PBXBuildFile; fileRef = B13E999815721EBE00D03344 /* listen.png */; };
 		B13E99A715721EBF00D03344 /* listenpress.png in Resources */ = {isa = PBXBuildFile; fileRef = B13E999915721EBE00D03344 /* listenpress.png */; };
 		B13E99A815721EBF00D03344 /* make.png in Resources */ = {isa = PBXBuildFile; fileRef = B13E999A15721EBE00D03344 /* make.png */; };
@@ -124,6 +123,7 @@
 		B1D1D3D3156A52060015A054 /* postBack4.png in Resources */ = {isa = PBXBuildFile; fileRef = B1D1D3CE156A52060015A054 /* postBack4.png */; };
 		B1D1D3D4156A52060015A054 /* postBack5.png in Resources */ = {isa = PBXBuildFile; fileRef = B1D1D3CF156A52060015A054 /* postBack5.png */; };
 		B1D1D3D5156A52060015A054 /* postBack6.png in Resources */ = {isa = PBXBuildFile; fileRef = B1D1D3D0156A52060015A054 /* postBack6.png */; };
+		B1D8438915747D0C00EAEE7D /* bk.png in Resources */ = {isa = PBXBuildFile; fileRef = B1D8438815747D0C00EAEE7D /* bk.png */; };
 		B1FF8133156C845600DA895E /* MapController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1FF8132156C845600DA895E /* MapController.m */; };
 		B1FF8136156C88B200DA895E /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1FF8134156C88A000DA895E /* MapKit.framework */; };
 /* End PBXBuildFile section */
@@ -206,7 +206,6 @@
 		B13E998E157206DB00D03344 /* UIDevice+IdentifierAddition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIDevice+IdentifierAddition.m"; sourceTree = "<group>"; };
 		B13E999515721EBE00D03344 /* bannerbk.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bannerbk.png; sourceTree = "<group>"; };
 		B13E999615721EBE00D03344 /* bannerlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bannerlight.png; sourceTree = "<group>"; };
-		B13E999715721EBE00D03344 /* bk.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bk.png; sourceTree = "<group>"; };
 		B13E999815721EBE00D03344 /* listen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = listen.png; sourceTree = "<group>"; };
 		B13E999915721EBE00D03344 /* listenpress.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = listenpress.png; sourceTree = "<group>"; };
 		B13E999A15721EBE00D03344 /* make.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = make.png; sourceTree = "<group>"; };
@@ -314,6 +313,7 @@
 		B1D1D3CE156A52060015A054 /* postBack4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = postBack4.png; path = Resources/pic/Pic_PoatBack/postBack4.png; sourceTree = "<group>"; };
 		B1D1D3CF156A52060015A054 /* postBack5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = postBack5.png; path = Resources/pic/Pic_PoatBack/postBack5.png; sourceTree = "<group>"; };
 		B1D1D3D0156A52060015A054 /* postBack6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = postBack6.png; path = Resources/pic/Pic_PoatBack/postBack6.png; sourceTree = "<group>"; };
+		B1D8438815747D0C00EAEE7D /* bk.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bk.png; sourceTree = "<group>"; };
 		B1FF8131156C845600DA895E /* MapController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MapController.h; path = ILovepostcard/MapController/MapController.h; sourceTree = "<group>"; };
 		B1FF8132156C845600DA895E /* MapController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MapController.m; path = ILovepostcard/MapController/MapController.m; sourceTree = "<group>"; };
 		B1FF8134156C88A000DA895E /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -774,9 +774,9 @@
 		B1D1D3B21569E8410015A054 /* Pic_ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				B1D8438815747D0C00EAEE7D /* bk.png */,
 				B13E999515721EBE00D03344 /* bannerbk.png */,
 				B13E999615721EBE00D03344 /* bannerlight.png */,
-				B13E999715721EBE00D03344 /* bk.png */,
 				B13E999815721EBE00D03344 /* listen.png */,
 				B13E999915721EBE00D03344 /* listenpress.png */,
 				B13E999A15721EBE00D03344 /* make.png */,
@@ -933,7 +933,6 @@
 				B13E99811571D7D900D03344 /* postBack7.png in Resources */,
 				B13E99A315721EBF00D03344 /* bannerbk.png in Resources */,
 				B13E99A415721EBF00D03344 /* bannerlight.png in Resources */,
-				B13E99A515721EBF00D03344 /* bk.png in Resources */,
 				B13E99A615721EBF00D03344 /* listen.png in Resources */,
 				B13E99A715721EBF00D03344 /* listenpress.png in Resources */,
 				B13E99A815721EBF00D03344 /* make.png in Resources */,
@@ -953,6 +952,7 @@
 				B13B3B5E15737092009EEB5A /* titlebk.png in Resources */,
 				B13B3B5F15737092009EEB5A /* titlebtnback.png in Resources */,
 				B13B3B6015737092009EEB5A /* titlebtnbackclick.png in Resources */,
+				B1D8438915747D0C00EAEE7D /* bk.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
