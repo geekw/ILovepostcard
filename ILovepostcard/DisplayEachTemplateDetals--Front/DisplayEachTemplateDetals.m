@@ -14,6 +14,8 @@
 
 
 @implementation DisplayEachTemplateDetals
+@synthesize shrinkButton;
+@synthesize arrowButton;
 @synthesize bottomScrollView;
 @synthesize bkImgView;
 @synthesize idName,displayEachTemplateDetals_Back;
@@ -21,6 +23,7 @@
 
 bool hideOrShowMaterial;
 bool hideOrShowMap;
+bool hideOrShowBottonView;
 
 
 #pragma mark - goBack - 返回按钮
@@ -46,6 +49,8 @@ bool hideOrShowMap;
     goDisplayEachTemplateDetals_BackButton = nil;[goDisplayEachTemplateDetals_BackButton release];
     [bottomScrollView release];
     [bkImgView release];
+    [shrinkButton release];
+    [arrowButton release];
     [super dealloc];
 }
 
@@ -66,6 +71,8 @@ bool hideOrShowMap;
 {
     [self setBottomScrollView:nil];
     [self setBkImgView:nil];
+    [self setShrinkButton:nil];
+    [self setArrowButton:nil];
     [super viewDidUnload];
 }
 
@@ -329,53 +336,51 @@ bool hideOrShowMap;
             [tmpIndicatorButton addTarget:self action:@selector(hideOrShowNormalMaterial:) forControlEvents:UIControlEventTouchUpInside];
             [self.bottomScrollView addSubview:tmpIndicatorButton];
         }
-
-//        else if ([typeStr intValue] == 1)//是地图素材
-//        {
-            CGRect rect1 = CGRectMake(139, 168, 100, 100);
-            CGRect rect2 = CGRectMake(10, 10, 80, 80);
-            
-
-            UIView *tmpView = [[UIView alloc] initWithFrame:rect1];
-            [tmpView setTag:200];
-
-            UIImageView *tmpImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
-            tmpImgView.backgroundColor = [UIColor grayColor];
-            [tmpView addSubview:tmpImgView];
-            tmpView.alpha = 1;
-            [tmpImgView release];
-            
-            UIImageView *tmpImgView2 = [[UIImageView alloc] initWithFrame:rect2];
-            tmpImgView2.image = self.mapImgView.image;
-            tmpImgView2.tag = 203;
-            [tmpView addSubview:tmpImgView2];
-            [tmpImgView2 release];
-            
-            if (!scaleAndRotateView) 
-            {
-                scaleAndRotateView = [[ScaleAndRotateView alloc] init];
-            }
-            [scaleAndRotateView addScaleAndRotateView:tmpView];
-            [postcard_FrontView addSubview:tmpView];
-            [tmpView release];
-            
-            UIButton *tmpButton = [UIButton buttonWithType:UIButtonTypeCustom];
-            tmpButton.frame = CGRectMake(10 + 80 * (i + areasArray.count + 1), 3, 59, 59);
-            tmpButton.tag = 201;
-            tmpButton.backgroundColor = [UIColor grayColor];
-            tmpButton.alpha = 0.7;
-            [tmpButton setImage:self.mapImgView.image forState:UIControlStateNormal];
-            [self.bottomScrollView addSubview:tmpButton];
-
-            
-            UIButton *tmpButton1 = [UIButton buttonWithType:UIButtonTypeCustom];
-            tmpButton1.frame = CGRectMake(50 + 80 * (i + areasArray.count + 1), 0, 30, 30);
-            tmpButton1.tag = 202;
-            [tmpButton1 setImage:[UIImage imageNamed:@"slidebtnshow.png"] forState:UIControlStateNormal];
-            [tmpButton1 addTarget:self action:@selector(hideOrShowMap:) forControlEvents:UIControlEventTouchUpInside];
-            [self.bottomScrollView addSubview:tmpButton1];
-//        }
     }
+    
+    CGRect rect1 = CGRectMake(139, 168, 100, 100);
+    CGRect rect2 = CGRectMake(10, 10, 80, 80);
+    
+    UIView *tmpView = [[UIView alloc] initWithFrame:rect1];
+    [tmpView setTag:200];
+    UIImageView *tmpImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
+    tmpImgView.backgroundColor = [UIColor grayColor];
+    [tmpView addSubview:tmpImgView];
+    tmpView.alpha = 1;
+    [tmpImgView release];
+    
+    UIImageView *tmpImgView2 = [[UIImageView alloc] initWithFrame:rect2];
+    tmpImgView2.image = self.mapImgView.image;
+    tmpImgView2.tag = 203;
+    [tmpView addSubview:tmpImgView2];
+    [tmpImgView2 release];
+    
+    if (!scaleAndRotateView) 
+    {
+        scaleAndRotateView = [[ScaleAndRotateView alloc] init];
+    }
+    [scaleAndRotateView addScaleAndRotateView:tmpView];
+    [postcard_FrontView addSubview:tmpView];
+    [tmpView release];
+    
+    UIButton *tmpButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    tmpButton.frame = CGRectMake(10 + 80 * (materialsArray.count + areasArray.count), 3, 59, 59);
+    tmpButton.tag = 201;
+    tmpButton.backgroundColor = [UIColor grayColor];
+    tmpButton.alpha = 0.7;
+    [tmpButton setImage:self.mapImgView.image forState:UIControlStateNormal];
+    [self.bottomScrollView addSubview:tmpButton];
+    
+    
+    UIButton *tmpButton1 = [UIButton buttonWithType:UIButtonTypeCustom];
+    tmpButton1.frame = CGRectMake(50 + 80 * (materialsArray.count + areasArray.count), 0, 30, 30);
+    tmpButton1.tag = 202;
+    [tmpButton1 setImage:[UIImage imageNamed:@"slidebtnshow.png"] 
+                forState:UIControlStateNormal];
+    [tmpButton1 addTarget:self 
+                   action:@selector(hideOrShowMap:) 
+         forControlEvents:UIControlEventTouchUpInside];
+    [self.bottomScrollView addSubview:tmpButton1];
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
@@ -439,6 +444,7 @@ bool hideOrShowMap;
         [tmpButton1 setImage:[UIImage imageNamed:@"slidebtnshow.png"] forState:UIControlStateNormal];
     }
 }
+
 
 -(void)hideOrShowMap:(UIButton *)sender
 {
@@ -793,6 +799,32 @@ bool hideOrShowMap;
         [myMapView release];
     }
 }
+
+#pragma mark - ShrinkBottom - 底部收缩
+- (IBAction)shrinkBottom 
+{
+    if (hideOrShowBottonView == NO)
+    {
+        hideOrShowBottonView = YES;
+        [UIView animateWithDuration:0.5
+                         animations:^{
+                             toolBar_FrontView.frame = CGRectMake(0, 325, 320, 135);
+                             toolBar_FrontView.frame = CGRectMake(0, 420, 320, 135);
+                         }];
+        [self.arrowButton setImage:[UIImage imageNamed:@"slidearrow.png"] forState:UIControlStateNormal];
+    }
+    else 
+    {
+        hideOrShowBottonView = NO;
+        [UIView animateWithDuration:0.5
+                         animations:^{
+                             toolBar_FrontView.frame = CGRectMake(0, 420, 320, 135);
+                             toolBar_FrontView.frame = CGRectMake(0, 325, 320, 135);
+                         }];
+        [self.arrowButton setImage:[UIImage imageNamed:@"slidearrowdown.png"] forState:UIControlStateNormal];
+    }
+}
+
 
 #pragma mark - goDisplayEachTemplateDetals - 去编辑明信片反面
 -(IBAction)goDisplayEachTemplateDetals

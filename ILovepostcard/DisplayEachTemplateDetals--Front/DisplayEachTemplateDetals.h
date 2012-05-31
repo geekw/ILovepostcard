@@ -55,14 +55,24 @@
 
 @property (retain, nonatomic)  UIImageView *mapImgView;
 
+@property (retain, nonatomic) IBOutlet UIButton *shrinkButton;
+
+@property (retain, nonatomic) IBOutlet UIButton *arrowButton;
+
 
 
 -(IBAction)goback;
+
 -(IBAction)openPhotoLibrary;//打开本地相册
--(IBAction)showOrHideMap;//隐藏或者显示地图
+
 -(IBAction)goDisplayEachTemplateDetals;//去编辑明信片反面
 
 -(void)getGoogleStaticMap:(CGFloat)latitude Longitude:(CGFloat)longitude;
 
 -(void)hideOrShowNormalMaterial:(UIButton *)sender;
+
+- (IBAction)shrinkBottom;
+
+
+
 @end
