@@ -90,7 +90,9 @@
     
 }
 
-- (IBAction)getMore {
+- (IBAction)getMore 
+{
+    
 }
 
 #pragma mark - GoToActivity_list --进入全部活动界面
