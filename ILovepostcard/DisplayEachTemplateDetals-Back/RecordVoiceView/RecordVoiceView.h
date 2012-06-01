@@ -7,8 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <AVFoundation/AVFoundation.h>
+#import <MediaPlayer/MediaPlayer.h>
 
-@interface RecordVoiceView : UIViewController
+
+@interface RecordVoiceView : UIViewController<AVAudioPlayerDelegate, AVAudioRecorderDelegate,AVAudioSessionDelegate>
+{
+    NSTimer *levelTimer;
+}
 
 
 @property (retain, nonatomic) IBOutlet UIButton *goBackButton;
@@ -19,6 +25,11 @@
 
 @property (retain, nonatomic) IBOutlet UIButton *endVoiceRecordButton;
 
+@property (retain, nonatomic) AVAudioPlayer *audioPlayer;
+
+@property (retain, nonatomic) AVAudioRecorder *audioRecorder;
+
+@property (retain, nonatomic) AVAudioSession *audioSession;
 
 
 - (IBAction)goBack;

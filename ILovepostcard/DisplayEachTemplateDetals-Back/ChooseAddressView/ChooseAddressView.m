@@ -42,7 +42,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self performSelector:@selector(getCustomFont)];
+    [self performSelector:@selector(getCustomFont)];//寻找字体
     [self.adressTextView setFont:[UIFont fontWithName:@"FZJLJW--GB1-0" size:25]];
 
 }

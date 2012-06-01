@@ -295,7 +295,7 @@ bool hideOrShowBottonView;
         NSDictionary *tmpDict = [materialsArray objectAtIndex:i];
         NSString *typeStr = [tmpDict objectForKey:@"type"];
         
-        if ([typeStr intValue] == 0)//是一般素材
+        if ([typeStr intValue] == 2)//是一般素材
         {
             //1.加载素材到界面上
             NSString *degreeStr = [tmpDict objectForKey:@"degree"];

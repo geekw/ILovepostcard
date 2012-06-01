@@ -13,6 +13,8 @@
 		B102FF71155BB327008DC42D /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B102FF70155BB327008DC42D /* libz.dylib */; };
 		B102FF73155BB33A008DC42D /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B102FF72155BB33A008DC42D /* libxml2.dylib */; };
 		B104ABCB1578730F00F12B57 /* jingleiti.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B104ABCA1578730F00F12B57 /* jingleiti.ttf */; };
+		B104ABDD1578989400F12B57 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B104ABD8157894DB00F12B57 /* AudioToolbox.framework */; };
+		B104ABDE1578989D00F12B57 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B104ABDB157894EF00F12B57 /* MediaPlayer.framework */; };
 		B10DA9671563A3D000058685 /* noMoreTemplateButton.png in Resources */ = {isa = PBXBuildFile; fileRef = B10DA9661563A3D000058685 /* noMoreTemplateButton.png */; };
 		B1106F5A156119080035CFAA /* ILPostcardList.m in Sources */ = {isa = PBXBuildFile; fileRef = B1106F59156119080035CFAA /* ILPostcardList.m */; };
 		B111B82F156631010041127F /* TouchView.m in Sources */ = {isa = PBXBuildFile; fileRef = B111B82E156631010041127F /* TouchView.m */; };
@@ -155,6 +157,8 @@
 		B102FF70155BB327008DC42D /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		B102FF72155BB33A008DC42D /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		B104ABCA1578730F00F12B57 /* jingleiti.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = jingleiti.ttf; path = "ILovepostcard/DisplayEachTemplateDetals-Back/ChooseAddressView/FontLib/jingleiti.ttf"; sourceTree = "<group>"; };
+		B104ABD8157894DB00F12B57 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		B104ABDB157894EF00F12B57 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		B10DA9661563A3D000058685 /* noMoreTemplateButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = noMoreTemplateButton.png; path = Resources/pic/noMoreTemplateButton.png; sourceTree = SOURCE_ROOT; };
 		B1106F58156119080035CFAA /* ILPostcardList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ILPostcardList.h; path = ILovepostcard/ILPostcardList/ILPostcardList.h; sourceTree = SOURCE_ROOT; };
 		B1106F59156119080035CFAA /* ILPostcardList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ILPostcardList.m; path = ILovepostcard/ILPostcardList/ILPostcardList.m; sourceTree = SOURCE_ROOT; };
@@ -366,6 +370,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B104ABDE1578989D00F12B57 /* MediaPlayer.framework in Frameworks */,
+				B104ABDD1578989400F12B57 /* AudioToolbox.framework in Frameworks */,
 				B1348FE3156E2F770099B9D2 /* libzbar.a in Frameworks */,
 				B1348FDB156E1FF90099B9D2 /* QuartzCore.framework in Frameworks */,
 				B1348FD7156E1F4D0099B9D2 /* CoreMedia.framework in Frameworks */,
@@ -661,6 +667,8 @@
 		B15EDD99155A577A00B0C873 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B104ABDB157894EF00F12B57 /* MediaPlayer.framework */,
+				B104ABD8157894DB00F12B57 /* AudioToolbox.framework */,
 				B1348FDA156E1FF90099B9D2 /* QuartzCore.framework */,
 				B1348FD6156E1F4D0099B9D2 /* CoreMedia.framework */,
 				B1348FD3156E1F120099B9D2 /* libiconv.dylib */,
