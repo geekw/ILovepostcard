@@ -12,6 +12,7 @@
 		B102FF6F155BB314008DC42D /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B102FF6E155BB314008DC42D /* MobileCoreServices.framework */; };
 		B102FF71155BB327008DC42D /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B102FF70155BB327008DC42D /* libz.dylib */; };
 		B102FF73155BB33A008DC42D /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B102FF72155BB33A008DC42D /* libxml2.dylib */; };
+		B104ABCB1578730F00F12B57 /* jingleiti.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B104ABCA1578730F00F12B57 /* jingleiti.ttf */; };
 		B10DA9671563A3D000058685 /* noMoreTemplateButton.png in Resources */ = {isa = PBXBuildFile; fileRef = B10DA9661563A3D000058685 /* noMoreTemplateButton.png */; };
 		B1106F5A156119080035CFAA /* ILPostcardList.m in Sources */ = {isa = PBXBuildFile; fileRef = B1106F59156119080035CFAA /* ILPostcardList.m */; };
 		B111B82F156631010041127F /* TouchView.m in Sources */ = {isa = PBXBuildFile; fileRef = B111B82E156631010041127F /* TouchView.m */; };
@@ -91,6 +92,10 @@
 		B18A86981575CF42008CA3E8 /* slidecon.png in Resources */ = {isa = PBXBuildFile; fileRef = B18A868B1575CF42008CA3E8 /* slidecon.png */; };
 		B18A86991575CF42008CA3E8 /* titlebtnok.png in Resources */ = {isa = PBXBuildFile; fileRef = B18A868C1575CF42008CA3E8 /* titlebtnok.png */; };
 		B18A869A1575CF42008CA3E8 /* titlebtnokclick.png in Resources */ = {isa = PBXBuildFile; fileRef = B18A868D1575CF42008CA3E8 /* titlebtnokclick.png */; };
+		B19830B1157796D5006C1EFF /* ChooseAddressView.m in Sources */ = {isa = PBXBuildFile; fileRef = B19830AF157796D5006C1EFF /* ChooseAddressView.m */; };
+		B19830B2157796D5006C1EFF /* ChooseAddressView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B19830B0157796D5006C1EFF /* ChooseAddressView.xib */; };
+		B19830B6157796EE006C1EFF /* RecordVoiceView.m in Sources */ = {isa = PBXBuildFile; fileRef = B19830B4157796EE006C1EFF /* RecordVoiceView.m */; };
+		B19830B7157796EE006C1EFF /* RecordVoiceView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B19830B5157796EE006C1EFF /* RecordVoiceView.xib */; };
 		B19D65BD1560A0840028A9F4 /* DisplayEachTemplateDetals.m in Sources */ = {isa = PBXBuildFile; fileRef = B19D65BB1560A0840028A9F4 /* DisplayEachTemplateDetals.m */; };
 		B19D65BE1560A0840028A9F4 /* DisplayEachTemplateDetals.xib in Resources */ = {isa = PBXBuildFile; fileRef = B19D65BC1560A0840028A9F4 /* DisplayEachTemplateDetals.xib */; };
 		B19D65C21560A0910028A9F4 /* DisplayEachTemplateDetals-Back.m in Sources */ = {isa = PBXBuildFile; fileRef = B19D65C01560A0910028A9F4 /* DisplayEachTemplateDetals-Back.m */; };
@@ -149,6 +154,7 @@
 		B102FF6E155BB314008DC42D /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		B102FF70155BB327008DC42D /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		B102FF72155BB33A008DC42D /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
+		B104ABCA1578730F00F12B57 /* jingleiti.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = jingleiti.ttf; path = "ILovepostcard/DisplayEachTemplateDetals-Back/ChooseAddressView/FontLib/jingleiti.ttf"; sourceTree = "<group>"; };
 		B10DA9661563A3D000058685 /* noMoreTemplateButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = noMoreTemplateButton.png; path = Resources/pic/noMoreTemplateButton.png; sourceTree = SOURCE_ROOT; };
 		B1106F58156119080035CFAA /* ILPostcardList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ILPostcardList.h; path = ILovepostcard/ILPostcardList/ILPostcardList.h; sourceTree = SOURCE_ROOT; };
 		B1106F59156119080035CFAA /* ILPostcardList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ILPostcardList.m; path = ILovepostcard/ILPostcardList/ILPostcardList.m; sourceTree = SOURCE_ROOT; };
@@ -261,6 +267,12 @@
 		B18A868B1575CF42008CA3E8 /* slidecon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = slidecon.png; path = Resources/pic/Pic_PostFront/slidecon.png; sourceTree = "<group>"; };
 		B18A868C1575CF42008CA3E8 /* titlebtnok.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = titlebtnok.png; path = Resources/pic/Pic_PostFront/titlebtnok.png; sourceTree = "<group>"; };
 		B18A868D1575CF42008CA3E8 /* titlebtnokclick.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = titlebtnokclick.png; path = Resources/pic/Pic_PostFront/titlebtnokclick.png; sourceTree = "<group>"; };
+		B19830AE157796D5006C1EFF /* ChooseAddressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChooseAddressView.h; path = "ILovepostcard/DisplayEachTemplateDetals-Back/ChooseAddressView/ChooseAddressView.h"; sourceTree = "<group>"; };
+		B19830AF157796D5006C1EFF /* ChooseAddressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ChooseAddressView.m; path = "ILovepostcard/DisplayEachTemplateDetals-Back/ChooseAddressView/ChooseAddressView.m"; sourceTree = "<group>"; };
+		B19830B0157796D5006C1EFF /* ChooseAddressView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ChooseAddressView.xib; path = "ILovepostcard/DisplayEachTemplateDetals-Back/ChooseAddressView/ChooseAddressView.xib"; sourceTree = "<group>"; };
+		B19830B3157796EE006C1EFF /* RecordVoiceView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RecordVoiceView.h; path = "ILovepostcard/DisplayEachTemplateDetals-Back/RecordVoiceView/RecordVoiceView.h"; sourceTree = "<group>"; };
+		B19830B4157796EE006C1EFF /* RecordVoiceView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RecordVoiceView.m; path = "ILovepostcard/DisplayEachTemplateDetals-Back/RecordVoiceView/RecordVoiceView.m"; sourceTree = "<group>"; };
+		B19830B5157796EE006C1EFF /* RecordVoiceView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RecordVoiceView.xib; path = "ILovepostcard/DisplayEachTemplateDetals-Back/RecordVoiceView/RecordVoiceView.xib"; sourceTree = "<group>"; };
 		B19D65BA1560A0840028A9F4 /* DisplayEachTemplateDetals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DisplayEachTemplateDetals.h; path = "ILovepostcard/DisplayEachTemplateDetals--Front/DisplayEachTemplateDetals.h"; sourceTree = "<group>"; };
 		B19D65BB1560A0840028A9F4 /* DisplayEachTemplateDetals.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DisplayEachTemplateDetals.m; path = "ILovepostcard/DisplayEachTemplateDetals--Front/DisplayEachTemplateDetals.m"; sourceTree = "<group>"; };
 		B19D65BC1560A0840028A9F4 /* DisplayEachTemplateDetals.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DisplayEachTemplateDetals.xib; path = "ILovepostcard/DisplayEachTemplateDetals--Front/DisplayEachTemplateDetals.xib"; sourceTree = "<group>"; };
@@ -439,6 +451,14 @@
 			name = Main;
 			sourceTree = "<group>";
 		};
+		B104ABC615786E4600F12B57 /* FontLib */ = {
+			isa = PBXGroup;
+			children = (
+				B104ABCA1578730F00F12B57 /* jingleiti.ttf */,
+			);
+			name = FontLib;
+			sourceTree = "<group>";
+		};
 		B1106F5B156119230035CFAA /* ListSingleton */ = {
 			isa = PBXGroup;
 			children = (
@@ -456,6 +476,13 @@
 			);
 			name = TouchView;
 			path = ILovepostcard/TouchView;
+			sourceTree = "<group>";
+		};
+		B123DFB91578543D00B34EA0 /* VoiceRecordLib */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = VoiceRecordLib;
 			sourceTree = "<group>";
 		};
 		B12E850D156CBD2000B0737B /* ActivityListView */ = {
@@ -708,12 +735,36 @@
 			isa = PBXGroup;
 			children = (
 				B1D1D3CB156A51DF0015A054 /* Pic_PostcardBack */,
+				B19830AD15779671006C1EFF /* ChooseAddressView */,
+				B19830AB1577965B006C1EFF /* RecordVoiceView */,
 				B19D65BF1560A0910028A9F4 /* DisplayEachTemplateDetals-Back.h */,
 				B19D65C01560A0910028A9F4 /* DisplayEachTemplateDetals-Back.m */,
 				B19D65C11560A0910028A9F4 /* DisplayEachTemplateDetals-Back.xib */,
 			);
 			name = "DisplayEachTemplateDetals--Back";
 			path = ..;
+			sourceTree = "<group>";
+		};
+		B19830AB1577965B006C1EFF /* RecordVoiceView */ = {
+			isa = PBXGroup;
+			children = (
+				B123DFB91578543D00B34EA0 /* VoiceRecordLib */,
+				B19830B3157796EE006C1EFF /* RecordVoiceView.h */,
+				B19830B4157796EE006C1EFF /* RecordVoiceView.m */,
+				B19830B5157796EE006C1EFF /* RecordVoiceView.xib */,
+			);
+			name = RecordVoiceView;
+			sourceTree = "<group>";
+		};
+		B19830AD15779671006C1EFF /* ChooseAddressView */ = {
+			isa = PBXGroup;
+			children = (
+				B104ABC615786E4600F12B57 /* FontLib */,
+				B19830AE157796D5006C1EFF /* ChooseAddressView.h */,
+				B19830AF157796D5006C1EFF /* ChooseAddressView.m */,
+				B19830B0157796D5006C1EFF /* ChooseAddressView.xib */,
+			);
+			name = ChooseAddressView;
 			sourceTree = "<group>";
 		};
 		B19D65E21560A1430028A9F4 /* en.lproj */ = {
@@ -1013,6 +1064,9 @@
 				B11331F01576010600FAB683 /* addphotobk.png in Resources */,
 				B11331F11576010600FAB683 /* addphotobkclick.png in Resources */,
 				B11331F21576010600FAB683 /* addphotoclick.png in Resources */,
+				B19830B2157796D5006C1EFF /* ChooseAddressView.xib in Resources */,
+				B19830B7157796EE006C1EFF /* RecordVoiceView.xib in Resources */,
+				B104ABCB1578730F00F12B57 /* jingleiti.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1065,6 +1119,8 @@
 				B13E99751571BEA400D03344 /* PaymentView.m in Sources */,
 				B13E998F157206DB00D03344 /* NSString+MD5Addition.m in Sources */,
 				B13E9990157206DB00D03344 /* UIDevice+IdentifierAddition.m in Sources */,
+				B19830B1157796D5006C1EFF /* ChooseAddressView.m in Sources */,
+				B19830B6157796EE006C1EFF /* RecordVoiceView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

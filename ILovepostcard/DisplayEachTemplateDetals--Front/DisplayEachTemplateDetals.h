@@ -32,7 +32,6 @@
     IBOutlet UIButton *showOrHideMapButton;//隐藏或者显示地图
     
     MKMapView *myMapView;
-    
     UIButton *cameraButton;
     UIButton *bottomButton;
     UIButton *indicatorButton;

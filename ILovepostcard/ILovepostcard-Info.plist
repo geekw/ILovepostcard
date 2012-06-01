@@ -38,5 +38,10 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>UIAppFonts</key>
+	<array>
+		<string>jingleiti.ttf</string>
+		<string>kaiti.ttf</string>
+	</array>
 </dict>
 </plist>

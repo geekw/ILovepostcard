@@ -232,7 +232,7 @@ bool hideOrShowBottonView;
     
     bottomButton = [UIButton buttonWithType:UIButtonTypeCustom];
     bottomButton.frame = CGRectMake(10 + 80 * i, 3, 59, 59);
-    bottomButton.backgroundColor = [UIColor grayColor];
+    bottomButton.backgroundColor = [UIColor whiteColor];
     [bottomButton setAlpha:0.7];
     bottomButton.tag = 502 + i * 4 ;
     [self.bottomScrollView addSubview:bottomButton];
@@ -323,7 +323,7 @@ bool hideOrShowBottonView;
             //2.加载响应的按钮,用来显示隐藏这个素材
             UIButton *normalButton = [UIButton buttonWithType:UIButtonTypeCustom];
             normalButton.frame = CGRectMake(10 + 80 * (i + areasArray.count), 3, 59, 59);
-            normalButton.backgroundColor = [UIColor grayColor];
+            normalButton.backgroundColor = [UIColor whiteColor];
             [normalButton setImage:tmpimg forState:UIControlStateNormal];
             normalButton.alpha =0.7;
             normalButton.tag = i * 4 + 101;
@@ -366,7 +366,7 @@ bool hideOrShowBottonView;
     UIButton *tmpButton = [UIButton buttonWithType:UIButtonTypeCustom];
     tmpButton.frame = CGRectMake(10 + 80 * (materialsArray.count + areasArray.count), 3, 59, 59);
     tmpButton.tag = 201;
-    tmpButton.backgroundColor = [UIColor grayColor];
+    tmpButton.backgroundColor = [UIColor whiteColor];
     tmpButton.alpha = 0.7;
     [tmpButton setImage:self.mapImgView.image forState:UIControlStateNormal];
     [self.bottomScrollView addSubview:tmpButton];
