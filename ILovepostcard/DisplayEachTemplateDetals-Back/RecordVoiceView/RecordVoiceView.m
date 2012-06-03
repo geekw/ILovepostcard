@@ -128,7 +128,6 @@ bool StopOrSatrt;
         StopOrSatrt = NO;
         [audioRecorder stop];
         [self.audioSession setActive: NO error: nil];
-//        [levelTimer invalidate];
         playVoiceButton.userInteractionEnabled = YES;
         
         [myTimer invalidate];        

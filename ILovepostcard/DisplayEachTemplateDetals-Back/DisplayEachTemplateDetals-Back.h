@@ -26,7 +26,9 @@
 @property (retain, nonatomic) IBOutlet UIButton *voiceRecordButton;
 @property (retain, nonatomic) IBOutlet UIButton *chooseAdressViewButton;
 
+@property (retain, nonatomic) IBOutlet UIButton *arrowButton;
 
+@property (retain, nonatomic) IBOutlet UIButton *arrowButtonSmall;
 
 - (IBAction)goback;
 
@@ -35,5 +37,8 @@
 - (IBAction)goVoiceRecordView;
 
 - (IBAction)goToChooseAdressView;
+
+- (IBAction)shrinkBottom;
+
 
 @end

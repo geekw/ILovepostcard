@@ -11,8 +11,12 @@
 @implementation DisplayEachTemplateDetals_Back
 @synthesize voiceRecordButton;
 @synthesize chooseAdressViewButton;
+@synthesize arrowButton;
+@synthesize arrowButtonSmall;
 @synthesize shareAndBuyViewButton,shareAndBuyView;
 @synthesize recordVoiceView,chooseAddressView;
+
+bool hideOrShowBottonView;
 
 
 #pragma mark - goBack - 返回按钮
@@ -31,13 +35,16 @@
     [shareAndBuyViewButton release];
     [voiceRecordButton release];
     [chooseAdressViewButton release];
+    [arrowButton release];
+    [arrowButtonSmall release];
     [super dealloc];
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    [backButton setImage:[UIImage imageNamed:@"titlebtnbackclick.png"] forState:UIControlStateHighlighted];
+    [self.shareAndBuyViewButton setImage:[UIImage imageNamed:@"titlebtnokclick.png"] forState:UIControlStateHighlighted];
 }
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -60,6 +67,8 @@
     [self setShareAndBuyViewButton:nil];
     [self setVoiceRecordButton:nil];
     [self setChooseAdressViewButton:nil];
+    [self setArrowButton:nil];
+    [self setArrowButtonSmall:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -86,49 +95,39 @@
 #pragma mark - GoVoiceRecordView - 进入录音界面
 - (IBAction)goVoiceRecordView 
 {
-    
     if (!recordVoiceView)
     {
         recordVoiceView = [[RecordVoiceView alloc] init];
     }
     self.recordVoiceView.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
     [self presentModalViewController:self.recordVoiceView animated:NO];
-    
-  /*  UIView *voiceRecordView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 460)];
-    voiceRecordView.tag = 301;
-    
-    UIImageView *tmpImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 460)];
-    tmpImgView.image =[UIImage imageNamed:@"postBack7.png"];
-    [voiceRecordView addSubview:tmpImgView];
-    [tmpImgView release];
-    
-    UIButton *playVoiceButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    playVoiceButton.frame = CGRectMake(31,259,90,35);
-    playVoiceButton.backgroundColor = [UIColor redColor];
-    [playVoiceButton addTarget:self action:@selector(playRecordedVoice) forControlEvents:UIControlEventTouchUpInside];
-    playVoiceButton.userInteractionEnabled = NO;
-    [voiceRecordView addSubview:playVoiceButton];
-    
-    UIButton *recordVoiceButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    recordVoiceButton.frame = CGRectMake(127,258,164,37);
-    recordVoiceButton.backgroundColor = [UIColor blueColor];
-    [recordVoiceButton addTarget:self action:@selector(recordVoice) forControlEvents:UIControlEventTouchUpInside];
-    [voiceRecordView addSubview:recordVoiceButton];
+}
 
-    UIButton *cancleButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    cancleButton.frame = CGRectMake(30,403,89,37);
-    cancleButton.backgroundColor = [UIColor blackColor];
-    [cancleButton addTarget:self action:@selector(cancleRecord) forControlEvents:UIControlEventTouchUpInside];
-    [voiceRecordView addSubview:cancleButton];
 
-    UIButton *completeRecordButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    completeRecordButton.frame = CGRectMake(127,403,164,37);
-    completeRecordButton.backgroundColor = [UIColor yellowColor];
-    [completeRecordButton addTarget:self action:@selector(completeRecord) forControlEvents:UIControlEventTouchUpInside];
-    [voiceRecordView addSubview:completeRecordButton];
 
-    [self.view addSubview:voiceRecordView];
-    [voiceRecordView release];*/
+#pragma mark - ShrinkBottom - 底部收缩
+- (IBAction)shrinkBottom 
+{
+    if (hideOrShowBottonView == NO)
+    {
+        hideOrShowBottonView = YES;
+        [UIView animateWithDuration:0.5
+                         animations:^{
+                             toolBar_BackView.frame = CGRectMake(0, 325, 320, 135);
+                             toolBar_BackView.frame = CGRectMake(0, 420, 320, 135);
+                         }];
+        [self.arrowButtonSmall setImage:[UIImage imageNamed:@"slidearrow.png"] forState:UIControlStateNormal];
+    }
+    else 
+    {
+        hideOrShowBottonView = NO;
+        [UIView animateWithDuration:0.5
+                         animations:^{
+                             toolBar_BackView.frame = CGRectMake(0, 420, 320, 135);
+                             toolBar_BackView.frame = CGRectMake(0, 325, 320, 135);
+                         }];
+        [self.arrowButtonSmall setImage:[UIImage imageNamed:@"slidearrowdown.png"] forState:UIControlStateNormal];
+    }
 }
 
 #pragma mark - GoShareAndBuyView - 进入微博分享,购买界面
