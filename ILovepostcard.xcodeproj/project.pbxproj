@@ -271,6 +271,9 @@
 		B18A868B1575CF42008CA3E8 /* slidecon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = slidecon.png; path = Resources/pic/Pic_PostFront/slidecon.png; sourceTree = "<group>"; };
 		B18A868C1575CF42008CA3E8 /* titlebtnok.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = titlebtnok.png; path = Resources/pic/Pic_PostFront/titlebtnok.png; sourceTree = "<group>"; };
 		B18A868D1575CF42008CA3E8 /* titlebtnokclick.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = titlebtnokclick.png; path = Resources/pic/Pic_PostFront/titlebtnokclick.png; sourceTree = "<group>"; };
+		B194240C157B11400048F403 /* libalixpay.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libalixpay.a; path = ILovepostcard/ShareAndBuyView/PaymentView/libs/libalixpay.a; sourceTree = "<group>"; };
+		B194240D157B11400048F403 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = ILovepostcard/ShareAndBuyView/PaymentView/libs/libcrypto.a; sourceTree = "<group>"; };
+		B194240E157B11400048F403 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = ILovepostcard/ShareAndBuyView/PaymentView/libs/libssl.a; sourceTree = "<group>"; };
 		B19830AE157796D5006C1EFF /* ChooseAddressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChooseAddressView.h; path = "ILovepostcard/DisplayEachTemplateDetals-Back/ChooseAddressView/ChooseAddressView.h"; sourceTree = "<group>"; };
 		B19830AF157796D5006C1EFF /* ChooseAddressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ChooseAddressView.m; path = "ILovepostcard/DisplayEachTemplateDetals-Back/ChooseAddressView/ChooseAddressView.m"; sourceTree = "<group>"; };
 		B19830B0157796D5006C1EFF /* ChooseAddressView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ChooseAddressView.xib; path = "ILovepostcard/DisplayEachTemplateDetals-Back/ChooseAddressView/ChooseAddressView.xib"; sourceTree = "<group>"; };
@@ -582,8 +585,8 @@
 		B136171C156F713900746F90 /* ShareAndBuyView */ = {
 			isa = PBXGroup;
 			children = (
-				B13E99701571BE7100D03344 /* PaymentView */,
 				B1361723156F74FD00746F90 /* Pic_ShareAndBuyView */,
+				B13E99701571BE7100D03344 /* PaymentView */,
 				B136171E156F716200746F90 /* ShareAndBuyView.h */,
 				B136171F156F716200746F90 /* ShareAndBuyView.m */,
 				B1361720156F716200746F90 /* ShareAndBuyView.xib */,
@@ -667,6 +670,9 @@
 		B15EDD99155A577A00B0C873 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B194240C157B11400048F403 /* libalixpay.a */,
+				B194240D157B11400048F403 /* libcrypto.a */,
+				B194240E157B11400048F403 /* libssl.a */,
 				B104ABDB157894EF00F12B57 /* MediaPlayer.framework */,
 				B104ABD8157894DB00F12B57 /* AudioToolbox.framework */,
 				B1348FDA156E1FF90099B9D2 /* QuartzCore.framework */,
@@ -1212,18 +1218,22 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ILovepostcard/ILovepostcard-Prefix.pch";
 				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = "";
-				HEADER_SEARCH_PATHS = /usr/include/libxml;
+				HEADER_SEARCH_PATHS = (
+					/usr/include/libxml,
+					/Users/ellenpage/git/ILovepostcard/ShareAndBuyView/PaymentView/Utilities,
+				);
 				INFOPLIST_FILE = "ILovepostcard/ILovepostcard-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/ILovepostcard/VoiceMessageView/ZBarSDK\"",
 					"\"$(SRCROOT)/ILovepostcard/VoiceMessageView/ZBarSDK/Headers/ZBarSDK\"",
+					"\"$(SRCROOT)/ILovepostcard/ShareAndBuyView/PaymentView/libs\"",
 				);
 				OTHER_LDFLAGS = (
 					"-lstdc++",
@@ -1235,6 +1245,7 @@
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
+				USER_HEADER_SEARCH_PATHS = "/usr/include/libxml /Users/ellenpage/git/ILovepostcard/ShareAndBuyView/PaymentView/Utilities";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1246,7 +1257,7 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ILovepostcard/ILovepostcard-Prefix.pch";
 				GCC_THUMB_SUPPORT = NO;
@@ -1258,6 +1269,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/ILovepostcard/VoiceMessageView/ZBarSDK\"",
 					"\"$(SRCROOT)/ILovepostcard/VoiceMessageView/ZBarSDK/Headers/ZBarSDK\"",
+					"\"$(SRCROOT)/ILovepostcard/ShareAndBuyView/PaymentView/libs\"",
 				);
 				OTHER_LDFLAGS = (
 					"-lstdc++",
@@ -1269,6 +1281,7 @@
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
+				USER_HEADER_SEARCH_PATHS = "/usr/include/libxml /Users/ellenpage/git/ILovepostcard/ShareAndBuyView/PaymentView/Utilities";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

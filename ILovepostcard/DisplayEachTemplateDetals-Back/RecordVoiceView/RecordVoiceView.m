@@ -16,6 +16,7 @@
 @end
 
 @implementation RecordVoiceView
+@synthesize timerLabel;
 @synthesize goBackButton;
 @synthesize voiceRecordButton;
 @synthesize playVoiceButton;
@@ -23,6 +24,7 @@
 @synthesize audioPlayer,audioSession,audioRecorder;
 
 
+int currentTime;
 bool StopOrSatrt;
 
 #pragma mark - goBack - 返回按钮
@@ -41,6 +43,7 @@ bool StopOrSatrt;
     [voiceRecordButton release];
     [playVoiceButton release];
     [endVoiceRecordButton release];
+    [timerLabel release];
     [super dealloc];
 }
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -63,6 +66,7 @@ bool StopOrSatrt;
     [self setVoiceRecordButton:nil];
     [self setPlayVoiceButton:nil];
     [self setEndVoiceRecordButton:nil];
+    [self setTimerLabel:nil];
     [super viewDidUnload];
 }
 
@@ -112,17 +116,45 @@ bool StopOrSatrt;
         [self.audioRecorder prepareToRecord];        
         self.audioRecorder.meteringEnabled = YES;        
         [self.audioRecorder peakPowerForChannel:0];
-        levelTimer=[NSTimer scheduledTimerWithTimeInterval:0.03 target:self selector:@selector(levelTimerCallback:) userInfo:nil repeats:YES];
+//        levelTimer=[NSTimer scheduledTimerWithTimeInterval:0.03 target:self selector:@selector(levelTimerCallback:) userInfo:nil repeats:YES];
         [self.audioRecorder record];
+        
+        currentTime = 0;
+        myTimer = [[NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(showTime) userInfo:nil repeats:YES] retain];
+        
     }
     else
     {
         StopOrSatrt = NO;
         [audioRecorder stop];
         [self.audioSession setActive: NO error: nil];
-        [levelTimer invalidate];
+//        [levelTimer invalidate];
         playVoiceButton.userInteractionEnabled = YES;
+        
+        [myTimer invalidate];        
     }
+}
+
+
+-(void)showTime
+{
+    currentTime++;
+    if (currentTime == 20) 
+    {
+        StopOrSatrt = NO;
+        [audioRecorder stop];
+        [self.audioSession setActive: NO error: nil];
+        playVoiceButton.userInteractionEnabled = YES;
+        
+        [myTimer invalidate];      
+        
+        return;
+    }
+    
+    int secs = currentTime % 60;
+    int mins = (currentTime / 60) % 60;
+    
+    self.timerLabel.text = [NSString stringWithFormat:@"%.2d:%.2d", mins, secs];
 }
 
 -(void)levelTimerCallback:(NSTimer *)timer
@@ -134,6 +166,10 @@ bool StopOrSatrt;
 #pragma mark - PlayVoice - 预览录音
 - (IBAction)playVoice 
 {
+    self.timerLabel.text = @"00:00";
+    currentTime = 0;
+    myTimer = [[NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(showTime) userInfo:nil repeats:YES] retain];
+
     NSString *voicePath = [[NSUserDefaults standardUserDefaults] valueForKey:@"LocalRecordPath"]; 
     NSData   *data=[NSData dataWithContentsOfFile:voicePath options:0 error:nil];
     
@@ -163,6 +199,7 @@ bool StopOrSatrt;
 -(void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag
 {
     [self.audioPlayer stop];
+    [myTimer invalidate];
 }
 
 #pragma mark - EndVoiceRecord - 结束录音,带着生成的二维码返回
