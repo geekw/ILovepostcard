@@ -105,6 +105,7 @@
     }
     self.activityListView.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
     [self presentModalViewController:self.activityListView animated:YES];
+    
 }
 
 #pragma mark - GoToVoiceMessage --进入读取语音留言界面

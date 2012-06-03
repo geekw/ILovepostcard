@@ -13,9 +13,28 @@
 #import "SBJson.h"
 #import "PromptView.h"
 
-@interface ActivityListView : UIViewController<ASIHTTPRequestDelegate>
+#import "PullingRefreshTableView.h"
+
+#define MAX_COUNT 5
+
+@interface ActivityListView : UIViewController<ASIHTTPRequestDelegate,UITableViewDataSource, UITableViewDelegate,PullingRefreshTableViewDelegate>
+
+{
+    int currentPage;
+    int currentPage_Keyword;
+    PullingRefreshTableView *dataTableView;
+    NSMutableArray *dataArray;      //  数据源
+}
+
 
 @property (retain, nonatomic) IBOutlet UIButton *goBackButton;
+
+@property (nonatomic, retain) PullingRefreshTableView *dataTableView;
+@property (nonatomic, retain) NSMutableArray *dataArray;
+
+
+- (void)updateThread:(NSString *)returnKey;
+- (void)updateTableView;
 
 - (IBAction)goBack;
 
