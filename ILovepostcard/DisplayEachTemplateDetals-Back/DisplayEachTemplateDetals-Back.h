@@ -24,7 +24,6 @@
 
 @property (retain, nonatomic) IBOutlet UIButton *shareAndBuyViewButton;
 @property (retain, nonatomic) IBOutlet UIButton *voiceRecordButton;
-
 @property (retain, nonatomic) IBOutlet UIButton *chooseAdressViewButton;
 
 

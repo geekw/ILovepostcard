@@ -13,7 +13,9 @@
 
 @interface RecordVoiceView : UIViewController<AVAudioPlayerDelegate, AVAudioRecorderDelegate,AVAudioSessionDelegate>
 {
-    NSTimer *levelTimer;
+//    NSTimer *levelTimer;
+    
+    NSTimer *myTimer;
 }
 
 
@@ -31,6 +33,7 @@
 
 @property (retain, nonatomic) AVAudioSession *audioSession;
 
+@property (retain, nonatomic) IBOutlet UILabel *timerLabel;
 
 - (IBAction)goBack;
 
