@@ -10,13 +10,20 @@
 #define NumberInPage 3
 
 #import "ActivityListView.h"
+#import "ItemCell.h"
 
 @interface ActivityListView ()
+
+@property (nonatomic,assign) NSInteger page;
+@property (nonatomic,assign) BOOL refreshing;
 
 @end
 
 @implementation ActivityListView
 @synthesize goBackButton;
+
+@synthesize dataArray,dataTableView,page,refreshing;
+
 
 int currentPage;
 
@@ -31,16 +38,46 @@ int currentPage;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
+    if (self)
+    {
+        page = 0;
+        dataArray = [[NSMutableArray alloc] init];
+        dataTableView = [[PullingRefreshTableView alloc] initWithFrame:CGRectMake(0, 44, 320, 416)];
+        dataTableView.delegate = self;
+        dataTableView.dataSource = self;
+        dataTableView.backgroundColor = [UIColor clearColor];
+        [self.view addSubview:dataTableView];
+
     }
     return self;
 }
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+	[super viewWillDisappear:animated];
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+	[super viewDidDisappear:animated];
+}
+
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     currentPage = 1;
+
     [self performSelector:@selector(requestActivityList)];//请求活动列表
 }
 
@@ -57,6 +94,8 @@ int currentPage;
 
 - (void)dealloc
 {
+    [dataArray release];
+    [dataTableView release];
     [goBackButton release];
     [super dealloc];
 }
@@ -88,26 +127,101 @@ int currentPage;
     NSArray *activityListArray = [request responseString].JSONValue;
     NSLog(@"activityListArray = %@",activityListArray);
     
+    if (page == 0) 
+    {
+        [dataTableView launchRefreshing];
+    }
+    
     NSDictionary *activityListDict = [activityListArray objectAtIndex:0];
     NSLog(@"activityListDict = %@",activityListDict);
     
 }
 
 
+- (void)loadData
+{
+    page++;
+    if (refreshing)
+    {
+        page = 1;
+        refreshing = NO;
+        [dataArray removeAllObjects];
+    }
+    for (int i = 0; i < 10; i++) 
+    {
+        [dataArray addObject:@"ROW"];
+    }
+    if (page >= 3)
+    {
+        [dataTableView tableViewDidFinishedLoadingWithMessage:@"All loaded!"];
+        dataTableView.reachedTheEnd  = YES;
+    } 
+    else 
+    {        
+        [dataTableView tableViewDidFinishedLoading];
+        dataTableView.reachedTheEnd  = NO;
+        [dataTableView reloadData];
+    }
+}
 
 
+#pragma mark - TableView*
 
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return [dataArray count];
+}
 
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSString *uniqueIdentifier = @"ItemCell";
+    
+    ItemCell  *cell = nil;
+    
+    cell = (ItemCell *) [tableView dequeueReusableCellWithIdentifier:uniqueIdentifier];
+    
+    if(!cell)
+    {
+        NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"ItemCell" owner:nil options:nil];
+        for(id currentObject in topLevelObjects)
+        {
+            if([currentObject isKindOfClass:[ItemCell class]])
+            {
+                cell = (ItemCell *)currentObject;
+                break;
+            }
+        }
+    }
+    return cell;
+}
 
+#pragma mark - PullingRefreshTableViewDelegate
+- (void)pullingTableViewDidStartRefreshing:(PullingRefreshTableView *)tableView
+{
+    self.refreshing = YES;
+    [self performSelector:@selector(loadData) withObject:nil afterDelay:1.f];
+}
 
+- (NSDate *)pullingTableViewRefreshingFinishedDate{
+    NSDateFormatter *df = [[NSDateFormatter alloc] init ];
+    df.dateFormat = @"yyyy-MM-dd HH:mm";
+    NSDate *date = [df dateFromString:@"2012-05-03 10:10"];
+    [df release];
+    return date;
+}
 
+- (void)pullingTableViewDidStartLoading:(PullingRefreshTableView *)tableView{
+    [self performSelector:@selector(loadData) withObject:nil afterDelay:1.f];    
+}
 
+#pragma mark - Scroll
 
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    [dataTableView tableViewDidScroll:scrollView];
+}
 
-
-
-
-
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
+    [dataTableView tableViewDidEndDragging:scrollView];
+}
 
 
 @end
