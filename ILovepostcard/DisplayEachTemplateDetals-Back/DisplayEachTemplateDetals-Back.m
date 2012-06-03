@@ -10,9 +10,10 @@
 
 @implementation DisplayEachTemplateDetals_Back
 @synthesize voiceRecordButton;
+@synthesize chooseAdressViewButton;
 @synthesize shareAndBuyViewButton,shareAndBuyView;
+@synthesize recordVoiceView,chooseAddressView;
 
-bool startOrPause;
 
 #pragma mark - goBack - 返回按钮
 -(IBAction)goback
@@ -23,10 +24,13 @@ bool startOrPause;
 #pragma mark - View lifecycle - 系统函数
 -(void)dealloc
 {
-    shareAndBuyView = nil;[shareAndBuyView release];
+    chooseAddressView = nil;[chooseAddressView release];
+    recordVoiceView   = nil;[recordVoiceView release];
+    shareAndBuyView   = nil;[shareAndBuyView release];
     backButton = nil;[backButton release];
     [shareAndBuyViewButton release];
     [voiceRecordButton release];
+    [chooseAdressViewButton release];
     [super dealloc];
 }
 
@@ -55,6 +59,7 @@ bool startOrPause;
 {
     [self setShareAndBuyViewButton:nil];
     [self setVoiceRecordButton:nil];
+    [self setChooseAdressViewButton:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -66,24 +71,31 @@ bool startOrPause;
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-#pragma mark - GoShareAndBuyView - 进入微博分享,购买界面
-- (IBAction)goShareAndBuyView 
+
+#pragma mark - GoToChooseAdressView - 进入地址选择界面
+- (IBAction)goToChooseAdressView 
 {
-    if (!shareAndBuyView)
+    if (!chooseAddressView)
     {
-        shareAndBuyView = [[ShareAndBuyView alloc] init];
+        chooseAddressView = [[ChooseAddressView alloc] init];
     }
-    self.shareAndBuyView.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-    [self presentModalViewController:self.shareAndBuyView animated:YES];
+    self.chooseAddressView.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+    [self presentModalViewController:self.chooseAddressView animated:YES];
 }
 
 #pragma mark - GoVoiceRecordView - 进入录音界面
 - (IBAction)goVoiceRecordView 
 {
-    startOrPause = NO;//默认不播放
     
-    UIView *voiceRecordView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 460)];
-    voiceRecordView.tag = 201;
+    if (!recordVoiceView)
+    {
+        recordVoiceView = [[RecordVoiceView alloc] init];
+    }
+    self.recordVoiceView.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+    [self presentModalViewController:self.recordVoiceView animated:NO];
+    
+  /*  UIView *voiceRecordView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 460)];
+    voiceRecordView.tag = 301;
     
     UIImageView *tmpImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 460)];
     tmpImgView.image =[UIImage imageNamed:@"postBack7.png"];
@@ -116,41 +128,22 @@ bool startOrPause;
     [voiceRecordView addSubview:completeRecordButton];
 
     [self.view addSubview:voiceRecordView];
-    [voiceRecordView release];
-    
+    [voiceRecordView release];*/
 }
 
--(void)recordVoice//开始录音
+#pragma mark - GoShareAndBuyView - 进入微博分享,购买界面
+- (IBAction)goShareAndBuyView 
 {
-
-}
-
--(void)playRecordedVoice//预览已经录制的音频
-{
-    if (startOrPause == NO)
+    if (!shareAndBuyView)
     {
-        startOrPause = YES;
+        shareAndBuyView = [[ShareAndBuyView alloc] init];
     }
-    else if (startOrPause == YES)
-    {
-        startOrPause = NO;
-    }
-    
+    self.shareAndBuyView.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+    [self presentModalViewController:self.shareAndBuyView animated:YES];
 }
 
--(void)cancleRecord//取消录音
-{
-    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"isRecord"];
-    UIView *tmpView = (UIView *)[self.view viewWithTag:201];
-    [tmpView removeFromSuperview];
-}
 
--(void)completeRecord//完成录音
-{
-    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"isRecord"];
-    UIView *tmpView = (UIView *)[self.view viewWithTag:201];
-    [tmpView removeFromSuperview];
-}
+
 
 
 @end

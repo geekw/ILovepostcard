@@ -11,13 +11,13 @@
 #import "ActivityListView.h"
 #import "VoiceMessageView.h"
 
-
 @interface ViewController : UIViewController
 
 
 @property (retain, nonatomic) GoToPostcardList *postcardList;
 @property (retain, nonatomic) ActivityListView *activityListView;
 @property (retain, nonatomic) VoiceMessageView *voiceMessageView;
+
 
 @property (retain, nonatomic) IBOutlet UIButton *listenVoiceMessageButton;
 

@@ -44,12 +44,15 @@ int currentPage_Keyword;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
+    if (self)
+    {
     }
     return self;
 }
 - (void)viewDidUnload
 {
+    templateScrollView = nil;[templateScrollView release];
+    templateScrollView_Keyword = nil;[templateScrollView_Keyword release];
     [self setBottomKeywordView:nil];
     [self setBottomKeywordScrollView:nil];
     [super viewDidUnload];
@@ -347,96 +350,6 @@ int currentPage_Keyword;
     addTemplatePageNumber ++;//页数加一
     templateScrollView.contentSize = CGSizeMake(320, 391 * (addTemplatePageNumber +1));
     [self loadHttpRequset];
-}
-
-
--(void)displayEachTemplate:(NSString *)idName
-             backgroundPic:(UIImage *)image 
-                      name:(NSString *)nameString 
-                       tag:(NSString *)tagstring
-{
-    NSLog(@"intIdName = %d",[idName intValue]);
-    int rotationDirection = [self getRandomWithRange:2];
-    if (rotationDirection == 0)//
-    {
-        int x = [self getRandomWithRange:100] + 50;
-        NSLog(@"x = %d",x);
-        rotationAngle = x / 180;
-    }
-    else if (rotationDirection == 1)
-    {
-        int x = [self getRandomWithRange:100] + 100;
-        NSLog(@"x = %d",x);
-        rotationAngle = -( x / 180);
-        NSLog(@"rotationAngle = %f",rotationAngle);
-    }
-    
-    if ([idName intValue] == 1 + addTemplatePageNumber * 4) 
-    {
-        UIButton *templateButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        templateButton.tag = [idName intValue];
-        int y = 0 + addTemplatePageNumber * 480;
-        templateButton.frame = CGRectMake(0, y, 150, 200);
-        [templateButton setImage:image
-                        forState:UIControlStateNormal];
-        templateButton.transform = CGAffineTransformMakeRotation(rotationAngle);//(M_PI/2) ;        
-        [templateButton addTarget:self 
-                           action:@selector(displayEachTemplateDetals:) 
-                 forControlEvents:UIControlEventTouchUpInside];
-        [templateScrollView addSubview:templateButton];
-        
-    }
-    
-    if ([idName intValue] == 2 + addTemplatePageNumber * 4) 
-    {
-        UIButton *templateButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        templateButton.tag = [idName intValue];
-        int y = 0 + addTemplatePageNumber * 480; 
-        templateButton.frame = CGRectMake(170, y, 150, 200);
-        [templateButton setImage:image
-                        forState:UIControlStateNormal];
-        templateButton.transform = CGAffineTransformMakeRotation(rotationAngle) ;        
-        [templateButton addTarget:self 
-                           action:@selector(displayEachTemplateDetals:) 
-                 forControlEvents:UIControlEventTouchUpInside];
-        [templateScrollView addSubview:templateButton];
-    }
-    
-    if ([idName intValue] == 3 + addTemplatePageNumber * 4) 
-    {
-        UIButton *templateButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        templateButton.tag = [idName intValue];
-        int y = 217 + addTemplatePageNumber * 480; 
-        templateButton.frame = CGRectMake(0, y, 150, 200);
-        templateButton.transform = CGAffineTransformMakeRotation(rotationAngle) ;        
-        [templateButton setImage:image
-                        forState:UIControlStateNormal];
-        [templateButton addTarget:self 
-                           action:@selector(displayEachTemplateDetals:) 
-                 forControlEvents:UIControlEventTouchUpInside];
-        [templateScrollView addSubview:templateButton];
-    }
-    
-    if ([idName intValue] == 4 + addTemplatePageNumber * 4) 
-    {
-        UIButton *templateButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        templateButton.tag = [idName intValue];
-        int y = 217 + addTemplatePageNumber * 480; 
-        templateButton.frame = CGRectMake(170, y, 150, 200);
-        [templateButton setImage:image
-                        forState:UIControlStateNormal];
-        templateButton.transform = CGAffineTransformMakeRotation(rotationAngle) ;        
-        [templateButton addTarget:self 
-                           action:@selector(displayEachTemplateDetals:) 
-                 forControlEvents:UIControlEventTouchUpInside];
-        [templateScrollView addSubview:templateButton];
-    }
-}
-- (int) getRandomWithRange:(int)rangeValue//生成随机数,旋转角度
-{
-	NSInteger ran = abs(arc4random());
-	NSInteger re = (ran % rangeValue);
-	return re;
 }
 
 

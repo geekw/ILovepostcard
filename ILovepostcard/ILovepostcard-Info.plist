@@ -38,5 +38,37 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>UIAppFonts</key>
+	<array>
+		<string>jingleiti.ttf</string>
+		<string>kaiti.ttf</string>
+	</array>
+	<key>RSA private key</key>
+	<string>MIICXAIBAAKBgQCt88QkKp7QU4ZozOAClQrfJbnZ2eOVZPvUMyKHtx+ArMGXCc7a
+/OoHvkWTIXS16fpLCZ0Y7MW1iPFfEUnvu7rQGKCMfWkdqQmIMzFSP233DGUpFgPh
+dMXgkAxYy7842s9Wha+RFhr0NmQ9D+l8ohkxfRjqrTYwA7VRdAB8IwDrgQIDAQAB
+AoGAIHNzSdPxoKeUUYS23YR0bMCa9Tsiq8IVALcxX+QXqmeQDd80icHY3uzuCc6Z
++T3XBZybhATXtVAAx11wT5rT9KN1XPxawIIooVznbHF0xAFZ9W4/JYQ7rcG6xgEb
+CNbOMD4/ICaNw60GCTlRqKExF3Yo9Bh+yxzNpsIOFeUnCmECQQDcG/TwVcBnNq71
+6VZ0sflvSQDCeHZZ9dEr+BcoJ+xDD1n7iBl+YnPWlUqgqy7RjTcDdkLuUMw2kYk9
+POqbpuVFAkEAylESouZJGEHAX6WCvwZrSiaG4erntGVlrAOtpROtiypANJGelndV
+pGkYONNOjPYq0WckLTnS9DInyRwZewUbDQJAUXYrVdN2zPxJDowYSkIgHda36EFr
+E+pNSuebsmnsH/mLhPMe9E59rro8D3CreDS6WpanOMpAeiWs1DQ6Y/cFvQJAJzou
+9dzWwVhGV4U845L4DImJz5X/VQ/v9blE2uQE2x3XExpE+IGs3lLuOl5mNZipVq67
+6fTzPRvYcPr8yciEpQJBAIwfZhGkIed5RXDO5ql2tHq7HnUI7VyBwko4viPtSH6g
+UjG7C97QORoJWrlOUDLrOCNoCUdBAmFWIbIHb/rs37c=</string>
+	<key>RSA public key</key>
+	<string>MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDFiu/0QGktqVR576tC66G1Q3M86obSEIGY7Zi/cNvrL2ePXeYnKh+T21fUWgYeSwvUpLbQCY4GpfdNMRbtE9JYdKmGlS6KmJe0ChyfOzMbIuNX/A4CcDVEJh9w9axJu3Ep54Qk5dltoo/xcyUDSy0faOMtuDW7NwBJfEGuRnDsdwIDAQAB</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string></string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>ILovepostcard</string>
+			</array>
+		</dict>
+	</array>
 </dict>
 </plist>

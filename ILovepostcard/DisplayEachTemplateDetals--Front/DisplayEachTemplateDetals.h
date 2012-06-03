@@ -22,7 +22,6 @@
 {
     ScaleAndRotateView *scaleAndRotateView;
     
-    UIImagePickerController *imagePickerCamera;//相机
     UIView *cameraOverlayView;//相机层
     
     IBOutlet UIButton *backButton;
@@ -33,19 +32,46 @@
     IBOutlet UIButton *showOrHideMapButton;//隐藏或者显示地图
     
     MKMapView *myMapView;
-    UIImageView *mapImgView;
-    
-    BOOL hidden;
+    UIButton *cameraButton;
+    UIButton *bottomButton;
+    UIButton *indicatorButton;
+    TouchView *fileContent;
+
 }
 
 //@property (retain, nonatomic) UIImageView *materialsImgView;
+
+@property (retain, nonatomic) UIImagePickerController *imagePicker;//相机
+
 @property (retain, nonatomic) DisplayEachTemplateDetals_Back *displayEachTemplateDetals_Back;
 @property (nonatomic, retain) NSString *idName;
 
+@property (retain, nonatomic) IBOutlet UIScrollView *bottomScrollView;
+
+@property (retain, nonatomic) IBOutlet UIImageView *bkImgView;
+
+@property (retain, nonatomic) NSString  *tagValueStr;
+
+@property (retain, nonatomic)  UIImageView *mapImgView;
+
+@property (retain, nonatomic) IBOutlet UIButton *shrinkButton;
+
+@property (retain, nonatomic) IBOutlet UIButton *arrowButton;
+
+
+
 -(IBAction)goback;
+
 -(IBAction)openPhotoLibrary;//打开本地相册
--(IBAction)showOrHideMap;//隐藏或者显示地图
+
 -(IBAction)goDisplayEachTemplateDetals;//去编辑明信片反面
 
 -(void)getGoogleStaticMap:(CGFloat)latitude Longitude:(CGFloat)longitude;
+
+-(void)hideOrShowNormalMaterial:(UIButton *)sender;
+
+- (IBAction)shrinkBottom;
+
+
+
 @end

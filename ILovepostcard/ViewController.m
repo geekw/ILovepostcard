@@ -90,7 +90,9 @@
     
 }
 
-- (IBAction)getMore {
+- (IBAction)getMore 
+{
+    
 }
 
 #pragma mark - GoToActivity_list --进入全部活动界面
@@ -103,6 +105,7 @@
     }
     self.activityListView.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
     [self presentModalViewController:self.activityListView animated:YES];
+    
 }
 
 #pragma mark - GoToVoiceMessage --进入读取语音留言界面

@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "ShareAndBuyView.h"
+#import "RecordVoiceView.h"
+#import "ChooseAddressView.h"
 
 @interface DisplayEachTemplateDetals_Back : UIViewController<UINavigationControllerDelegate>
 {
@@ -17,9 +19,13 @@
 }
 
 @property (retain, nonatomic) ShareAndBuyView *shareAndBuyView;
-@property (retain, nonatomic) IBOutlet UIButton *shareAndBuyViewButton;
+@property (retain, nonatomic) RecordVoiceView *recordVoiceView;
+@property (retain, nonatomic) ChooseAddressView *chooseAddressView;
 
+@property (retain, nonatomic) IBOutlet UIButton *shareAndBuyViewButton;
 @property (retain, nonatomic) IBOutlet UIButton *voiceRecordButton;
+@property (retain, nonatomic) IBOutlet UIButton *chooseAdressViewButton;
+
 
 
 - (IBAction)goback;
@@ -27,5 +33,7 @@
 - (IBAction)goShareAndBuyView;
 
 - (IBAction)goVoiceRecordView;
+
+- (IBAction)goToChooseAdressView;
 
 @end
