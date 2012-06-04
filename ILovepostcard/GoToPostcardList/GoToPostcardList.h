@@ -38,7 +38,6 @@
 @property (retain, nonatomic) IBOutlet UISearchBar *mySearchBar;//关键字搜索栏
 @property (retain, nonatomic) IBOutlet UIScrollView *bottomKeywordScrollView;
 
-
 -(IBAction)goBack;
 
 -(void)displayEachTemplate:(NSString *)idName 

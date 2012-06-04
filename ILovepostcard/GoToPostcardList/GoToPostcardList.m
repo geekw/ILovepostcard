@@ -100,16 +100,12 @@ int currentPage_Keyword;
     self.bottomKeywordScrollView.directionalLockEnabled = YES;
     
     [backButton setImage:[UIImage imageNamed:@"titlebtnbackclick.png"] forState:UIControlStateHighlighted];   
-    
 }
-
-
 
 #pragma mark - ViewDidLoad - 解析json数据
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
 }
 
 #pragma mark - NormalRequest - 正常请求模板列表
@@ -130,7 +126,6 @@ int currentPage_Keyword;
                                 withPrompt:@"网络不通" 
                                  withFrame:CGRectMake(40, 120, 240, 240)];
     [tmpProptView  release];
-    
     NSError *error = [request error];
     NSLog(@"error:%@", error);
 }

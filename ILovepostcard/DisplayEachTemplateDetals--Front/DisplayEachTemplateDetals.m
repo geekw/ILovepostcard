@@ -12,6 +12,8 @@
 #define googleMapUrl   @"http://maps.google.com/maps/api/staticmap"
 #define pinUrl @"http://cdn1.iconfinder.com/data/icons/customicondesign-office6-shadow/32/pin-red.png"
 
+#define degreesToRadian(x) (M_PI * (x) / 180.0)//定义弧度
+
 
 @implementation DisplayEachTemplateDetals
 @synthesize shrinkButton;

@@ -30,6 +30,40 @@
 
 @property (retain, nonatomic) IBOutlet UIButton *arrowButtonSmall;
 
+@property (retain, nonatomic) IBOutlet UITextView *blessMessageText;
+
+@property (retain, nonatomic) IBOutlet UIImageView *QRImgView;
+
+@property (retain, nonatomic) IBOutlet UIImageView *stampImgView;
+
+@property (retain, nonatomic) IBOutlet UIImageView *postmarkImgView;
+
+
+@property (retain, nonatomic) IBOutlet UILabel *receiverNameLabel;
+
+
+@property (retain, nonatomic) IBOutlet UILabel *snLabel;
+
+@property (retain, nonatomic) IBOutlet UILabel *postNumberLabel;
+
+
+@property (retain, nonatomic) IBOutlet UITextView *recevierAdressText;
+
+@property (retain, nonatomic) IBOutlet UITextView *senderAdressText;
+
+@property (retain, nonatomic) IBOutlet UIButton *hideOrShowStampButton;
+
+@property (retain, nonatomic) IBOutlet UIButton *hideOrShowPostmarkButton;
+
+@property (retain, nonatomic) IBOutlet UIButton *adress_SmallButton;
+
+@property (retain, nonatomic) IBOutlet UIButton *stamp_SmallButton;
+
+@property (retain, nonatomic) IBOutlet UIButton *postmark_SmallButton;
+
+@property (retain, nonatomic) IBOutlet UIButton *voiceRecorder_SmallButton;
+
+
 - (IBAction)goback;
 
 - (IBAction)goShareAndBuyView;
@@ -39,6 +73,11 @@
 - (IBAction)goToChooseAdressView;
 
 - (IBAction)shrinkBottom;
+
+- (IBAction)hideOrShowStamp;
+
+- (IBAction)hideOrShowPostmark;
+
 
 
 @end

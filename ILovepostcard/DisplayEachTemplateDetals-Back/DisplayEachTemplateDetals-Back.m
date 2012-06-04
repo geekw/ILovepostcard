@@ -13,11 +13,31 @@
 @synthesize chooseAdressViewButton;
 @synthesize arrowButton;
 @synthesize arrowButtonSmall;
+@synthesize blessMessageText;
+@synthesize QRImgView;
+@synthesize stampImgView;
+@synthesize postmarkImgView;
+@synthesize receiverNameLabel;
+@synthesize snLabel;
+@synthesize postNumberLabel;
+@synthesize recevierAdressText;
+@synthesize senderAdressText;
+@synthesize hideOrShowStampButton;
+@synthesize hideOrShowPostmarkButton;
+@synthesize adress_SmallButton;
+@synthesize stamp_SmallButton;
+@synthesize postmark_SmallButton;
+@synthesize voiceRecorder_SmallButton;
 @synthesize shareAndBuyViewButton,shareAndBuyView;
 @synthesize recordVoiceView,chooseAddressView;
 
-bool hideOrShowBottonView;
+bool HideOrShowBottonView;
 
+bool HideOrShowStamp;
+
+bool HideOrShowPostmark;
+
+#define degreesToRadian(x) (M_PI * (x) / 180.0)//定义弧度
 
 #pragma mark - goBack - 返回按钮
 -(IBAction)goback
@@ -37,6 +57,21 @@ bool hideOrShowBottonView;
     [chooseAdressViewButton release];
     [arrowButton release];
     [arrowButtonSmall release];
+    [blessMessageText release];
+    [QRImgView release];
+    [stampImgView release];
+    [postmarkImgView release];
+    [receiverNameLabel release];
+    [snLabel release];
+    [postNumberLabel release];
+    [recevierAdressText release];
+    [senderAdressText release];
+    [hideOrShowStampButton release];
+    [hideOrShowPostmarkButton release];
+    [adress_SmallButton release];
+    [stamp_SmallButton release];
+    [postmark_SmallButton release];
+    [voiceRecorder_SmallButton release];
     [super dealloc];
 }
 
@@ -45,6 +80,9 @@ bool hideOrShowBottonView;
     [super viewDidLoad];
     [backButton setImage:[UIImage imageNamed:@"titlebtnbackclick.png"] forState:UIControlStateHighlighted];
     [self.shareAndBuyViewButton setImage:[UIImage imageNamed:@"titlebtnokclick.png"] forState:UIControlStateHighlighted];
+    
+    [self performSelector:@selector(rotateAllTheObjects)];//先旋转控件的视图
+    [self performSelector:@selector(displayStampAndPostmark)];
 }
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -69,6 +107,21 @@ bool hideOrShowBottonView;
     [self setChooseAdressViewButton:nil];
     [self setArrowButton:nil];
     [self setArrowButtonSmall:nil];
+    [self setBlessMessageText:nil];
+    [self setQRImgView:nil];
+    [self setStampImgView:nil];
+    [self setPostmarkImgView:nil];
+    [self setReceiverNameLabel:nil];
+    [self setSnLabel:nil];
+    [self setPostNumberLabel:nil];
+    [self setRecevierAdressText:nil];
+    [self setSenderAdressText:nil];
+    [self setHideOrShowStampButton:nil];
+    [self setHideOrShowPostmarkButton:nil];
+    [self setAdress_SmallButton:nil];
+    [self setStamp_SmallButton:nil];
+    [self setPostmark_SmallButton:nil];
+    [self setVoiceRecorder_SmallButton:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -78,6 +131,47 @@ bool hideOrShowBottonView;
 {
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+#pragma mark - DisplayStampAndPostmark - 加载邮票邮戳等图片
+- (void)displayStampAndPostmark
+{
+    [stamp_SmallButton addTarget:self action:@selector(hideOrShowStamp) forControlEvents:UIControlEventTouchUpInside];
+    [postmark_SmallButton addTarget:self action:@selector(hideOrShowPostmark) forControlEvents:UIControlEventTouchUpInside];
+
+}
+
+- (IBAction)hideOrShowStamp 
+{
+    if (HideOrShowStamp == NO)
+    {
+        HideOrShowStamp = YES;
+        self.stampImgView.hidden = YES;
+        [stamp_SmallButton setImage:[UIImage imageNamed:@"slidebtnhide.png"] forState:UIControlStateNormal];
+    }
+    else 
+    {
+        HideOrShowStamp = NO;
+        self.stampImgView.hidden = NO;
+        [stamp_SmallButton setImage:[UIImage imageNamed:@"slidebtnshow.png"] forState:UIControlStateNormal];
+    }
+}
+
+- (IBAction)hideOrShowPostmark
+{
+    if (HideOrShowPostmark == NO)
+    {
+        HideOrShowPostmark = YES;
+        self.postmarkImgView.hidden = YES;
+        [postmark_SmallButton setImage:[UIImage imageNamed:@"slidebtnhide.png"] forState:UIControlStateNormal];
+    }
+    else
+    {
+        HideOrShowPostmark = NO;
+        self.postmarkImgView.hidden = NO;
+        [postmark_SmallButton setImage:[UIImage imageNamed:@"slidebtnshow.png"] forState:UIControlStateNormal];
+    }
+    
 }
 
 
@@ -103,14 +197,43 @@ bool hideOrShowBottonView;
     [self presentModalViewController:self.recordVoiceView animated:NO];
 }
 
-
+#pragma mark - RotateAllTheObjects - 旋转控件
+-(void)rotateAllTheObjects
+{
+    self.blessMessageText.frame = CGRectMake(53.5,31.5,150,143);
+    self.blessMessageText.transform = CGAffineTransformMakeRotation(degreesToRadian(90));
+    
+    self.QRImgView.frame = CGRectMake(-27, 67, 131, 37);
+    self.QRImgView.transform = CGAffineTransformMakeRotation(degreesToRadian(90));
+    
+    self.stampImgView.frame = CGRectMake(161, 290, 68, 72);
+    self.stampImgView.transform = CGAffineTransformMakeRotation(degreesToRadian(90));
+    
+    self.postmarkImgView.frame = CGRectMake(130, 241, 115, 85);
+    self.postmarkImgView.transform = CGAffineTransformMakeRotation(degreesToRadian(90));
+    
+    self.recevierAdressText.frame = CGRectMake(56, 254, 144, 30);
+    self.recevierAdressText.transform = CGAffineTransformMakeRotation(degreesToRadian(90));
+    
+    self.receiverNameLabel.frame = CGRectMake(26, 254, 144, 30);
+    self.receiverNameLabel.transform = CGAffineTransformMakeRotation(degreesToRadian(90));
+    
+    self.senderAdressText.frame = CGRectMake(-4, 254, 144, 30);
+    self.senderAdressText.transform = CGAffineTransformMakeRotation(degreesToRadian(90));
+    
+    self.snLabel.frame = CGRectMake(-64, 94, 158, 10);
+    self.snLabel.transform = CGAffineTransformMakeRotation(degreesToRadian(90));
+    
+    self.postNumberLabel.frame = CGRectMake(-35, 242, 100, 10);
+    self.postNumberLabel.transform = CGAffineTransformMakeRotation(degreesToRadian(90));
+}
 
 #pragma mark - ShrinkBottom - 底部收缩
 - (IBAction)shrinkBottom 
 {
-    if (hideOrShowBottonView == NO)
+    if (HideOrShowBottonView == NO)
     {
-        hideOrShowBottonView = YES;
+        HideOrShowBottonView = YES;
         [UIView animateWithDuration:0.5
                          animations:^{
                              toolBar_BackView.frame = CGRectMake(0, 325, 320, 135);
@@ -120,7 +243,7 @@ bool hideOrShowBottonView;
     }
     else 
     {
-        hideOrShowBottonView = NO;
+        HideOrShowBottonView = NO;
         [UIView animateWithDuration:0.5
                          animations:^{
                              toolBar_BackView.frame = CGRectMake(0, 420, 320, 135);
