@@ -204,8 +204,8 @@ int currentPage_Keyword;
             
             //NSString *tagsString = [tmpDict objectForKey:@"tags"];
             
-            NSString *backgroundPicUrl = [tmpDict objectForKey:@"preview"];
-            UIImage *backgroundPic = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:backgroundPicUrl]]];
+//            NSString *backgroundPicUrl = [tmpDict objectForKey:@"preview"];
+//            UIImage *backgroundPic = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:backgroundPicUrl]]];
             
             if (i == 0 ) 
             {

@@ -32,7 +32,7 @@
         promptLbl.textAlignment = UITextAlignmentCenter;
         promptLbl.textColor = [UIColor orangeColor];
         promptLbl.layer.cornerRadius = 8;
-        promptLbl.font = [UIFont systemFontOfSize:35];
+        promptLbl.font = [UIFont systemFontOfSize:30];
     }
     return self;
 }

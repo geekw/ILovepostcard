@@ -9,15 +9,14 @@
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
 #import <MediaPlayer/MediaPlayer.h>
+#import "ASIHTTPRequest.h"
+#import "ASIFormDataRequest.h"
+#import "PromptView.h"
 
-
-@interface RecordVoiceView : UIViewController<AVAudioPlayerDelegate, AVAudioRecorderDelegate,AVAudioSessionDelegate>
+@interface RecordVoiceView : UIViewController<AVAudioPlayerDelegate, AVAudioRecorderDelegate,AVAudioSessionDelegate,ASIHTTPRequestDelegate>
 {
-//    NSTimer *levelTimer;
-    
     NSTimer *myTimer;
 }
-
 
 @property (retain, nonatomic) IBOutlet UIButton *goBackButton;
 
@@ -35,6 +34,8 @@
 
 @property (retain, nonatomic) IBOutlet UILabel *timerLabel;
 
+@property (retain, nonatomic) PromptView *promptView;
+
 - (IBAction)goBack;
 
 - (IBAction)voiceRecord;
@@ -42,7 +43,5 @@
 - (IBAction)playVoice;
 
 - (IBAction)endVoiceRecord;
-
-
 
 @end

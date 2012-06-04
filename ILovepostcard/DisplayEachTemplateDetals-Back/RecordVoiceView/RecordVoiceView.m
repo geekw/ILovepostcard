@@ -8,6 +8,8 @@
 
 #define RECORDPATH [NSString stringWithFormat:@"%@/Documents/Record/",NSHomeDirectory()]
 
+#define UPLOAD_IMAGE_WEBSITE_PATH [NSString stringWithFormat:@"http://61.155.238.30:80/postcards/file/upload"]
+
 
 #import "RecordVoiceView.h"
 
@@ -22,7 +24,7 @@
 @synthesize playVoiceButton;
 @synthesize endVoiceRecordButton;
 @synthesize audioPlayer,audioSession,audioRecorder;
-
+@synthesize promptView;
 
 int currentTime;
 bool StopOrSatrt;
@@ -36,9 +38,10 @@ bool StopOrSatrt;
 #pragma mark - View lifecycle - 系统函数
 - (void)dealloc 
 {
+    promptView  = nil;[promptView release];
     audioPlayer = nil;[audioPlayer release];
     audioRecorder = nil;[audioRecorder release];
-    audioSession = nil;[audioSession release];
+    audioSession  = nil;[audioSession release];
     [goBackButton release];
     [voiceRecordButton release];
     [playVoiceButton release];
@@ -49,7 +52,8 @@ bool StopOrSatrt;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self){
+    if (self)
+    {
     }
     return self;
 }
@@ -57,6 +61,11 @@ bool StopOrSatrt;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+        
+    NSString *strName = [@"record" stringByAppendingString:@".caf"];
+    NSString *fullPath = [RECORDPATH stringByAppendingPathComponent:strName];
+    [[NSUserDefaults standardUserDefaults] setValue:fullPath forKey:@"LocalRecordPath"];
+
     playVoiceButton.userInteractionEnabled = NO;
 }
 
@@ -75,27 +84,15 @@ bool StopOrSatrt;
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-
-
 #pragma mark - VoiceRecord  - 开始录音
 - (IBAction)voiceRecord 
 {
     if (StopOrSatrt == NO)
     {
         StopOrSatrt = YES;
-        
+        currentTime = 0;
         self.playVoiceButton.userInteractionEnabled = NO;
-        
-//        NSFileManager *fileManager = [NSFileManager defaultManager];
-//        [fileManager createDirectoryAtPath:RECORDPATH attributes:nil];
-        
-        self.audioSession= [AVAudioSession sharedInstance];
-        self.audioSession.delegate = self;
-        
-        NSString *strName = [@"record" stringByAppendingString:@".caf"];
-        NSString *fullPath = [RECORDPATH stringByAppendingPathComponent:strName];
-        
-        [[NSUserDefaults standardUserDefaults] setValue:fullPath forKey:@"LocalRecordPath"];
+
         NSString *voicePath = [[NSUserDefaults standardUserDefaults] valueForKey:@"LocalRecordPath"]; 
         NSURL *url = [NSURL fileURLWithPath:voicePath];//录音存放目录
         
@@ -109,19 +106,21 @@ bool StopOrSatrt;
                                 [NSNumber numberWithBool:NO],AVLinearPCMIsFloatKey,
                                 nil];   
         NSError *error;
-      
+        [[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategoryPlayAndRecord error: nil];
+
         self.audioRecorder = [[AVAudioRecorder alloc] initWithURL:url settings:settings error:&error];
         self.audioRecorder.delegate = self;
+        
+        self.audioSession= [AVAudioSession sharedInstance];
+        self.audioSession.delegate = self;
+        
+        [self.audioRecorder prepareToRecord];  
         [self.audioSession setActive: YES error: nil];
-        [self.audioRecorder prepareToRecord];        
+        
         self.audioRecorder.meteringEnabled = YES;        
         [self.audioRecorder peakPowerForChannel:0];
-//        levelTimer=[NSTimer scheduledTimerWithTimeInterval:0.03 target:self selector:@selector(levelTimerCallback:) userInfo:nil repeats:YES];
         [self.audioRecorder record];
-        
-        currentTime = 0;
         myTimer = [[NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(showTime) userInfo:nil repeats:YES] retain];
-        
     }
     else
     {
@@ -129,7 +128,6 @@ bool StopOrSatrt;
         [audioRecorder stop];
         [self.audioSession setActive: NO error: nil];
         playVoiceButton.userInteractionEnabled = YES;
-        
         [myTimer invalidate];        
     }
 }
@@ -144,9 +142,7 @@ bool StopOrSatrt;
         [audioRecorder stop];
         [self.audioSession setActive: NO error: nil];
         playVoiceButton.userInteractionEnabled = YES;
-        
         [myTimer invalidate];      
-        
         return;
     }
     
@@ -156,11 +152,11 @@ bool StopOrSatrt;
     self.timerLabel.text = [NSString stringWithFormat:@"%.2d:%.2d", mins, secs];
 }
 
--(void)levelTimerCallback:(NSTimer *)timer
-{
-    [self.audioRecorder updateMeters];
-    NSLog(@"1 %f 2%f",[self.audioRecorder averagePowerForChannel:0],[self.audioRecorder peakPowerForChannel:0]);
-}
+//-(void)levelTimerCallback:(NSTimer *)timer
+//{
+//    [self.audioRecorder updateMeters];
+//    NSLog(@"1 %f 2%f",[self.audioRecorder averagePowerForChannel:0],[self.audioRecorder peakPowerForChannel:0]);
+//}
 
 #pragma mark - PlayVoice - 预览录音
 - (IBAction)playVoice 
@@ -170,14 +166,14 @@ bool StopOrSatrt;
     myTimer = [[NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(showTime) userInfo:nil repeats:YES] retain];
 
     NSString *voicePath = [[NSUserDefaults standardUserDefaults] valueForKey:@"LocalRecordPath"]; 
-    NSData   *data=[NSData dataWithContentsOfFile:voicePath options:0 error:nil];
+    NSData   *data =[NSData dataWithContentsOfFile:voicePath options:0 error:nil];
     
     NSLog(@"voiceData = %@",data);
     
     NSError  *error;
     
     self.audioPlayer= [[AVAudioPlayer alloc] initWithData:data error:&error];
-    self.audioPlayer.volume = 0.5;
+    self.audioPlayer.volume = 0.7;
     self.audioPlayer.meteringEnabled=YES;
     self.audioPlayer.numberOfLoops= 0;
     self.audioPlayer.delegate=self;
@@ -205,6 +201,35 @@ bool StopOrSatrt;
 - (IBAction)endVoiceRecord 
 {    
     [self.audioPlayer release];
+    
+    NSString *voicePath = [[NSUserDefaults standardUserDefaults] valueForKey:@"LocalRecordPath"]; 
+    NSData   *data =[NSData dataWithContentsOfFile:voicePath options:0 error:nil];
+    if (data != nil)
+    {
+        ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:UPLOAD_IMAGE_WEBSITE_PATH]];
+        [request setDelegate:self];
+        [request setData: data
+            withFileName: @"recordTest.caf"
+          andContentType: @"recordTest/caf"
+                  forKey: @"file"];    [request appendPostData:[@"{\"postcard\":\"1\"}" dataUsingEncoding:NSUTF8StringEncoding]];
+        [request setDidFinishSelector:@selector(requestUploadImageFinish:)];
+        [request setDidFailSelector:@selector(requestUploadImageFail:)];
+        [request startAsynchronous];
+
+    }
+    else 
+    {
+        if (!promptView) {
+            promptView = [[PromptView alloc] init];
+        }
+        [promptView showPromptWithParentView:self.view
+                                  withPrompt:@"请您先录音" 
+                                   withFrame:CGRectMake(40, 120, 240, 240)];
+        return;
+    
+    }
+    
+
 
     
 }
