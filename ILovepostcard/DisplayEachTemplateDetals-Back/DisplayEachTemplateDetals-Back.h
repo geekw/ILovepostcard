@@ -32,20 +32,19 @@
 
 @property (retain, nonatomic) IBOutlet UITextView *blessMessageText;
 
+@property (retain, nonatomic) IBOutlet UIImageView *QRImg2;
+
 @property (retain, nonatomic) IBOutlet UIImageView *QRImgView;
 
 @property (retain, nonatomic) IBOutlet UIImageView *stampImgView;
 
 @property (retain, nonatomic) IBOutlet UIImageView *postmarkImgView;
 
-
 @property (retain, nonatomic) IBOutlet UILabel *receiverNameLabel;
-
 
 @property (retain, nonatomic) IBOutlet UILabel *snLabel;
 
 @property (retain, nonatomic) IBOutlet UILabel *postNumberLabel;
-
 
 @property (retain, nonatomic) IBOutlet UITextView *recevierAdressText;
 

@@ -573,16 +573,7 @@ bool hideOrShowBottonView;
     NSLog(@"tagValueStr = %@",self.tagValueStr);
     NSLog(@"tagValue = %d",[self.tagValueStr intValue]);
     
-    /*   if ([self.tagValueStr intValue] % 2 == 0)//偶数
-    {
-         i = [self.tagValueStr intValue] + 3;
 
-    }
-    else//奇数
-    {
-         i = [self.tagValueStr intValue] + 2;
-
-    }*/
         //带动画效果隐藏cameraImagePicker界面
         [self dismissModalViewControllerAnimated:YES];
     

@@ -14,6 +14,7 @@
 @synthesize arrowButton;
 @synthesize arrowButtonSmall;
 @synthesize blessMessageText;
+@synthesize QRImg2;
 @synthesize QRImgView;
 @synthesize stampImgView;
 @synthesize postmarkImgView;
@@ -48,6 +49,9 @@ bool HideOrShowPostmark;
 #pragma mark - View lifecycle - 系统函数
 -(void)dealloc
 {
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];//注销观察者
+    
     chooseAddressView = nil;[chooseAddressView release];
     recordVoiceView   = nil;[recordVoiceView release];
     shareAndBuyView   = nil;[shareAndBuyView release];
@@ -72,6 +76,7 @@ bool HideOrShowPostmark;
     [stamp_SmallButton release];
     [postmark_SmallButton release];
     [voiceRecorder_SmallButton release];
+    [QRImg2 release];
     [super dealloc];
 }
 
@@ -122,6 +127,7 @@ bool HideOrShowPostmark;
     [self setStamp_SmallButton:nil];
     [self setPostmark_SmallButton:nil];
     [self setVoiceRecorder_SmallButton:nil];
+    [self setQRImg2:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -136,9 +142,9 @@ bool HideOrShowPostmark;
 #pragma mark - DisplayStampAndPostmark - 加载邮票邮戳等图片
 - (void)displayStampAndPostmark
 {
-    [stamp_SmallButton addTarget:self action:@selector(hideOrShowStamp) forControlEvents:UIControlEventTouchUpInside];
-    [postmark_SmallButton addTarget:self action:@selector(hideOrShowPostmark) forControlEvents:UIControlEventTouchUpInside];
-
+    [self.stamp_SmallButton addTarget:self action:@selector(hideOrShowStamp) forControlEvents:UIControlEventTouchUpInside];
+    [self.postmark_SmallButton addTarget:self action:@selector(hideOrShowPostmark) forControlEvents:UIControlEventTouchUpInside];
+    [self.voiceRecorder_SmallButton addTarget:self action:@selector(goVoiceRecordView) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (IBAction)hideOrShowStamp 
@@ -171,9 +177,7 @@ bool HideOrShowPostmark;
         self.postmarkImgView.hidden = NO;
         [postmark_SmallButton setImage:[UIImage imageNamed:@"slidebtnshow.png"] forState:UIControlStateNormal];
     }
-    
 }
-
 
 #pragma mark - GoToChooseAdressView - 进入地址选择界面
 - (IBAction)goToChooseAdressView 
@@ -203,8 +207,8 @@ bool HideOrShowPostmark;
     self.blessMessageText.frame = CGRectMake(53.5,31.5,150,143);
     self.blessMessageText.transform = CGAffineTransformMakeRotation(degreesToRadian(90));
     
-    self.QRImgView.frame = CGRectMake(-27, 67, 131, 37);
-    self.QRImgView.transform = CGAffineTransformMakeRotation(degreesToRadian(90));
+    self.QRImg2.frame = CGRectMake(22, 18, 29, 32);
+    self.QRImg2.transform = CGAffineTransformMakeRotation(degreesToRadian(90));
     
     self.stampImgView.frame = CGRectMake(161, 290, 68, 72);
     self.stampImgView.transform = CGAffineTransformMakeRotation(degreesToRadian(90));
@@ -226,6 +230,34 @@ bool HideOrShowPostmark;
     
     self.postNumberLabel.frame = CGRectMake(-35, 242, 100, 10);
     self.postNumberLabel.transform = CGAffineTransformMakeRotation(degreesToRadian(90));
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self 
+                                             selector:@selector(getQRPic:)
+                                                 name:@"QRPic" 
+                                               object:nil];
+}
+
+#pragma mark - GetQRPic - NSNotification 
+-(void)getQRPic:(NSNotification *)notification
+{
+    UIImage *tmpImg = notification.object;
+    self.QRImg2.image = tmpImg;
+    
+    [self.voiceRecorder_SmallButton setImage:[UIImage imageNamed:@"slidebtndel.png"] forState:UIControlStateNormal];
+    [self.voiceRecorder_SmallButton removeTarget:self action:@selector(goVoiceRecordView) forControlEvents:UIControlEventTouchUpInside];
+    [self.voiceRecorder_SmallButton addTarget:self action:@selector(deleteTheRecord) forControlEvents:UIControlEventTouchUpInside];//删除录音
+    
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"GetQRPic"];//标志有声音留言
+}
+
+-(void)deleteTheRecord
+{
+    self.QRImg2.image = nil;
+    [self.voiceRecorder_SmallButton setImage:[UIImage imageNamed:@"slidebtnadd.png"] forState:UIControlStateNormal];
+    [self.voiceRecorder_SmallButton removeTarget:self action:@selector(deleteTheRecord) forControlEvents:UIControlEventTouchUpInside];
+    [self.voiceRecorder_SmallButton addTarget:self action:@selector(goVoiceRecordView) forControlEvents:UIControlEventTouchUpInside];
+    
+    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"GetQRPic"];//标志没有声音留言
 }
 
 #pragma mark - ShrinkBottom - 底部收缩
@@ -263,9 +295,5 @@ bool HideOrShowPostmark;
     self.shareAndBuyView.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
     [self presentModalViewController:self.shareAndBuyView animated:YES];
 }
-
-
-
-
 
 @end

@@ -25,6 +25,12 @@
 		B11331F01576010600FAB683 /* addphotobk.png in Resources */ = {isa = PBXBuildFile; fileRef = B11331EC1576010600FAB683 /* addphotobk.png */; };
 		B11331F11576010600FAB683 /* addphotobkclick.png in Resources */ = {isa = PBXBuildFile; fileRef = B11331ED1576010600FAB683 /* addphotobkclick.png */; };
 		B11331F21576010600FAB683 /* addphotoclick.png in Resources */ = {isa = PBXBuildFile; fileRef = B11331EE1576010600FAB683 /* addphotoclick.png */; };
+		B11C4E18157DDFAD0039B764 /* recordbk.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B11C4E17157DDFAD0039B764 /* recordbk.jpg */; };
+		B11C4E1A157DE08F0039B764 /* ledbk.png in Resources */ = {isa = PBXBuildFile; fileRef = B11C4E19157DE08F0039B764 /* ledbk.png */; };
+		B11C4E1D157DE1580039B764 /* playbtnenablepress.png in Resources */ = {isa = PBXBuildFile; fileRef = B11C4E1B157DE1580039B764 /* playbtnenablepress.png */; };
+		B11C4E1E157DE1580039B764 /* playbtnpress.png in Resources */ = {isa = PBXBuildFile; fileRef = B11C4E1C157DE1580039B764 /* playbtnpress.png */; };
+		B11C4E21157DE1A00039B764 /* speakbtn.png in Resources */ = {isa = PBXBuildFile; fileRef = B11C4E1F157DE1A00039B764 /* speakbtn.png */; };
+		B11C4E22157DE1A00039B764 /* speakbtnpress.png in Resources */ = {isa = PBXBuildFile; fileRef = B11C4E20157DE1A00039B764 /* speakbtnpress.png */; };
 		B121DC11157C431700B52F9B /* slidecon.png in Resources */ = {isa = PBXBuildFile; fileRef = B121DC10157C431700B52F9B /* slidecon.png */; };
 		B121DC14157C4D8000B52F9B /* backbk2.png in Resources */ = {isa = PBXBuildFile; fileRef = B121DC13157C4D8000B52F9B /* backbk2.png */; };
 		B12E8514156CBEB400B0737B /* ActivityListView.m in Sources */ = {isa = PBXBuildFile; fileRef = B12E8512156CBEB400B0737B /* ActivityListView.m */; };
@@ -96,6 +102,7 @@
 		B18A86981575CF42008CA3E8 /* slidecon.png in Resources */ = {isa = PBXBuildFile; fileRef = B18A868B1575CF42008CA3E8 /* slidecon.png */; };
 		B18A86991575CF42008CA3E8 /* titlebtnok.png in Resources */ = {isa = PBXBuildFile; fileRef = B18A868C1575CF42008CA3E8 /* titlebtnok.png */; };
 		B18A869A1575CF42008CA3E8 /* titlebtnokclick.png in Resources */ = {isa = PBXBuildFile; fileRef = B18A868D1575CF42008CA3E8 /* titlebtnokclick.png */; };
+		B18FB968157D9B1600648FBE /* libQRcodeFormLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B18FB967157D9B1600648FBE /* libQRcodeFormLib.a */; };
 		B19830B1157796D5006C1EFF /* ChooseAddressView.m in Sources */ = {isa = PBXBuildFile; fileRef = B19830AF157796D5006C1EFF /* ChooseAddressView.m */; };
 		B19830B2157796D5006C1EFF /* ChooseAddressView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B19830B0157796D5006C1EFF /* ChooseAddressView.xib */; };
 		B19830B6157796EE006C1EFF /* RecordVoiceView.m in Sources */ = {isa = PBXBuildFile; fileRef = B19830B4157796EE006C1EFF /* RecordVoiceView.m */; };
@@ -181,6 +188,12 @@
 		B11331EC1576010600FAB683 /* addphotobk.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = addphotobk.png; path = Resources/pic/Pic_PostFront/addphotobk.png; sourceTree = "<group>"; };
 		B11331ED1576010600FAB683 /* addphotobkclick.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = addphotobkclick.png; path = Resources/pic/Pic_PostFront/addphotobkclick.png; sourceTree = "<group>"; };
 		B11331EE1576010600FAB683 /* addphotoclick.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = addphotoclick.png; path = Resources/pic/Pic_PostFront/addphotoclick.png; sourceTree = "<group>"; };
+		B11C4E17157DDFAD0039B764 /* recordbk.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = recordbk.jpg; path = Resources/pic/Pic_PoatBack/recordbk.jpg; sourceTree = "<group>"; };
+		B11C4E19157DE08F0039B764 /* ledbk.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ledbk.png; path = Resources/pic/Pic_PoatBack/ledbk.png; sourceTree = "<group>"; };
+		B11C4E1B157DE1580039B764 /* playbtnenablepress.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = playbtnenablepress.png; path = Resources/pic/Pic_PoatBack/playbtnenablepress.png; sourceTree = "<group>"; };
+		B11C4E1C157DE1580039B764 /* playbtnpress.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = playbtnpress.png; path = Resources/pic/Pic_PoatBack/playbtnpress.png; sourceTree = "<group>"; };
+		B11C4E1F157DE1A00039B764 /* speakbtn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = speakbtn.png; path = Resources/pic/Pic_PoatBack/speakbtn.png; sourceTree = "<group>"; };
+		B11C4E20157DE1A00039B764 /* speakbtnpress.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = speakbtnpress.png; path = Resources/pic/Pic_PoatBack/speakbtnpress.png; sourceTree = "<group>"; };
 		B121DC10157C431700B52F9B /* slidecon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = slidecon.png; path = Resources/pic/Pic_PoatBack/slidecon.png; sourceTree = "<group>"; };
 		B121DC13157C4D8000B52F9B /* backbk2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = backbk2.png; path = Resources/pic/Pic_PoatBack/backbk2.png; sourceTree = "<group>"; };
 		B12E8511156CBEB400B0737B /* ActivityListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ActivityListView.h; path = ActivityListView/ActivityListView.h; sourceTree = "<group>"; };
@@ -283,6 +296,21 @@
 		B18A868B1575CF42008CA3E8 /* slidecon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = slidecon.png; path = Resources/pic/Pic_PostFront/slidecon.png; sourceTree = "<group>"; };
 		B18A868C1575CF42008CA3E8 /* titlebtnok.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = titlebtnok.png; path = Resources/pic/Pic_PostFront/titlebtnok.png; sourceTree = "<group>"; };
 		B18A868D1575CF42008CA3E8 /* titlebtnokclick.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = titlebtnokclick.png; path = Resources/pic/Pic_PostFront/titlebtnokclick.png; sourceTree = "<group>"; };
+		B18FB959157D9B1600648FBE /* Barcode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Barcode.h; sourceTree = "<group>"; };
+		B18FB95A157D9B1600648FBE /* FileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileManager.h; sourceTree = "<group>"; };
+		B18FB95B157D9B1600648FBE /* png.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = png.h; sourceTree = "<group>"; };
+		B18FB95C157D9B1600648FBE /* pngconf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pngconf.h; sourceTree = "<group>"; };
+		B18FB95D157D9B1600648FBE /* pngdebug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pngdebug.h; sourceTree = "<group>"; };
+		B18FB95E157D9B1600648FBE /* pnginfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pnginfo.h; sourceTree = "<group>"; };
+		B18FB95F157D9B1600648FBE /* pnglibconf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pnglibconf.h; sourceTree = "<group>"; };
+		B18FB960157D9B1600648FBE /* pngpriv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pngpriv.h; sourceTree = "<group>"; };
+		B18FB961157D9B1600648FBE /* pngstruct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pngstruct.h; sourceTree = "<group>"; };
+		B18FB962157D9B1600648FBE /* qr_draw.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = qr_draw.h; sourceTree = "<group>"; };
+		B18FB963157D9B1600648FBE /* qr_draw_png.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = qr_draw_png.h; sourceTree = "<group>"; };
+		B18FB964157D9B1600648FBE /* QR_Encode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QR_Encode.h; sourceTree = "<group>"; };
+		B18FB965157D9B1600648FBE /* win2ansi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = win2ansi.h; sourceTree = "<group>"; };
+		B18FB966157D9B1600648FBE /* zlib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zlib.h; sourceTree = "<group>"; };
+		B18FB967157D9B1600648FBE /* libQRcodeFormLib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libQRcodeFormLib.a; path = "ILovepostcard/DisplayEachTemplateDetals-Back/RecordVoiceView/VoiceRecordLib/libQRcodeFormLib.a"; sourceTree = "<group>"; };
 		B19830AE157796D5006C1EFF /* ChooseAddressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChooseAddressView.h; path = "ILovepostcard/DisplayEachTemplateDetals-Back/ChooseAddressView/ChooseAddressView.h"; sourceTree = "<group>"; };
 		B19830AF157796D5006C1EFF /* ChooseAddressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ChooseAddressView.m; path = "ILovepostcard/DisplayEachTemplateDetals-Back/ChooseAddressView/ChooseAddressView.m"; sourceTree = "<group>"; };
 		B19830B0157796D5006C1EFF /* ChooseAddressView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ChooseAddressView.xib; path = "ILovepostcard/DisplayEachTemplateDetals-Back/ChooseAddressView/ChooseAddressView.xib"; sourceTree = "<group>"; };
@@ -397,6 +425,7 @@
 				B102FF6B155BB303008DC42D /* CFNetwork.framework in Frameworks */,
 				B15EDD9B155A577A00B0C873 /* UIKit.framework in Frameworks */,
 				B15EDD9D155A577A00B0C873 /* Foundation.framework in Frameworks */,
+				B18FB968157D9B1600648FBE /* libQRcodeFormLib.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -510,6 +539,8 @@
 		B123DFB91578543D00B34EA0 /* VoiceRecordLib */ = {
 			isa = PBXGroup;
 			children = (
+				B18FB958157D9B1600648FBE /* include */,
+				B18FB967157D9B1600648FBE /* libQRcodeFormLib.a */,
 			);
 			name = VoiceRecordLib;
 			sourceTree = "<group>";
@@ -783,6 +814,28 @@
 			path = ..;
 			sourceTree = "<group>";
 		};
+		B18FB958157D9B1600648FBE /* include */ = {
+			isa = PBXGroup;
+			children = (
+				B18FB959157D9B1600648FBE /* Barcode.h */,
+				B18FB95A157D9B1600648FBE /* FileManager.h */,
+				B18FB95B157D9B1600648FBE /* png.h */,
+				B18FB95C157D9B1600648FBE /* pngconf.h */,
+				B18FB95D157D9B1600648FBE /* pngdebug.h */,
+				B18FB95E157D9B1600648FBE /* pnginfo.h */,
+				B18FB95F157D9B1600648FBE /* pnglibconf.h */,
+				B18FB960157D9B1600648FBE /* pngpriv.h */,
+				B18FB961157D9B1600648FBE /* pngstruct.h */,
+				B18FB962157D9B1600648FBE /* qr_draw.h */,
+				B18FB963157D9B1600648FBE /* qr_draw_png.h */,
+				B18FB964157D9B1600648FBE /* QR_Encode.h */,
+				B18FB965157D9B1600648FBE /* win2ansi.h */,
+				B18FB966157D9B1600648FBE /* zlib.h */,
+			);
+			name = include;
+			path = "ILovepostcard/DisplayEachTemplateDetals-Back/RecordVoiceView/VoiceRecordLib/include";
+			sourceTree = "<group>";
+		};
 		B19830AB1577965B006C1EFF /* RecordVoiceView */ = {
 			isa = PBXGroup;
 			children = (
@@ -953,6 +1006,12 @@
 		B1D1D3CB156A51DF0015A054 /* Pic_PostcardBack */ = {
 			isa = PBXGroup;
 			children = (
+				B11C4E1F157DE1A00039B764 /* speakbtn.png */,
+				B11C4E20157DE1A00039B764 /* speakbtnpress.png */,
+				B11C4E1B157DE1580039B764 /* playbtnenablepress.png */,
+				B11C4E1C157DE1580039B764 /* playbtnpress.png */,
+				B11C4E19157DE08F0039B764 /* ledbk.png */,
+				B11C4E17157DDFAD0039B764 /* recordbk.jpg */,
 				B121DC13157C4D8000B52F9B /* backbk2.png */,
 				B121DC10157C431700B52F9B /* slidecon.png */,
 				B1B8CD4D157B4DD400E474B9 /* editinfo.png */,
@@ -1100,6 +1159,12 @@
 				B1B8CD54157B4DD400E474B9 /* recordpic.png in Resources */,
 				B121DC11157C431700B52F9B /* slidecon.png in Resources */,
 				B121DC14157C4D8000B52F9B /* backbk2.png in Resources */,
+				B11C4E18157DDFAD0039B764 /* recordbk.jpg in Resources */,
+				B11C4E1A157DE08F0039B764 /* ledbk.png in Resources */,
+				B11C4E1D157DE1580039B764 /* playbtnenablepress.png in Resources */,
+				B11C4E1E157DE1580039B764 /* playbtnpress.png in Resources */,
+				B11C4E21157DE1A00039B764 /* speakbtn.png in Resources */,
+				B11C4E22157DE1A00039B764 /* speakbtnpress.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1240,8 +1305,8 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Wei Wei (D4S7U535YV)";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ILovepostcard/ILovepostcard-Prefix.pch";
@@ -1254,6 +1319,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/ILovepostcard/VoiceMessageView/ZBarSDK\"",
 					"\"$(SRCROOT)/ILovepostcard/VoiceMessageView/ZBarSDK/Headers/ZBarSDK\"",
+					"\"$(SRCROOT)/ILovepostcard/DisplayEachTemplateDetals-Back/RecordVoiceView/VoiceRecordLib\"",
 				);
 				OTHER_LDFLAGS = (
 					"-lstdc++",
@@ -1262,8 +1328,7 @@
 					"-Objc",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "76887534-6B8F-45E2-8C4B-9EAA5E4D3D26";
 				SDKROOT = iphoneos5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "";
@@ -1277,8 +1342,8 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Wei Wei (D4S7U535YV)";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ILovepostcard/ILovepostcard-Prefix.pch";
@@ -1291,6 +1356,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/ILovepostcard/VoiceMessageView/ZBarSDK\"",
 					"\"$(SRCROOT)/ILovepostcard/VoiceMessageView/ZBarSDK/Headers/ZBarSDK\"",
+					"\"$(SRCROOT)/ILovepostcard/DisplayEachTemplateDetals-Back/RecordVoiceView/VoiceRecordLib\"",
 				);
 				OTHER_LDFLAGS = (
 					"-lstdc++",
@@ -1299,8 +1365,7 @@
 					"-Objc",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "4A1B628D-4618-4C66-A67E-45E044120E71";
 				SDKROOT = iphoneos5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "";

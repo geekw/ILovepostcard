@@ -6,7 +6,7 @@
 //  Copyright (c) 2012年 开趣. All rights reserved.
 //
 
-#define RECORDPATH [NSString stringWithFormat:@"%@/Documents/Record/",NSHomeDirectory()]
+#define RECORDPATH [NSString stringWithFormat:@"%@/Documents/",NSHomeDirectory()]
 
 #define UPLOAD_IMAGE_WEBSITE_PATH [NSString stringWithFormat:@"http://61.155.238.30:80/postcards/file/upload"]
 
@@ -32,7 +32,7 @@ bool StopOrSatrt;
 #pragma mark - goBack - 返回按钮
 -(IBAction)goBack
 {
-    [self dismissModalViewControllerAnimated:NO];
+    [self dismissModalViewControllerAnimated:YES];
 }
 
 #pragma mark - View lifecycle - 系统函数
@@ -49,11 +49,11 @@ bool StopOrSatrt;
     [timerLabel release];
     [super dealloc];
 }
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self)
-    {
+    if (self){
     }
     return self;
 }
@@ -61,12 +61,30 @@ bool StopOrSatrt;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-        
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
     NSString *strName = [@"record" stringByAppendingString:@".caf"];
     NSString *fullPath = [RECORDPATH stringByAppendingPathComponent:strName];
     [[NSUserDefaults standardUserDefaults] setValue:fullPath forKey:@"LocalRecordPath"];
-
+    
+    UILongPressGestureRecognizer *recrodGes = [[UILongPressGestureRecognizer alloc] initWithTarget:self 
+                                        action:@selector(startRecordVoice:)];//开始录音,停止录音
+    recrodGes.delegate = self;
+    [self.voiceRecordButton addGestureRecognizer:recrodGes];
+    [recrodGes release];
+    
     playVoiceButton.userInteractionEnabled = NO;
+    
+    
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"GetQRPic"] == NO)
+    {
+        [playVoiceButton setImage:[UIImage imageNamed:@"playbtnpress.png"] forState:UIControlStateNormal];
+    }
+    
+    [self.voiceRecordButton setImage:[UIImage imageNamed:@"speakbtnpress.png"] forState:UIControlStateHighlighted];
+
 }
 
 - (void)viewDidUnload
@@ -85,58 +103,87 @@ bool StopOrSatrt;
 }
 
 #pragma mark - VoiceRecord  - 开始录音
-- (IBAction)voiceRecord 
+- (void)startRecordVoice:(UIGestureRecognizer *)gesture 
 {
-    if (StopOrSatrt == NO)
+    
+    switch (gesture.state)
     {
-        StopOrSatrt = YES;
-        currentTime = 0;
-        self.playVoiceButton.userInteractionEnabled = NO;
+            
+        case UIGestureRecognizerStateEnded:
+            if (StopOrSatrt == YES)
+            {
+                StopOrSatrt = NO;
+                [audioRecorder stop];
+                [self.audioSession setActive: NO error: nil];
+                playVoiceButton.userInteractionEnabled = YES;
+                [playVoiceButton setImage:[UIImage imageNamed:@"playbtnenablepress.png"] forState:UIControlStateNormal];
+                [myTimer invalidate];            
+            }
 
-        NSString *voicePath = [[NSUserDefaults standardUserDefaults] valueForKey:@"LocalRecordPath"]; 
-        NSURL *url = [NSURL fileURLWithPath:voicePath];//录音存放目录
-        
-        NSDictionary *settings=[NSDictionary dictionaryWithObjectsAndKeys:
-                                [NSNumber numberWithInt:kAudioFormatMPEG4AAC],AVFormatIDKey,
-                                [NSNumber numberWithFloat:8000.0],AVSampleRateKey,
-                                [NSNumber numberWithInt:kAudioFormatLinearPCM],AVFormatIDKey,
-                                [NSNumber numberWithInt:1],AVNumberOfChannelsKey,
-                                [NSNumber numberWithInt:8],AVLinearPCMBitDepthKey,
-                                [NSNumber numberWithBool:NO],AVLinearPCMIsBigEndianKey,
-                                [NSNumber numberWithBool:NO],AVLinearPCMIsFloatKey,
-                                nil];   
-        NSError *error;
-        [[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategoryPlayAndRecord error: nil];
+            break;
+            
+        case UIGestureRecognizerStateBegan:
+            if (StopOrSatrt == NO)
+            {
+                StopOrSatrt = YES;
+                currentTime = 0;
+                self.playVoiceButton.userInteractionEnabled = NO;
+                
+                NSString *voicePath = [[NSUserDefaults standardUserDefaults] valueForKey:@"LocalRecordPath"]; 
+                NSURL *url = [NSURL fileURLWithPath:voicePath];//录音存放目录
+                
+                NSDictionary *settings=[NSDictionary dictionaryWithObjectsAndKeys:
+                                        [NSNumber numberWithInt:kAudioFormatMPEG4AAC],AVFormatIDKey,
+                                        [NSNumber numberWithFloat:8000.0],AVSampleRateKey,
+                                        [NSNumber numberWithInt:kAudioFormatLinearPCM],AVFormatIDKey,
+                                        [NSNumber numberWithInt:1],AVNumberOfChannelsKey,
+                                        [NSNumber numberWithInt:8],AVLinearPCMBitDepthKey,
+                                        [NSNumber numberWithBool:NO],AVLinearPCMIsBigEndianKey,
+                                        [NSNumber numberWithBool:NO],AVLinearPCMIsFloatKey,
+                                        nil];   
+                NSError *error;
+                [[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategoryPlayAndRecord error: nil];
+                
+                self.audioRecorder = [[AVAudioRecorder alloc] initWithURL:url settings:settings error:&error];
+                self.audioRecorder.delegate = self;
+                
+                self.audioSession= [AVAudioSession sharedInstance];
+                self.audioSession.delegate = self;
+                
+                [self.audioRecorder prepareToRecord];  
+                [self.audioSession setActive: YES error: nil];
+                
+                self.audioRecorder.meteringEnabled = YES;        
+                [self.audioRecorder peakPowerForChannel:0];
+                [self.audioRecorder record];
+                myTimer = [[NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(showTime) userInfo:nil repeats:YES] retain];
+                [self.voiceRecordButton setImage:[UIImage imageNamed:@"speakbtnpress.png"] forState:UIControlStateHighlighted];
+                [self.voiceRecordButton setImage:[UIImage imageNamed:@"speakbtnpress.png"] forState:UIControlStateNormal];
+            
+            }
+            break;
+        case UIGestureRecognizerStateFailed:
+           if (!promptView)
+            {
+                promptView = [[PromptView alloc] init];
+            }    
+            [self.promptView showPromptWithParentView:self.view 
+                                           withPrompt:@"时间太短,请按住录音" 
+                                            withFrame:CGRectMake(40, 120, 240, 240)];
+            break;
+                    
+        default:
+        break;
+    }
+    
 
-        self.audioRecorder = [[AVAudioRecorder alloc] initWithURL:url settings:settings error:&error];
-        self.audioRecorder.delegate = self;
-        
-        self.audioSession= [AVAudioSession sharedInstance];
-        self.audioSession.delegate = self;
-        
-        [self.audioRecorder prepareToRecord];  
-        [self.audioSession setActive: YES error: nil];
-        
-        self.audioRecorder.meteringEnabled = YES;        
-        [self.audioRecorder peakPowerForChannel:0];
-        [self.audioRecorder record];
-        myTimer = [[NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(showTime) userInfo:nil repeats:YES] retain];
-    }
-    else
-    {
-        StopOrSatrt = NO;
-        [audioRecorder stop];
-        [self.audioSession setActive: NO error: nil];
-        playVoiceButton.userInteractionEnabled = YES;
-        [myTimer invalidate];        
-    }
 }
 
 
 -(void)showTime
 {
     currentTime++;
-    if (currentTime == 20) 
+    if (currentTime == 21) 
     {
         StopOrSatrt = NO;
         [audioRecorder stop];
@@ -149,19 +196,13 @@ bool StopOrSatrt;
     int secs = currentTime % 60;
     int mins = (currentTime / 60) % 60;
     
-    self.timerLabel.text = [NSString stringWithFormat:@"%.2d:%.2d", mins, secs];
+    self.timerLabel.text = [NSString stringWithFormat:@"%.2d %.2d", mins, secs];
 }
-
-//-(void)levelTimerCallback:(NSTimer *)timer
-//{
-//    [self.audioRecorder updateMeters];
-//    NSLog(@"1 %f 2%f",[self.audioRecorder averagePowerForChannel:0],[self.audioRecorder peakPowerForChannel:0]);
-//}
 
 #pragma mark - PlayVoice - 预览录音
 - (IBAction)playVoice 
 {
-    self.timerLabel.text = @"00:00";
+    self.timerLabel.text = @"00 00";
     currentTime = 0;
     myTimer = [[NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(showTime) userInfo:nil repeats:YES] retain];
 
@@ -195,6 +236,7 @@ bool StopOrSatrt;
 {
     [self.audioPlayer stop];
     [myTimer invalidate];
+    [self.voiceRecordButton setImage:[UIImage imageNamed:@"speakbtn.png"] forState:UIControlStateNormal];
 }
 
 #pragma mark - EndVoiceRecord - 结束录音,带着生成的二维码返回
@@ -209,9 +251,10 @@ bool StopOrSatrt;
         ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:UPLOAD_IMAGE_WEBSITE_PATH]];
         [request setDelegate:self];
         [request setData: data
-            withFileName: @"recordTest.caf"
-          andContentType: @"recordTest/caf"
-                  forKey: @"file"];    [request appendPostData:[@"{\"postcard\":\"1\"}" dataUsingEncoding:NSUTF8StringEncoding]];
+            withFileName: @"record.caf"
+          andContentType: @"application/octet-stream"
+                  forKey: @"file"];  
+        [request appendPostData:[@"{\"postcard\":\"1\"}" dataUsingEncoding:NSUTF8StringEncoding]];
         [request setDidFinishSelector:@selector(requestUploadImageFinish:)];
         [request setDidFailSelector:@selector(requestUploadImageFail:)];
         [request startAsynchronous];
@@ -219,18 +262,45 @@ bool StopOrSatrt;
     }
     else 
     {
-        if (!promptView) {
+        if (!promptView)
+        {
             promptView = [[PromptView alloc] init];
         }
-        [promptView showPromptWithParentView:self.view
+        [self.promptView showPromptWithParentView:self.view
                                   withPrompt:@"请您先录音" 
                                    withFrame:CGRectMake(40, 120, 240, 240)];
         return;
-    
-    }
-    
+    }    
+}
 
-
+- (void)requestUploadImageFinish:(ASIFormDataRequest *)request
+{
+    NSLog(@"%@",[request responseString]);
+    Barcode *barcode = [[Barcode alloc] init];
+    
+    self.view.backgroundColor = [UIColor whiteColor];
+    
+    [barcode setupQRCode:[request responseString]];
+    
+    UIImage *tmpImage = [barcode qRBarcode];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"QRPic" object:tmpImage];  
+    
+    [self dismissModalViewControllerAnimated:YES];
     
 }
+
+- (void)requestUploadImageFail
+{
+    if (!promptView)
+    {
+        promptView = [[PromptView alloc] init];
+    }
+    [self.promptView showPromptWithParentView:self.view
+                                   withPrompt:@"网络不好,请稍后再试" 
+                                    withFrame:CGRectMake(40, 120, 240, 240)];
+    return;
+}
+
+
 @end

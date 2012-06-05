@@ -11,9 +11,10 @@
 #import <MediaPlayer/MediaPlayer.h>
 #import "ASIHTTPRequest.h"
 #import "ASIFormDataRequest.h"
+#import "Barcode.h"
 #import "PromptView.h"
 
-@interface RecordVoiceView : UIViewController<AVAudioPlayerDelegate, AVAudioRecorderDelegate,AVAudioSessionDelegate,ASIHTTPRequestDelegate>
+@interface RecordVoiceView : UIViewController<AVAudioPlayerDelegate, AVAudioRecorderDelegate,AVAudioSessionDelegate,ASIHTTPRequestDelegate,ASIProgressDelegate,UIGestureRecognizerDelegate>
 {
     NSTimer *myTimer;
 }
