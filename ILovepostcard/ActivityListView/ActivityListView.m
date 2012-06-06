@@ -6,26 +6,22 @@
 //  Copyright (c) 2012年 开趣. All rights reserved.
 //
 
-#define ActivityList @"http://61.155.238.30/postcards/interface/activity_list"//单个模板详情接口
+#define ActivityList @"http://61.155.238.30/postcards/interface/activity_list"//活动列表接口
 #define NumberInPage 3
 
 #import "ActivityListView.h"
-#import "ItemCell.h"
+
 
 @interface ActivityListView ()
 
 @property (nonatomic,assign) NSInteger page;
 @property (nonatomic,assign) BOOL refreshing;
-
 @end
 
 @implementation ActivityListView
 @synthesize goBackButton;
-
-@synthesize dataArray,dataTableView,page,refreshing;
-
-
-int currentPage;
+@synthesize goToPostcardList,postcardList_WithoutSearchbar,itemCell;
+@synthesize dataArray,dataTableView,page,refreshing,dataSource;
 
 #pragma mark - GoBack - 返回按钮
 -(IBAction)goBack
@@ -33,8 +29,19 @@ int currentPage;
     [self dismissModalViewControllerAnimated:YES];
 }
 
-
 #pragma mark - View lifecycle - 系统函数
+- (void)dealloc
+{
+    itemCell = nil;[itemCell release];
+    dataSource = nil;[dataSource release];
+    goToPostcardList = nil;[goToPostcardList release];
+    postcardList_WithoutSearchbar = nil;[postcardList_WithoutSearchbar release];
+    [dataArray release];
+    [dataTableView release];
+    [goBackButton release];
+    [super dealloc];
+}
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -42,6 +49,10 @@ int currentPage;
     {
         page = 0;
         dataArray = [[NSMutableArray alloc] init];
+    if ([dataArray count] > 0)
+    {
+        [dataArray removeAllObjects];//清空数组
+    }
         dataTableView = [[PullingRefreshTableView alloc] initWithFrame:CGRectMake(0, 44, 320, 416)];
         dataTableView.delegate = self;
         dataTableView.dataSource = self;
@@ -77,7 +88,7 @@ int currentPage;
 {
     [super viewDidLoad];
     currentPage = 1;
-
+    [self.goBackButton setImage:[UIImage imageNamed:@"titlebtnbackclick.png"] forState:UIControlStateHighlighted];
     [self performSelector:@selector(requestActivityList)];//请求活动列表
 }
 
@@ -92,13 +103,6 @@ int currentPage;
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-- (void)dealloc
-{
-    [dataArray release];
-    [dataTableView release];
-    [goBackButton release];
-    [super dealloc];
-}
 
 #pragma mark - ActivityList - 请求活动列表,展示列表
 -(void)requestActivityList
@@ -125,55 +129,73 @@ int currentPage;
 -(void)getActivityListFinished:(ASIHTTPRequest *)request
 {
     NSArray *activityListArray = [request responseString].JSONValue;
-    NSLog(@"activityListArray = %@",activityListArray);
     
-    if (page == 0) 
+//    if (page == 0) 
+//    {
+//        [dataTableView launchRefreshing];
+//    }
+    
+//    if (dataArray != nil)
+//    {
+//        [dataArray removeAllObjects];//清空数组
+//    }
+    
+    for (int i = 0; i < [activityListArray count]; i++)
     {
-        [dataTableView launchRefreshing];
+        NSDictionary *activityListDict = [activityListArray objectAtIndex:i];
+        NSLog(@"activityListDict = %@",activityListDict);
+        ItemData *item = [[ItemData alloc] init];
+        NSString *nameStr = [activityListDict valueForKey:@"name"];
+        NSString *picUrlStr = [activityListDict valueForKey:@"small"];
+        NSString *likeStr = [activityListDict valueForKey:@"partnum"];
+//        NSString *effert = [activityListDict valueForKey:@"effect"];
+        item.title = nameStr;
+        item.loveCount = likeStr;
+        item.imageStr = picUrlStr;
+        [dataArray addObject:item];
+        [item release];
     }
-    
-    NSDictionary *activityListDict = [activityListArray objectAtIndex:0];
-    NSLog(@"activityListDict = %@",activityListDict);
-    
+     [dataTableView reloadData];
 }
-
 
 - (void)loadData
 {
-    page++;
-    if (refreshing)
-    {
-        page = 1;
-        refreshing = NO;
-        [dataArray removeAllObjects];
-    }
-    for (int i = 0; i < 10; i++) 
-    {
-        [dataArray addObject:@"ROW"];
-    }
-    if (page >= 3)
-    {
-        [dataTableView tableViewDidFinishedLoadingWithMessage:@"All loaded!"];
-        dataTableView.reachedTheEnd  = YES;
-    } 
-    else 
-    {        
-        [dataTableView tableViewDidFinishedLoading];
-        dataTableView.reachedTheEnd  = NO;
-        [dataTableView reloadData];
-    }
-}
 
+    [dataTableView reloadData];
+//    if (refreshing)
+//    {
+//        page = 1;
+//        refreshing = NO;
+//        [dataArray removeAllObjects];
+//    }
+//    for (int i = 0; i < 10; i++) 
+//    {
+//        [dataArray addObject:@"ROW"];
+//    }
+//    if (page >= 3)
+//    {
+//        [dataTableView tableViewDidFinishedLoadingWithMessage:@"All loaded!"];
+//        dataTableView.reachedTheEnd  = YES;
+//    } 
+//    else 
+//    {        
+//        [dataTableView tableViewDidFinishedLoading];
+//        dataTableView.reachedTheEnd  = NO;
+//        [dataTableView reloadData];
+//    }
+}
 
 #pragma mark - TableView*
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+- (NSInteger)tableView:(UITableView *)tableView 
+ numberOfRowsInSection:(NSInteger)section
+{
     return [dataArray count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString *uniqueIdentifier = @"ItemCell";
+    NSString *uniqueIdentifier = @"ItemCellView";
     
     ItemCell  *cell = nil;
     
@@ -181,17 +203,21 @@ int currentPage;
     
     if(!cell)
     {
-        NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"ItemCell" owner:nil options:nil];
+        NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"ItemCellView" owner:nil options:nil];
+    
+        
         for(id currentObject in topLevelObjects)
         {
             if([currentObject isKindOfClass:[ItemCell class]])
             {
                 cell = (ItemCell *)currentObject;
+                
                 break;
             }
         }
     }
     return cell;
+    currentPage ++;
 }
 
 #pragma mark - PullingRefreshTableViewDelegate
@@ -201,7 +227,8 @@ int currentPage;
     [self performSelector:@selector(loadData) withObject:nil afterDelay:1.f];
 }
 
-- (NSDate *)pullingTableViewRefreshingFinishedDate{
+- (NSDate *)pullingTableViewRefreshingFinishedDate
+{
     NSDateFormatter *df = [[NSDateFormatter alloc] init ];
     df.dateFormat = @"yyyy-MM-dd HH:mm";
     NSDate *date = [df dateFromString:@"2012-05-03 10:10"];
@@ -209,17 +236,20 @@ int currentPage;
     return date;
 }
 
-- (void)pullingTableViewDidStartLoading:(PullingRefreshTableView *)tableView{
+- (void)pullingTableViewDidStartLoading:(PullingRefreshTableView *)tableView
+{
     [self performSelector:@selector(loadData) withObject:nil afterDelay:1.f];    
 }
 
 #pragma mark - Scroll
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
     [dataTableView tableViewDidScroll:scrollView];
 }
 
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
     [dataTableView tableViewDidEndDragging:scrollView];
 }
 

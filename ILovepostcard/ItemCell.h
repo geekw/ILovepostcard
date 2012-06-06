@@ -12,12 +12,12 @@
 {
     IBOutlet UILabel *title;
     IBOutlet UILabel *loveCount;
-    IBOutlet UIImageView *imageView;
+    IBOutlet UIButton *imgButton;
 }
 
 @property(nonatomic,retain)UILabel *title;
 @property(nonatomic,retain)UILabel *loveCount;
-@property(nonatomic,retain)UIImageView *imageView;
+@property(nonatomic,retain)UIButton *imgButton;
 
 
 

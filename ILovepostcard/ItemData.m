@@ -10,7 +10,7 @@
 
 @implementation ItemData
 
-@synthesize title,loveCount,image;
+@synthesize title,loveCount,imageStr;
 
 - (id)init
 {
@@ -18,7 +18,7 @@
     {
         title = nil; 
         loveCount = nil;
-        image = nil;
+        imageStr = nil;
     }
     return self;
 }
@@ -27,7 +27,7 @@
 {
     [title release];
     [loveCount release];
-    [image release];
+    [imageStr release];
     [super dealloc];
 }
 

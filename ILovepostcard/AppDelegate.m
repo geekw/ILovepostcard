@@ -27,17 +27,17 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
-    // Override point for customization after application launch.
-    self.viewController = [[[ViewController alloc] initWithNibName:@"ViewController" bundle:nil] autorelease];
-    self.window.rootViewController = self.viewController;
-    [self.window makeKeyAndVisible];
-
     NSString *clienIdStr = [[NSUserDefaults standardUserDefaults] stringForKey:@"ClientId"];
     if (clienIdStr == nil)
     {
         [self performSelector:@selector(getClientId)];//获取ClientId
     }
+    
+    self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
+    // Override point for customization after application launch.
+    self.viewController = [[[ViewController alloc] initWithNibName:@"ViewController" bundle:nil] autorelease];
+    self.window.rootViewController = self.viewController;
+    [self.window makeKeyAndVisible];
     
     return YES;
 }
@@ -81,36 +81,19 @@
      */
 }
 
-/*
-// Optional UITabBarControllerDelegate method.
-- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
-{
-}
-*/
-
-/*
-// Optional UITabBarControllerDelegate method.
-- (void)tabBarController:(UITabBarController *)tabBarController didEndCustomizingViewControllers:(NSArray *)viewControllers changed:(BOOL)changed
-{
-}
-*/
 
 #pragma mark - GetClientId - 返回clientId
 -(void)getClientId
 {
     NSString *clientStr = [[UIDevice currentDevice] uniqueDeviceIdentifier];
     NSLog(@"clientStr = %@",clientStr);
-    
     NSString*  systemVersion=[[UIDevice currentDevice] systemVersion];
     NSLog(@"systemVersion = %@",systemVersion);
-    
     NSString *loadString = [ClientIdURL stringByAppendingFormat:@"?cos=1&imei=%@&c=1&iv=%@",clientStr,systemVersion];
-    
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:loadString]];
     request.delegate = self;
     [request setDidFinishSelector:@selector(getClientIdFineshed:)];//正常情况取得json数据
-    [request startAsynchronous];
-    
+    [request startSynchronous];
 }
 
 - (void)getClientIdFineshed:(ASIHTTPRequest *)request//取得json数据

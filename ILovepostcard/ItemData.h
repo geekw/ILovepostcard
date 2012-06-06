@@ -12,11 +12,11 @@
 {
     NSString *title;
     NSString *loveCount;
-    UIImage *image;
+    NSString *imageStr;
 }
 
-@property(nonatomic,retain)NSString *title;
-@property(nonatomic,retain)NSString *loveCount;
-@property(nonatomic,retain)UIImage *image;
+@property(nonatomic,retain) NSString *title;
+@property(nonatomic,retain) NSString *loveCount;
+@property(nonatomic,retain) NSString *imageStr;
 
 @end

@@ -60,7 +60,7 @@ bool hideOrShowBottonView;
 {
     [super viewDidLoad];
     [self performSelector:@selector(readMapInfo)];//获得经纬度
-//    [self performSelector:@selector(requestFrontDetails)];//请求明信片正面素材
+    [self performSelector:@selector(requestFrontDetails)];//请求明信片正面素材
     
     [backButton setImage:[UIImage imageNamed:@"titlebtnbackclick.png"] forState:UIControlStateHighlighted];
     

@@ -10,7 +10,7 @@
 #import "ActivityListView.h"
 #import "VoiceMessageView.h"
 
-@interface ViewController : UIViewController
+@interface ViewController : UIViewController<UIScrollViewDelegate>
 
 @property (retain, nonatomic) GoToPostcardList *postcardList;
 @property (retain, nonatomic) ActivityListView *activityListView;
@@ -20,12 +20,13 @@
 
 @property (retain, nonatomic) IBOutlet UIButton *goToPostcardListButton;
 
-@property (retain, nonatomic) IBOutlet UIButton *goToActivityListButton;
-
 @property (retain, nonatomic) IBOutlet UIButton *goToPostOfficeButton;
 
 @property (retain, nonatomic) IBOutlet UIButton *getMoreButton;
 
+@property (retain, nonatomic) IBOutlet UIScrollView *loopScrollView;
+
+@property (retain, nonatomic) IBOutlet UILabel *numberLabel;
 
 - (IBAction)goToVoiceMessageView;
 

@@ -447,9 +447,11 @@
 - (void)launchRefreshing 
 {
     [self setContentOffset:CGPointMake(0,0) animated:NO];
-    [UIView animateWithDuration:kPRAnimationDuration animations:^{
+    [UIView animateWithDuration:kPRAnimationDuration animations:^
+    {
         self.contentOffset = CGPointMake(0, -kPROffsetY-1);
-    } completion:^(BOOL bl){
+    } completion:^(BOOL bl)
+    {
         [self tableViewDidEndDragging:self];
     }];
 }

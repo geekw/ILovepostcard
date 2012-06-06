@@ -25,9 +25,16 @@
 
 @property (retain, nonatomic) IBOutlet UIView *flipView;
 
+@property (retain, nonatomic) IBOutlet UIButton *flipButton2;
+
+
+
+
 - (IBAction)goBack;
 
 - (IBAction)flip;
+
+- (IBAction)flip2;
 
 - (IBAction)shareToSIna;
 

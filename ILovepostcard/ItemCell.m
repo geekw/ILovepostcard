@@ -10,7 +10,15 @@
 
 @implementation ItemCell
 
-@synthesize title,imageView,loveCount;
+@synthesize title,imgButton,loveCount;
+
+-(void)dealloc
+{
+    [super dealloc];
+    title = nil;[title release];
+    imgButton = nil;[imgButton release];
+    loveCount = nil;[loveCount release];
+}
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {

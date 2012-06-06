@@ -7,11 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ILActivityList.h"
 #import "ASIHTTPRequest.h"
 #import "ASIFormDataRequest.h"
 #import "SBJson.h"
 #import "PromptView.h"
+#import "GoToPostcardList.h"
+#import "PostcardList_WithoutSearchbar.h"
+#import "ItemData.h"
+#import "ItemCell.h"
+
+
 
 #import "PullingRefreshTableView.h"
 
@@ -21,20 +26,23 @@
 
 {
     int currentPage;
-    int currentPage_Keyword;
     PullingRefreshTableView *dataTableView;
     NSMutableArray *dataArray;      //  数据源
 }
 
+@property (nonatomic, retain) PullingRefreshTableView *dataTableView;
+@property (retain, nonatomic) GoToPostcardList *goToPostcardList;
+@property (retain, nonatomic) PostcardList_WithoutSearchbar *postcardList_WithoutSearchbar;
+@property (retain, nonatomic) ItemData *dataSource;
+@property (retain, nonatomic) ItemCell *itemCell;
 
 @property (retain, nonatomic) IBOutlet UIButton *goBackButton;
-
-@property (nonatomic, retain) PullingRefreshTableView *dataTableView;
 @property (nonatomic, retain) NSMutableArray *dataArray;
 
 
-- (void)updateThread:(NSString *)returnKey;
-- (void)updateTableView;
+//- (void)updateThread:(NSString *)returnKey;
+//
+//- (void)updateTableView;
 
 - (IBAction)goBack;
 

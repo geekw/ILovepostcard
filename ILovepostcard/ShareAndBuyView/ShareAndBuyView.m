@@ -20,6 +20,7 @@
 @synthesize shareButton;
 @synthesize buyButton;
 @synthesize flipView;
+@synthesize flipButton2;
 @synthesize paymentView;
 
 
@@ -42,7 +43,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    [self.shareButton setImage:[UIImage imageNamed:@"weibopress.png"] forState:UIControlStateHighlighted];
+    [self.goBackButton setImage:[UIImage imageNamed:@"titlebtnbackclick.png"] forState:UIControlStateHighlighted];
+    flipButton_Back.backgroundColor = [UIColor blueColor];
 }
 
 - (void)viewDidUnload
@@ -53,6 +56,7 @@
     [self setBuyButton:nil];
     [self setFlipButton_Back:nil];
     [self setFlipView:nil];
+    [self setFlipButton2:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -67,11 +71,12 @@
 {
     paymentView = nil;[paymentView release];
     [goBackButton release];
-    [flipButton release];
     [shareButton release];
     [buyButton release];
     [flipButton_Back release];
     [flipView release];
+    [flipButton release];
+    [flipButton2 release];
     [super dealloc];
 }
 - (IBAction)flip 
@@ -79,7 +84,28 @@
     [UIView beginAnimations:nil context:NULL];
 	[UIView setAnimationDuration:0.75];
     
-	[UIView setAnimationTransition:([self.flipView superview] ?
+	[UIView setAnimationTransition:([self.flipView superview]?
+                                    UIViewAnimationTransitionFlipFromLeft: UIViewAnimationTransitionFlipFromRight)
+                           forView:self.flipView cache:YES];
+	if ([flipButton superview])
+	{
+		[self.flipButton removeFromSuperview];
+		[self.flipView addSubview:flipButton_Back];
+	}
+	else
+	{
+		[self.flipButton_Back removeFromSuperview];
+		[self.flipView addSubview:flipButton];
+	}
+	[UIView commitAnimations];
+}
+
+- (IBAction)flip2
+{
+    [UIView beginAnimations:nil context:NULL];
+	[UIView setAnimationDuration:0.75];
+    
+	[UIView setAnimationTransition:([self.flipView superview]?
                                     UIViewAnimationTransitionFlipFromLeft : UIViewAnimationTransitionFlipFromRight)
                            forView:self.flipView cache:YES];
 	if ([flipButton superview])
