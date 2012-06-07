@@ -16,8 +16,11 @@
 #import "ItemData.h"
 #import "ItemCell.h"
 #import "PullingRefreshTableView.h"
-
+//#import "ItemProduct.h"
+//#import "DataSigner.h"
+//#import "AlixPay.h"
 #define MAX_COUNT 5
+
 
 @interface ActivityListView : UIViewController<ASIHTTPRequestDelegate,UITableViewDataSource, UITableViewDelegate,PullingRefreshTableViewDelegate>
 
