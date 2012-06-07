@@ -37,7 +37,7 @@
         self.atTop = top;
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth;
 		self.backgroundColor = kPRBGColor;
-//        self.backgroundColor = [UIColor clearColor];
+        self.backgroundColor = [UIColor clearColor];
         UIFont *ft = [UIFont systemFontOfSize:12.f];
         _stateLabel = [[UILabel alloc] init ];
         _stateLabel.font = ft;

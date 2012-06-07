@@ -104,6 +104,7 @@ bool hideOrShowBottonView;
 -(void)requestFrontDetails
 {
     int idValue = [idName intValue];
+    NSLog(@"idValue = %d",idValue);
     NSString *loadString = [Template_Front stringByAppendingFormat:@"?id=%d",idValue];
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:loadString]];
     request.delegate = self;
@@ -134,7 +135,7 @@ bool hideOrShowBottonView;
     
     NSDictionary *dict = [request responseString].JSONValue;
     
-    NSDictionary *layoutDict = [dict objectForKey:@"layout"];
+    NSDictionary *layoutDict = [dict objectForKey:@"ly"];
 
     NSArray *areasArray = [layoutDict objectForKey:@"areas"];//可能没有
     if (areasArray != nil)
@@ -142,11 +143,11 @@ bool hideOrShowBottonView;
       [[TemplateDetails_Singleton sharedTemplateDetails_Singleton].templateDetailsDict setObject:areasArray forKey:@"areas"];  
     }    
 
-//    NSString *backgroundStr = [layoutDict objectForKey:@"background"];
-//    [[TemplateDetails_Singleton sharedTemplateDetails_Singleton].templateDetailsDict setObject:backgroundStr forKey:@"background"];
+    NSString *backgroundStr = [layoutDict objectForKey:@"background"];
+    [[TemplateDetails_Singleton sharedTemplateDetails_Singleton].templateDetailsDict setObject:backgroundStr forKey:@"background"];
     
-//    NSString *orientationStr = [layoutDict objectForKey:@"orientation"];
-//    [[TemplateDetails_Singleton sharedTemplateDetails_Singleton].templateDetailsDict setObject:orientationStr forKey:@"orientation"];
+    NSString *orientationStr = [layoutDict objectForKey:@"orientation"];
+    [[TemplateDetails_Singleton sharedTemplateDetails_Singleton].templateDetailsDict setObject:orientationStr forKey:@"orientation"];
 
     
     NSDictionary *backpicDict = [layoutDict objectForKey:@"backpic"];//可能没有
@@ -203,10 +204,17 @@ bool hideOrShowBottonView;
     [bottomButton setImage:nil forState:UIControlStateNormal];
     [indicatorButton setImage:nil forState:UIControlStateNormal];
     indicatorButton.userInteractionEnabled = NO;
+    
     if (fileContent) 
     {
         [fileContent removeFromSuperview];
     }
+    
+    if (cameraButton)
+    {
+        [cameraButton removeFromSuperview];
+    }
+    
     NSArray *areasArray = [[TemplateDetails_Singleton sharedTemplateDetails_Singleton].templateDetailsDict objectForKey:@"areas"];
     NSDictionary *areasDict = [areasArray objectAtIndex:0];
     NSLog(@"areasDict = %@",areasDict);
@@ -230,7 +238,8 @@ bool hideOrShowBottonView;
            forControlEvents:UIControlEventTouchUpInside];//打开相机
     cameraButton.userInteractionEnabled = YES;
     cameraButton.tag = 500 + i * 4;
-    [postcard_FrontView addSubview:cameraButton];
+    [postcard_FrontView insertSubview:cameraButton atIndex:0];
+//    [postcard_FrontView addSubview:cameraButton];
     
     bottomButton = [UIButton buttonWithType:UIButtonTypeCustom];
     bottomButton.frame = CGRectMake(10 + 80 * i, 3, 59, 59);
@@ -249,8 +258,6 @@ bool hideOrShowBottonView;
            forControlEvents:UIControlEventTouchUpInside];
     indicatorButton.tag = 501 + i * 4;
     [self.bottomScrollView addSubview:indicatorButton];
-
-
 }
 
 - (void)goCameraOrPhotoLibrary:(UIButton *)sender//选择相机还是相册
@@ -591,7 +598,7 @@ bool hideOrShowBottonView;
         [fileContent setViewTag: 199];
         fileContent.delegate = self;
         [self.view addSubview:fileContent];
-        [postcard_FrontView addSubview:fileContent];
+        [postcard_FrontView insertSubview:fileContent atIndex:0];
         [fileContent release];
     
     /*  
@@ -629,6 +636,7 @@ bool hideOrShowBottonView;
     [bottomButton setImage:image forState:UIControlStateNormal];
     
     [indicatorButton setImage:[UIImage imageNamed:@"slidebtndel.png"] forState:UIControlStateNormal];
+    
     [indicatorButton removeTarget:self action:@selector(goCameraOrPhotoLibrary:) forControlEvents:UIControlEventTouchUpInside];
     
     [indicatorButton addTarget:self action:@selector(showHollowOutPart) forControlEvents:UIControlEventTouchUpInside];
@@ -717,7 +725,6 @@ bool hideOrShowBottonView;
             break;
     }
 }
-
 
 #pragma mark - ReadMapInfo - 读取经纬度信息
 -(void)readMapInfo

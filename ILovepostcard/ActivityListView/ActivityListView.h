@@ -15,9 +15,6 @@
 #import "PostcardList_WithoutSearchbar.h"
 #import "ItemData.h"
 #import "ItemCell.h"
-
-
-
 #import "PullingRefreshTableView.h"
 
 #define MAX_COUNT 5

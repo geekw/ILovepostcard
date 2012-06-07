@@ -53,10 +53,11 @@
     {
         [dataArray removeAllObjects];//清空数组
     }
-        dataTableView = [[PullingRefreshTableView alloc] initWithFrame:CGRectMake(0, 44, 320, 416)];
+        dataTableView = [[PullingRefreshTableView alloc] initWithFrame:CGRectMake(5, 54, 310, 420)];
         dataTableView.delegate = self;
         dataTableView.dataSource = self;
         dataTableView.backgroundColor = [UIColor clearColor];
+        dataTableView.separatorColor = [UIColor clearColor];
         [self.view addSubview:dataTableView];
 
     }
@@ -130,25 +131,15 @@
 {
     NSArray *activityListArray = [request responseString].JSONValue;
     
-//    if (page == 0) 
-//    {
-//        [dataTableView launchRefreshing];
-//    }
-    
-//    if (dataArray != nil)
-//    {
-//        [dataArray removeAllObjects];//清空数组
-//    }
-    
     for (int i = 0; i < [activityListArray count]; i++)
     {
         NSDictionary *activityListDict = [activityListArray objectAtIndex:i];
         NSLog(@"activityListDict = %@",activityListDict);
         ItemData *item = [[ItemData alloc] init];
-        NSString *nameStr = [activityListDict valueForKey:@"name"];
+        NSString *nameStr   = [activityListDict valueForKey:@"name"];
         NSString *picUrlStr = [activityListDict valueForKey:@"small"];
         NSString *likeStr = [activityListDict valueForKey:@"partnum"];
-//        NSString *effert = [activityListDict valueForKey:@"effect"];
+        NSString *effert  = [activityListDict valueForKey:@"effect"];
         item.title = nameStr;
         item.loveCount = likeStr;
         item.imageStr = picUrlStr;
@@ -187,6 +178,11 @@
 
 #pragma mark - TableView*
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 135;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView 
  numberOfRowsInSection:(NSInteger)section
 {
@@ -196,28 +192,29 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSString *uniqueIdentifier = @"ItemCellView";
-    
-    ItemCell  *cell = nil;
-    
-    cell = (ItemCell *) [tableView dequeueReusableCellWithIdentifier:uniqueIdentifier];
-    
-    if(!cell)
+    ItemCell  *cell = (ItemCell *) [tableView dequeueReusableCellWithIdentifier:uniqueIdentifier];
+
+    for (int i = 0; i < [dataArray count]; i++)
     {
-        NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"ItemCellView" owner:nil options:nil];
-    
-        
-        for(id currentObject in topLevelObjects)
-        {
-            if([currentObject isKindOfClass:[ItemCell class]])
-            {
-                cell = (ItemCell *)currentObject;
-                
-                break;
-            }
-        }
+        NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"ItemCellView" owner:self options:nil];
+      if(!cell)
+      {
+        cell = [topLevelObjects objectAtIndex:i];
+          
+        ItemData *data = [dataArray objectAtIndex:i];
+        NSString *picUrlStr = data.imageStr; 
+        NSLog(@"pic = %@",picUrlStr);
+
+        UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:picUrlStr]]];
+        [cell.imgButton setBackgroundImage:image forState:UIControlStateNormal];
+          
+        cell.title.text = [NSString stringWithFormat:@"%@",data.title];
+        cell.loveCount.text = [NSString stringWithFormat:@"%@",data.loveCount];
+
+      }
     }
-    return cell;
     currentPage ++;
+    return cell;
 }
 
 #pragma mark - PullingRefreshTableViewDelegate
