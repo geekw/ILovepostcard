@@ -112,12 +112,17 @@
 #pragma mark - GoToActivityDetailView - 请求单个列表的详细介绍 - nsnotification方法
 -(void)goToActivityDetailView:(NSNotification *)notification
 {
-    NSString *tmpStr = notification.object;
-    if (!detailView)
+    NSDictionary *tmpDict = notification.object;
+    NSString *tagStr = [tmpDict objectForKey:@"tagStr"];
+    NSString *whichListIntStr = [tmpDict objectForKey:@"whichListInt"];
+    
+    NSDictionary *arrayDict = [dataArray objectAtIndex:[whichListIntStr intValue]];
+        if (!detailView)
     {
         detailView = [[ActivityDetailView alloc] init];
     }
-    self.detailView.activityTag = tmpStr;
+    self.detailView.activityTag  = tagStr;
+    self.detailView.listDict = arrayDict;
     self.detailView.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
     [self presentModalViewController:self.detailView animated:YES];
 }
@@ -187,13 +192,19 @@
         NSLog(@"dict:%@", detailDict);
         
         UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[detailDict objectForKey:@"small"]]]];
-        NSString *title = [detailDict objectForKey:@"name"];
+        NSString *title  = [detailDict objectForKey:@"name"];
         NSString *heartNum = [detailDict objectForKey:@"partnum"];
         NSString *tagStr = [detailDict objectForKey:@"id"];
-        [cell configWithTitle:title btnImage:image heartNum:heartNum tagValue:[tagStr intValue]];
+        
+        [cell configWithTitle:title 
+                     btnImage:image 
+                     heartNum:heartNum 
+                     tagValue:[tagStr intValue] 
+                  listInteger:indexPath.row];
     }
-    currentPage ++;
     return cell;
+    
+    currentPage ++;
 }
 
 #pragma mark - PullingRefreshTableViewDelegate

@@ -11,6 +11,7 @@
 @implementation ActivityDetailView
 @synthesize activityTag;
 @synthesize goBackBtn;
+@synthesize listDict;
 
 
 #pragma mark - GoBack - 返回按钮
@@ -22,6 +23,7 @@
 #pragma mark - View lifecycle - 系统函数
 - (void)dealloc
 {
+    listDict = nil;
     [goBackBtn release];
     [super dealloc];
     activityTag = nil;

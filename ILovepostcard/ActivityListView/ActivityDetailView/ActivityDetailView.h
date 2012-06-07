@@ -14,6 +14,8 @@
 
 
 @property (retain, nonatomic) NSString *activityTag;
+@property (retain, nonatomic) NSDictionary *listDict;
+
 @property (retain, nonatomic) IBOutlet UIButton *goBackBtn;
 
 

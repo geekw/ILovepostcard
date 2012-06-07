@@ -12,9 +12,11 @@
 @synthesize btn;
 @synthesize titleLbl;
 @synthesize heartNumLbl;
+@synthesize whichListInt;
 
 -(void)dealloc
 {
+    whichListInt = nil;
     [btn release];
     [titleLbl release];
     [heartNumLbl release];
@@ -46,14 +48,13 @@
                btnImage:(UIImage *)image
                heartNum:(NSString *)heartNum
                tagValue:(NSInteger)tagInt
-             arrayIndex:(NSInteger)arrayInt
-
+            listInteger:(NSInteger)listInt
 {
     self.titleLbl.text = [NSString stringWithFormat:@"%@",title];
     self.btn.tag = tagInt;
     [self.btn setBackgroundImage:image forState:UIControlStateNormal];
     self.heartNumLbl.text = [NSString stringWithFormat:@"%@",heartNum];
-    
+    self.whichListInt = [NSString stringWithFormat:@"%d",listInt];
     [self.btn addTarget:self 
                  action:@selector(goToActivityDetailView:) 
        forControlEvents:UIControlEventTouchUpInside];
@@ -63,7 +64,10 @@
 -(void)goToActivityDetailView:(UIButton *)sender
 {
     NSString *tagStr = [NSString stringWithFormat:@"%d",sender.tag];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"goToActivityDetailView" object:tagStr];
+    NSMutableDictionary *tmpDict = [[NSMutableDictionary dictionary] retain];
+    [tmpDict setObject:tagStr forKey:@"tagStr"];
+    [tmpDict setObject:self.whichListInt forKey:@"whichListInt"];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"goToActivityDetailView" object:tmpDict];
 }
 
 @end

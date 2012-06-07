@@ -13,13 +13,12 @@
 @property (retain, nonatomic) IBOutlet UIButton *btn;
 @property (retain, nonatomic) IBOutlet UILabel *titleLbl;
 @property (retain, nonatomic) IBOutlet UILabel *heartNumLbl;
-
+@property (retain, nonatomic) NSString *whichListInt;
 
 + (ItemCell *)getInstance;
 - (void)configWithTitle:(NSString *)title 
                btnImage:(UIImage *)image 
                heartNum:(NSString *)heartNum            
                tagValue:(NSInteger)tagInt
-             arrayIndex:(NSInteger)arrayInt;
-
+               listInteger:(NSInteger)listInt;
 @end
