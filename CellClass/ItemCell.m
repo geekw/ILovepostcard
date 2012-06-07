@@ -9,15 +9,16 @@
 #import "ItemCell.h"
 
 @implementation ItemCell
-
-@synthesize title,imgButton,loveCount;
+@synthesize btn;
+@synthesize titleLbl;
+@synthesize heartNumLbl;
 
 -(void)dealloc
 {
+    [btn release];
+    [titleLbl release];
+    [heartNumLbl release];
     [super dealloc];
-    title = nil;[title release];
-    imgButton = nil;[imgButton release];
-    loveCount = nil;[loveCount release];
 }
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -34,6 +35,35 @@
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state
+}
+
++ (ItemCell *)getInstance
+{
+    return [[[NSBundle mainBundle] loadNibNamed:@"ItemCell" owner:nil options:nil] objectAtIndex:0];
+}
+
+- (void)configWithTitle:(NSString *)title 
+               btnImage:(UIImage *)image
+               heartNum:(NSString *)heartNum
+               tagValue:(NSInteger)tagInt
+             arrayIndex:(NSInteger)arrayInt
+
+{
+    self.titleLbl.text = [NSString stringWithFormat:@"%@",title];
+    self.btn.tag = tagInt;
+    [self.btn setBackgroundImage:image forState:UIControlStateNormal];
+    self.heartNumLbl.text = [NSString stringWithFormat:@"%@",heartNum];
+    
+    [self.btn addTarget:self 
+                 action:@selector(goToActivityDetailView:) 
+       forControlEvents:UIControlEventTouchUpInside];
+}
+
+
+-(void)goToActivityDetailView:(UIButton *)sender
+{
+    NSString *tagStr = [NSString stringWithFormat:@"%d",sender.tag];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"goToActivityDetailView" object:tagStr];
 }
 
 @end

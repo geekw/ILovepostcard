@@ -9,16 +9,17 @@
 #import <UIKit/UIKit.h>
 
 @interface ItemCell : UITableViewCell
-{
-    IBOutlet UILabel *title;
-    IBOutlet UILabel *loveCount;
-    IBOutlet UIButton *imgButton;
-}
 
-@property(nonatomic,retain)UILabel *title;
-@property(nonatomic,retain)UILabel *loveCount;
-@property(nonatomic,retain)UIButton *imgButton;
+@property (retain, nonatomic) IBOutlet UIButton *btn;
+@property (retain, nonatomic) IBOutlet UILabel *titleLbl;
+@property (retain, nonatomic) IBOutlet UILabel *heartNumLbl;
 
 
++ (ItemCell *)getInstance;
+- (void)configWithTitle:(NSString *)title 
+               btnImage:(UIImage *)image 
+               heartNum:(NSString *)heartNum            
+               tagValue:(NSInteger)tagInt
+             arrayIndex:(NSInteger)arrayInt;
 
 @end

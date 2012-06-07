@@ -21,7 +21,9 @@
 @implementation ActivityListView
 @synthesize goBackButton;
 @synthesize goToPostcardList,postcardList_WithoutSearchbar,itemCell;
-@synthesize dataArray,dataTableView,page,refreshing,dataSource;
+@synthesize dataArray,dataTableView,page,refreshing,detailView;
+
+
 
 #pragma mark - GoBack - 返回按钮
 -(IBAction)goBack
@@ -32,8 +34,8 @@
 #pragma mark - View lifecycle - 系统函数
 - (void)dealloc
 {
+    detailView = nil;[detailView release];
     itemCell = nil;[itemCell release];
-    dataSource = nil;[dataSource release];
     goToPostcardList = nil;[goToPostcardList release];
     postcardList_WithoutSearchbar = nil;[postcardList_WithoutSearchbar release];
     [dataArray release];
@@ -91,6 +93,8 @@
     currentPage = 1;
     [self.goBackButton setImage:[UIImage imageNamed:@"titlebtnbackclick.png"] forState:UIControlStateHighlighted];
     [self performSelector:@selector(requestActivityList)];//请求活动列表
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(goToActivityDetailView:) name:@"goToActivityDetailView" object:nil];
 }
 
 - (void)viewDidUnload
@@ -104,6 +108,19 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
+
+#pragma mark - GoToActivityDetailView - 请求单个列表的详细介绍 - nsnotification方法
+-(void)goToActivityDetailView:(NSNotification *)notification
+{
+    NSString *tmpStr = notification.object;
+    if (!detailView)
+    {
+        detailView = [[ActivityDetailView alloc] init];
+    }
+    self.detailView.activityTag = tmpStr;
+    self.detailView.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    [self presentModalViewController:self.detailView animated:YES];
+}
 
 #pragma mark - ActivityList - 请求活动列表,展示列表
 -(void)requestActivityList
@@ -129,51 +146,16 @@
 
 -(void)getActivityListFinished:(ASIHTTPRequest *)request
 {
-    NSArray *activityListArray = [request responseString].JSONValue;
-    
-    for (int i = 0; i < [activityListArray count]; i++)
+    if ([request responseStatusCode] == 200) 
     {
-        NSDictionary *activityListDict = [activityListArray objectAtIndex:i];
-        NSLog(@"activityListDict = %@",activityListDict);
-        ItemData *item = [[ItemData alloc] init];
-        NSString *nameStr   = [activityListDict valueForKey:@"name"];
-        NSString *picUrlStr = [activityListDict valueForKey:@"small"];
-        NSString *likeStr = [activityListDict valueForKey:@"partnum"];
-        NSString *effert  = [activityListDict valueForKey:@"effect"];
-        item.title = nameStr;
-        item.loveCount = likeStr;
-        item.imageStr = picUrlStr;
-        [dataArray addObject:item];
-        [item release];
-    }
-     [dataTableView reloadData];
+        dataArray = [request responseString].JSONValue;
+    }    
+    [dataTableView reloadData];
 }
 
 - (void)loadData
 {
-
-    [dataTableView reloadData];
-//    if (refreshing)
-//    {
-//        page = 1;
-//        refreshing = NO;
-//        [dataArray removeAllObjects];
-//    }
-//    for (int i = 0; i < 10; i++) 
-//    {
-//        [dataArray addObject:@"ROW"];
-//    }
-//    if (page >= 3)
-//    {
-//        [dataTableView tableViewDidFinishedLoadingWithMessage:@"All loaded!"];
-//        dataTableView.reachedTheEnd  = YES;
-//    } 
-//    else 
-//    {        
-//        [dataTableView tableViewDidFinishedLoading];
-//        dataTableView.reachedTheEnd  = NO;
-//        [dataTableView reloadData];
-//    }
+    [self requestActivityList];
 }
 
 #pragma mark - TableView*
@@ -191,27 +173,24 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString *uniqueIdentifier = @"ItemCellView";
-    ItemCell  *cell = (ItemCell *) [tableView dequeueReusableCellWithIdentifier:uniqueIdentifier];
-
-    for (int i = 0; i < [dataArray count]; i++)
+    NSString *uniqueIdentifier = @"ItemCell";
+    ItemCell  *cell = [tableView dequeueReusableCellWithIdentifier:uniqueIdentifier];
+    if (!cell)
     {
-        NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"ItemCellView" owner:self options:nil];
-      if(!cell)
-      {
-        cell = [topLevelObjects objectAtIndex:i];
-          
-        ItemData *data = [dataArray objectAtIndex:i];
-        NSString *picUrlStr = data.imageStr; 
-        NSLog(@"pic = %@",picUrlStr);
-
-        UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:picUrlStr]]];
-        [cell.imgButton setBackgroundImage:image forState:UIControlStateNormal];
-          
-        cell.title.text = [NSString stringWithFormat:@"%@",data.title];
-        cell.loveCount.text = [NSString stringWithFormat:@"%@",data.loveCount];
-
-      }
+        cell = [ItemCell getInstance];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;//取消row的选中
+    }
+    
+    if (dataArray.count > 0) 
+    {
+        NSDictionary *detailDict = [dataArray objectAtIndex:indexPath.row];
+        NSLog(@"dict:%@", detailDict);
+        
+        UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[detailDict objectForKey:@"small"]]]];
+        NSString *title = [detailDict objectForKey:@"name"];
+        NSString *heartNum = [detailDict objectForKey:@"partnum"];
+        NSString *tagStr = [detailDict objectForKey:@"id"];
+        [cell configWithTitle:title btnImage:image heartNum:heartNum tagValue:[tagStr intValue]];
     }
     currentPage ++;
     return cell;
@@ -226,7 +205,7 @@
 
 - (NSDate *)pullingTableViewRefreshingFinishedDate
 {
-    NSDateFormatter *df = [[NSDateFormatter alloc] init ];
+    NSDateFormatter *df = [[NSDateFormatter alloc] init];
     df.dateFormat = @"yyyy-MM-dd HH:mm";
     NSDate *date = [df dateFromString:@"2012-05-03 10:10"];
     [df release];

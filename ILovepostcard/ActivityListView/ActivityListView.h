@@ -13,12 +13,10 @@
 #import "PromptView.h"
 #import "GoToPostcardList.h"
 #import "PostcardList_WithoutSearchbar.h"
-#import "ItemData.h"
 #import "ItemCell.h"
 #import "PullingRefreshTableView.h"
-//#import "ItemProduct.h"
-//#import "DataSigner.h"
-//#import "AlixPay.h"
+#import "ActivityDetailView.h"
+
 #define MAX_COUNT 5
 
 
@@ -33,8 +31,8 @@
 @property (nonatomic, retain) PullingRefreshTableView *dataTableView;
 @property (retain, nonatomic) GoToPostcardList *goToPostcardList;
 @property (retain, nonatomic) PostcardList_WithoutSearchbar *postcardList_WithoutSearchbar;
-@property (retain, nonatomic) ItemData *dataSource;
 @property (retain, nonatomic) ItemCell *itemCell;
+@property (retain ,nonatomic) ActivityDetailView *detailView;
 
 @property (retain, nonatomic) IBOutlet UIButton *goBackButton;
 @property (nonatomic, retain) NSMutableArray *dataArray;

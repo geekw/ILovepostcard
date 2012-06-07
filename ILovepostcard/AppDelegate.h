@@ -19,4 +19,7 @@
 
 @property (strong, nonatomic) ViewController *viewController;
 
+- (void)parseURL:(NSURL *)url application:(UIApplication *)application;
+- (BOOL)isSingleTask;
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url;
 @end

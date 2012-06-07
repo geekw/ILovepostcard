@@ -42,45 +42,6 @@
 	}
 }
 
-
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{
-    NSString *clienIdStr = [[NSUserDefaults standardUserDefaults] stringForKey:@"ClientId"];
-    if (clienIdStr == nil)
-    {
-        [self performSelector:@selector(getClientId)];//获取ClientId
-    }
-    
-<<<<<<< HEAD
-    self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
-    // Override point for customization after application launch.
-    self.viewController = [[[ViewController alloc] initWithNibName:@"ViewController" bundle:nil] autorelease];
-    self.window.rootViewController = self.viewController;
-    [self.window makeKeyAndVisible];
-=======
-    /*
-	 *单任务handleURL处理
-	 */
-	if ([self isSingleTask]) {
-		NSURL *url = [launchOptions objectForKey:@"UIApplicationLaunchOptionsURLKey"];
-		
-		if (nil != url) {
-			[self parseURL:url application:application];
-		}
-	}
-
->>>>>>> 353b66fcf3efbe46327e4b48eefdf688caf65365
-    
-    return YES;
-}
-
-- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
-	
-	[self parseURL:url application:application];
-	return YES;
-}
-
-
 - (void)parseURL:(NSURL *)url application:(UIApplication *)application {
 	AlixPay *alixpay = [AlixPay shared];
 	AlixPayResult *result = [alixpay handleOpenURL:url];
@@ -123,6 +84,49 @@
 		
 	}	
 }
+
+
+
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+    
+    self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
+    // Override point for customization after application launch.
+    self.viewController = [[[ViewController alloc] initWithNibName:@"ViewController" bundle:nil] autorelease];
+    self.window.rootViewController = self.viewController;
+    [self.window makeKeyAndVisible];
+    
+    
+    NSString *clienIdStr = [[NSUserDefaults standardUserDefaults] stringForKey:@"ClientId"];
+    if (clienIdStr == nil)
+    {
+        [self performSelector:@selector(getClientId)];//获取ClientId
+    }
+
+    /*
+	 *单任务handleURL处理
+	 */
+	if ([self isSingleTask]) 
+    {
+		NSURL *url = [launchOptions objectForKey:@"UIApplicationLaunchOptionsURLKey"];
+		
+		if (nil != url)
+        {
+			[self parseURL:url application:application];
+		}
+	}
+
+    
+    return YES;
+}
+
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
+	
+	[self parseURL:url application:application];
+	return YES;
+}
+
+
 
 
 - (void)applicationWillResignActive:(UIApplication *)application
