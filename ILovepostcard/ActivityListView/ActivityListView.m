@@ -11,11 +11,17 @@
 
 #import "ActivityListView.h"
 #import "ItemCell.h"
+//#import "AlixPayOrder.h"
+
+
 
 @interface ActivityListView ()
 
 @property (nonatomic,assign) NSInteger page;
 @property (nonatomic,assign) BOOL refreshing;
+
+- (NSString *)generateTradeNO;
+
 
 @end
 
@@ -23,6 +29,26 @@
 @synthesize goBackButton;
 
 @synthesize dataArray,dataTableView,page,refreshing;
+
+
+/*
+ *随机生成15位订单号,外部商户根据自己情况生成订单号
+ */
+- (NSString *)generateTradeNO
+{
+	const int N = 15;
+	
+	NSString *sourceString = @"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	NSMutableString *result = [[[NSMutableString alloc] init] autorelease];
+	srand(time(0));
+	for (int i = 0; i < N; i++)
+	{   
+		unsigned index = rand() % [sourceString length];
+		NSString *s = [sourceString substringWithRange:NSMakeRange(index, 1)];
+		[result appendString:s];
+	}
+	return result;
+}
 
 
 int currentPage;
@@ -77,8 +103,6 @@ int currentPage;
 {
     [super viewDidLoad];
     currentPage = 1;
-
-    [self performSelector:@selector(requestActivityList)];//请求活动列表
 }
 
 - (void)viewDidUnload
@@ -140,28 +164,6 @@ int currentPage;
 
 - (void)loadData
 {
-    page++;
-    if (refreshing)
-    {
-        page = 1;
-        refreshing = NO;
-        [dataArray removeAllObjects];
-    }
-    for (int i = 0; i < 10; i++) 
-    {
-        [dataArray addObject:@"ROW"];
-    }
-    if (page >= 3)
-    {
-        [dataTableView tableViewDidFinishedLoadingWithMessage:@"All loaded!"];
-        dataTableView.reachedTheEnd  = YES;
-    } 
-    else 
-    {        
-        [dataTableView tableViewDidFinishedLoading];
-        dataTableView.reachedTheEnd  = NO;
-        [dataTableView reloadData];
-    }
 }
 
 
