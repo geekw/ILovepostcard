@@ -8,11 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import "ASIHTTPRequest.h"
+#import "PostOfficeView.h"
 
 @interface PaymentView : UIViewController<ASIHTTPRequestDelegate,UIAlertViewDelegate>
 {
 	NSMutableArray *myProduct; //要卖的产品
 }
+
+@property (retain, nonatomic) PostOfficeView *postOfficeView;
 
 @property (retain, nonatomic) IBOutlet UIButton *goBackButton;
 
@@ -27,6 +30,10 @@
 @property (retain, nonatomic) IBOutlet UILabel *priceLabel;
 
 @property (retain, nonatomic) IBOutlet UIButton *openPayViewBtn;
+
+@property (retain, nonatomic) UIView   *tempPayView;
+
+
 
 
 - (IBAction)goBack;

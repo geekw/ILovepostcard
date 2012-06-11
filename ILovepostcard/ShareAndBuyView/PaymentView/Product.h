@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 
 //测试商品信息封装在Product中,外部商户可以根据自己商品实际情况定义
-//
 @interface Product : NSObject
 {
 @private

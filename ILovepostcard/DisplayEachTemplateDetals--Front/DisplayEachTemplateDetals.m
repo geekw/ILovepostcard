@@ -157,14 +157,15 @@ bool hideOrShowBottonView;
     NSString *backinfoStr = [dict objectForKey:@"backinfo"];
     NSString *back_PostmarkStr = [dict objectForKey:@"back_PostmarkStr"];
     
-    [[TemplateDetails_Singleton sharedTemplateDetails_Singleton].templateDetailsDict setObject:back_StampStr 
-                                                                                        forKey:@"back_stamp"];
+//    [[TemplateDetails_Singleton sharedTemplateDetails_Singleton].templateDetailsDict setObject:back_StampStr 
+//                                                                                        forKey:@"back_stamp"];
+//    
+//    [[TemplateDetails_Singleton sharedTemplateDetails_Singleton].templateDetailsDict setObject:backinfoStr
+//                                                                                        forKey:@"backinfo"];
+//    
+//    [[TemplateDetails_Singleton sharedTemplateDetails_Singleton].templateDetailsDict setObject:back_PostmarkStr 
+//                                                                                        forKey:@"back_PostmarkStr"];//背面信息
     
-    [[TemplateDetails_Singleton sharedTemplateDetails_Singleton].templateDetailsDict setObject:backinfoStr
-                                                                                        forKey:@"backinfo"];
-    
-    [[TemplateDetails_Singleton sharedTemplateDetails_Singleton].templateDetailsDict setObject:back_PostmarkStr 
-                                                                                        forKey:@"back_PostmarkStr"];//背面信息
     NSDictionary *layoutDict = [dict objectForKey:@"ly"];
     
     NSArray *areasArray = [layoutDict objectForKey:@"areas"];//可能没有

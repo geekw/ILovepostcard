@@ -29,6 +29,8 @@
 @synthesize snailMailButton;
 @synthesize registeredLetterButton;
 @synthesize expressDeliveryButton;
+@synthesize tempPayView;
+@synthesize postOfficeView;
 
 #pragma mark - GoBack - 返回按钮
 - (IBAction)goBack 
@@ -39,6 +41,8 @@
 #pragma mark - View lifecycle - 系统函数
 - (void)dealloc 
 {
+    postOfficeView = nil;[postOfficeView release];
+    tempPayView = nil;[tempPayView release];
     [goBackButton release];
     [snailMailButton release];
     [registeredLetterButton release];
@@ -53,12 +57,10 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+        [self performSelector:@selector(generateData)];
     }
     return self;
 }
-
-
 
 -(void)generateData
 {
@@ -96,10 +98,10 @@
 }
 
 
- //随机生成27位订单号,外部商户根据自己情况生成订单号
+//随机生成15位订单号,外部商户根据自己情况生成订单号
 - (NSString *)generateTradeNO
 {
-	const int N = 27;
+	const int N = 15;
 	
 	NSString *sourceString = @"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	NSMutableString *result = [[[NSMutableString alloc] init] autorelease];
@@ -171,42 +173,57 @@
     self.priceLabel.text = [NSString stringWithFormat:@"5.99元"];
 }
 
-
 #pragma mark - OpenPayView - 加载支付界面
 - (IBAction)openPayView 
 {
     UIView *tmpView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 460)];
+    tmpView.tag = 998;
     tmpView.backgroundColor = [UIColor clearColor];
-    UIImageView *tmpImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 416)];
+    
+    UIImageView *tmpImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 460)];
     tmpImgView.backgroundColor = [UIColor grayColor];
     tmpImgView.alpha = 0.6;
     [tmpView addSubview:tmpImgView];
     [tmpImgView release];
     
     UIView *payView = [[UIView alloc] initWithFrame:CGRectMake(20, 73, 281, 270)];
+    payView.tag = 999;
+
     UIImageView *payImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 281, 270)];
+    payImgView.image = [UIImage imageNamed:@"payPic.jpg"];
+    [payView addSubview:payImgView];
     
     UIButton *clientBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     clientBtn.frame = CGRectMake(58, 109, 213, 37);
-    [clientBtn addTarget:self action:@selector(clientPay) forControlEvents:UIControlStateNormal];
+    [clientBtn addTarget:self action:@selector(clientPay) forControlEvents:UIControlEventTouchUpInside];
     [payView addSubview:clientBtn];
     
     UIButton *wapBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     wapBtn.frame = CGRectMake(58, 160, 213, 37);
-    [wapBtn addTarget:self action:@selector(wapPay) forControlEvents:UIControlStateNormal];
+    [wapBtn addTarget:self action:@selector(wapPay) forControlEvents:UIControlEventTouchUpInside];
     [payView addSubview:wapBtn];
     
-    [payView addSubview:payImgView];
+    UIButton *cancleBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    cancleBtn.frame = CGRectMake(179, 221, 92, 37);
+    [cancleBtn addTarget:self action:@selector(cancelBill) forControlEvents:UIControlEventTouchUpInside];
+    [payView addSubview:cancleBtn];
+    
     [tmpView addSubview:payView];
     [payImgView release];
     [payView release];
+    
+    [self.view addSubview:tmpView];
+    [tmpView release];
     
 }
 
 
 #pragma mark - ClientPay - 客户端支付
 - (void)clientPay
-{
+{    
+    [tempPayView removeFromSuperview];
+    [self performSelector:@selector(finishPay)];
+
     int i = [[NSUserDefaults standardUserDefaults] integerForKey:@"MailType"]; 
     NSLog(@"i = %d",i);
     
@@ -267,10 +284,14 @@
 #pragma mark - WapPay - 网页支付
 - (void)wapPay 
 {
+    [self performSelector:@selector(finishPay)];
+    
     int i = [[NSUserDefaults standardUserDefaults] integerForKey:@"MailType"]; 
     NSLog(@"i = %d",i);
     
     Product *product = [myProduct objectAtIndex:i];
+    NSLog(@"product =%@",product);
+    
 	//如果partner和seller数据存于其他位置,请改写下面两行代码
 	NSString *partner = Partner;
     NSString *seller  = Seller;
@@ -295,7 +316,7 @@
 	order.productName = product.subject; //商品标题
 	order.productDescription = product.body; //商品描述
 	order.amount = [NSString stringWithFormat:@"%.2f",product.price]; //商品价格
-	order.notifyURL =  @"http://192.168.0.119:8080/appbacktest/RSANotifyReceiver"; //回调URL
+//	order.notifyURL =  @"http://192.168.0.119:8080/appbacktest/RSANotifyReceiver"; //回调URL
     
     //应用注册scheme,在AlixPayDemo-Info.plist定义URL types,用于安全支付成功后重新唤起商户应用
 	NSString *appScheme = @"ILovepostcard"; 
@@ -328,11 +349,57 @@
     
 }
 
-
--(void)cancleBill
+- (void)cancelBill
 {
-    UIView *tmpView = (UIView *)[self.view viewWithTag:200];
+    UIView *tmpView = (UIView *)[self.view viewWithTag:998];
     [tmpView removeFromSuperview];
+}
+
+
+-(void) finishPay
+    {   UIView *tmpView = (UIView *)[self.view viewWithTag:999];
+[tmpView removeFromSuperview];
+
+UIView *payView = [[UIView alloc] initWithFrame:CGRectMake(20, 73, 281, 270)];
+payView.tag = 999;
+
+UIImageView *payImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 281, 270)];
+payImgView.image = [UIImage imageNamed:@""];
+payImgView.backgroundColor = [UIColor blackColor];
+
+UIButton *clientBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+clientBtn.frame = CGRectMake(58, 109, 213, 37);
+[clientBtn addTarget:self action:@selector(goToPostOfficeView) forControlEvents:UIControlEventTouchUpInside];
+clientBtn.backgroundColor = [UIColor whiteColor];
+[tmpView addSubview:clientBtn];
+
+
+UIButton *wapBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+wapBtn.frame = CGRectMake(58, 160, 213, 37);
+[wapBtn addTarget:self action:@selector(payFailed) forControlEvents:UIControlEventTouchUpInside];
+wapBtn.backgroundColor = [UIColor redColor];
+[payView addSubview:wapBtn];
+
+[payView addSubview:payImgView];
+[payView addSubview:clientBtn];
+[payView addSubview:wapBtn];
+[payImgView release];
+
+UIView *mainView =(UIView *)[self.view viewWithTag:998];
+[mainView addSubview:payView];
+[payView release];
+
+}
+
+#pragma mark - GoToPostOfficeView - 付款完成
+- (void)goToPostOfficeView
+{
+    if (!postOfficeView)
+    {
+        postOfficeView = [[PostOfficeView alloc] init];
+    }
+    self.postOfficeView.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    [self presentModalViewController:self.postOfficeView animated:YES];
 }
 
 

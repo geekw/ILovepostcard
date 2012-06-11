@@ -53,7 +53,8 @@
 			 *用公钥验证签名
 			 */
 			id<DataVerifier> verifier = CreateRSADataVerifier([[NSBundle mainBundle] objectForInfoDictionaryKey:@"RSA public key"]);
-			if ([verifier verifyString:result.resultString withSign:result.signString]) {
+			if ([verifier verifyString:result.resultString withSign:result.signString]) 
+            {
 				UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"提示" 
 																	 message:result.statusMessage 
 																	delegate:nil 
@@ -73,14 +74,17 @@
 			}
 		}
 		//如果支付失败,可以通过result.statusCode查询错误码
-		else {
+		else
+        {
 			UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"提示" 
 																 message:result.statusMessage 
 																delegate:nil 
 													   cancelButtonTitle:@"确定" 
 													   otherButtonTitles:nil];
+            NSLog(@"statusMessage = %@",result.statusMessage);
 			[alertView show];
 			[alertView release];
+            
 		}
 		
 	}	
