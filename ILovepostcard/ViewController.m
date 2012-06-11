@@ -9,6 +9,7 @@
 #define PicURL @"http://61.155.238.30/postcards/interface/home_activities"
 
 #import "ViewController.h"
+#import "JSON.h"
 
 @implementation ViewController
 @synthesize listenVoiceMessageButton;

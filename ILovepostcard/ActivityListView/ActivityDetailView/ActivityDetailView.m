@@ -11,6 +11,7 @@
 
 
 #import "ActivityDetailView.h"
+#import "JSON.h"
 
 @implementation ActivityDetailView
 @synthesize activityTag;

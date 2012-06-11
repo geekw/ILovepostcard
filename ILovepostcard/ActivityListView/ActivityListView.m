@@ -56,7 +56,7 @@
         [dataArray removeAllObjects];//清空数组
     }
         dataTableView = [[PullingRefreshTableView alloc] initWithFrame:CGRectMake(5, 54, 310, 420)];
-        dataTableView.delegate = self;
+        dataTableView.delegate   = self;
         dataTableView.dataSource = self;
         dataTableView.backgroundColor = [UIColor clearColor];
         dataTableView.separatorColor = [UIColor clearColor];

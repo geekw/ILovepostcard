@@ -41,9 +41,12 @@
 
 @property (retain, nonatomic) IBOutlet UIButton *expressDeliveryButton;
 
-@property (retain, nonatomic) IBOutlet UIButton *wapPayButton;
+@property (retain, nonatomic) IBOutlet UIImageView *preViewImgView;
 
-@property (retain, nonatomic) IBOutlet UIButton *clientPayButton;
+@property (retain, nonatomic) IBOutlet UILabel *priceLabel;
+
+@property (retain, nonatomic) IBOutlet UIButton *openPayViewBtn;
+
 
 - (IBAction)goBack;
 
@@ -53,9 +56,9 @@
 
 - (IBAction)expressDelivery;
 
-- (IBAction)wapPay;
+- (IBAction)openPayView;
 
-- (IBAction)clientPay;
+
 
 
 @end

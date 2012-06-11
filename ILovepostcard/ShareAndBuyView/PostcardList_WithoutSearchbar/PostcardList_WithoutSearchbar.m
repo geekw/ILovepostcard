@@ -11,6 +11,7 @@
 #define Template_Keyword_Activity @"http://61.155.238.30/postcards/interface/query_activity_template"
 
 #import "PostcardList_WithoutSearchbar.h"
+#import "JSON.h"
 
 
 @implementation PostcardList_WithoutSearchbar

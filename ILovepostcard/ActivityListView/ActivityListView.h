@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "ASIHTTPRequest.h"
 #import "ASIFormDataRequest.h"
-#import "SBJson.h"
+#import "JSON.h"
 #import "PromptView.h"
 #import "GoToPostcardList.h"
 #import "PostcardList_WithoutSearchbar.h"

@@ -7,7 +7,7 @@
 //
 
 #import "GoToPostcardList.h"
-#import "SBJson.h"
+#import "Json.h"
 
 #define NumberInOnePage 6 //每页显示个数
 #define Template @"http://61.155.238.30/postcards/interface/template_list"//模板列表接口
