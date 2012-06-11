@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		003874471585F13300865D6C /* Product.m in Sources */ = {isa = PBXBuildFile; fileRef = 003874461585F13300865D6C /* Product.m */; };
 		150CFC53157B4B96007D0E96 /* PullingRefreshTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 150CFC4E157B4B96007D0E96 /* PullingRefreshTableView.m */; };
 		B102FF6B155BB303008DC42D /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B102FF6A155BB303008DC42D /* CFNetwork.framework */; };
 		B102FF6D155BB30D008DC42D /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B102FF6C155BB30C008DC42D /* SystemConfiguration.framework */; };
@@ -193,6 +194,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		003874451585F13300865D6C /* Product.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Product.h; path = ILovepostcard/ShareAndBuyView/PaymentView/Product.h; sourceTree = "<group>"; };
+		003874461585F13300865D6C /* Product.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Product.m; path = ILovepostcard/ShareAndBuyView/PaymentView/Product.m; sourceTree = "<group>"; };
 		150CFC04157B18A2007D0E96 /* default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = default.png; path = Resources/pic/default.png; sourceTree = SOURCE_ROOT; };
 		150CFC26157B47B1007D0E96 /* heart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = heart.png; path = Resources/pic/Pic_ActivityListView/heart.png; sourceTree = SOURCE_ROOT; };
 		150CFC49157B4B96007D0E96 /* blueArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blueArrow.png; sourceTree = "<group>"; };
@@ -933,6 +936,8 @@
 				B13E997A1571C94900D03344 /* paymentView2.png */,
 				B13E997B1571C94900D03344 /* paymentView3.png */,
 				B13E99781571C11800D03344 /* paymentView1.png */,
+				003874451585F13300865D6C /* Product.h */,
+				003874461585F13300865D6C /* Product.m */,
 			);
 			name = Pic_PaymentView;
 			sourceTree = "<group>";
@@ -1662,6 +1667,7 @@
 				B1E038B11585E5E20057F128 /* openssl_wrapper.m in Sources */,
 				B1E038B21585E5E20057F128 /* RSADataSigner.m in Sources */,
 				B1E038B31585E5E20057F128 /* RSADataVerifier.m in Sources */,
+				003874471585F13300865D6C /* Product.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

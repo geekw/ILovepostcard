@@ -15,6 +15,7 @@
 #import "AlixPayResult.h"
 #import "AlixPay.h"
 #import "DataSigner.h"
+#import "Product.h"
 
 @interface PaymentView ()
 
@@ -96,21 +97,21 @@
 
 
  //随机生成27位订单号,外部商户根据自己情况生成订单号
-//- (NSString *)generateTradeNO
-//{
-//	const int N = 27;
-//	
-//	NSString *sourceString = @"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-//	NSMutableString *result = [[[NSMutableString alloc] init] autorelease];
-//	srand(time(0));
-//	for (int i = 0; i < N; i++)
-//	{   
-//		unsigned index = rand() % [sourceString length];
-//		NSString *s = [sourceString substringWithRange:NSMakeRange(index, 1)];
-//		[result appendString:s];
-//	}
-//	return result;
-//}
+- (NSString *)generateTradeNO
+{
+	const int N = 27;
+	
+	NSString *sourceString = @"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	NSMutableString *result = [[[NSMutableString alloc] init] autorelease];
+	srand(time(0));
+	for (int i = 0; i < N; i++)
+	{   
+		unsigned index = rand() % [sourceString length];
+		NSString *s = [sourceString substringWithRange:NSMakeRange(index, 1)];
+		[result appendString:s];
+	}
+	return result;
+}
 
 - (void)viewDidLoad
 {
@@ -122,26 +123,26 @@
     self.priceLabel.text = [NSString stringWithFormat:@"4.99元"];
 }
 
-//- (void)viewDidUnload
-//{
-//    [self setPreViewImgView:nil];
-//    [self setPriceLabel:nil];
-//    [self setGoBackButton:nil];
-//    [self setSnailMailButton:nil];
-//    [self setRegisteredLetterButton:nil];
-//    [self setExpressDeliveryButton:nil];
-//    [self setOpenPayViewBtn:nil];
-//    [super viewDidUnload];
-//    // Release any retained subviews of the main view.
-//    // e.g. self.myOutlet = nil;
-//}
+- (void)viewDidUnload
+{
+    [self setPreViewImgView:nil];
+    [self setPriceLabel:nil];
+    [self setGoBackButton:nil];
+    [self setSnailMailButton:nil];
+    [self setRegisteredLetterButton:nil];
+    [self setExpressDeliveryButton:nil];
+    [self setOpenPayViewBtn:nil];
+    [super viewDidUnload];
+    // Release any retained subviews of the main view.
+    // e.g. self.myOutlet = nil;
+}
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-/*
+
 #pragma mark - SelectMailType - 选择快递类型
 - (IBAction)snailMail
 {
@@ -333,6 +334,6 @@
     UIView *tmpView = (UIView *)[self.view viewWithTag:200];
     [tmpView removeFromSuperview];
 }
- */
+
 
 @end
