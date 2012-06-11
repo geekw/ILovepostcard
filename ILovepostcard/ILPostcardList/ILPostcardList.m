@@ -13,6 +13,7 @@ const int LIST_CAPACITY = 1000;
 
 @implementation ILPostcardList
 @synthesize templateAbstractList;
+@synthesize templateAbstractList_SearchBar;
 
 +(ILPostcardList *)sharedILPostcardList
 {
@@ -28,6 +29,7 @@ const int LIST_CAPACITY = 1000;
     if (self == [super init])
     {
         templateAbstractList = [[NSMutableArray alloc] initWithCapacity:LIST_CAPACITY];
+        templateAbstractList_SearchBar = [[NSMutableArray alloc] initWithCapacity:LIST_CAPACITY];
     }
     return self;
 }

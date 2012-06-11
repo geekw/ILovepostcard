@@ -31,7 +31,6 @@
 @interface PaymentView : UIViewController<ASIHTTPRequestDelegate,UIAlertViewDelegate>
 {
 	NSMutableArray *myProduct; //要卖的产品
-
 }
 
 @property (retain, nonatomic) IBOutlet UIButton *goBackButton;

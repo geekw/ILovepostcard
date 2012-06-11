@@ -17,13 +17,19 @@
 @synthesize getMoreButton;
 @synthesize loopScrollView;
 @synthesize numberLabel;
+@synthesize newestCardBtnView;
 @synthesize postcardList, activityListView, voiceMessageView;
+@synthesize newestCardView;
+@synthesize postOfficeView,getMoreView;
 
 static int timeNum = 0;
 
 
 - (void)dealloc 
 {
+    getMoreView = nil;[getMoreView release];
+    postOfficeView = nil;[postOfficeView release];
+    newestCardView = nil;[newestCardView release];
     [postcardList release];
     [activityListView release];
     [voiceMessageView release];
@@ -33,6 +39,7 @@ static int timeNum = 0;
     [getMoreButton release];
     [loopScrollView release];
     [numberLabel release];
+    [newestCardBtnView release];
     [super dealloc];
 }
 
@@ -68,33 +75,32 @@ static int timeNum = 0;
     NSLog(@"dict = %@",dict);
     
     NSString *unpayStr = [dict objectForKey:@"unpay_count"];
-    NSLog(@"unpay = %@",unpayStr);
     self.numberLabel.text = [NSString stringWithFormat:@"%@",unpayStr];
     
     NSArray *tmpArray = [dict objectForKey:@"activities"];
-    for (int i = 0; i < [tmpArray count]; i++)
+    for (int i = 0; i < 4; i++)
     {
         NSDictionary *tmpDict = [tmpArray objectAtIndex:i];
-        NSLog(@"tmpDict = %@",tmpDict);
         
         NSString *tmpUrl = [tmpDict objectForKey:@"pic"];
         
         if (tmpUrl != nil) 
         {
-              UIImage *tmpImg = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:tmpUrl]]];
+            EGOImageButton *tmpButton = [[EGOImageButton alloc] initWithPlaceholderImage:[UIImage imageNamed:@"sendbk.png"]];
+            [tmpButton setImageURL:[NSURL URLWithString:tmpUrl]];
             CGRect buttonFrame = CGRectMake(i * 280, 0 ,280,157);
-            UIButton *tmpButton = [UIButton buttonWithType:UIButtonTypeCustom];
             tmpButton.frame = buttonFrame;
             tmpButton.backgroundColor = [UIColor clearColor];
-            [tmpButton setBackgroundImage:tmpImg forState:UIControlStateNormal];
             [tmpButton addTarget:self action:@selector(goToActivityList) forControlEvents:UIControlEventTouchUpInside];
             [self.loopScrollView addSubview:tmpButton];
+            [tmpButton release];
         }
-}
+    }
+    [self performSelector:@selector(showNewestCardView:) withObject:tmpArray];
     [NSTimer scheduledTimerWithTimeInterval:4 target:self selector:@selector(scrollImage) userInfo:nil repeats:YES];
 }
 
--(void)scrollImage
+- (void)scrollImage
 {
     switch (timeNum) 
     {
@@ -119,26 +125,18 @@ static int timeNum = 0;
     }
 }
 
-//-(void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
-//{
-//    if (scrollView.contentOffset.x == 0)
-//    {
-//        timeNum = 0;
-//    }
-//    if (scrollView.contentOffset.x == 280)
-//    {
-//        timeNum = 1;
-//    }    
-//    if (scrollView.contentOffset.x == 560)
-//    {
-//        timeNum = 2;
-//    }    
-//    if (scrollView.contentOffset.x == 840)
-//    {
-//        timeNum = 3;
-//    }    
-//}
-
+- (void)showNewestCardView:(NSArray *)tArray
+{
+    NSLog(@"tArray = %@",tArray);
+    EGOImageButton *newestCardButton = [[EGOImageButton alloc] initWithPlaceholderImage:[UIImage imageNamed:@"sendbk.png"]];
+    newestCardButton.frame = CGRectMake(0,0,145,100);
+    NSDictionary *tmpDict = [tArray objectAtIndex:3];
+    NSString *tmpUrl = [tmpDict objectForKey:@"pic"];
+    [newestCardButton setImageURL:[NSURL URLWithString:tmpUrl]];
+    [newestCardButton addTarget:self action:@selector(goToNewestCardView) forControlEvents:UIControlEventTouchUpInside];
+    [self.newestCardBtnView addSubview:newestCardButton];
+    [newestCardButton release];
+}
 
 #pragma mark - View lifecycle
 - (void)viewDidLoad
@@ -146,7 +144,6 @@ static int timeNum = 0;
     [super viewDidLoad];
     
     [self requestPicUrl];
-    
     [goToPostcardListButton setBackgroundImage:[UIImage imageNamed:@"makepress.png"] forState:UIControlStateHighlighted];
     [listenVoiceMessageButton setBackgroundImage:[UIImage imageNamed:@"listenpress.png"] forState:UIControlStateHighlighted];
     [goToPostOfficeButton setBackgroundImage:[UIImage imageNamed:@"postofficepress.png"] forState:UIControlStateHighlighted];
@@ -163,6 +160,7 @@ static int timeNum = 0;
     [self setGetMoreButton:nil];
     [self setLoopScrollView:nil];
     [self setNumberLabel:nil];
+    [self setNewestCardBtnView:nil];
     [super viewDidUnload];
 }
 
@@ -194,14 +192,15 @@ static int timeNum = 0;
     [self presentModalViewController:self.postcardList animated:YES];
 }
 
-- (IBAction)goToPostOfficeView
+#pragma mark - GoToNewestCardView --进入最新明信片的界面
+- (void)goToNewestCardView 
 {
-    
-}
-
-- (IBAction)getMore 
-{
-    
+    if (!newestCardView)
+    {
+        newestCardView = [[NewestCardView alloc] init];
+    }
+    self.newestCardView.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    [self presentModalViewController:self.newestCardView animated:YES];
 }
 
 #pragma mark - GoToActivity_list --进入全部活动界面
@@ -225,6 +224,29 @@ static int timeNum = 0;
     }
     self.voiceMessageView.modalTransitionStyle = UIModalTransitionStyleCoverVertical;;
     [self presentModalViewController:self.voiceMessageView animated:YES];
+}
+
+#pragma mark - GoToPostOfficeView --进入邮局界面
+- (IBAction)goToPostOfficeView
+{
+    if (!postOfficeView)
+    {
+        postOfficeView = [[PostOfficeView alloc] init];
+    }
+    self.postOfficeView.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    [self presentModalViewController:self.postOfficeView animated:YES];
+}
+
+#pragma mark - GetMore --进入更多界面
+- (IBAction)getMore 
+{
+    if (!getMoreView)
+    {
+        getMoreView = [[GetMoreView alloc] init];
+    }
+    self.getMoreView.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    [self presentModalViewController:self.getMoreView animated:YES];
+
 }
 
 @end

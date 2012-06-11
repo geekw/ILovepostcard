@@ -114,15 +114,15 @@
 {
     NSDictionary *tmpDict = notification.object;
     NSString *tagStr = [tmpDict objectForKey:@"tagStr"];
-    NSString *whichListIntStr = [tmpDict objectForKey:@"whichListInt"];
+//    NSString *whichListIntStr = [tmpDict objectForKey:@"whichListInt"];
     
-    NSDictionary *arrayDict = [dataArray objectAtIndex:[whichListIntStr intValue]];
+//    NSDictionary *arrayDict = [dataArray objectAtIndex:[whichListIntStr intValue]];
         if (!detailView)
     {
         detailView = [[ActivityDetailView alloc] init];
     }
     self.detailView.activityTag  = tagStr;
-    self.detailView.listDict = arrayDict;
+//    self.detailView.listDict = arrayDict;
     self.detailView.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
     [self presentModalViewController:self.detailView animated:YES];
 }
@@ -189,12 +189,12 @@
     if (dataArray.count > 0) 
     {
         NSDictionary *detailDict = [dataArray objectAtIndex:indexPath.row];
-        NSLog(@"dict:%@", detailDict);
         
         UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[detailDict objectForKey:@"small"]]]];
         NSString *title  = [detailDict objectForKey:@"name"];
         NSString *heartNum = [detailDict objectForKey:@"partnum"];
         NSString *tagStr = [detailDict objectForKey:@"id"];
+        
         
         [cell configWithTitle:title 
                      btnImage:image 

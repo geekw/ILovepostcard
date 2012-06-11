@@ -10,6 +10,9 @@
 #import "ShareAndBuyView.h"
 #import "RecordVoiceView.h"
 #import "ChooseAddressView.h"
+#import "ImageProcess.h"
+#import "TemplateDetails-Singleton.h"
+
 
 @interface DisplayEachTemplateDetals_Back : UIViewController<UINavigationControllerDelegate>
 {
@@ -62,6 +65,7 @@
 
 @property (retain, nonatomic) IBOutlet UIButton *voiceRecorder_SmallButton;
 
+@property (retain, nonatomic) IBOutlet UIView *postcard_BackView;
 
 - (IBAction)goback;
 

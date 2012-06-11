@@ -11,7 +11,7 @@
 	<key>CFBundleIconFiles</key>
 	<array/>
 	<key>CFBundleIdentifier</key>
-	<string>com.iiseeuu.ilovepostcard</string>
+	<string>com.shy.1828</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -22,27 +22,23 @@
 	<string>1.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string></string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>ILovepostcard</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>1.0</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>UIRequiredDeviceCapabilities</key>
-	<array>
-		<string>armv7</string>
-	</array>
-	<key>UIStatusBarHidden</key>
-	<false/>
-	<key>UISupportedInterfaceOrientations</key>
-	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
-	</array>
-	<key>UIAppFonts</key>
-	<array>
-		<string>jingleiti.ttf</string>
-		<string>kaiti.ttf</string>
-	</array>
+	<key>Partner</key>
+	<string>2088701817081672</string>
 	<key>RSA private key</key>
 	<string>MIICXAIBAAKBgQCt88QkKp7QU4ZozOAClQrfJbnZ2eOVZPvUMyKHtx+ArMGXCc7a
 /OoHvkWTIXS16fpLCZ0Y7MW1iPFfEUnvu7rQGKCMfWkdqQmIMzFSP233DGUpFgPh
@@ -59,20 +55,24 @@ E+pNSuebsmnsH/mLhPMe9E59rro8D3CreDS6WpanOMpAeiWs1DQ6Y/cFvQJAJzou
 UjG7C97QORoJWrlOUDLrOCNoCUdBAmFWIbIHb/rs37c=</string>
 	<key>RSA public key</key>
 	<string>MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDFiu/0QGktqVR576tC66G1Q3M86obSEIGY7Zi/cNvrL2ePXeYnKh+T21fUWgYeSwvUpLbQCY4GpfdNMRbtE9JYdKmGlS6KmJe0ChyfOzMbIuNX/A4CcDVEJh9w9axJu3Ep54Qk5dltoo/xcyUDSy0faOMtuDW7NwBJfEGuRnDsdwIDAQAB</string>
-	<key>CFBundleURLTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleURLName</key>
-			<string></string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>ILovepostcard</string>
-			</array>
-		</dict>
-	</array>
-	<key>Partner</key>
-	<string>2088701817081672</string>
 	<key>Seller</key>
 	<string>2088701817081672</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>jingleiti.ttf</string>
+		<string>kaiti.ttf</string>
+	</array>
+	<key>UIRequiredDeviceCapabilities</key>
+	<array>
+		<string>armv7</string>
+	</array>
+	<key>UIStatusBarHidden</key>
+	<false/>
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
 </dict>
 </plist>

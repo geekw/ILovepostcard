@@ -5,6 +5,7 @@
 //  Created by 进 吴 on 12-5-12.
 //  Copyright (c) 2012年 开趣. All rights reserved.
 //
+#define FD_IMAGE_PATH(file) [NSString stringWithFormat:@"%@/Documents/ScreenShot/%@",NSHomeDirectory(),file]
 
 #import "DisplayEachTemplateDetals-Back.h"
 
@@ -29,6 +30,7 @@
 @synthesize stamp_SmallButton;
 @synthesize postmark_SmallButton;
 @synthesize voiceRecorder_SmallButton;
+@synthesize postcard_BackView;
 @synthesize shareAndBuyViewButton,shareAndBuyView;
 @synthesize recordVoiceView,chooseAddressView;
 
@@ -77,6 +79,7 @@ bool HideOrShowPostmark;
     [postmark_SmallButton release];
     [voiceRecorder_SmallButton release];
     [QRImg2 release];
+    [postcard_BackView release];
     [super dealloc];
 }
 
@@ -93,7 +96,6 @@ bool HideOrShowPostmark;
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
     }
     return self;
 }
@@ -128,6 +130,7 @@ bool HideOrShowPostmark;
     [self setPostmark_SmallButton:nil];
     [self setVoiceRecorder_SmallButton:nil];
     [self setQRImg2:nil];
+    [self setPostcard_BackView:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -135,7 +138,6 @@ bool HideOrShowPostmark;
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
@@ -288,6 +290,11 @@ bool HideOrShowPostmark;
 #pragma mark - GoShareAndBuyView - 进入微博分享,购买界面
 - (IBAction)goShareAndBuyView 
 {
+    UIImage *tmpImg = [ImageProcess grabImageWithView:self.postcard_BackView scale:4];
+    NSData *imgData = UIImagePNGRepresentation(tmpImg);
+    NSString *picSaveStr = [NSString stringWithFormat:@"backPic.png"];//定义图片文件名
+    [imgData writeToFile:FD_IMAGE_PATH(picSaveStr) atomically:YES];
+    
     if (!shareAndBuyView)
     {
         shareAndBuyView = [[ShareAndBuyView alloc] init];

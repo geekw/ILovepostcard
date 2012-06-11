@@ -27,9 +27,6 @@
 
 @property (retain, nonatomic) IBOutlet UIButton *flipButton2;
 
-
-
-
 - (IBAction)goBack;
 
 - (IBAction)flip;

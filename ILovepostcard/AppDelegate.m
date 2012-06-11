@@ -15,6 +15,7 @@
 #import "AlixPayResult.h"
 #import "DataVerifier.h"
 #import <sys/utsname.h>
+#import "CreateFolder.h"
 
 @implementation AppDelegate
 
@@ -96,6 +97,8 @@
     self.window.rootViewController = self.viewController;
     [self.window makeKeyAndVisible];
     
+    //创建文件夹
+    [CreateFolder createFolder:@"ScreenShot" atDirectory:kDocuments];
     
     NSString *clienIdStr = [[NSUserDefaults standardUserDefaults] stringForKey:@"ClientId"];
     if (clienIdStr == nil)
@@ -175,7 +178,6 @@
     NSString *clientStr = [[UIDevice currentDevice] uniqueDeviceIdentifier];
     NSLog(@"clientStr = %@",clientStr);
     NSString*  systemVersion=[[UIDevice currentDevice] systemVersion];
-    NSLog(@"systemVersion = %@",systemVersion);
     NSString *loadString = [ClientIdURL stringByAppendingFormat:@"?cos=1&imei=%@&c=1&iv=%@",clientStr,systemVersion];
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:loadString]];
     request.delegate = self;

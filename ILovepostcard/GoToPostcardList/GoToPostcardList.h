@@ -12,6 +12,7 @@
 #import "ASIFormDataRequest.h"
 #import "DisplayEachTemplateDetals.h"
 #import "ILPostcardList.h"
+#import "EGOImageButton.h"
 
 @interface GoToPostcardList : UIViewController<ASIHTTPRequestDelegate,UIAlertViewDelegate,UINavigationControllerDelegate,UISearchBarDelegate,UIScrollViewDelegate>
 {

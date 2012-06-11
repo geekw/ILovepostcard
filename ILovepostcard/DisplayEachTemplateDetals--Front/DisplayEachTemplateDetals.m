@@ -9,8 +9,12 @@
 #import "DisplayEachTemplateDetals.h"
 
 #define Template_Front @"http://61.155.238.30/postcards/interface/get_template"//单个模板详情接口
+#define Template_Front_Activity @"http://61.155.238.30/postcards/interface/get_activity_template"
+
 #define googleMapUrl   @"http://maps.google.com/maps/api/staticmap"
 #define pinUrl @"http://cdn1.iconfinder.com/data/icons/customicondesign-office6-shadow/32/pin-red.png"
+#define FD_IMAGE_PATH(file) [NSString stringWithFormat:@"%@/Documents/ScreenShot/%@",NSHomeDirectory(),file]
+
 
 #define degreesToRadian(x) (M_PI * (x) / 180.0)//定义弧度
 
@@ -22,6 +26,7 @@
 @synthesize bkImgView;
 @synthesize idName,displayEachTemplateDetals_Back;
 @synthesize tagValueStr,imagePicker,mapImgView;
+@synthesize idName_Activity;
 
 bool hideOrShowMaterial;
 bool hideOrShowMap;
@@ -35,8 +40,9 @@ bool hideOrShowBottonView;
 }
 
 #pragma mark - View lifecycle - 系统函数
--(void)dealloc
+- (void)dealloc
 {
+    idName_Activity = nil;
     cameraButton = nil;[cameraButton release];
     bottomButton = nil;[bottomButton release];
     indicatorButton = nil;[indicatorButton release];
@@ -44,7 +50,6 @@ bool hideOrShowBottonView;
     mapImgView = nil;[mapImgView release];
     idName = nil;[idName release];
     backButton = nil;[backButton release];
-    showOrHideMapButton = nil;[showOrHideMapButton release];
     openPhotoLibraryButton = nil;[openPhotoLibraryButton release];
     scaleAndRotateView = nil;[scaleAndRotateView release];
     displayEachTemplateDetals_Back = nil;[displayEachTemplateDetals_Back release];
@@ -56,16 +61,29 @@ bool hideOrShowBottonView;
     [super dealloc];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self performSelector:@selector(readMapInfo)];//获得经纬度
-    [self performSelector:@selector(requestFrontDetails)];//请求明信片正面素材
-    
+    [self performSelector:@selector(readMapInfo)];//获得经纬度    
     [backButton setImage:[UIImage imageNamed:@"titlebtnbackclick.png"] forState:UIControlStateHighlighted];
-    
     [goDisplayEachTemplateDetals_BackButton setImage:[UIImage imageNamed:@"titlebtnokclick.png"] forState:UIControlStateHighlighted];
     hideOrShowMaterial = NO;
+    
+    imagePicker = [[UIImagePickerController alloc] init];
+    
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"FromActivityList"])
+    {
+        [self performSelector:@selector(requestFrontDetails)];//正常请求明信片正面素材
+    }
+    else if ([[NSUserDefaults standardUserDefaults] boolForKey:@"FromActivityList"])
+    {
+        [self performSelector:@selector(requestFromDetails_Activity)];//活动列表请求
+    }
+
     
 }
 
@@ -100,17 +118,77 @@ bool hideOrShowBottonView;
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-#pragma mark - requestFrontDetails - 请求正面素材
+#pragma mark - RequestFromDetails_Activity - 从活动列表请求正面素材
+-(void)requestFromDetails_Activity
+{
+    int idValue = [idName intValue];
+    int activity_ID = [idName_Activity intValue];
+    NSString *loadString = [Template_Front stringByAppendingFormat:@"?id=%d&activity_id=%d",idValue,activity_ID];
+    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:loadString]];
+    request.delegate = self;
+    [request setDidFinishSelector:@selector(getTemplateFinished:)];//正常情况取得json数据
+    [request setDidFailSelector:@selector(getTemplateFailed:)];//网络故障提示
+    [request startAsynchronous];
+}
+
+
+#pragma mark - RequestFrontDetails - 请求正面素材
 -(void)requestFrontDetails
 {
     int idValue = [idName intValue];
-    NSLog(@"idValue = %d",idValue);
     NSString *loadString = [Template_Front stringByAppendingFormat:@"?id=%d",idValue];
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:loadString]];
     request.delegate = self;
     [request setDidFinishSelector:@selector(getTemplateFinished:)];//正常情况取得json数据
     [request setDidFailSelector:@selector(getTemplateFailed:)];//网络故障提示
     [request startAsynchronous];
+}
+
+#pragma mark - GetTemplateFinished - 得到正面素材
+-(void)getTemplateFinished:(ASIHTTPRequest *)request//正常情况取得json数据
+{
+    if ([TemplateDetails_Singleton sharedTemplateDetails_Singleton].templateDetailsDict != nil) 
+    {
+        [[TemplateDetails_Singleton sharedTemplateDetails_Singleton].templateDetailsDict removeAllObjects];
+    }
+    NSDictionary *dict = [request responseString].JSONValue;
+    
+    NSString *back_StampStr = [dict objectForKey:@"back_stamp"];
+    NSString *backinfoStr = [dict objectForKey:@"backinfo"];
+    NSString *back_PostmarkStr = [dict objectForKey:@"back_PostmarkStr"];
+    
+    [[TemplateDetails_Singleton sharedTemplateDetails_Singleton].templateDetailsDict setObject:back_StampStr 
+                                                                                        forKey:@"back_stamp"];
+    
+    [[TemplateDetails_Singleton sharedTemplateDetails_Singleton].templateDetailsDict setObject:backinfoStr
+                                                                                        forKey:@"backinfo"];
+    
+    [[TemplateDetails_Singleton sharedTemplateDetails_Singleton].templateDetailsDict setObject:back_PostmarkStr 
+                                                                                        forKey:@"back_PostmarkStr"];//背面信息
+    NSDictionary *layoutDict = [dict objectForKey:@"ly"];
+    
+    NSArray *areasArray = [layoutDict objectForKey:@"areas"];//可能没有
+    if (areasArray != nil)
+    {
+      [[TemplateDetails_Singleton sharedTemplateDetails_Singleton].templateDetailsDict setObject:areasArray forKey:@"areas"];  
+    }    
+    NSString *backgroundStr = [layoutDict objectForKey:@"background"];
+    [[TemplateDetails_Singleton sharedTemplateDetails_Singleton].templateDetailsDict setObject:backgroundStr forKey:@"background"];
+    
+        NSString *orientationStr = [layoutDict objectForKey:@"orientation"];
+    [[TemplateDetails_Singleton sharedTemplateDetails_Singleton].templateDetailsDict setObject:orientationStr forKey:@"orientation"];
+    
+    NSDictionary *backpicDict = [layoutDict objectForKey:@"backpic"];//可能没有
+    if (backpicDict != nil) 
+    {
+    [[TemplateDetails_Singleton sharedTemplateDetails_Singleton].templateDetailsDict setObject:backpicDict forKey:@"backpic"]; 
+    }
+
+    NSArray *materialsArray = [layoutDict objectForKey:@"materials"];
+    [[TemplateDetails_Singleton sharedTemplateDetails_Singleton].templateDetailsDict setObject:materialsArray forKey:@"materials"];
+
+    NSLog(@"templateDetailsDict = %@",[TemplateDetails_Singleton sharedTemplateDetails_Singleton].templateDetailsDict);
+    [self performSelector:@selector(showFrontDetails)];//加载正面素材
 }
 
 -(void)getTemplateFailed:(ASIHTTPRequest *)request//网络故障提示
@@ -123,45 +201,6 @@ bool hideOrShowBottonView;
     
     NSError *error = [request error];
     NSLog(@"error:%@", error);
-}
-
--(void)getTemplateFinished:(ASIHTTPRequest *)request//正常情况取得json数据
-{
-    
-    if ([TemplateDetails_Singleton sharedTemplateDetails_Singleton].templateDetailsDict != nil) 
-    {
-        [[TemplateDetails_Singleton sharedTemplateDetails_Singleton].templateDetailsDict removeAllObjects];
-    }
-    
-    NSDictionary *dict = [request responseString].JSONValue;
-    
-    NSDictionary *layoutDict = [dict objectForKey:@"ly"];
-
-    NSArray *areasArray = [layoutDict objectForKey:@"areas"];//可能没有
-    if (areasArray != nil)
-    {
-      [[TemplateDetails_Singleton sharedTemplateDetails_Singleton].templateDetailsDict setObject:areasArray forKey:@"areas"];  
-    }    
-
-    NSString *backgroundStr = [layoutDict objectForKey:@"background"];
-    [[TemplateDetails_Singleton sharedTemplateDetails_Singleton].templateDetailsDict setObject:backgroundStr forKey:@"background"];
-    
-    NSString *orientationStr = [layoutDict objectForKey:@"orientation"];
-    [[TemplateDetails_Singleton sharedTemplateDetails_Singleton].templateDetailsDict setObject:orientationStr forKey:@"orientation"];
-
-    
-    NSDictionary *backpicDict = [layoutDict objectForKey:@"backpic"];//可能没有
-    if (backpicDict != nil) 
-    {
-    [[TemplateDetails_Singleton sharedTemplateDetails_Singleton].templateDetailsDict setObject:backpicDict forKey:@"backpic"]; 
-    }
-
-    NSArray *materialsArray = [layoutDict objectForKey:@"materials"];
-    [[TemplateDetails_Singleton sharedTemplateDetails_Singleton].templateDetailsDict setObject:materialsArray forKey:@"materials"];
-
-    NSLog(@"templateDetailsDict = %@",[TemplateDetails_Singleton sharedTemplateDetails_Singleton].templateDetailsDict);
-    
-    [self performSelector:@selector(showFrontDetails)];//加载正面素材
 }
 
 #pragma mark - showFrontDetails - 加载正面素材
@@ -177,8 +216,10 @@ bool hideOrShowBottonView;
     NSString *backgroundStr = [[TemplateDetails_Singleton sharedTemplateDetails_Singleton].templateDetailsDict objectForKey:@"background"];
     if (backgroundStr != nil)
     {
-        UIImage *tmpimg = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:backgroundStr]]];
-        self.bkImgView.image = tmpimg;
+        EGOImageView *tmpImgView = [[EGOImageView alloc] init];
+        tmpImgView.imageURL = [NSURL URLWithString:backgroundStr];
+         self.bkImgView.image = tmpImgView.image;
+        [tmpImgView release];
     }
 }
 
@@ -194,7 +235,6 @@ bool hideOrShowBottonView;
         }
     }
 }
-
 
 - (void)displayEachHollowOutPart:(NSString *)str
 {
@@ -219,7 +259,7 @@ bool hideOrShowBottonView;
     NSDictionary *areasDict = [areasArray objectAtIndex:0];
     NSLog(@"areasDict = %@",areasDict);
     
-    //NSString *degreeStr = [areasDict objectForKey:@"degree"];
+//    NSString *degreeStr = [areasDict objectForKey:@"degree"];
     NSString *hStr = [areasDict objectForKey:@"h"];
     NSString *wStr = [areasDict objectForKey:@"w"];
     NSString *xStr = [areasDict objectForKey:@"x"];
@@ -314,10 +354,12 @@ bool hideOrShowBottonView;
             NSString *yStr = [tmpDict objectForKey:@"y"];
             
             NSString *picUrl = [tmpDict objectForKey:@"src"];
-            UIImage *tmpimg = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:picUrl]]];
+            UIImage *tmpImg = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:picUrl]]];
             
             UIImageView *materialsImgView = [[UIImageView alloc] initWithFrame:CGRectMake(([xStr intValue]-[wStr intValue]/2)/2, ([yStr intValue]-[hStr intValue]/2)/2,[wStr intValue]/2, [hStr intValue]/2)];
-            materialsImgView.image = tmpimg;
+            materialsImgView.image = tmpImg;
+            float degreeFloat = [degreeStr floatValue];
+            materialsImgView.transform = CGAffineTransformMakeRotation(degreesToRadian(degreeFloat));
             materialsImgView.userInteractionEnabled = YES;
             materialsImgView.tag = i * 4 + 100;
             if (!scaleAndRotateView) 
@@ -333,7 +375,7 @@ bool hideOrShowBottonView;
             UIButton *normalButton = [UIButton buttonWithType:UIButtonTypeCustom];
             normalButton.frame = CGRectMake(10 + 80 * (i + areasArray.count), 3, 59, 59);
             normalButton.backgroundColor = [UIColor whiteColor];
-            [normalButton setImage:tmpimg forState:UIControlStateNormal];
+            [normalButton setImage:tmpImg forState:UIControlStateNormal];
             normalButton.alpha =0.7;
             normalButton.tag = i * 4 + 101;
             [self.bottomScrollView addSubview:normalButton];
@@ -347,15 +389,16 @@ bool hideOrShowBottonView;
         }
     }
     
+    
     CGRect rect1 = CGRectMake(139, 168, 100, 100);
     CGRect rect2 = CGRectMake(10, 10, 80, 80);
     
     UIView *tmpView = [[UIView alloc] initWithFrame:rect1];
     [tmpView setTag:200];
     UIImageView *tmpImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
-    tmpImgView.backgroundColor = [UIColor grayColor];
+    tmpImgView.backgroundColor = [UIColor whiteColor];
     [tmpView addSubview:tmpImgView];
-    tmpView.alpha = 1;
+    tmpView.alpha = 0.7;
     [tmpImgView release];
     
     UIImageView *tmpImgView2 = [[UIImageView alloc] initWithFrame:rect2];
@@ -412,14 +455,14 @@ bool hideOrShowBottonView;
             }
         }
         
-    UIView *tmpView =(UIView *)[self.view viewWithTag:200];
-    if(touch.view == tmpView)
-    {
-        if ([tmpView superview]) 
-        {
+         UIView *tmpView =(UIView *)[self.view viewWithTag:200];
+         if(touch.view == tmpView)
+         {
+          if ([tmpView superview]) 
+           {
             [[tmpView superview] bringSubviewToFront:tmpView];
-        }
-    }
+           }
+         }
     } 
 }
 
@@ -457,7 +500,6 @@ bool hideOrShowBottonView;
 
 -(void)hideOrShowMap:(UIButton *)sender
 {
-//    int i = sender.tag;
     if (hideOrShowMap == NO)
     {
         hideOrShowMap = YES;
@@ -485,8 +527,6 @@ bool hideOrShowBottonView;
 }
 
 
-
-
 #pragma mark - loadCamera - 打开相机
 -(void)loadCamera:(UIButton *)sender
 {
@@ -499,7 +539,10 @@ bool hideOrShowBottonView;
     sourceType = UIImagePickerControllerSourceTypeCamera;
     if ([UIImagePickerController isSourceTypeAvailable:sourceType]) 
     {
-        imagePicker = [[UIImagePickerController alloc] init];
+        if (!imagePicker)
+        {
+            imagePicker = [[UIImagePickerController alloc] init];
+        }
         self.imagePicker.sourceType = sourceType;
         self.imagePicker.delegate = self; 
         
@@ -548,7 +591,6 @@ bool hideOrShowBottonView;
         [shootButton setImage:[UIImage imageNamed:@"takeon.png"] forState:UIControlStateHighlighted]; 
         shootButton.tag = i;
         self.tagValueStr = [NSString stringWithFormat:@"%d",i];
-//        NSLog(@"tagValueStr = %@",self.tagValueStr);
         [shootButton addTarget:self.imagePicker 
                         action:@selector(takePicture) 
               forControlEvents:UIControlEventTouchUpInside];
@@ -570,17 +612,36 @@ bool hideOrShowBottonView;
     [UIView commitAnimations];
 }
 
+#pragma mark - OpenPhotoLibrary - 打开相册
+-(void)openPhotoLibrary:(UIButton *)sender
+{
+    int i = sender.tag;   
+    
+    self.tagValueStr = [NSString stringWithFormat:@"%d",i];
+    
+    UIView *tmpView = (UIView *)[self.view viewWithTag:99];
+    [tmpView removeFromSuperview];
+    
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) 
+    {
+        if (!imagePicker)
+        {
+            imagePicker = [[UIImagePickerController alloc] init];
+        }
+        self.imagePicker.delegate = self;
+        self.imagePicker.allowsEditing = YES;
+        self.imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        [self presentModalViewController:self.imagePicker animated:YES];
+    }
+}
+
+
 
 //takePicture得到的图片
 - (void)imagePickerController:(UIImagePickerController *)picker
 		didFinishPickingImage:(UIImage *)image
 				  editingInfo:(NSDictionary *)editingInfo
 {   
-    
-    NSLog(@"tagValueStr = %@",self.tagValueStr);
-    NSLog(@"tagValue = %d",[self.tagValueStr intValue]);
-    
-
         //带动画效果隐藏cameraImagePicker界面
         [self dismissModalViewControllerAnimated:YES];
     
@@ -594,10 +655,12 @@ bool hideOrShowBottonView;
         NSString *yStr = [areasDict objectForKey:@"y"];
         
         fileContent = [[TouchView alloc] initWithFrame:CGRectMake(([xStr intValue]-[wStr intValue]/2)/2, ([yStr intValue]-[hStr intValue]/2)/2,[wStr intValue]/2, [hStr intValue]/2)];
+        float degreeFloat = [degreeStr floatValue];
+        fileContent.transform = CGAffineTransformMakeRotation(degreesToRadian(degreeFloat));
         [fileContent setImage:image];
         [fileContent setViewTag: 199];
         fileContent.delegate = self;
-        [self.view addSubview:fileContent];
+//        [self.view addSubview:fileContent];
         [postcard_FrontView insertSubview:fileContent atIndex:0];
         [fileContent release];
     
@@ -636,9 +699,7 @@ bool hideOrShowBottonView;
     [bottomButton setImage:image forState:UIControlStateNormal];
     
     [indicatorButton setImage:[UIImage imageNamed:@"slidebtndel.png"] forState:UIControlStateNormal];
-    
     [indicatorButton removeTarget:self action:@selector(goCameraOrPhotoLibrary:) forControlEvents:UIControlEventTouchUpInside];
-    
     [indicatorButton addTarget:self action:@selector(showHollowOutPart) forControlEvents:UIControlEventTouchUpInside];
 }
 
@@ -678,30 +739,6 @@ bool hideOrShowBottonView;
     }
 }
 
-
-#pragma mark - OpenPhotoLibrary - 打开相册
--(IBAction)openPhotoLibrary:(UIButton *)sender
-{
-    int i = sender.tag;   
-    
-    self.tagValueStr = [NSString stringWithFormat:@"%d",i];
-    NSLog(@"tagValueStr = %@",self.tagValueStr);
-
-    UIView *tmpView = (UIView *)[self.view viewWithTag:99];
-    [tmpView removeFromSuperview];
-    
-    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) 
-    {
-        if (!imagePicker)
-        {
-            imagePicker = [[UIImagePickerController alloc] init];
-        }
-        self.imagePicker.delegate = self;
-        self.imagePicker.allowsEditing = YES;
-        self.imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-        [self presentModalViewController:self.imagePicker animated:YES];
-    }
-}
 
 
 #pragma optional
@@ -762,13 +799,12 @@ bool hideOrShowBottonView;
     NSString *markersStr = [[NSString stringWithFormat:@"icon:%@|%@ , %@",pinUrl,latitudeValue,longitudeValue] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSLog(@"markersStr = %@",markersStr);
     
-    NSString *sizeStr = [NSString stringWithFormat:@"111x111"];
+    NSString *sizeStr = [NSString stringWithFormat:@"128x128"];
     NSLog(@"sizeStr = %@",sizeStr);
     
     NSString *loadString = [googleMapUrl stringByAppendingFormat:@"?center=%@&size=%@&zoom=11&language=zh-cn&markers=%@&sensor=true",centerStr,sizeStr,markersStr];
     NSLog(@"loadString = %@",loadString);
 
-    
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:loadString]];
     request.delegate = self;
     [request setDidFinishSelector:@selector(getStaticMapFinished:)];
@@ -780,7 +816,6 @@ bool hideOrShowBottonView;
     NSData *pngData = [request responseData];
     
     [[NSUserDefaults standardUserDefaults] setValue:pngData forKey:@"mapPic"];
-    NSLog(@"mapPic = %@",[[NSUserDefaults standardUserDefaults] valueForKey:@"mapPic"]);
     
     if (!mapImgView)
     {
@@ -833,6 +868,11 @@ bool hideOrShowBottonView;
     {
       displayEachTemplateDetals_Back = [[DisplayEachTemplateDetals_Back alloc] initWithNibName:@"DisplayEachTemplateDetals-Back" bundle:nil];  
     }
+    
+    UIImage *grabImg = [ImageProcess grabImageWithView:postcard_FrontView scale:4];//正面截图
+    NSData *imgData = UIImagePNGRepresentation(grabImg);
+    NSString *picSaveStr = [NSString stringWithFormat:@"frontPic.png"];//定义图片文件名
+    [imgData writeToFile:FD_IMAGE_PATH(picSaveStr) atomically:YES];
     
     self.displayEachTemplateDetals_Back.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     [self presentModalViewController:self.displayEachTemplateDetals_Back 

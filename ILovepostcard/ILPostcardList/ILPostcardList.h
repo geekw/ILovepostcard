@@ -14,6 +14,7 @@
 }
 
 @property (nonatomic,retain) NSMutableArray *templateAbstractList;
+@property (nonatomic, retain)NSMutableArray *templateAbstractList_SearchBar;
 
 + (ILPostcardList *)sharedILPostcardList;
 

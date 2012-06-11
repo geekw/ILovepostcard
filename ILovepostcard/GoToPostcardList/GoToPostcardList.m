@@ -44,8 +44,7 @@ int currentPage_Keyword;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self)
-    {
+    if (self){
     }
     return self;
 }
@@ -70,42 +69,53 @@ int currentPage_Keyword;
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    self.navigationController.navigationBarHidden = NO;
-    
-    rotationAngle = 0;
-    
-    currentPage = 1;
-    
-    addTemplatePageNumber = 0;
-    
-    [self performSelector:@selector(loadHttpRequset) withObject:nil];
-    [self performSelector:@selector(dealWithSearchBar)];//美化searchBar
-    [self performSelector:@selector(displayBottomKeywordView)];//显示底部热门关键字
-    
-    templateScrollView.hidden = NO;
-    addMoreTemplateButton.enabled = YES;
-    addMoreTemplateButton.hidden = NO;
-    [addMoreTemplateButton setImage:[UIImage imageNamed:@"addMoreTemplateButton.png"]
-                           forState:UIControlStateNormal];
-    
-    addMoreTemplateButton_Keyword.hidden = YES;
-    templateScrollView_Keyword.hidden = YES;
-    [addMoreTemplateButton_Keyword setImage:[UIImage imageNamed:@"addMoreTemplateButton.png"]
-                                   forState:UIControlStateNormal];
-    
-    self.bottomKeywordScrollView.bounces = YES;
-    self.bottomKeywordScrollView.showsVerticalScrollIndicator   = NO;
-    self.bottomKeywordScrollView.showsHorizontalScrollIndicator = NO;
-    self.bottomKeywordScrollView.pagingEnabled = YES;
-    self.bottomKeywordScrollView.directionalLockEnabled = YES;
-    
-    [backButton setImage:[UIImage imageNamed:@"titlebtnbackclick.png"] forState:UIControlStateHighlighted];   
+        self.navigationController.navigationBarHidden = NO;
+        rotationAngle = 0;
+        currentPage = 1;
+        addTemplatePageNumber = 0;
+        
+        [self performSelector:@selector(loadHttpRequset) withObject:nil];
+        [self performSelector:@selector(dealWithSearchBar)];//美化searchBar
+        [self performSelector:@selector(displayBottomKeywordView)];//显示底部热门关键字
+        
+        templateScrollView.hidden = NO;
+        addMoreTemplateButton.enabled = YES;
+        addMoreTemplateButton.hidden = NO;
+        [addMoreTemplateButton setImage:[UIImage imageNamed:@"addMoreTemplateButton.png"]
+                               forState:UIControlStateNormal];
+        
+        addMoreTemplateButton_Keyword.hidden = YES;
+        templateScrollView_Keyword.hidden = YES;
+        [addMoreTemplateButton_Keyword setImage:[UIImage imageNamed:@"addMoreTemplateButton.png"]
+                                       forState:UIControlStateNormal];
+        
+        self.bottomKeywordScrollView.bounces = YES;
+        self.bottomKeywordScrollView.showsVerticalScrollIndicator   = NO;
+        self.bottomKeywordScrollView.showsHorizontalScrollIndicator = NO;
+        self.bottomKeywordScrollView.pagingEnabled = YES;
+        self.bottomKeywordScrollView.directionalLockEnabled = YES;
 }
+
+#pragma mark - LoadHttpRequsetFromActivityView - 从活动模板进入
+- (void)loadHttpRequsetFromActivityView
+{
+    
+    NSString *loadString = [Template stringByAppendingFormat:@"?p=%d&s=%d",currentPage,NumberInOnePage];
+    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:loadString]];
+    request.delegate = self;
+    [request setDidFinishSelector:@selector(getTemplateFinished:)];//正常情况取得json数据
+    [request setDidFailSelector:@selector(getTemplateFailed:)];//正常情况获取失败的提示
+    [request startAsynchronous];
+}
+
 
 #pragma mark - ViewDidLoad - 解析json数据
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [backButton setImage:[UIImage imageNamed:@"titlebtnbackclick.png"] forState:UIControlStateHighlighted]; 
+    templateScrollView.contentSize = CGSizeMake(320, 400);
+    templateScrollView_Keyword.contentSize = CGSizeMake(320, 400);
 }
 
 #pragma mark - NormalRequest - 正常请求模板列表
@@ -133,16 +143,12 @@ int currentPage_Keyword;
 - (void)getTemplateFinished:(ASIHTTPRequest *)request//取得json数据
 {
     NSDictionary *dict = [request responseString].JSONValue;
-    NSLog(@"dict = %@",dict);
     
     NSString *pageTotal = [dict objectForKey:@"page_total"];//---第一级解析
     page_total = [pageTotal intValue];  
-    NSLog(@"page_total = %d",page_total);
     
     NSArray *templatesArray = [dict objectForKey:@"templates"];//---第一级解析
-    NSLog(@"templatesArray = %@",templatesArray);
     
-//    NSString *numberInOnePage = [NSString stringWithFormat:@"%@",[templatesArray count]];
     NSNumber *numberInOnePage = [NSNumber numberWithInt:[templatesArray count]];
     
     if ([ILPostcardList sharedILPostcardList].templateAbstractList != nil) 
@@ -153,7 +159,6 @@ int currentPage_Keyword;
     for (int i = 0; i < [numberInOnePage intValue]; i ++)
     {
         NSDictionary *tempDict = [templatesArray objectAtIndex:i];
-        NSLog(@"tempDict = %@",tempDict);
         [self performSelector:@selector(layOutTemplate:) withObject:tempDict];//解析json数据
     }
     
@@ -184,7 +189,6 @@ int currentPage_Keyword;
     [tmpDictionary setObject:tagsString forKey:@"tags"];
     
     [[ILPostcardList sharedILPostcardList].templateAbstractList addObject:tmpDictionary];
-    NSLog(@"ipl.templateAbstractList = %@",[ILPostcardList sharedILPostcardList].templateAbstractList);
 
     [tmpDictionary release];
 }
@@ -204,22 +208,21 @@ int currentPage_Keyword;
             
             //NSString *tagsString = [tmpDict objectForKey:@"tags"];
             
-//            NSString *backgroundPicUrl = [tmpDict objectForKey:@"preview"];
-//            UIImage *backgroundPic = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:backgroundPicUrl]]];
+            NSString *backgroundPicUrl = [tmpDict objectForKey:@"preview"];
             
             if (i == 0 ) 
             {
-                UIButton *templateButton = [UIButton buttonWithType:UIButtonTypeCustom];
+                EGOImageButton *templateButton = [[EGOImageButton alloc] initWithPlaceholderImage:[UIImage imageNamed:@"sendbk.png"]];
+                [templateButton setImageURL:[NSURL URLWithString:backgroundPicUrl]];
                 templateButton.tag = idName ;
                 int y =   10 + addTemplatePageNumber * 391;
                 templateButton.frame = CGRectMake(20, y, 135 , 90);
-                [templateButton setImage:[UIImage imageNamed:@"sendbk.png"]
-                                forState:UIControlStateNormal];
                 templateButton.transform = CGAffineTransformMakeRotation(rotationAngle);//(M_PI/2) ;        
                 [templateButton addTarget:self 
                                    action:@selector(displayEachTemplateDetals:) 
                          forControlEvents:UIControlEventTouchUpInside];
                 [templateScrollView addSubview:templateButton];
+                [templateButton release];
                 
                 UILabel *tmpLable = [[UILabel alloc] initWithFrame:CGRectMake(34, 104 +addTemplatePageNumber * 391, 120, 20)];
                 tmpLable.text = templateNameString; 
@@ -228,20 +231,18 @@ int currentPage_Keyword;
                 [templateScrollView addSubview:tmpLable];
                 [tmpLable release];
             }
-            
             if (i == 1 ) 
             {
-                UIButton *templateButton = [UIButton buttonWithType:UIButtonTypeCustom];
-                templateButton.tag = idName;
+                EGOImageButton *templateButton = [[EGOImageButton alloc] initWithPlaceholderImage:[UIImage imageNamed:@"sendbk.png"]];
+                [templateButton setImageURL:[NSURL URLWithString:backgroundPicUrl]];                templateButton.tag = idName;
                 int y = 10 + addTemplatePageNumber * 391; 
                 templateButton.frame = CGRectMake(164, y, 135, 90);
-                [templateButton setImage:[UIImage imageNamed:@"sendbk.png"]//backgroundPic
-                                forState:UIControlStateNormal];
                 templateButton.transform = CGAffineTransformMakeRotation(rotationAngle) ;        
                 [templateButton addTarget:self 
                                    action:@selector(displayEachTemplateDetals:) 
                          forControlEvents:UIControlEventTouchUpInside];
                 [templateScrollView addSubview:templateButton];
+                [templateButton release];
                 
                 UILabel *tmpLable = [[UILabel alloc] initWithFrame:CGRectMake(178, 104 + addTemplatePageNumber * 391, 120, 20)];
                 tmpLable.text = templateNameString; 
@@ -250,20 +251,18 @@ int currentPage_Keyword;
                 [templateScrollView addSubview:tmpLable];
                 [tmpLable release];
             }
-            
             if (i == 2 ) 
             {
-                UIButton *templateButton = [UIButton buttonWithType:UIButtonTypeCustom];
-                templateButton.tag = idName;
+                EGOImageButton *templateButton = [[EGOImageButton alloc] initWithPlaceholderImage:[UIImage imageNamed:@"sendbk.png"]];
+                [templateButton setImageURL:[NSURL URLWithString:backgroundPicUrl]];                templateButton.tag = idName;
                 int y = 130 + addTemplatePageNumber * 391; 
                 templateButton.frame = CGRectMake(20, y, 135, 90);
                 templateButton.transform = CGAffineTransformMakeRotation(rotationAngle) ;        
-                [templateButton setImage:[UIImage imageNamed:@"sendbk.png"]
-                                forState:UIControlStateNormal];
                 [templateButton addTarget:self 
                                    action:@selector(displayEachTemplateDetals:) 
                          forControlEvents:UIControlEventTouchUpInside];
                 [templateScrollView addSubview:templateButton];
+                [templateButton release];
                 
                 UILabel *tmpLable = [[UILabel alloc] initWithFrame:CGRectMake(34, 224 + addTemplatePageNumber * 391, 120, 20)];
                 tmpLable.text = templateNameString; 
@@ -272,20 +271,18 @@ int currentPage_Keyword;
                 [templateScrollView addSubview:tmpLable];
                 [tmpLable release];
             }
-            
             if (i == 3 ) 
             {
-                UIButton *templateButton = [UIButton buttonWithType:UIButtonTypeCustom];
-                templateButton.tag = idName;
+                EGOImageButton *templateButton = [[EGOImageButton alloc] initWithPlaceholderImage:[UIImage imageNamed:@"sendbk.png"]];
+                [templateButton setImageURL:[NSURL URLWithString:backgroundPicUrl]];                templateButton.tag = idName;
                 int y = 130 + addTemplatePageNumber * 391; 
                 templateButton.frame = CGRectMake(164, y, 135, 90);
-                [templateButton setImage:[UIImage imageNamed:@"sendbk.png"]
-                                forState:UIControlStateNormal];
                 templateButton.transform = CGAffineTransformMakeRotation(rotationAngle) ;        
                 [templateButton addTarget:self 
                                    action:@selector(displayEachTemplateDetals:) 
                          forControlEvents:UIControlEventTouchUpInside];
                 [templateScrollView addSubview:templateButton];
+                [templateButton release];
                 
                 UILabel *tmpLable = [[UILabel alloc] initWithFrame:CGRectMake(178, 224 + addTemplatePageNumber * 391, 120, 20)];
                 tmpLable.text = templateNameString; 
@@ -294,20 +291,18 @@ int currentPage_Keyword;
                 [templateScrollView addSubview:tmpLable];
                 [tmpLable release];
             }
-            
             if (i == 4 ) 
             {
-                UIButton *templateButton = [UIButton buttonWithType:UIButtonTypeCustom];
-                templateButton.tag = idName;
+                EGOImageButton *templateButton = [[EGOImageButton alloc] initWithPlaceholderImage:[UIImage imageNamed:@"sendbk.png"]];
+                [templateButton setImageURL:[NSURL URLWithString:backgroundPicUrl]];                templateButton.tag = idName;
                 int y = 250 + addTemplatePageNumber * 391; 
                 templateButton.frame = CGRectMake(20, y, 135, 90);
                 templateButton.transform = CGAffineTransformMakeRotation(rotationAngle) ;        
-                [templateButton setImage:[UIImage imageNamed:@"sendbk.png"]
-                                forState:UIControlStateNormal];
                 [templateButton addTarget:self 
                                    action:@selector(displayEachTemplateDetals:) 
                          forControlEvents:UIControlEventTouchUpInside];
                 [templateScrollView addSubview:templateButton];
+                [templateButton release];
                 
                 UILabel *tmpLable = [[UILabel alloc] initWithFrame:CGRectMake(34, 344 + addTemplatePageNumber * 391, 120, 20)];
                 tmpLable.text = templateNameString; 
@@ -318,17 +313,16 @@ int currentPage_Keyword;
             }
             if (i == 5 ) 
             {
-            UIButton *templateButton = [UIButton buttonWithType:UIButtonTypeCustom];
-            templateButton.tag = idName;
+                EGOImageButton *templateButton = [[EGOImageButton alloc] initWithPlaceholderImage:[UIImage imageNamed:@"sendbk.png"]];
+                [templateButton setImageURL:[NSURL URLWithString:backgroundPicUrl]];            templateButton.tag = idName;
             int y = 250 + addTemplatePageNumber * 391; 
             templateButton.frame = CGRectMake(164, y, 135, 90);
-            [templateButton setImage:[UIImage imageNamed:@"sendbk.png"]
-                            forState:UIControlStateNormal];
             templateButton.transform = CGAffineTransformMakeRotation(rotationAngle) ;        
             [templateButton addTarget:self 
                                action:@selector(displayEachTemplateDetals:) 
                      forControlEvents:UIControlEventTouchUpInside];
             [templateScrollView addSubview:templateButton];
+            [templateButton release];
             
             UILabel *tmpLable = [[UILabel alloc] initWithFrame:CGRectMake(178, 344 + addTemplatePageNumber * 391, 120, 20)];
             tmpLable.text = templateNameString; 
@@ -343,7 +337,7 @@ int currentPage_Keyword;
 -(IBAction)addMoreTemplate
 {
     addTemplatePageNumber ++;//页数加一
-    templateScrollView.contentSize = CGSizeMake(320, 391 * (addTemplatePageNumber +1));
+    templateScrollView.contentSize = CGSizeMake(320, 400 * (addTemplatePageNumber +1));
     [self loadHttpRequset];
 }
 
@@ -372,14 +366,11 @@ int currentPage_Keyword;
 {
     self.keyword = nil;
     self.keyword = [NSString stringWithFormat:@"%@",searchText];
-    NSLog(@"keyword = %@",self.keyword);
 }
 
 -(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
 	[self.mySearchBar resignFirstResponder];
-
-    NSLog(@"keyword = %@",self.keyword);
     
     if ([self.keyword isEqualToString:[NSString stringWithFormat:@""]])
     {
@@ -394,7 +385,6 @@ int currentPage_Keyword;
         
         [self viewDidLoad];    
     }
-    
 }
 
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar//点击搜索事件的动作
@@ -418,8 +408,9 @@ int currentPage_Keyword;
 -(void)searchOnline_Keyword
 {
     [self.mySearchBar resignFirstResponder];
+    int i =[[[NSUserDefaults standardUserDefaults] objectForKey:@"ClientId"] intValue];
     NSString *keywordString = [self urlEncodedString:self.keyword];//中文字符转换成url可用的字符串
-    NSString *requsetString = [Template_Keyword stringByAppendingFormat:@"?t=%@&p=%d&s=%d",keywordString,currentPage_Keyword,NumberInOnePage];
+    NSString *requsetString = [Template_Keyword stringByAppendingFormat:@"?t=%@&p=%d&s=%d&cid=%d",keywordString,currentPage_Keyword,NumberInOnePage,i];
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:requsetString]];
     request.delegate = self;
     [request setDidFinishSelector:@selector(getTemplateFinished_Keyword:)];//带关键字-取json数据
@@ -462,7 +453,6 @@ int currentPage_Keyword;
 -(void)getTemplateFinished_Keyword:(ASIHTTPRequest *)request
 {
     NSDictionary *dict = [request responseString].JSONValue;
-    NSLog(@"dict_Key = %@",dict);
     
     NSString *result_codeString = [dict objectForKey:@"result_code"];
     if ([result_codeString intValue] == 0)//没有找到模板
@@ -538,21 +528,19 @@ int currentPage_Keyword;
         //NSString *tagsString = [tmpDict objectForKey:@"tags"];
         
         NSString *backgroundPicUrl = [tmpDict objectForKey:@"preview"];
-        UIImage *backgroundPic = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:backgroundPicUrl]]];
-        
         if (i == 0 ) 
         {
-            UIButton *templateButton = [UIButton buttonWithType:UIButtonTypeCustom];
+            EGOImageButton *templateButton = [[EGOImageButton alloc] initWithPlaceholderImage:[UIImage imageNamed:@"sendbk.png"]];
+            [templateButton setImageURL:[NSURL URLWithString:backgroundPicUrl]];          
             templateButton.tag = idName ;
             int y = 10 + addTemplatePageNumber_Keyword * 391;
             templateButton.frame = CGRectMake(12, y, 135, 90);
-            [templateButton setImage:[UIImage imageNamed:@"sendbk.png"]
-                            forState:UIControlStateNormal];
             templateButton.transform = CGAffineTransformMakeRotation(rotationAngle);//(M_PI/2) ;        
             [templateButton addTarget:self 
                                action:@selector(displayEachTemplateDetals:) 
                      forControlEvents:UIControlEventTouchUpInside];
             [templateScrollView_Keyword addSubview:templateButton];
+            [templateButton release];
             
             UILabel *tmpLable = [[UILabel alloc] initWithFrame:CGRectMake(34, 104 +addTemplatePageNumber_Keyword * 391, 120, 20)];
             tmpLable.text = templateNameString; 
@@ -564,17 +552,17 @@ int currentPage_Keyword;
         
         if (i == 1) 
         {
-            UIButton *templateButton = [UIButton buttonWithType:UIButtonTypeCustom];
+            EGOImageButton *templateButton = [[EGOImageButton alloc] initWithPlaceholderImage:[UIImage imageNamed:@"sendbk.png"]];
+            [templateButton setImageURL:[NSURL URLWithString:backgroundPicUrl]];         
             templateButton.tag = idName;
             int y = 10 + addTemplatePageNumber_Keyword * 391; 
             templateButton.frame = CGRectMake(164, y,135, 90);
-            [templateButton setImage:[UIImage imageNamed:@"sendbk.png"]
-                            forState:UIControlStateNormal];
             templateButton.transform = CGAffineTransformMakeRotation(rotationAngle) ;        
             [templateButton addTarget:self 
                                action:@selector(displayEachTemplateDetals:) 
                      forControlEvents:UIControlEventTouchUpInside];
             [templateScrollView_Keyword addSubview:templateButton];
+            [templateButton release];
             
             UILabel *tmpLable = [[UILabel alloc] initWithFrame:CGRectMake(178, 104 + addTemplatePageNumber_Keyword * 391, 120, 20)];
             tmpLable.text = templateNameString; 
@@ -587,17 +575,17 @@ int currentPage_Keyword;
         
         if (i == 2) 
         {
-            UIButton *templateButton = [UIButton buttonWithType:UIButtonTypeCustom];
+            EGOImageButton *templateButton = [[EGOImageButton alloc] initWithPlaceholderImage:[UIImage imageNamed:@"sendbk.png"]];
+            [templateButton setImageURL:[NSURL URLWithString:backgroundPicUrl]];        
             templateButton.tag = idName;
             int y = 130 + addTemplatePageNumber_Keyword * 391; 
             templateButton.frame = CGRectMake(20, y, 135, 90);
             templateButton.transform = CGAffineTransformMakeRotation(rotationAngle) ;        
-            [templateButton setImage:[UIImage imageNamed:@"sendbk.png"]
-                            forState:UIControlStateNormal];
             [templateButton addTarget:self 
                                action:@selector(displayEachTemplateDetals:) 
                      forControlEvents:UIControlEventTouchUpInside];
             [templateScrollView_Keyword addSubview:templateButton];
+            [templateButton release];
             
             UILabel *tmpLable = [[UILabel alloc] initWithFrame:CGRectMake(34, 224 + addTemplatePageNumber_Keyword * 391, 120, 20)];
             tmpLable.text = templateNameString; 
@@ -609,17 +597,17 @@ int currentPage_Keyword;
         
         if (i == 3) 
         {
-            UIButton *templateButton = [UIButton buttonWithType:UIButtonTypeCustom];
+            EGOImageButton *templateButton = [[EGOImageButton alloc] initWithPlaceholderImage:[UIImage imageNamed:@"sendbk.png"]];
+            [templateButton setImageURL:[NSURL URLWithString:backgroundPicUrl]];
             templateButton.tag = idName;
             int y = 130 + addTemplatePageNumber_Keyword * 391; 
             templateButton.frame = CGRectMake(164, y, 135, 90);
-            [templateButton setImage:[UIImage imageNamed:@"sendbk.png"]
-                            forState:UIControlStateNormal];
             templateButton.transform = CGAffineTransformMakeRotation(rotationAngle) ;        
             [templateButton addTarget:self 
                                action:@selector(displayEachTemplateDetals:) 
                      forControlEvents:UIControlEventTouchUpInside];
             [templateScrollView_Keyword addSubview:templateButton];
+            [templateButton release];
             
             UILabel *tmpLable = [[UILabel alloc] initWithFrame:CGRectMake(178, 224 + addTemplatePageNumber_Keyword * 391, 120, 20)];
             tmpLable.text = templateNameString; 
@@ -630,17 +618,17 @@ int currentPage_Keyword;
         }
         if (i == 4) 
         {
-            UIButton *templateButton = [UIButton buttonWithType:UIButtonTypeCustom];
+            EGOImageButton *templateButton = [[EGOImageButton alloc] initWithPlaceholderImage:[UIImage imageNamed:@"sendbk.png"]];
+            [templateButton setImageURL:[NSURL URLWithString:backgroundPicUrl]];
             templateButton.tag = idName;
             int y = 250 + addTemplatePageNumber_Keyword * 391; 
             templateButton.frame = CGRectMake(20, y, 135, 90);
             templateButton.transform = CGAffineTransformMakeRotation(rotationAngle) ;        
-            [templateButton setImage:[UIImage imageNamed:@"sendbk.png"]
-                            forState:UIControlStateNormal];
             [templateButton addTarget:self 
                                action:@selector(displayEachTemplateDetals:) 
                      forControlEvents:UIControlEventTouchUpInside];
             [templateScrollView_Keyword addSubview:templateButton];
+            [templateButton release];
             
             UILabel *tmpLable = [[UILabel alloc] initWithFrame:CGRectMake(34, 344 + addTemplatePageNumber_Keyword * 391, 120, 20)];
             tmpLable.text = templateNameString; 
@@ -652,17 +640,17 @@ int currentPage_Keyword;
         
         if (i == 5) 
         {
-            UIButton *templateButton = [UIButton buttonWithType:UIButtonTypeCustom];
+            EGOImageButton *templateButton = [[EGOImageButton alloc] initWithPlaceholderImage:[UIImage imageNamed:@"sendbk.png"]];
+            [templateButton setImageURL:[NSURL URLWithString:backgroundPicUrl]];
             templateButton.tag = idName;
             int y = 250 + addTemplatePageNumber_Keyword * 391; 
             templateButton.frame = CGRectMake(164, y, 135, 90);
-            [templateButton setImage:[UIImage imageNamed:@"sendbk.png"]
-                            forState:UIControlStateNormal];
             templateButton.transform = CGAffineTransformMakeRotation(rotationAngle) ;        
             [templateButton addTarget:self 
                                action:@selector(displayEachTemplateDetals:) 
                      forControlEvents:UIControlEventTouchUpInside];
             [templateScrollView_Keyword addSubview:templateButton];
+            [templateButton release];
             
             UILabel *tmpLable = [[UILabel alloc] initWithFrame:CGRectMake(178, 344 + addTemplatePageNumber_Keyword * 391, 120, 20)];
             tmpLable.text = templateNameString; 
@@ -671,7 +659,6 @@ int currentPage_Keyword;
             [templateScrollView_Keyword addSubview:tmpLable];
             [tmpLable release];
         }
-
     } 
 }
 
@@ -725,9 +712,7 @@ int currentPage_Keyword;
 { 
     UILabel *tmpLable =[[UILabel alloc] init];
     tmpLable.text = sender.titleLabel.text;
-    
-    NSLog(@"hotWordStr = %@",tmpLable.text);
-    
+        
     currentPage_Keyword = 1;
     
     addTemplatePageNumber_Keyword = 0;
@@ -752,15 +737,14 @@ int currentPage_Keyword;
     [request startAsynchronous];
 }
 
-
 #pragma mark - displayEachTemplateDetals - 点击进入每个模板详情
 -(void)displayEachTemplateDetals:(UIButton *)sender
 {
     DisplayEachTemplateDetals *tmpDisplayEachTemplateDetals = [[DisplayEachTemplateDetals alloc] initWithNibName:@"DisplayEachTemplateDetals" bundle:nil];
     tmpDisplayEachTemplateDetals.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
     displayEachTemplateDetals = tmpDisplayEachTemplateDetals;
+    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"FromActivityList"];
     displayEachTemplateDetals.idName = [NSString stringWithFormat:@"%d",sender.tag];
-    NSLog(@"idName = %@",displayEachTemplateDetals.idName);
     [self presentModalViewController:displayEachTemplateDetals
                             animated:YES];
     [tmpDisplayEachTemplateDetals release];
