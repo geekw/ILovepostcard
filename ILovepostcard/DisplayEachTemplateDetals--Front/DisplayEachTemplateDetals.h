@@ -37,6 +37,7 @@
     TouchView *fileContent;
 }
 
+
 @property (retain, nonatomic) UIImagePickerController *imagePicker;//相机
 
 @property (retain, nonatomic) DisplayEachTemplateDetals_Back *displayEachTemplateDetals_Back;

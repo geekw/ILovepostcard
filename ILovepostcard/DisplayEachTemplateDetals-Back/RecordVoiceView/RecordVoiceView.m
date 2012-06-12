@@ -6,9 +6,12 @@
 //  Copyright (c) 2012年 开趣. All rights reserved.
 //
 
-#define RECORDPATH [NSString stringWithFormat:@"%@/Documents/",NSHomeDirectory()]
+#define RECORDPATH [NSString stringWithFormat:@"%@/Documents/Record/",NSHomeDirectory()]
 
 #define UPLOAD_IMAGE_WEBSITE_PATH [NSString stringWithFormat:@"http://61.155.238.30:80/postcards/file/upload"]
+
+#define UploadPicUrl @"http://kai7.cn/image/upload"
+
 
 
 #import "RecordVoiceView.h"
@@ -175,10 +178,7 @@ bool StopOrSatrt;
         default:
         break;
     }
-    
-
 }
-
 
 -(void)showTime
 {
@@ -258,7 +258,6 @@ bool StopOrSatrt;
         [request setDidFinishSelector:@selector(requestUploadImageFinish:)];
         [request setDidFailSelector:@selector(requestUploadImageFail:)];
         [request startAsynchronous];
-
     }
     else 
     {
@@ -275,7 +274,9 @@ bool StopOrSatrt;
 
 - (void)requestUploadImageFinish:(ASIFormDataRequest *)request
 {
-    NSLog(@"%@",[request responseString]);
+    NSString *voiceUrl = [NSString stringWithFormat:@"%@",[request responseString]];
+    [[NSUserDefaults standardUserDefaults] setObject:voiceUrl forKey:@"VOICEURL"];
+    
     Barcode *barcode = [[Barcode alloc] init];
     
     self.view.backgroundColor = [UIColor whiteColor];
@@ -283,6 +284,8 @@ bool StopOrSatrt;
     [barcode setupQRCode:[request responseString]];
     
     UIImage *tmpImage = [barcode qRBarcode];
+    
+    [self performSelectorInBackground:@selector(UploadQRPic:) withObject:tmpImage];//向服务器上传二维码
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"QRPic" object:tmpImage];  
     
@@ -302,5 +305,38 @@ bool StopOrSatrt;
     return;
 }
 
+- (void)UploadQRPic:(UIImage *)imgage
+{
+
+    NSData  *data = UIImagePNGRepresentation(imgage);
+    if (data != nil)
+    {
+        ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:UploadPicUrl]];
+        [request setDelegate:self];
+        [request setData: data
+            withFileName: @"QR.png"
+          andContentType: @"image/png"
+                  forKey: @"pic"];  
+        [request appendPostData:[@"{\"postcard\":\"1\"}" dataUsingEncoding:NSUTF8StringEncoding]];
+        [request setDidFinishSelector:@selector(requestUploadQRImageFinish:)];
+        [request setDidFailSelector:@selector(requestUploadImageFail:)];
+        [request startAsynchronous];
+    }
+    else 
+    {
+        PromptView  *tmpPromptView = [[PromptView alloc] init];
+        [tmpPromptView showPromptWithParentView:self.view
+                                     withPrompt:@"上传图片失败" 
+                                      withFrame:CGRectMake(40, 120, 240, 240)];
+        [tmpPromptView release];
+        return;
+    }    
+}
+
+- (void)requestUploadQRImageFinish:(ASIFormDataRequest *)request
+{
+    NSString *QRStr = [NSString stringWithFormat:@"%@",[request responseString]];
+    [[NSUserDefaults standardUserDefaults] setObject:QRStr forKey:@"QRURL"];
+}
 
 @end

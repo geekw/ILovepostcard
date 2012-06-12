@@ -13,8 +13,10 @@
 
 #define googleMapUrl   @"http://maps.google.com/maps/api/staticmap"
 #define pinUrl @"http://cdn1.iconfinder.com/data/icons/customicondesign-office6-shadow/32/pin-red.png"
+
 #define FD_IMAGE_PATH(file) [NSString stringWithFormat:@"%@/Documents/ScreenShot/%@",NSHomeDirectory(),file]
 
+#define UploadPicUrl @"http://kai7.cn/image/upload"
 
 #define degreesToRadian(x) (M_PI * (x) / 180.0)//定义弧度
 
@@ -75,16 +77,18 @@ bool hideOrShowBottonView;
     
     imagePicker = [[UIImagePickerController alloc] init];
     
+    [[NSUserDefaults standardUserDefaults] setObject:self.idName forKey:@"ID"];
+
+    
     if (![[NSUserDefaults standardUserDefaults] boolForKey:@"FromActivityList"])
     {
         [self performSelector:@selector(requestFrontDetails)];//正常请求明信片正面素材
     }
     else if ([[NSUserDefaults standardUserDefaults] boolForKey:@"FromActivityList"])
     {
+        [[NSUserDefaults standardUserDefaults] setObject:self.idName_Activity forKey:@"ID_ACTIVITY"];
         [self performSelector:@selector(requestFromDetails_Activity)];//活动列表请求
     }
-
-    
 }
 
 - (void)viewDidUnload
@@ -118,7 +122,7 @@ bool hideOrShowBottonView;
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-#pragma mark - RequestFromDetails_Activity - 从活动列表请求正面素材
+#pragma mark - RequestFromDetails_Activity - 1.从活动列表请求正面素材
 -(void)requestFromDetails_Activity
 {
     int idValue = [idName intValue];
@@ -132,7 +136,7 @@ bool hideOrShowBottonView;
 }
 
 
-#pragma mark - RequestFrontDetails - 请求正面素材
+#pragma mark - RequestFrontDetails - 2.正常请求正面素材
 -(void)requestFrontDetails
 {
     int idValue = [idName intValue];
@@ -153,10 +157,9 @@ bool hideOrShowBottonView;
     }
     NSDictionary *dict = [request responseString].JSONValue;
     
-    NSString *back_StampStr = [dict objectForKey:@"back_stamp"];
-    NSString *backinfoStr = [dict objectForKey:@"backinfo"];
-    NSString *back_PostmarkStr = [dict objectForKey:@"back_PostmarkStr"];
-    
+//    NSString *back_StampStr = [dict objectForKey:@"back_stamp"];
+//    NSString *backinfoStr = [dict objectForKey:@"backinfo"];
+//    NSString *back_PostmarkStr = [dict objectForKey:@"back_PostmarkStr"];
 //    [[TemplateDetails_Singleton sharedTemplateDetails_Singleton].templateDetailsDict setObject:back_StampStr 
 //                                                                                        forKey:@"back_stamp"];
 //    
@@ -164,7 +167,7 @@ bool hideOrShowBottonView;
 //                                                                                        forKey:@"backinfo"];
 //    
 //    [[TemplateDetails_Singleton sharedTemplateDetails_Singleton].templateDetailsDict setObject:back_PostmarkStr 
-//                                                                                        forKey:@"back_PostmarkStr"];//背面信息
+//                                                                                        forKey:@"back_PostmarkStr"]//背面信息
     
     NSDictionary *layoutDict = [dict objectForKey:@"ly"];
     
@@ -217,10 +220,7 @@ bool hideOrShowBottonView;
     NSString *backgroundStr = [[TemplateDetails_Singleton sharedTemplateDetails_Singleton].templateDetailsDict objectForKey:@"background"];
     if (backgroundStr != nil)
     {
-        EGOImageView *tmpImgView = [[EGOImageView alloc] init];
-        tmpImgView.imageURL = [NSURL URLWithString:backgroundStr];
-         self.bkImgView.image = tmpImgView.image;
-        [tmpImgView release];
+    self.bkImgView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:backgroundStr]]];
     }
 }
 
@@ -865,6 +865,9 @@ bool hideOrShowBottonView;
 #pragma mark - goDisplayEachTemplateDetals - 去编辑明信片反面
 -(IBAction)goDisplayEachTemplateDetals
 {
+    NSString *screenShotNumber = [NSString stringWithFormat:@"%d",[[NSUserDefaults standardUserDefaults] integerForKey:@"ScreenShotNumber"]];
+    NSLog(@"ScreenShotNumber = %@",screenShotNumber);
+    
     if (!displayEachTemplateDetals_Back)
     {
       displayEachTemplateDetals_Back = [[DisplayEachTemplateDetals_Back alloc] initWithNibName:@"DisplayEachTemplateDetals-Back" bundle:nil];  
@@ -872,13 +875,64 @@ bool hideOrShowBottonView;
     
     UIImage *grabImg = [ImageProcess grabImageWithView:postcard_FrontView scale:4];//正面截图
     NSData *imgData = UIImagePNGRepresentation(grabImg);
-    NSString *picSaveStr = [NSString stringWithFormat:@"frontPic.png"];//定义图片文件名
+    NSString *picSaveStr = [NSString stringWithFormat:@"frontPic%@.png",screenShotNumber];//定义图片文件名
     [imgData writeToFile:FD_IMAGE_PATH(picSaveStr) atomically:YES];
     
     self.displayEachTemplateDetals_Back.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     [self presentModalViewController:self.displayEachTemplateDetals_Back 
                             animated:YES];
+    
+    [self performSelector:@selector(uploadFrontPic:) withObject:picSaveStr];
 }
 
+#pragma mark - UploadFrontPic - 上传图片
+-(void)uploadFrontPic:(NSString *)tmpStr
+{
+    NSLog(@"%@",tmpStr);
+    NSString *str = [NSString stringWithFormat:@"%@",FD_IMAGE_PATH(tmpStr)];
+    UIImage *tmpImg = [UIImage imageWithContentsOfFile:str];
+    
+    NSData  *data = UIImagePNGRepresentation(tmpImg);
+    
+    if (data != nil)
+    {
+        ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:UploadPicUrl]];
+        [request setDelegate:self];
+        [request setData: data
+            withFileName: tmpStr
+          andContentType: @"image/png"
+                  forKey: @"pic"];  
+        [request appendPostData:[@"{\"postcard\":\"1\"}" dataUsingEncoding:NSUTF8StringEncoding]];
+        [request setDidFinishSelector:@selector(requestUploadImageFinish:)];
+        [request setDidFailSelector:@selector(requestUploadImageFail:)];
+        [request startAsynchronous];
+        
+    }
+    else 
+    {
+        PromptView  *tmpPromptView = [[PromptView alloc] init];
+        [tmpPromptView showPromptWithParentView:self.view
+                                       withPrompt:@"上传图片失败" 
+                                        withFrame:CGRectMake(40, 120, 240, 240)];
+        [tmpPromptView release];
+        return;
+    }    
+}
+
+- (void)requestUploadImageFinish:(ASIFormDataRequest *)request
+{
+    NSString *tmpStr = [NSString stringWithFormat:@"%@",[request responseString]];
+    [[NSUserDefaults standardUserDefaults] setObject:tmpStr forKey:@"FRONT_PIC"];
+}
+
+- (void)requestUploadImageFail
+{
+    PromptView *promptView = [[PromptView alloc] init];
+    [promptView showPromptWithParentView:self.view
+                                   withPrompt:@"网络不好,请稍后再试" 
+                                    withFrame:CGRectMake(40, 120, 240, 240)];
+    [promptView release];
+    return;
+}
 
 @end

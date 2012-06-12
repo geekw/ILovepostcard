@@ -103,6 +103,8 @@
     
     //创建文件夹
     [CreateFolder createFolder:@"ScreenShot" atDirectory:kDocuments];
+    [CreateFolder createFolder:@"Record" atDirectory:kDocuments];
+    [[NSUserDefaults standardUserDefaults] integerForKey:@"ScreenShotNumber"];
     
     NSString *clienIdStr = [[NSUserDefaults standardUserDefaults] stringForKey:@"ClientId"];
     if (clienIdStr == nil)

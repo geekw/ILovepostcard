@@ -28,10 +28,11 @@
 + (UIImage *)grabImageWithView:(UIView *)view scale:(CGFloat)scale
 {
     UIGraphicsBeginImageContextWithOptions(view.bounds.size, YES, scale);
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"scaleFont" object:nil];
     [view.layer renderInContext:UIGraphicsGetCurrentContext()];
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-//    UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil); 
+    UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil); 
 
     return image;
 } 

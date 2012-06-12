@@ -72,13 +72,9 @@ static int timeNum = 0;
 
 -(void)getPic:(ASIHTTPRequest *)request
 {
-    NSDictionary *dict = [request responseString].JSONValue;
-    NSLog(@"dict = %@",dict);
+    NSArray *tmpArray = [request responseString].JSONValue;
+    NSLog(@"tmpArray = %@",tmpArray);
     
-    NSString *unpayStr = [dict objectForKey:@"unpay_count"];
-    self.numberLabel.text = [NSString stringWithFormat:@"%@",unpayStr];
-    
-    NSArray *tmpArray = [dict objectForKey:@"activities"];
     for (int i = 0; i < 4; i++)
     {
         NSDictionary *tmpDict = [tmpArray objectAtIndex:i];

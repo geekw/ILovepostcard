@@ -98,10 +98,10 @@
 }
 
 
-//随机生成15位订单号,外部商户根据自己情况生成订单号
+//随机生成27位订单号,外部商户根据自己情况生成订单号
 - (NSString *)generateTradeNO
 {
-	const int N = 15;
+	const int N = 27;
 	
 	NSString *sourceString = @"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	NSMutableString *result = [[[NSMutableString alloc] init] autorelease];
@@ -227,13 +227,15 @@
     int i = [[NSUserDefaults standardUserDefaults] integerForKey:@"MailType"]; 
     NSLog(@"i = %d",i);
     
+    NSString *SNStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"SNStr"];
+    
     Product *product = [myProduct objectAtIndex:i];
     
     //将商品信息赋予AlixPayOrder的成员变量
 	AlixPayOrder *order = [[AlixPayOrder alloc] init];
 	order.partner = Partner;
 	order.seller  = Seller;
-	order.tradeNO = [self generateTradeNO]; //订单ID（由商家自行制定）
+	order.tradeNO = [self generateTradeNO]; //订单ID（由商家自行制)
 	order.productName = product.subject; //商品标题
 	order.productDescription = product.body; //商品描述
 	order.amount = [NSString stringWithFormat:@"%.2f",product.price]; //商品价格
@@ -289,8 +291,9 @@
     int i = [[NSUserDefaults standardUserDefaults] integerForKey:@"MailType"]; 
     NSLog(@"i = %d",i);
     
+    NSString *SNStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"SNStr"];
+    
     Product *product = [myProduct objectAtIndex:i];
-    NSLog(@"product =%@",product);
     
 	//如果partner和seller数据存于其他位置,请改写下面两行代码
 	NSString *partner = Partner;
@@ -312,10 +315,10 @@
     AlixPayOrder *order = [[AlixPayOrder alloc] init];
 	order.partner = partner;
 	order.seller = seller;
-	order.tradeNO = [self generateTradeNO]; //订单ID（由商家自行制定）
+	order.tradeNO = [NSString stringWithFormat:@"%@",SNStr]; //订单ID（由商家自行制定）
 	order.productName = product.subject; //商品标题
 	order.productDescription = product.body; //商品描述
-	order.amount = [NSString stringWithFormat:@"%.2f",product.price]; //商品价格
+	order.amount = [self generateTradeNO]; //商品价格
 //	order.notifyURL =  @"http://192.168.0.119:8080/appbacktest/RSANotifyReceiver"; //回调URL
     
     //应用注册scheme,在AlixPayDemo-Info.plist定义URL types,用于安全支付成功后重新唤起商户应用
@@ -357,38 +360,38 @@
 
 
 -(void) finishPay
-    {   UIView *tmpView = (UIView *)[self.view viewWithTag:999];
-[tmpView removeFromSuperview];
+{  
+    UIView *tmpView = (UIView *)[self.view viewWithTag:999];
+    [tmpView removeFromSuperview];
 
-UIView *payView = [[UIView alloc] initWithFrame:CGRectMake(20, 73, 281, 270)];
-payView.tag = 999;
+    UIView *payView = [[UIView alloc] initWithFrame:CGRectMake(20, 73, 281, 270)];
+    payView.tag = 999;
 
-UIImageView *payImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 281, 270)];
-payImgView.image = [UIImage imageNamed:@""];
-payImgView.backgroundColor = [UIColor blackColor];
+    UIImageView *payImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 281, 270)];
+    payImgView.image = [UIImage imageNamed:@""];
+    payImgView.backgroundColor = [UIColor blackColor];
 
-UIButton *clientBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-clientBtn.frame = CGRectMake(58, 109, 213, 37);
-[clientBtn addTarget:self action:@selector(goToPostOfficeView) forControlEvents:UIControlEventTouchUpInside];
-clientBtn.backgroundColor = [UIColor whiteColor];
-[tmpView addSubview:clientBtn];
+    UIButton *clientBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    clientBtn.frame = CGRectMake(58, 109, 213, 37);
+    [clientBtn addTarget:self action:@selector(goToPostOfficeView) forControlEvents:UIControlEventTouchUpInside];
+    clientBtn.backgroundColor = [UIColor whiteColor];
+    [tmpView addSubview:clientBtn];
 
 
-UIButton *wapBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-wapBtn.frame = CGRectMake(58, 160, 213, 37);
-[wapBtn addTarget:self action:@selector(payFailed) forControlEvents:UIControlEventTouchUpInside];
-wapBtn.backgroundColor = [UIColor redColor];
-[payView addSubview:wapBtn];
+    UIButton *wapBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    wapBtn.frame = CGRectMake(58, 160, 213, 37);
+    [wapBtn addTarget:self action:@selector(payFailed) forControlEvents:UIControlEventTouchUpInside];
+    wapBtn.backgroundColor = [UIColor redColor];
+    [payView addSubview:wapBtn];
 
-[payView addSubview:payImgView];
-[payView addSubview:clientBtn];
-[payView addSubview:wapBtn];
-[payImgView release];
+    [payView addSubview:payImgView];
+    [payView addSubview:clientBtn];
+    [payView addSubview:wapBtn];
+    [payImgView release];
 
-UIView *mainView =(UIView *)[self.view viewWithTag:998];
-[mainView addSubview:payView];
-[payView release];
-
+    UIView *mainView =(UIView *)[self.view viewWithTag:998];
+    [mainView addSubview:payView];
+    [payView release];
 }
 
 #pragma mark - GoToPostOfficeView - 付款完成

@@ -123,8 +123,8 @@
 
 - (IBAction)shareToSIna
 {
-    
 }
+
 - (IBAction)buyThisCard
 {
     if (!paymentView)
