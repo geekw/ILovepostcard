@@ -276,6 +276,7 @@ bool StopOrSatrt;
 {
     NSString *voiceUrl = [NSString stringWithFormat:@"%@",[request responseString]];
     [[NSUserDefaults standardUserDefaults] setObject:voiceUrl forKey:@"VOICEURL"];
+    NSLog(@"%@",[request responseString]);
     
     Barcode *barcode = [[Barcode alloc] init];
     
@@ -337,6 +338,8 @@ bool StopOrSatrt;
 {
     NSString *QRStr = [NSString stringWithFormat:@"%@",[request responseString]];
     [[NSUserDefaults standardUserDefaults] setObject:QRStr forKey:@"QRURL"];
+    NSLog(@"%@",[request responseString]);
+
 }
 
 @end

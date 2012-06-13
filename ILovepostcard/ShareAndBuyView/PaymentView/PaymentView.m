@@ -31,6 +31,10 @@
 @synthesize expressDeliveryButton;
 @synthesize tempPayView;
 @synthesize postOfficeView;
+@synthesize priceArray;
+@synthesize snailMailLabel;
+@synthesize registeredMailLabel;
+@synthesize expressLabel;
 
 #pragma mark - GoBack - 返回按钮
 - (IBAction)goBack 
@@ -41,6 +45,7 @@
 #pragma mark - View lifecycle - 系统函数
 - (void)dealloc 
 {
+    priceArray = nil;[priceArray release];
     postOfficeView = nil;[postOfficeView release];
     tempPayView = nil;[tempPayView release];
     [goBackButton release];
@@ -50,29 +55,65 @@
     [preViewImgView release];
     [priceLabel release];
     [openPayViewBtn release];
+    [snailMailLabel release];
+    [registeredMailLabel release];
+    [expressLabel release];
     [super dealloc];
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        [self performSelector:@selector(generateData)];
+    if (self) 
+    {
     }
     return self;
 }
 
--(void)generateData
+-(void)generateData:(NSMutableArray *)tmpArray
 {
-    NSArray *subjectsArray = [[NSArray alloc] initWithObjects:@"平邮",
-                              @"挂号信",
-                              @"快递", nil];
-    NSArray *bodyArray = [[NSArray alloc] initWithObjects:@"不限期",
-                          @"三天",
-                          @"三天", nil];
-    NSArray *priceArray = [[NSArray alloc] initWithObjects:@"0.01f",
-                           @"0.01f",
-                           @"0.01f", nil];
+    self.expressDeliveryButton.hidden = YES;
+    self.expressLabel.hidden = YES;
+    
+    NSMutableArray *tmpID    = [[NSMutableArray alloc] initWithCapacity:[tmpArray count]];
+    NSMutableArray *tmpPrice = [[NSMutableArray alloc] initWithCapacity:[tmpArray count]];
+    NSMutableArray *tmpway   = [[NSMutableArray alloc] initWithCapacity:[tmpArray count]];
+    
+    for (int i = 0; i < [tmpArray count]; i ++)
+    {
+        NSDictionary *tmpDict = [tmpArray objectAtIndex:i];
+        NSString *IDStr = [tmpDict objectForKey:@"id"];
+        NSString *priceStr = [tmpDict objectForKey:@"price"];
+        NSString *wayStr = [tmpDict objectForKey:@"way"];
+        
+        [tmpID addObject:IDStr];
+        [tmpPrice addObject:priceStr];
+        [tmpway addObject:wayStr];
+        
+        if ([IDStr intValue] == 1)//平邮
+        {
+            self.snailMailLabel.text = [NSString stringWithFormat:@"%@",wayStr];
+        }
+        
+        if ([IDStr intValue] == 2)//挂号信
+        {
+            self.registeredMailLabel.text = [NSString stringWithFormat:@"%@",wayStr];
+        }
+        
+        if ([IDStr intValue] == 3)//快递
+        {
+            self.expressDeliveryButton.hidden = NO;
+            self.expressLabel.hidden = NO;
+            self.expressLabel.text = [NSString stringWithFormat:@"%@",wayStr];
+        }
+    }
+    
+    NSArray *subjectsArray = [[NSArray alloc] initWithArray:tmpID];
+    NSArray *bodyArray  = [[NSArray alloc] initWithArray:tmpway];
+    NSArray *mypriceArray = [[NSArray alloc] initWithArray:tmpPrice];
+    NSLog(@"%@ : %@ : %@",subjectsArray,bodyArray,mypriceArray);
+    
+    
     if (!myProduct)
     {
         myProduct = [[NSMutableArray alloc] init];
@@ -86,7 +127,7 @@
         Product *product = [[Product alloc] init];
         product.subject = [subjectsArray objectAtIndex:i];
         product.body  = [bodyArray objectAtIndex:i];
-        product.price = [[priceArray objectAtIndex:i] floatValue];
+        product.price = [[mypriceArray objectAtIndex:i] floatValue];
         
         [myProduct addObject:product];
         [product release];
@@ -94,6 +135,11 @@
     
     [subjectsArray release], subjectsArray = nil;
 	[bodyArray release], bodyArray = nil;
+    [mypriceArray release];mypriceArray = nil;
+    
+//    tmpID = nil;[tmpID release];
+//    tmpPrice = nil;[tmpPrice release];
+//    tmpway = nil;[tmpway release];
     
 }
 
@@ -101,7 +147,7 @@
 //随机生成27位订单号,外部商户根据自己情况生成订单号
 - (NSString *)generateTradeNO
 {
-	const int N = 27;
+	const int N = 15;
 	
 	NSString *sourceString = @"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	NSMutableString *result = [[[NSMutableString alloc] init] autorelease];
@@ -115,14 +161,18 @@
 	return result;
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [self performSelector:@selector(generateData:) withObject:self.priceArray];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     [snailMailButton setBackgroundImage:[UIImage imageNamed:@"paymentView2.png"] forState:UIControlStateNormal];
     [registeredLetterButton setBackgroundImage:[UIImage imageNamed:@"paymentView3.png"] forState:UIControlStateNormal];
     [expressDeliveryButton setBackgroundImage:[UIImage imageNamed:@"paymentView2.png"] forState:UIControlStateNormal];
-    [[NSUserDefaults standardUserDefaults] setInteger:1 forKey:@"MailType"];//默认是挂号信
-    self.priceLabel.text = [NSString stringWithFormat:@"4.99元"];
+    [self performSelector:@selector(registeredLetter)];    
 }
 
 - (void)viewDidUnload
@@ -134,6 +184,9 @@
     [self setRegisteredLetterButton:nil];
     [self setExpressDeliveryButton:nil];
     [self setOpenPayViewBtn:nil];
+    [self setSnailMailLabel:nil];
+    [self setRegisteredMailLabel:nil];
+    [self setExpressLabel:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -144,15 +197,19 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-
 #pragma mark - SelectMailType - 选择快递类型
 - (IBAction)snailMail
 {
-    [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"MailType"];
+    [[NSUserDefaults standardUserDefaults] setInteger:0 
+                                               forKey:@"MailType"];
+    
     [snailMailButton setBackgroundImage:[UIImage imageNamed:@"paymentView3.png"] forState:UIControlStateNormal];
     [registeredLetterButton setBackgroundImage:[UIImage imageNamed:@"paymentView2.png"] forState:UIControlStateNormal];
     [expressDeliveryButton setBackgroundImage:[UIImage imageNamed:@"paymentView2.png"] forState:UIControlStateNormal];
-    self.priceLabel.text = [NSString stringWithFormat:@"3.99元"];
+    
+    NSDictionary *tmpDict = [self.priceArray objectAtIndex:0];
+    NSString *priceStr = [tmpDict objectForKey:@"price"];
+    self.priceLabel.text = [NSString stringWithFormat:@"%@",priceStr];
 }
 
 - (IBAction)registeredLetter
@@ -161,7 +218,9 @@
     [snailMailButton setBackgroundImage:[UIImage imageNamed:@"paymentView2.png"] forState:UIControlStateNormal];
     [registeredLetterButton setBackgroundImage:[UIImage imageNamed:@"paymentView3.png"] forState:UIControlStateNormal];
     [expressDeliveryButton setBackgroundImage:[UIImage imageNamed:@"paymentView2.png"] forState:UIControlStateNormal];
-    self.priceLabel.text = [NSString stringWithFormat:@"4.99元"];
+    NSDictionary *tmpDict = [self.priceArray objectAtIndex:1];
+    NSString *priceStr = [tmpDict objectForKey:@"price"];
+    self.priceLabel.text = [NSString stringWithFormat:@"%@",priceStr];
 }
 
 - (IBAction)expressDelivery 
@@ -170,7 +229,9 @@
     [snailMailButton setBackgroundImage:[UIImage imageNamed:@"paymentView2.png"] forState:UIControlStateNormal];
     [registeredLetterButton setBackgroundImage:[UIImage imageNamed:@"paymentView2.png"] forState:UIControlStateNormal];
     [expressDeliveryButton setBackgroundImage:[UIImage imageNamed:@"paymentView3.png"] forState:UIControlStateNormal];
-    self.priceLabel.text = [NSString stringWithFormat:@"5.99元"];
+    NSDictionary *tmpDict = [self.priceArray objectAtIndex:2];
+    NSString *priceStr = [tmpDict objectForKey:@"price"];
+    self.priceLabel.text = [NSString stringWithFormat:@"%@",priceStr];
 }
 
 #pragma mark - OpenPayView - 加载支付界面
@@ -226,9 +287,7 @@
 
     int i = [[NSUserDefaults standardUserDefaults] integerForKey:@"MailType"]; 
     NSLog(@"i = %d",i);
-    
-    NSString *SNStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"SNStr"];
-    
+        
     Product *product = [myProduct objectAtIndex:i];
     
     //将商品信息赋予AlixPayOrder的成员变量
@@ -290,9 +349,7 @@
     
     int i = [[NSUserDefaults standardUserDefaults] integerForKey:@"MailType"]; 
     NSLog(@"i = %d",i);
-    
-    NSString *SNStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"SNStr"];
-    
+        
     Product *product = [myProduct objectAtIndex:i];
     
 	//如果partner和seller数据存于其他位置,请改写下面两行代码
@@ -315,10 +372,10 @@
     AlixPayOrder *order = [[AlixPayOrder alloc] init];
 	order.partner = partner;
 	order.seller = seller;
-	order.tradeNO = [NSString stringWithFormat:@"%@",SNStr]; //订单ID（由商家自行制定）
+	order.tradeNO = [self generateTradeNO]; //订单ID（由商家自行制定）
 	order.productName = product.subject; //商品标题
 	order.productDescription = product.body; //商品描述
-	order.amount = [self generateTradeNO]; //商品价格
+	order.amount = [NSString stringWithFormat:@"%.2f",product.price]; //商品价格
 //	order.notifyURL =  @"http://192.168.0.119:8080/appbacktest/RSANotifyReceiver"; //回调URL
     
     //应用注册scheme,在AlixPayDemo-Info.plist定义URL types,用于安全支付成功后重新唤起商户应用

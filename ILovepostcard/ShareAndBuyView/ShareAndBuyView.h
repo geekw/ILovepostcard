@@ -27,6 +27,8 @@
 
 @property (retain, nonatomic) IBOutlet UIButton *flipButton2;
 
+@property (retain, nonatomic) NSMutableArray *priceArray;
+
 - (IBAction)goBack;
 
 - (IBAction)flip;
