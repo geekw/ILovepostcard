@@ -8,7 +8,18 @@
 
 /* Begin PBXBuildFile section */
 		003874471585F13300865D6C /* Product.m in Sources */ = {isa = PBXBuildFile; fileRef = 003874461585F13300865D6C /* Product.m */; };
+		150000851588D184001D251F /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 150000801588D184001D251F /* FMDatabase.m */; };
+		150000861588D184001D251F /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 150000821588D184001D251F /* FMDatabaseAdditions.m */; };
+		150000871588D184001D251F /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 150000841588D184001D251F /* FMResultSet.m */; };
+		1500008C1588D184001D251F /* china.csv in Resources */ = {isa = PBXBuildFile; fileRef = 1500008A1588D184001D251F /* china.csv */; };
+		1500008D1588D184001D251F /* mydatabase.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 1500008B1588D184001D251F /* mydatabase.sqlite */; };
+		1500008F1588D184001D251F /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1500008E1588D184001D251F /* libsqlite3.dylib */; };
+		150000901588D184001D251F /* DataItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 150000891588D184001D251F /* DataItem.m */; };
 		150CFC53157B4B96007D0E96 /* PullingRefreshTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 150CFC4E157B4B96007D0E96 /* PullingRefreshTableView.m */; };
+		153460411588794F008F87B9 /* SeachList.m in Sources */ = {isa = PBXBuildFile; fileRef = 153460401588794F008F87B9 /* SeachList.m */; };
+		1534604B158897ED008F87B9 /* adressPic.png in Resources */ = {isa = PBXBuildFile; fileRef = 1534604A158897ED008F87B9 /* adressPic.png */; };
+		15E5D0E11588C6C600E32C49 /* AbstractActionSheetPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 15E5D0D91588C6C500E32C49 /* AbstractActionSheetPicker.m */; };
+		15E5D0E41588C6C600E32C49 /* ActionSheetStringPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 15E5D0E01588C6C600E32C49 /* ActionSheetStringPicker.m */; };
 		B102FF6B155BB303008DC42D /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B102FF6A155BB303008DC42D /* CFNetwork.framework */; };
 		B102FF6D155BB30D008DC42D /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B102FF6C155BB30C008DC42D /* SystemConfiguration.framework */; };
 		B102FF6F155BB314008DC42D /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B102FF6E155BB314008DC42D /* MobileCoreServices.framework */; };
@@ -196,6 +207,20 @@
 /* Begin PBXFileReference section */
 		003874451585F13300865D6C /* Product.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Product.h; path = ILovepostcard/ShareAndBuyView/PaymentView/Product.h; sourceTree = "<group>"; };
 		003874461585F13300865D6C /* Product.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Product.m; path = ILovepostcard/ShareAndBuyView/PaymentView/Product.m; sourceTree = "<group>"; };
+		150000641588D184001D251F /* PassValueDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PassValueDelegate.h; path = "ILovepostcard/DisplayEachTemplateDetals-Back/ChooseAddressView/PassValueDelegate.h"; sourceTree = "<group>"; };
+		150000651588D184001D251F /* SeachList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SeachList.h; path = "ILovepostcard/DisplayEachTemplateDetals-Back/ChooseAddressView/SeachList.h"; sourceTree = "<group>"; };
+		150000661588D184001D251F /* SeachList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SeachList.m; path = "ILovepostcard/DisplayEachTemplateDetals-Back/ChooseAddressView/SeachList.m"; sourceTree = "<group>"; };
+		1500007F1588D184001D251F /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
+		150000801588D184001D251F /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabase.m; sourceTree = "<group>"; };
+		150000811588D184001D251F /* FMDatabaseAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseAdditions.h; sourceTree = "<group>"; };
+		150000821588D184001D251F /* FMDatabaseAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseAdditions.m; sourceTree = "<group>"; };
+		150000831588D184001D251F /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMResultSet.h; sourceTree = "<group>"; };
+		150000841588D184001D251F /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMResultSet.m; sourceTree = "<group>"; };
+		150000881588D184001D251F /* DataItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DataItem.h; sourceTree = "<group>"; };
+		150000891588D184001D251F /* DataItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DataItem.m; sourceTree = "<group>"; };
+		1500008A1588D184001D251F /* china.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = china.csv; sourceTree = SOURCE_ROOT; };
+		1500008B1588D184001D251F /* mydatabase.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = mydatabase.sqlite; sourceTree = SOURCE_ROOT; };
+		1500008E1588D184001D251F /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		150CFC04157B18A2007D0E96 /* default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = default.png; path = Resources/pic/default.png; sourceTree = SOURCE_ROOT; };
 		150CFC26157B47B1007D0E96 /* heart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = heart.png; path = Resources/pic/Pic_ActivityListView/heart.png; sourceTree = SOURCE_ROOT; };
 		150CFC49157B4B96007D0E96 /* blueArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blueArrow.png; sourceTree = "<group>"; };
@@ -204,6 +229,15 @@
 		150CFC4C157B4B96007D0E96 /* blueArrowDown@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blueArrowDown@2x.png"; sourceTree = "<group>"; };
 		150CFC4D157B4B96007D0E96 /* PullingRefreshTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PullingRefreshTableView.h; sourceTree = "<group>"; };
 		150CFC4E157B4B96007D0E96 /* PullingRefreshTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PullingRefreshTableView.m; sourceTree = "<group>"; };
+		1534603E1588794F008F87B9 /* PassValueDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PassValueDelegate.h; path = "ILovepostcard/DisplayEachTemplateDetals-Back/ChooseAddressView/PassValueDelegate.h"; sourceTree = "<group>"; };
+		1534603F1588794F008F87B9 /* SeachList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SeachList.h; path = "ILovepostcard/DisplayEachTemplateDetals-Back/ChooseAddressView/SeachList.h"; sourceTree = "<group>"; };
+		153460401588794F008F87B9 /* SeachList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SeachList.m; path = "ILovepostcard/DisplayEachTemplateDetals-Back/ChooseAddressView/SeachList.m"; sourceTree = "<group>"; };
+		1534604A158897ED008F87B9 /* adressPic.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = adressPic.png; path = Resources/pic/Pic_PoatBack/adressPic.png; sourceTree = "<group>"; };
+		15E5D0D81588C6C500E32C49 /* AbstractActionSheetPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AbstractActionSheetPicker.h; path = "ILovepostcard/DisplayEachTemplateDetals-Back/ChooseAddressView/AbstractActionSheetPicker.h"; sourceTree = "<group>"; };
+		15E5D0D91588C6C500E32C49 /* AbstractActionSheetPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AbstractActionSheetPicker.m; path = "ILovepostcard/DisplayEachTemplateDetals-Back/ChooseAddressView/AbstractActionSheetPicker.m"; sourceTree = "<group>"; };
+		15E5D0DE1588C6C500E32C49 /* ActionSheetPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ActionSheetPicker.h; path = "ILovepostcard/DisplayEachTemplateDetals-Back/ChooseAddressView/ActionSheetPicker.h"; sourceTree = "<group>"; };
+		15E5D0DF1588C6C500E32C49 /* ActionSheetStringPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ActionSheetStringPicker.h; path = "ILovepostcard/DisplayEachTemplateDetals-Back/ChooseAddressView/ActionSheetStringPicker.h"; sourceTree = "<group>"; };
+		15E5D0E01588C6C600E32C49 /* ActionSheetStringPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ActionSheetStringPicker.m; path = "ILovepostcard/DisplayEachTemplateDetals-Back/ChooseAddressView/ActionSheetStringPicker.m"; sourceTree = "<group>"; };
 		B102FF6A155BB303008DC42D /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		B102FF6C155BB30C008DC42D /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		B102FF6E155BB314008DC42D /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
@@ -568,6 +602,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1500008F1588D184001D251F /* libsqlite3.dylib in Frameworks */,
 				B14C8AC7157CB80800481A7F /* libzbar.a in Frameworks */,
 				B104ABDE1578989D00F12B57 /* MediaPlayer.framework in Frameworks */,
 				B104ABDD1578989400F12B57 /* AudioToolbox.framework in Frameworks */,
@@ -594,6 +629,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1500007E1588D184001D251F /* FMDB */ = {
+			isa = PBXGroup;
+			children = (
+				150000881588D184001D251F /* DataItem.h */,
+				150000891588D184001D251F /* DataItem.m */,
+				1500007F1588D184001D251F /* FMDatabase.h */,
+				150000801588D184001D251F /* FMDatabase.m */,
+				150000811588D184001D251F /* FMDatabaseAdditions.h */,
+				150000821588D184001D251F /* FMDatabaseAdditions.m */,
+				150000831588D184001D251F /* FMResultSet.h */,
+				150000841588D184001D251F /* FMResultSet.m */,
+			);
+			name = FMDB;
+			path = "ILovepostcard/DisplayEachTemplateDetals-Back/ChooseAddressView/FMDB";
+			sourceTree = "<group>";
+		};
 		150CFC2C157B4987007D0E96 /* PullToRefresh */ = {
 			isa = PBXGroup;
 			children = (
@@ -605,6 +656,21 @@
 				150CFC4E157B4B96007D0E96 /* PullingRefreshTableView.m */,
 			);
 			path = PullToRefresh;
+			sourceTree = "<group>";
+		};
+		15E5D0E61588C6D500E32C49 /* Thrid Part */ = {
+			isa = PBXGroup;
+			children = (
+				15E5D0D81588C6C500E32C49 /* AbstractActionSheetPicker.h */,
+				15E5D0D91588C6C500E32C49 /* AbstractActionSheetPicker.m */,
+				15E5D0DE1588C6C500E32C49 /* ActionSheetPicker.h */,
+				15E5D0DF1588C6C500E32C49 /* ActionSheetStringPicker.h */,
+				15E5D0E01588C6C600E32C49 /* ActionSheetStringPicker.m */,
+				1534603E1588794F008F87B9 /* PassValueDelegate.h */,
+				1534603F1588794F008F87B9 /* SeachList.h */,
+				153460401588794F008F87B9 /* SeachList.m */,
+			);
+			name = "Thrid Part";
 			sourceTree = "<group>";
 		};
 		B102FF09155B95D4008DC42D /* Pic */ = {
@@ -674,6 +740,9 @@
 		B104ABC615786E4600F12B57 /* FontLib */ = {
 			isa = PBXGroup;
 			children = (
+				150000641588D184001D251F /* PassValueDelegate.h */,
+				150000651588D184001D251F /* SeachList.h */,
+				150000661588D184001D251F /* SeachList.m */,
 				B104ABCA1578730F00F12B57 /* jingleiti.ttf */,
 			);
 			name = FontLib;
@@ -984,6 +1053,7 @@
 		B15EDD99155A577A00B0C873 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1500008E1588D184001D251F /* libsqlite3.dylib */,
 				B104ABDB157894EF00F12B57 /* MediaPlayer.framework */,
 				B104ABD8157894DB00F12B57 /* AudioToolbox.framework */,
 				B1348FDA156E1FF90099B9D2 /* QuartzCore.framework */,
@@ -1025,6 +1095,8 @@
 		B15EDDA1155A577A00B0C873 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				1500008A1588D184001D251F /* china.csv */,
+				1500008B1588D184001D251F /* mydatabase.sqlite */,
 				B19D65E21560A1430028A9F4 /* en.lproj */,
 				B19D65E91560A1430028A9F4 /* ILovepostcard-Info.plist */,
 				B19D65EA1560A1430028A9F4 /* ILovepostcard-Prefix.pch */,
@@ -1149,6 +1221,8 @@
 		B19830AD15779671006C1EFF /* ChooseAddressView */ = {
 			isa = PBXGroup;
 			children = (
+				15E5D0E61588C6D500E32C49 /* Thrid Part */,
+				1500007E1588D184001D251F /* FMDB */,
 				B104ABC615786E4600F12B57 /* FontLib */,
 				B19830AE157796D5006C1EFF /* ChooseAddressView.h */,
 				B19830AF157796D5006C1EFF /* ChooseAddressView.m */,
@@ -1272,6 +1346,7 @@
 		B1D1D3CB156A51DF0015A054 /* Pic_PostcardBack */ = {
 			isa = PBXGroup;
 			children = (
+				1534604A158897ED008F87B9 /* adressPic.png */,
 				B11C4E1F157DE1A00039B764 /* speakbtn.png */,
 				B11C4E20157DE1A00039B764 /* speakbtnpress.png */,
 				B11C4E1B157DE1580039B764 /* playbtnenablepress.png */,
@@ -1595,6 +1670,9 @@
 				B1E038121585D4560057F128 /* btn-biggreen.png in Resources */,
 				B1E038131585D4560057F128 /* btn-biggreenclick.png in Resources */,
 				B1E038431585E1DC0057F128 /* payPic.jpg in Resources */,
+				1500008C1588D184001D251F /* china.csv in Resources */,
+				1500008D1588D184001D251F /* mydatabase.sqlite in Resources */,
+				1534604B158897ED008F87B9 /* adressPic.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1605,6 +1683,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				150000901588D184001D251F /* DataItem.m in Sources */,
 				B1E038B41585EB2C0057F128 /* PaymentView.m in Sources */,
 				B19D65BD1560A0840028A9F4 /* DisplayEachTemplateDetals.m in Sources */,
 				B19D65C21560A0910028A9F4 /* DisplayEachTemplateDetals-Back.m in Sources */,
@@ -1668,6 +1747,12 @@
 				B1E038B21585E5E20057F128 /* RSADataSigner.m in Sources */,
 				B1E038B31585E5E20057F128 /* RSADataVerifier.m in Sources */,
 				003874471585F13300865D6C /* Product.m in Sources */,
+				150000851588D184001D251F /* FMDatabase.m in Sources */,
+				150000861588D184001D251F /* FMDatabaseAdditions.m in Sources */,
+				150000871588D184001D251F /* FMResultSet.m in Sources */,
+				153460411588794F008F87B9 /* SeachList.m in Sources */,
+				15E5D0E11588C6C600E32C49 /* AbstractActionSheetPicker.m in Sources */,
+				15E5D0E41588C6C600E32C49 /* ActionSheetStringPicker.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1721,7 +1806,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
-				SDKROOT = iphoneos;
+				SDKROOT = iphoneos5.1;
 				VALID_ARCHS = "armv6 armv7 i386";
 			};
 			name = Debug;
@@ -1740,7 +1825,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
-				SDKROOT = iphoneos;
+				SDKROOT = iphoneos5.1;
 				VALIDATE_PRODUCT = YES;
 				VALID_ARCHS = "armv6 armv7 i386";
 			};
@@ -1782,7 +1867,7 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				SDKROOT = iphoneos5.0;
+				SDKROOT = iphoneos5.1;
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "";
 				VALID_ARCHS = "armv6 armv7";
@@ -1826,7 +1911,7 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				SDKROOT = iphoneos5.0;
+				SDKROOT = iphoneos5.1;
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "";
 				VALID_ARCHS = "armv6 armv7";
