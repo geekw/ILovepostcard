@@ -162,14 +162,12 @@ int current_page;
                 [self.address setObject:[NSString stringWithFormat:@"%d",tmpLabel4.tag] forKey:postcard_sn];
                 [tmpLabel4 release];
 
-                
                 NSLog(@"postcard_sn:%@", postcard_sn);
                 
                 NSLog(@"paid:%@",  [paid objectForKey:postcard_sn]);
                 NSLog(@"adress:%@",[address objectForKey:postcard_sn]);
                 
                 [self performSelector:@selector(displayEachPostcard:) withObject:dict];
-                
                 [self.myScrollView addSubview:tmpView];
                 [tmpView release];
             }
@@ -180,7 +178,6 @@ int current_page;
 
 -(void)displayEachPostcard:(NSDictionary *)dict
 {
-    NSLog(@"dict =%@",dict);
     NSString *snStr = [NSString stringWithFormat:@"%@",[dict objectForKey:@"postcard_sn"]];
     NSString *requsetUrl = [Self_Record stringByAppendingFormat:@"?postcard_sn=%@",snStr];    
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:requsetUrl]];
@@ -192,16 +189,18 @@ int current_page;
 -(void)getTheDetails:(ASIHTTPRequest *)request
 {
     NSLog(@"%@",[request url]);
-    NSString *snStr = [[NSString stringWithFormat:@"%@",[request url]] substringWithRange:NSMakeRange([Self_Record length] + 12, 27)];
+    
+    NSString *snStr = [[NSString stringWithFormat:@"%@",[request url]] substringWithRange:NSMakeRange([Self_Record length] + 13, 28)];
 
     NSLog(@"SN:%@", snStr);
+    
     NSLog(@"Paid:= %@",[paid objectForKey:snStr]);
     
     NSLog(@"adress = %@",[address objectForKey:snStr]);
     
     //Todo get sn from postbody
     NSDictionary *dict = [request responseString].JSONValue;
-    NSLog(@"dict = %@",dict);
+//    NSLog(@"dict = %@",dict);
     
     NSString *payStr = [dict objectForKey:@"is_pay"];
     NSString *adressStr = [dict objectForKey:@"card_receiver_address"];

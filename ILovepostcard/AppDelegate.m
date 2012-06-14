@@ -181,7 +181,7 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
     } 
     
     [rs close];
-//    NSLog(@"%@",dataArray);
+    NSLog(@"%@",dataArray);
     
     return YES;
 }
