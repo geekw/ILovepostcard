@@ -6,6 +6,7 @@
 //  Copyright (c) 2012年 开趣. All rights reserved.
 //
 #define FD_IMAGE_PATH(file) [NSString stringWithFormat:@"%@/Documents/ScreenShot/%@",NSHomeDirectory(),file]
+
 #define PATH [NSString stringWithFormat:@"%@/Documents/",NSHomeDirectory]
 
 #define UploadPicUrl @"http://kai7.cn/image/upload"
@@ -421,9 +422,7 @@ bool HideOrShowPostmark;
    ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:UploadAllUrl]];
     
     [request setDelegate:self];
-    
-//    [request setRequestMethod:@"POST"];
-        
+//  [request setRequestMethod:@"POST"];
     [request setPostValue:cidStr forKey:@"cid"];
     [request setPostValue:tidStr forKey:@"tid"];
     [request setPostValue:pic_a  forKey:@"pic_a"];
@@ -432,15 +431,16 @@ bool HideOrShowPostmark;
     [request setPostValue:adressStr forKey:@"card_sender_address"];
     [request setPostValue:tmpStr forKey:@"card_sender_postcode"];
     [request setPostValue:tmpStr forKey:@"card_receiver"];
-    [request setPostValue:adressStr forKey:@"card_receivier_address"];
+    [request setPostValue:adressStr forKey:@"card_receiver_address"];
     [request setPostValue:tmpStr forKey:@"card_receivier_postcode"];
     [request setPostValue:tmpStr forKey:@"blessings"];
     [request setPostValue:qrcode forKey:@"qrcode"];
     [request setPostValue:audio  forKey:@"audio"];
-    
     [request setDidFinishSelector:@selector(requestUploadAllFinish:)];
-    NSLog(@"cid:%@ tid:%@ a:%@ b:%@ tmp:%@ qrcode:%@ audio:%@", cidStr, tidStr, pic_a, pic_b, tmpStr, qrcode, audio);
-//    [request setDidFailSelector:@selector(requestUploadImageFail:)];
+    
+//    NSLog(@"cid:%@ tid:%@ a:%@ b:%@ tmp:%@ qrcode:%@ audio:%@", cidStr, tidStr, pic_a, pic_b, tmpStr, qrcode, audio);
+//  [request setDidFailSelector:@selector(requestUploadImageFail:)];
+    
     [request startAsynchronous];
 }
 
@@ -466,6 +466,9 @@ bool HideOrShowPostmark;
         }  
     }
     
+    [[NSUserDefaults standardUserDefaults] setValue:nil forKey:@"VOICEURL"];
+    [[NSUserDefaults standardUserDefaults] setValue:nil forKey:@"QRURL"];//上传成功后,清空声音和二维码的地址!
+
     [self performSelector:@selector(jumpShareAndBuyViewScene)];
 }
 

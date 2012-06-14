@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "ASIHTTPRequest.h"
+#import "ASIFormDataRequest.h"
 #import "PostOfficeView.h"
 
 @interface PaymentView : UIViewController<ASIHTTPRequestDelegate,UIAlertViewDelegate>
