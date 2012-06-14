@@ -6,9 +6,13 @@
 //  Copyright (c) 2012年 开趣. All rights reserved.
 //
 
+#define UploadPostcardPrice @"http://61.155.238.30/postcards/interface/submit_price"
+
+#define PurchaseFromClient @"http://61.155.238.30/postcards/interface/submit_alipay"
+
+
 #define Partner @"2088701817081672"
 #define Seller  @"2088701817081672"
-
 
 #import "PaymentView.h"
 #import "AlixPayOrder.h"
@@ -16,6 +20,9 @@
 #import "AlixPay.h"
 #import "DataSigner.h"
 #import "Product.h"
+#import "PromptView.h"
+#import "SBJSON.h"
+#import "ViewController.h"
 
 @interface PaymentView ()
 
@@ -45,6 +52,7 @@
 #pragma mark - View lifecycle - 系统函数
 - (void)dealloc 
 {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];//注销观察者
     priceArray = nil;[priceArray release];
     postOfficeView = nil;[postOfficeView release];
     tempPayView = nil;[tempPayView release];
@@ -78,7 +86,7 @@
     NSMutableArray *tmpID    = [[NSMutableArray alloc] initWithCapacity:[tmpArray count]];
     NSMutableArray *tmpPrice = [[NSMutableArray alloc] initWithCapacity:[tmpArray count]];
     NSMutableArray *tmpway   = [[NSMutableArray alloc] initWithCapacity:[tmpArray count]];
-    
+//    
     for (int i = 0; i < [tmpArray count]; i ++)
     {
         NSDictionary *tmpDict = [tmpArray objectAtIndex:i];
@@ -86,9 +94,10 @@
         NSString *priceStr = [tmpDict objectForKey:@"price"];
         NSString *wayStr = [tmpDict objectForKey:@"way"];
         
-        [tmpID addObject:IDStr];
-        [tmpPrice addObject:priceStr];
-        [tmpway addObject:wayStr];
+        [tmpway addObject:IDStr];
+        [tmpPrice addObject:@"0.01"];
+//        [tmpPrice addObject:priceStr];
+        [tmpID  addObject:wayStr];
         
         if ([IDStr intValue] == 1)//平邮
         {
@@ -112,7 +121,6 @@
     NSArray *bodyArray  = [[NSArray alloc] initWithArray:tmpway];
     NSArray *mypriceArray = [[NSArray alloc] initWithArray:tmpPrice];
     NSLog(@"%@ : %@ : %@",subjectsArray,bodyArray,mypriceArray);
-    
     
     if (!myProduct)
     {
@@ -144,10 +152,10 @@
 }
 
 
-//随机生成27位订单号,外部商户根据自己情况生成订单号
+//随机生成15位订单号,外部商户根据自己情况生成订单号
 - (NSString *)generateTradeNO
 {
-	const int N = 15;
+	const int N = 15 ;
 	
 	NSString *sourceString = @"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	NSMutableString *result = [[[NSMutableString alloc] init] autorelease];
@@ -173,7 +181,14 @@
     [registeredLetterButton setBackgroundImage:[UIImage imageNamed:@"paymentView3.png"] forState:UIControlStateNormal];
     [expressDeliveryButton setBackgroundImage:[UIImage imageNamed:@"paymentView2.png"] forState:UIControlStateNormal];
     [self performSelector:@selector(registeredLetter)];    
+
+    NSDictionary *tmpDict = [self.priceArray objectAtIndex:0];
+    NSString *postcardStr = [tmpDict objectForKey:@"postcard_sn"];
+    [[NSUserDefaults standardUserDefaults] setObject:postcardStr forKey:@"postcard_sn"];
+    
+
 }
+
 
 - (void)viewDidUnload
 {
@@ -202,14 +217,13 @@
 {
     [[NSUserDefaults standardUserDefaults] setInteger:0 
                                                forKey:@"MailType"];
-    
     [snailMailButton setBackgroundImage:[UIImage imageNamed:@"paymentView3.png"] forState:UIControlStateNormal];
     [registeredLetterButton setBackgroundImage:[UIImage imageNamed:@"paymentView2.png"] forState:UIControlStateNormal];
     [expressDeliveryButton setBackgroundImage:[UIImage imageNamed:@"paymentView2.png"] forState:UIControlStateNormal];
     
     NSDictionary *tmpDict = [self.priceArray objectAtIndex:0];
     NSString *priceStr = [tmpDict objectForKey:@"price"];
-    self.priceLabel.text = [NSString stringWithFormat:@"%@",priceStr];
+    self.priceLabel.text = [NSString stringWithFormat:@"%@元",priceStr];
 }
 
 - (IBAction)registeredLetter
@@ -220,7 +234,7 @@
     [expressDeliveryButton setBackgroundImage:[UIImage imageNamed:@"paymentView2.png"] forState:UIControlStateNormal];
     NSDictionary *tmpDict = [self.priceArray objectAtIndex:1];
     NSString *priceStr = [tmpDict objectForKey:@"price"];
-    self.priceLabel.text = [NSString stringWithFormat:@"%@",priceStr];
+    self.priceLabel.text = [NSString stringWithFormat:@"%@元",priceStr];
 }
 
 - (IBAction)expressDelivery 
@@ -231,7 +245,7 @@
     [expressDeliveryButton setBackgroundImage:[UIImage imageNamed:@"paymentView3.png"] forState:UIControlStateNormal];
     NSDictionary *tmpDict = [self.priceArray objectAtIndex:2];
     NSString *priceStr = [tmpDict objectForKey:@"price"];
-    self.priceLabel.text = [NSString stringWithFormat:@"%@",priceStr];
+    self.priceLabel.text = [NSString stringWithFormat:@"%@元",priceStr];
 }
 
 #pragma mark - OpenPayView - 加载支付界面
@@ -276,15 +290,54 @@
     [self.view addSubview:tmpView];
     [tmpView release];
     
+    [self performSelector:@selector(uploadPrice)];
+}
+
+-(void)uploadPrice
+{
+    NSString *snStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"postcard_sn"];
+    NSString *alipay_feeStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"alipay_fee"];
+    NSString *pay_wayStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"pay_way"];
+    
+//    NSLog(@"%@--%@--%@",snStr,alipay_feeStr,pay_wayStr);
+    
+    NSString *loadString = [UploadPostcardPrice stringByAppendingFormat:@"?postcard_sn=%@&alipay_fee=%@&pay_way=%@",snStr,alipay_feeStr,pay_wayStr];
+    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:loadString]];
+    request.delegate = self;
+    [request setDidFinishSelector:@selector(submit_priceFinished:)];
+    [request setDidFailSelector:@selector(submit_priceFailed:)];
+    [request startAsynchronous];
+}
+
+-(void)submit_priceFinished:(ASIHTTPRequest *)request
+{
+    if ([request responseStatusCode] == 200)
+    {
+        NSLog(@"success!");
+    }
+}
+
+-(void)submit_priceFailed:(ASIHTTPRequest *)request
+{
+    PromptView *myPromptView = [[PromptView alloc] init];
+    [myPromptView showPromptWithParentView:self.view
+                                withPrompt:@"网络连接失败,请重试"
+                                 withFrame:CGRectMake(40, 120, 240, 240)];
+    [myPromptView  release];
+    NSError *error = [request error];
+    NSLog(@"error:%@", error);
 }
 
 
 #pragma mark - ClientPay - 客户端支付
 - (void)clientPay
-{    
-    [tempPayView removeFromSuperview];
+{   
     [self performSelector:@selector(finishPay)];
-
+    [[NSNotificationCenter defaultCenter] addObserver:self 
+                                             selector:@selector(fromZhiFuBaoClient) 
+                                                 name:@"fromZhiFuBaoClient" 
+                                               object:nil];
+    
     int i = [[NSUserDefaults standardUserDefaults] integerForKey:@"MailType"]; 
     NSLog(@"i = %d",i);
         
@@ -334,12 +387,16 @@
         [alertView setTag:123];
         [alertView show];
         [alertView release];
+        return;
     }
     else if (ret == kSPErrorSignError) 
     {
         NSLog(@"签名错误！");
+        return;
     }
-    
+    [[NSUserDefaults standardUserDefaults] setObject:product.body forKey:@"pay_way"];//交易方式id号
+    [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%.2f",product.price] forKey:@"alipay_fee"];//交易费用
+    [[NSUserDefaults standardUserDefaults] setObject:order.tradeNO forKey:@"ZhiFuBaoSn"];
 }
 
 #pragma mark - WapPay - 网页支付
@@ -373,6 +430,7 @@
 	order.partner = partner;
 	order.seller = seller;
 	order.tradeNO = [self generateTradeNO]; //订单ID（由商家自行制定）
+    NSLog(@"%@",order.tradeNO);
 	order.productName = product.subject; //商品标题
 	order.productDescription = product.body; //商品描述
 	order.amount = [NSString stringWithFormat:@"%.2f",product.price]; //商品价格
@@ -404,9 +462,12 @@
     
     NSURL *url = [NSURL URLWithString:[stringURL stringByAddingPercentEscapesUsingEncoding: NSUTF8StringEncoding]];
     NSLog(@"%@",url);
-    
+        
     [[UIApplication sharedApplication] openURL:url];
     
+    [[NSUserDefaults standardUserDefaults] setObject:product.body forKey:@"pay_way"];//交易方式id号
+    [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%.2f",product.price] forKey:@"alipay_fee"];//交易费用
+    [[NSUserDefaults standardUserDefaults] setObject:order.tradeNO forKey:@"ZhiFuBaoSn"];
 }
 
 - (void)cancelBill
@@ -414,7 +475,6 @@
     UIView *tmpView = (UIView *)[self.view viewWithTag:998];
     [tmpView removeFromSuperview];
 }
-
 
 -(void) finishPay
 {  
@@ -425,25 +485,20 @@
     payView.tag = 999;
 
     UIImageView *payImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 281, 270)];
-    payImgView.image = [UIImage imageNamed:@""];
-    payImgView.backgroundColor = [UIColor blackColor];
+    payImgView.image = [UIImage imageNamed:@"hintBar.png"];
 
     UIButton *clientBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    clientBtn.frame = CGRectMake(58, 109, 213, 37);
+    clientBtn.frame = CGRectMake(23, 113, 235, 43);
+    clientBtn.tag = 79;
     [clientBtn addTarget:self action:@selector(goToPostOfficeView) forControlEvents:UIControlEventTouchUpInside];
-    clientBtn.backgroundColor = [UIColor whiteColor];
+    [clientBtn setBackgroundImage:[UIImage imageNamed:@"btn-biggreen.png"] forState:UIControlStateNormal];
+    [clientBtn setBackgroundImage:[UIImage imageNamed:@"btn-biggreenclick.png"] forState:UIControlStateHighlighted];
+    [clientBtn setTitle:@"快去查看你的明信片吧!" forState:UIControlStateNormal];
+    [clientBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [tmpView addSubview:clientBtn];
-
-
-    UIButton *wapBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    wapBtn.frame = CGRectMake(58, 160, 213, 37);
-    [wapBtn addTarget:self action:@selector(payFailed) forControlEvents:UIControlEventTouchUpInside];
-    wapBtn.backgroundColor = [UIColor redColor];
-    [payView addSubview:wapBtn];
 
     [payView addSubview:payImgView];
     [payView addSubview:clientBtn];
-    [payView addSubview:wapBtn];
     [payImgView release];
 
     UIView *mainView =(UIView *)[self.view viewWithTag:998];
@@ -451,16 +506,99 @@
     [payView release];
 }
 
-#pragma mark - GoToPostOfficeView - 付款完成
+#pragma mark - GoToPostOfficeView - 付款完成,准备进入下一界面
 - (void)goToPostOfficeView
 {
-    if (!postOfficeView)
-    {
-        postOfficeView = [[PostOfficeView alloc] init];
-    }
-    self.postOfficeView.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-    [self presentModalViewController:self.postOfficeView animated:YES];
+    [self performSelector:@selector(saveCompletePostcard)];
+    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"FromMainScene"];
+
+    PostOfficeView *_postOfficeView = [[PostOfficeView alloc] init];
+    _postOfficeView.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    [self presentModalViewController:_postOfficeView animated:YES];
+    [_postOfficeView release];
 }
+
+-(void)saveCompletePostcard
+{
+//    NSLog(@"%d",[[NSUserDefaults standardUserDefaults] integerForKey:@"ScreenShotNumber"]);
+
+    NSInteger i = [[NSUserDefaults standardUserDefaults] integerForKey:@"ScreenShotNumber"];
+    NSMutableDictionary *tmpDict = [[NSMutableDictionary dictionary] retain];
+
+    NSString *cidStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"ClientId"];
+    NSString *postcard_snStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"postcard_sn"];
+    NSString *zhifubaoSnStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"ZhiFuBaoSn"];
+    NSString *productNameStr = [NSString stringWithFormat:@"明信片"];
+    NSString *alipay_feeStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"alipay_fee"];
+    
+//    NSLog(@"%@--%@--%@--%@--%@",cidStr,postcard_snStr,zhifubaoSnStr,productNameStr,alipay_feeStr);
+
+    [tmpDict setObject:cidStr forKey:@"cid"];
+    [tmpDict setObject:postcard_snStr forKey:@"postcard_sn"];
+    [tmpDict setObject:zhifubaoSnStr forKey:@"tradeno"];
+    [tmpDict setObject:productNameStr forKey:@"productname"];
+    [tmpDict setObject:alipay_feeStr forKey:@"alipay_fee"];
+
+    NSArray *arrary = [[NSUserDefaults standardUserDefaults] objectForKey:@"SaveArray"];
+    NSMutableArray *saveArray = [NSMutableArray arrayWithArray:arrary];//!!!!!!!!!!!!!!
+    
+    [saveArray addObject:tmpDict];
+    
+    [[NSUserDefaults standardUserDefaults] setObject:saveArray forKey:@"SaveArray"];
+    NSLog(@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"SaveArray"]);
+    [tmpDict release];
+    i ++;
+    
+    [[NSUserDefaults standardUserDefaults] setInteger:i forKey:@"ScreenShotNumber"];
+    NSLog(@"%d",[[NSUserDefaults standardUserDefaults] integerForKey:@"ScreenShotNumber"]);
+}
+
+#pragma mark - FromZhiFuBaoClient - 支付宝客户端成功支付
+-(void)fromZhiFuBaoClient
+{
+    [self performSelector:@selector(updateClientPurchaseStatus)];
+    UIButton *tmpBtn = (UIButton *)[self.view viewWithTag:79];
+    tmpBtn.userInteractionEnabled = NO;
+}
+
+-(void)updateClientPurchaseStatus
+{
+  NSString *cidStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"ClientId"];
+  NSString *postcard_snStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"postcard_sn"];
+  NSString *zhifubaoSnStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"ZhiFuBaoSn"];
+  NSString *productNameStr = [NSString stringWithFormat:@"明信片"];
+  NSString *alipay_feeStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"alipay_fee"];
+    
+  ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:PurchaseFromClient]];
+  [request setDelegate:self];
+  [request setPostValue:cidStr forKey:@"cid"];
+  [request setPostValue:postcard_snStr forKey:@"postcard_sn"];
+  [request setPostValue:zhifubaoSnStr  forKey:@"tradeno"];
+  [request setPostValue:productNameStr forKey:@"productname"];
+  [request setPostValue:alipay_feeStr  forKey:@"alipay_fee"];
+  [request setDidFinishSelector:@selector(requestUploadFinish:)]; 
+  [request setDidFailSelector:@selector(requestUploadFailed:)];
+  [request startAsynchronous];
+}
+
+-(void)requestUploadFinish:(ASIFormDataRequest *)requset
+{
+    NSLog(@"%@",[requset responseString]);
+    UIButton *tmpBtn = (UIButton *)[self.view viewWithTag:79];
+    tmpBtn.userInteractionEnabled = YES;
+}
+
+-(void)requestUploadFailed:(ASIFormDataRequest *)requset
+{
+    PromptView *myPromptView = [[PromptView alloc] init];
+    [myPromptView showPromptWithParentView:self.view
+                                withPrompt:@"网络连接失败,请重试"
+                                 withFrame:CGRectMake(40, 120, 240, 240)];
+    [myPromptView  release];
+    NSError *error = [requset error];
+    NSLog(@"error:%@", error);
+}
+
 
 
 @end

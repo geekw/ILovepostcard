@@ -13,13 +13,16 @@
 
 @class ViewController;
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate,ASIHTTPRequestDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate,ASIHTTPRequestDelegate,UIAlertViewDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 
 @property (strong, nonatomic) ViewController *viewController;
 
 - (void)parseURL:(NSURL *)url application:(UIApplication *)application;
+
 - (BOOL)isSingleTask;
+
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url;
+
 @end

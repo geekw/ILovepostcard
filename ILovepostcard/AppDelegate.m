@@ -43,27 +43,34 @@
 	}
 }
 
-- (void)parseURL:(NSURL *)url application:(UIApplication *)application {
+- (void)parseURL:(NSURL *)url application:(UIApplication *)application 
+{
 	AlixPay *alixpay = [AlixPay shared];
 	AlixPayResult *result = [alixpay handleOpenURL:url];
-	if (result) {
+	if (result) 
+    {
 		//是否支付成功
-		if (9000 == result.statusCode) {
+		if (9000 == result.statusCode) 
+        {
 			/*
 			 *用公钥验证签名
 			 */
 			id<DataVerifier> verifier = CreateRSADataVerifier([[NSBundle mainBundle] objectForInfoDictionaryKey:@"RSA public key"]);
 			if ([verifier verifyString:result.resultString withSign:result.signString]) 
             {
-				UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"提示" 
+				UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"支付成功!" 
 																	 message:result.statusMessage 
 																	delegate:nil 
 														   cancelButtonTitle:@"确定" 
 														   otherButtonTitles:nil];
-				[alertView show];
+				alertView.tag = 89;
+                alertView.delegate = self;
+                [alertView show];
 				[alertView release];
+                
 			}//验签错误
-			else {
+			else 
+            {
 				UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"提示" 
 																	 message:@"签名错误" 
 																	delegate:nil 
@@ -84,10 +91,19 @@
             NSLog(@"statusMessage = %@",result.statusMessage);
 			[alertView show];
 			[alertView release];
-            
 		}
-		
 	}	
+}
+-(void)alertView:(UIAlertView *)alertView 
+clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (alertView.tag == 89)
+    {
+        if (buttonIndex == 0) 
+        {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"fromZhiFuBaoClient" object:nil];
+        }
+    }
 }
 
 
@@ -104,14 +120,22 @@
     //创建文件夹
     [CreateFolder createFolder:@"ScreenShot" atDirectory:kDocuments];
     [CreateFolder createFolder:@"Record" atDirectory:kDocuments];
-    [[NSUserDefaults standardUserDefaults] integerForKey:@"ScreenShotNumber"];
+    if ([[NSUserDefaults standardUserDefaults] integerForKey:@"ScreenShotNumber"] == 0)
+    {
+        [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"ScreenShotNumber"];
+    }
     
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"SaveArray"] == nil)
+    {
+        NSMutableArray *saveArray = [[NSMutableArray alloc] initWithCapacity:1000];
+        [[NSUserDefaults standardUserDefaults] setObject:saveArray forKey:@"SaveArray"];
+    }
+        
     NSString *clienIdStr = [[NSUserDefaults standardUserDefaults] stringForKey:@"ClientId"];
     if (clienIdStr == nil)
     {
         [self performSelector:@selector(getClientId)];//获取ClientId
     }
-
     /*
 	 *单任务handleURL处理
 	 */
@@ -121,11 +145,9 @@
 		
 		if (nil != url)
         {
-			[self parseURL:url application:application];
+          [self parseURL:url application:application];
 		}
 	}
-
-    
     return YES;
 }
 
@@ -134,9 +156,6 @@
 	[self parseURL:url application:application];
 	return YES;
 }
-
-
-
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
