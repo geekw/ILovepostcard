@@ -11,9 +11,9 @@
 
 @implementation LoadingIndicator
 
-- (void)dealloc{
+- (void)dealloc
+{
     [backgroundView release];
-    
     [super dealloc];
 }
 

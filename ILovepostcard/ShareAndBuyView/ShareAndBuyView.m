@@ -22,6 +22,7 @@
 @synthesize flipView;
 @synthesize flipButton2;
 @synthesize paymentView;
+@synthesize priceArray;
 
 
 #pragma mark - goBack - 返回按钮
@@ -40,12 +41,18 @@
     return self;
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+//    NSLog(@"%@",self.priceArray);
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     [self.shareButton setImage:[UIImage imageNamed:@"weibopress.png"] forState:UIControlStateHighlighted];
     [self.goBackButton setImage:[UIImage imageNamed:@"titlebtnbackclick.png"] forState:UIControlStateHighlighted];
     flipButton_Back.backgroundColor = [UIColor blueColor];
+    
 }
 
 - (void)viewDidUnload
@@ -69,6 +76,7 @@
 
 - (void)dealloc 
 {
+    priceArray = nil;
     paymentView = nil;[paymentView release];
     [goBackButton release];
     [shareButton release];
@@ -131,6 +139,17 @@
     {
         paymentView = [[PaymentView alloc] init];
     }
+    
+    if (self.paymentView.priceArray == nil)
+    {
+        self.paymentView.priceArray = [[NSMutableArray alloc] initWithArray:self.priceArray];
+    }
+    else
+    {
+        [self.paymentView.priceArray removeAllObjects];
+        self.paymentView.priceArray = [[NSMutableArray alloc] initWithArray:self.priceArray];
+    }
+    
     self.paymentView.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
     [self presentModalViewController:paymentView animated:YES];
 }

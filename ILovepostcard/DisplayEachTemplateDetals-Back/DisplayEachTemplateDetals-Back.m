@@ -6,8 +6,10 @@
 //  Copyright (c) 2012年 开趣. All rights reserved.
 //
 #define FD_IMAGE_PATH(file) [NSString stringWithFormat:@"%@/Documents/ScreenShot/%@",NSHomeDirectory(),file]
+#define PATH [NSString stringWithFormat:@"%@/Documents/",NSHomeDirectory]
+
 #define UploadPicUrl @"http://kai7.cn/image/upload"
-#define UploadAllUrl @"http://61.155.238.30/postcards/file/submit_postcard"
+#define UploadAllUrl @"http://61.155.238.30/postcards/interface/submit_postcard"
 
 
 
@@ -397,8 +399,6 @@ bool HideOrShowPostmark;
     return;
 }
 
-
-
 -(void)uploadAll
 {
     NSString *cidStr = [NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"ClientId"]];
@@ -414,41 +414,60 @@ bool HideOrShowPostmark;
 //    NSString *blessings = [NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"ID"]];
     
     NSString *tmpStr = [NSString stringWithFormat:@"123456789"];
-    NSString *qrcode = [NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"QRURL"]];
-    NSString *audio = [NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"VOICEURL"]];
-    
-    NSLog(@"cid = %@",cidStr);
-    
+    NSString *adressStr = [NSString stringWithFormat:@"1~2~3~4~5~6~7"];
+    NSString *qrcode = [[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"QRURL"]] retain];
+    NSString *audio = [[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"VOICEURL"]] retain];
+         
    ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:UploadAllUrl]];
-    [request setDelegate:self];
-    [request setRequestMethod:@"POST"];
     
+    [request setDelegate:self];
+    
+//    [request setRequestMethod:@"POST"];
+        
     [request setPostValue:cidStr forKey:@"cid"];
     [request setPostValue:tidStr forKey:@"tid"];
     [request setPostValue:pic_a  forKey:@"pic_a"];
     [request setPostValue:pic_b  forKey:@"pic_b"];
     [request setPostValue:tmpStr forKey:@"card_sender"];
-    [request setPostValue:tmpStr forKey:@"card_sender_address"];
+    [request setPostValue:adressStr forKey:@"card_sender_address"];
     [request setPostValue:tmpStr forKey:@"card_sender_postcode"];
-    [request setPostValue:tmpStr forKey:@"card_recevier"];
-    [request setPostValue:tmpStr forKey:@"card_recevier_address"];
-    [request setPostValue:tmpStr forKey:@"card_recevier_postcode"];
+    [request setPostValue:tmpStr forKey:@"card_receiver"];
+    [request setPostValue:adressStr forKey:@"card_receivier_address"];
+    [request setPostValue:tmpStr forKey:@"card_receivier_postcode"];
     [request setPostValue:tmpStr forKey:@"blessings"];
     [request setPostValue:qrcode forKey:@"qrcode"];
     [request setPostValue:audio  forKey:@"audio"];
-
+    
     [request setDidFinishSelector:@selector(requestUploadAllFinish:)];
+    NSLog(@"cid:%@ tid:%@ a:%@ b:%@ tmp:%@ qrcode:%@ audio:%@", cidStr, tidStr, pic_a, pic_b, tmpStr, qrcode, audio);
 //    [request setDidFailSelector:@selector(requestUploadImageFail:)];
     [request startAsynchronous];
 }
 
 -(void)requestUploadAllFinish:(ASIFormDataRequest *)request
-{
-    NSLog(@"%@",[request responseString]);
-    NSDictionary *dict = [request responseString].JSONValue;
+{    
+    if ([request responseStatusCode] == 200) 
+    {
+        if (!shareAndBuyView)
+        {
+            shareAndBuyView = [[ShareAndBuyView alloc] init];
+        }
+        
+        NSArray *priceArray = [request responseString].JSONValue;
+        if (shareAndBuyView.priceArray == nil)
+        {
+            shareAndBuyView.priceArray = [[NSMutableArray alloc] initWithArray:priceArray];
     
+        }
+        else if (shareAndBuyView.priceArray != nil)
+        {
+            [shareAndBuyView.priceArray removeAllObjects];
+            shareAndBuyView.priceArray = [[NSMutableArray alloc] initWithArray:priceArray];
+        }  
+    }
+    
+    [self performSelector:@selector(jumpShareAndBuyViewScene)];
 }
-
 
 #pragma mark - JumpShareAndBuyViewScene - 进入购买,分享界面
 -(void)jumpShareAndBuyViewScene

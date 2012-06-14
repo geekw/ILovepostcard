@@ -14,7 +14,7 @@
 #import "TemplateDetails-Singleton.h"
 
 
-@interface DisplayEachTemplateDetals_Back : UIViewController<UINavigationControllerDelegate>
+@interface DisplayEachTemplateDetals_Back : UIViewController<UINavigationControllerDelegate,ASIHTTPRequestDelegate>
 {
     IBOutlet UIButton *backButton;
     IBOutlet UIView *toolBar_BackView;//侧面工具栏--添加素材

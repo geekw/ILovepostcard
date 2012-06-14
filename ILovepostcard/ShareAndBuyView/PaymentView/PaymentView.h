@@ -33,6 +33,14 @@
 
 @property (retain, nonatomic) UIView   *tempPayView;
 
+@property (retain, nonatomic) NSMutableArray *priceArray;
+
+@property (retain, nonatomic) IBOutlet UILabel *snailMailLabel;
+
+@property (retain, nonatomic) IBOutlet UILabel *registeredMailLabel;
+
+@property (retain, nonatomic) IBOutlet UILabel *expressLabel;
+
 
 
 
