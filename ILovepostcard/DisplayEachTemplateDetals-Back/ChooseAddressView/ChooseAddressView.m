@@ -16,12 +16,13 @@
 
 @synthesize postcodeTxtView;
 @synthesize adressTextView,nameTextView;
+@synthesize detailTxView;
 @synthesize cancelBtn;
 @synthesize confirmBtn;
 @synthesize provinceBtn,cityBtn,countyBtn;
 
 #pragma mark - goBack - 返回按钮
--(IBAction)goBack
+-(IBAction)goBack:(id)sender
 {
     [self dismissModalViewControllerAnimated:YES];
 }
@@ -30,7 +31,6 @@
 #pragma mark - View lifecycle - 系统函数
 - (void)dealloc 
 {
-    
     [provinceArray release];
     [cityArray release];
     [countyArray release];
@@ -45,6 +45,7 @@
     [cancelBtn release];
     [confirmBtn release];
     [postcodeTxtView release];
+    [detailTxView release];
     [super dealloc];
 }
 
@@ -179,6 +180,7 @@
     [self setCancelBtn:nil];
     [self setConfirmBtn:nil];
     [self setPostcodeTxtView:nil];
+    [self setDetailTxView:nil];
     [super viewDidUnload];
 }
 
@@ -187,16 +189,78 @@
 
 - (void)provinceWasSelected:(NSNumber *)selectedIndex element:(id)element
 {
+    //Todo
+    // Clear city and county set
+
+    
     NSInteger i = [selectedIndex intValue];
     [provinceBtn setTitle:[NSString stringWithString:[provinceArray objectAtIndex:i]] forState:UIControlStateNormal];
-
+    
+    provinceSelectedStr = [NSString stringWithString:[provinceArray objectAtIndex:i]];
+    [cityBtn setTitle:[NSString stringWithString:@""] forState:UIControlStateNormal];
+    [countyBtn setTitle:[NSString stringWithString:@""] forState:UIControlStateNormal];
+    
+    postcodeTxtView.text = nil;
+    
+    detailTxView.text = provinceSelectedStr;
+    
+    //Todo
+    //Query and refresh set
+    [cityArray removeAllObjects];
+    
+    NSMutableSet *set = [NSMutableSet set];
+    for (int i = 0; i < [dataArray count]; i++)
+    {
+        DataItem *di = [dataArray objectAtIndex:i];
+        if ([di.province isEqualToString:provinceBtn.titleLabel.text])
+        {
+            [set addObject:di.city];
+        }
+    } 
+    
+    for (NSString *cityString in set) 
+    {
+        [cityArray addObject:cityString];
+    }
 }
 
 - (void)cityWasSelected:(NSNumber *)selectedIndex element:(id)element
 {
+    
     NSInteger i = [selectedIndex intValue];
 
     [cityBtn setTitle:[NSString stringWithString:[cityArray objectAtIndex:i]] forState:UIControlStateNormal];
+    
+    citySelectedStr = [NSString stringWithString:[cityArray objectAtIndex:i]];
+    
+    [countyBtn setTitle:[NSString stringWithString:@""] forState:UIControlStateNormal];
+    
+    detailTxView.text = [detailTxView.text stringByAppendingString:citySelectedStr];
+    
+    
+    [countyArray removeAllObjects];
+    NSMutableSet *set = [NSMutableSet set];
+    
+    for (int i = 0; i < [dataArray count]; i++)
+    {
+        DataItem *di = [dataArray objectAtIndex:i];
+        if ([di.city isEqualToString:cityBtn.titleLabel.text])
+        {
+            [countyArray addObject:di.county];
+            [set addObject:di];
+        }
+    }
+    
+    if ([set count] == 1)
+    {
+        postcodeTxtView.text = ((DataItem *)[set anyObject]).postcode;
+        countyBtn.enabled = NO;
+    }
+    else 
+    {
+        countyBtn.enabled = YES;
+    }
+    
 }
 
 - (void)countyWasSelected:(NSNumber *)selectedIndex element:(id)element
@@ -204,6 +268,22 @@
     NSInteger i = [selectedIndex intValue];
     
     [countyBtn setTitle:[NSString stringWithString:[countyArray objectAtIndex:i]] forState:UIControlStateNormal];
+    
+    countySelectedStr = [NSString stringWithString:[countyArray objectAtIndex:i]];
+    
+    detailTxView.text = [detailTxView.text stringByAppendingString:countySelectedStr];
+    
+    
+    for (int i = 0; i < [dataArray count]; i++)
+    {
+        DataItem *di = [dataArray objectAtIndex:i];
+        if ([di.county isEqualToString:countyBtn.titleLabel.text]
+            && [di.city isEqualToString:cityBtn.titleLabel.text])
+        {
+            postcodeTxtView.text = di.postcode;
+            break;
+        }
+    }
 }
 
 - (void)actionPickerCancelled:(id)sender 
@@ -214,7 +294,7 @@
 #pragma mark - TextView
 - (void)textViewDidBeginEditing:(UITextView *)textView
 {    
-    if (textView == postcodeTxtView)
+    if ((textView == postcodeTxtView || textView == detailTxView) && moveheight == 0)
     {
         NSTimeInterval animationDuration = 0.30f;
         [UIView beginAnimations:@"ResizeForKeyboard" context:nil];
@@ -229,7 +309,6 @@
 
 - (void)textViewDidEndEditing:(UITextView *)textView
 {
-
     if (moveheight == -200)
     {
         NSTimeInterval animationDuration = 0.30f;
@@ -247,6 +326,7 @@
     [adressTextView resignFirstResponder];
     [postcodeTxtView resignFirstResponder];
     [nameTextView resignFirstResponder];
+    [detailTxView resignFirstResponder];
     
     if (moveheight == -200)
     {
@@ -269,15 +349,10 @@
     {
         [provincePicker release];
     }
-
+    
     provincePicker = [[ActionSheetStringPicker alloc] initWithTitle:@"省" rows:provinceArray initialSelection:0 target:self successAction:@selector(provinceWasSelected:element:) cancelAction:@selector(actionPickerCancelled:) origin:sender];
-    provincePicker.hideCancel = YES;
+    provincePicker.hideCancel = NO;
     [provincePicker showActionSheetPicker:CGRectMake(0, 0, 320, 240)];
-
-//    [provinceList updateData:provinceArray];
-//    
-//    provinceList.tableView.hidden = NO;
-//    [self.view bringSubviewToFront:provinceList.tableView];
 }
 
 - (IBAction)clickedCity:(id)sender
@@ -289,28 +364,10 @@
     
     if (provinceBtn.titleLabel.text != nil && [provinceBtn.titleLabel.text isEqualToString:@""] == NO)
     {
-        [cityArray removeAllObjects];
-        NSMutableSet *provinceSet = [NSMutableSet set];
         
-        for (int i = 0; i < [dataArray count]; i++)
-        {
-            DataItem *di = [dataArray objectAtIndex:i];
-            if ([di.province isEqualToString:provinceBtn.titleLabel.text])
-            {
-                [provinceSet addObject:di.city];
-                
-            }
-        }
-        
-        for (NSString *provincestring in provinceSet) 
-        {
-            [cityArray addObject:provincestring];
-        }
-    
-        cityPicker = [[ActionSheetStringPicker alloc] initWithTitle:@"省" rows:cityArray initialSelection:0 target:self successAction:@selector(cityWasSelected:element:) cancelAction:@selector(actionPickerCancelled:) origin:sender];
-        cityPicker.hideCancel = YES;
+        cityPicker = [[ActionSheetStringPicker alloc] initWithTitle:@"市/区/直辖县" rows:cityArray initialSelection:0 target:self successAction:@selector(cityWasSelected:element:) cancelAction:@selector(actionPickerCancelled:) origin:sender];
+        cityPicker.hideCancel = NO;
         [cityPicker showActionSheetPicker:CGRectMake(0, 0, 320, 240)];
-    
     }
     
 //    
@@ -329,26 +386,9 @@
     }
     if (cityBtn.titleLabel.text != nil && [cityBtn.titleLabel.text isEqualToString:@""] == NO)
     {
-        [countyArray removeAllObjects];
-        NSMutableSet *provinceSet = [NSMutableSet set];
-        
-        for (int i = 0; i < [dataArray count]; i++)
-        {
-            DataItem *di = [dataArray objectAtIndex:i];
-            if ([di.city isEqualToString:cityBtn.titleLabel.text])
-            {
-                [provinceSet addObject:di.county];
-                
-            }
-        }
-        
-        for (NSString *provincestring in provinceSet) 
-        {
-            [countyArray addObject:provincestring];
-        }
-        
+     
         countPicker = [[ActionSheetStringPicker alloc] initWithTitle:@"区县" rows:countyArray initialSelection:0 target:self successAction:@selector(countyWasSelected:element:) cancelAction:@selector(actionPickerCancelled:) origin:sender];
-        countPicker.hideCancel = YES;
+        countPicker.hideCancel = NO;
         [countPicker showActionSheetPicker:CGRectMake(0, 0, 320, 240)];
         
     }

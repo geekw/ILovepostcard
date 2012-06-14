@@ -39,6 +39,11 @@
     UITextView *currentTxtView;
     int moveheight;
 
+    NSString *provinceSelectedStr;
+    NSString *citySelectedStr;
+    NSString *countySelectedStr;
+    NSString *postcodeSelectedStr;
+
     
     ActionSheetStringPicker *provincePicker;
     ActionSheetStringPicker *cityPicker;
@@ -49,6 +54,7 @@
 @property (retain, nonatomic) IBOutlet UITextView *postcodeTxtView;
 @property (retain, nonatomic) IBOutlet UITextView *adressTextView;
 @property (retain, nonatomic) IBOutlet UITextView *nameTextView;
+@property (retain, nonatomic) IBOutlet UITextView *detailTxView;
 
 @property (retain, nonatomic) IBOutlet UIButton *cancelBtn;
 @property (retain, nonatomic) IBOutlet UIButton *confirmBtn;
@@ -59,6 +65,7 @@
 
 
 - (void)initData;
+-(IBAction)goBack:(id)sender;
 
 - (IBAction)clickedProvince:(id)sender;
 - (IBAction)clickedCity:(id)sender;
