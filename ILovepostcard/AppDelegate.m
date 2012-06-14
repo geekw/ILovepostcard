@@ -169,19 +169,19 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
     
     while ([rs next])
     {  
-        NSLog(@"%@ %@ %@ %@",[rs stringForColumn:@"province"],[rs stringForColumn:@"city"],[rs stringForColumn:@"county"],[rs stringForColumn:@"postcode"]); //查询 
+//        NSLog(@"%@ %@ %@ %@",[rs stringForColumn:@"province"],[rs stringForColumn:@"city"],[rs stringForColumn:@"county"],[rs stringForColumn:@"postcode"]); //查询 
         DataItem *di = [[DataItem alloc] init];
         di.province = [rs stringForColumn:@"province"];
         di.city = [rs stringForColumn:@"city"];
         di.county = [rs stringForColumn:@"county"];
         di.postcode = [rs stringForColumn:@"postcode"];
         [dataArray addObject:di];
-        NSLog(@"%@ %@ %@ %@",di.province,di.city,di.county,di.postcode);
+//        NSLog(@"%@ %@ %@ %@",di.province,di.city,di.county,di.postcode);
         [di release];
     } 
     
     [rs close];
-    NSLog(@"%@",dataArray);
+//    NSLog(@"%@",dataArray);
     
     return YES;
 }

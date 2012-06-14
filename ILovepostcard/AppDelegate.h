@@ -16,7 +16,6 @@
 @class ViewController;
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate,ASIHTTPRequestDelegate,UIAlertViewDelegate>
-@interface AppDelegate : UIResponder <UIApplicationDelegate,ASIHTTPRequestDelegate>
 {
     NSMutableArray *dataArray;
 

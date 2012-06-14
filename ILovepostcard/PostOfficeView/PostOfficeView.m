@@ -110,20 +110,18 @@ int current_page;
             
             for (NSInteger y = 0 ; y < i ; y ++)
             {
-
                 UIView *tmpView = [[UIView alloc] initWithFrame:CGRectMake(0, 115 * y, 320, 115)];
-                tmpView.tag = y + 1;
+//                tmpView.tag = y + 1;
                 
+                UIImageView *tmpImgView = [[UIImageView alloc] initWithFrame:CGRectMake(20, 8 , 150, 100)];
                 
-//                UIImageView *tmpImgView = [[UIImageView alloc] initWithFrame:CGRectMake(20, 8 + 115 * y, 150, 100)];
+                NSString *picSaveStr = [NSString stringWithFormat:@"frontPic%d.png",y];//定义图片文件名
+                NSString *str = [NSString stringWithFormat:@"%@",FD_IMAGE_PATH(picSaveStr)];
+                tmpImgView.image = [UIImage imageWithContentsOfFile:str];
 //                
-//                NSString *picSaveStr = [NSString stringWithFormat:@"frontPic%@d.png",y];//定义图片文件名
-//                NSString *str = [NSString stringWithFormat:@"%@",FD_IMAGE_PATH(picSaveStr)];
-//                UIImage *tmpImg = [UIImage imageWithContentsOfFile:str];
-//                tmpImgView.image = tmpImg;
-                
-//                [tmpView addSubview:tmpImgView];
-//                [tmpImgView release];
+                tmpImgView.backgroundColor = [UIColor redColor];
+                [tmpView addSubview:tmpImgView];
+                [tmpImgView release];
                 
                 UILabel *tmpLabel1 = [[UILabel alloc] initWithFrame:CGRectMake(178, 18, 32, 21)];
                 tmpLabel1.text = [NSString stringWithFormat:@"to: "];
@@ -142,38 +140,38 @@ int current_page;
                 
                 UILabel *tmpLabel3 = [[UILabel alloc] initWithFrame:CGRectMake(200, 86, 100, 20)];
                 tmpLabel3.text = [NSString stringWithFormat:@"已付款"];
+                tmpLabel3.backgroundColor = [UIColor whiteColor];
                 [tmpView addSubview:tmpLabel3];
                 [tmpLabel3 release];
-
-
                 
-                UIImageView *tmpImg2 = [[UIImageView alloc] initWithFrame:CGRectMake(178, 89, 17, 17)];
-                tmpImg2.tag = 2*y;
                 
-                [tmpView addSubview:tmpImg2];
-                [tmpImg2 release];
-                
-                UILabel *tmpLabel4 = [[UILabel alloc] initWithFrame:CGRectMake(200, 19, 100, 20)];
-                tmpLabel4.tag = 2*y + 1;
-                [tmpView addSubview:tmpLabel3];
-                [tmpLabel3 release];
-
                 NSDictionary *dict = [tmpArray objectAtIndex:y];
                 
                 NSString *postcard_sn = [dict objectForKey:@"postcard_sn"];
                 
+                UIImageView *tmpImg2 = [[UIImageView alloc] initWithFrame:CGRectMake(178, 89, 17, 17)];
+                tmpImg2.tag = 2 * y + 2;
+                [tmpView addSubview:tmpImg2];
+                [self.paid setObject:[NSString stringWithFormat:@"%d",tmpImg2.tag] forKey:postcard_sn];
+                
+                [tmpImg2 release];
+                
+                UILabel *tmpLabel4 = [[UILabel alloc] initWithFrame:CGRectMake(200, 19, 100, 20)];
+                tmpLabel4.tag = 2 * y + 1;
+                [tmpView addSubview:tmpLabel4];
+                [self.address setObject:[NSString stringWithFormat:@"%d",tmpLabel4.tag] forKey:postcard_sn];
+                [tmpLabel4 release];
+
+                
                 NSLog(@"postcard_sn:%@", postcard_sn);
                 
-                [paid setObject:[NSString stringWithFormat:@"%d",tmpImg2.tag] forKey:postcard_sn];
+                NSLog(@"paid:%@",  [paid objectForKey:postcard_sn]);
+                NSLog(@"adress:%@",[address objectForKey:postcard_sn]);
                 
-                NSLog(@"paid:%@", [paid objectForKey:postcard_sn]);
-                
-//                [paid setObject:(NSString *)tmpImg2.tag forKey:(NSString *)[dict objectForKey:@"postcard_sn"]];
-//                [address setObject:(NSString *)tmpLabel4.tag forKey:(NSString *)[dict objectForKey:@"postcard_sn"]];
-                
-            
                 [self performSelector:@selector(displayEachPostcard:) withObject:dict];
                 
+                [self.myScrollView addSubview:tmpView];
+                [tmpView release];
             }
         }
     }
@@ -193,10 +191,13 @@ int current_page;
 
 -(void)getTheDetails:(ASIHTTPRequest *)request
 {
-    NSString *snStr = [[NSString stringWithFormat:@"%@",[request url]] substringWithRange:NSMakeRange([Self_Record length] + 13, 28)];
+    NSLog(@"%@",[request url]);
+    NSString *snStr = [[NSString stringWithFormat:@"%@",[request url]] substringWithRange:NSMakeRange([Self_Record length] + 12, 27)];
 
     NSLog(@"SN:%@", snStr);
     NSLog(@"Paid:= %@",[paid objectForKey:snStr]);
+    
+    NSLog(@"adress = %@",[address objectForKey:snStr]);
     
     //Todo get sn from postbody
     NSDictionary *dict = [request responseString].JSONValue;
@@ -204,11 +205,28 @@ int current_page;
     
     NSString *payStr = [dict objectForKey:@"is_pay"];
     NSString *adressStr = [dict objectForKey:@"card_receiver_address"];
+    
+    NSLog(@"%@ -- %@",payStr,adressStr);
+    
+    int x = [[paid objectForKey:snStr] intValue];
+    NSLog(@"x = %d",x);
+    
+    UIImageView *tmpImgView = (UIImageView *)[self.view viewWithTag:x];
+    if ([payStr intValue] == 1)
+    {
+        tmpImgView.image = [UIImage imageNamed:@"paymentView3.png"];
+    }
+    else
+    {
+        tmpImgView.image = [UIImage imageNamed:@"paymentView2.png"];
+    }
 
-//    UIView *tmpview = (UIView *)[self.view viewWithTag:];
     
-    
-    
+    int y = [[address objectForKey:snStr] intValue];
+    UILabel *tmplabel = (UILabel *)[self.view viewWithTag:y];
+    tmplabel.text = [NSString stringWithFormat:@"%@",adressStr];
+
+
 }
 
 @end
