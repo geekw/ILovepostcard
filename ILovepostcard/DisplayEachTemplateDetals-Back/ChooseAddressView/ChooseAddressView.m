@@ -204,8 +204,6 @@
     NSInteger i = [selectedIndex intValue];
     
     [countyBtn setTitle:[NSString stringWithString:[countyArray objectAtIndex:i]] forState:UIControlStateNormal];
-    
-    
 }
 
 - (void)actionPickerCancelled:(id)sender 
@@ -218,8 +216,12 @@
 {    
     if (textView == postcodeTxtView)
     {
+        NSTimeInterval animationDuration = 0.30f;
+        [UIView beginAnimations:@"ResizeForKeyboard" context:nil];
+        [UIView setAnimationDuration:animationDuration];    
         CGRect rect = CGRectMake(0.0f, -200.0f, self.view.frame.size.width, self.view.frame.size.height);
         self.view.frame = rect;
+        [UIView commitAnimations];
         moveheight = -200;
     }
 }
@@ -227,10 +229,15 @@
 
 - (void)textViewDidEndEditing:(UITextView *)textView
 {
+
     if (moveheight == -200)
     {
+        NSTimeInterval animationDuration = 0.30f;
+        [UIView beginAnimations:@"ResizeForKeyboard" context:nil];
+        [UIView setAnimationDuration:animationDuration];    
         CGRect rect = CGRectMake(0.0f, 0.0f, self.view.frame.size.width, self.view.frame.size.height);
         self.view.frame = rect;
+        [UIView commitAnimations];
         moveheight = 0;
     }
 }
@@ -345,13 +352,6 @@
         [countPicker showActionSheetPicker:CGRectMake(0, 0, 320, 240)];
         
     }
-    
-
-//    [countyList updateData:countyArray];
-//    
-//    countyList.tableView.hidden = NO;
-//    [self.view bringSubviewToFront:countyList.tableView];
-
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
