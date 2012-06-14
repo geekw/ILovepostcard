@@ -16,17 +16,20 @@
 #import "DataVerifier.h"
 #import <sys/utsname.h>
 #import "CreateFolder.h"
+#import "DataItem.h"
 
 @implementation AppDelegate
 
 @synthesize window = _window;
 @synthesize viewController = _viewController;
+@synthesize dataArray;
 
 #pragma mark - View lifecycle - 系统函数
 - (void)dealloc
 {
     [_window release];
     [_viewController release];
+    [dataArray release];
     [super dealloc];
 }
 
@@ -148,6 +151,38 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
           [self parseURL:url application:application];
 		}
 	}
+    dataArray = [[NSMutableArray alloc] init]; 
+    
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"mydatabase" ofType:@"sqlite"];
+    
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    BOOL fileExists = [fileManager fileExistsAtPath:path];
+    NSLog(@"%d",fileExists);
+    
+    FMDatabase *db = [FMDatabase databaseWithPath:path];
+    if (![db open])
+    {  
+        NSLog(@"Could not open db.");  
+    }  
+    
+    FMResultSet *rs = [db executeQuery:@"SELECT * FROM PostCode"];  
+    
+    while ([rs next])
+    {  
+        NSLog(@"%@ %@ %@ %@",[rs stringForColumn:@"province"],[rs stringForColumn:@"city"],[rs stringForColumn:@"county"],[rs stringForColumn:@"postcode"]); //查询 
+        DataItem *di = [[DataItem alloc] init];
+        di.province = [rs stringForColumn:@"province"];
+        di.city = [rs stringForColumn:@"city"];
+        di.county = [rs stringForColumn:@"county"];
+        di.postcode = [rs stringForColumn:@"postcode"];
+        [dataArray addObject:di];
+        NSLog(@"%@ %@ %@ %@",di.province,di.city,di.county,di.postcode);
+        [di release];
+    } 
+    
+    [rs close];
+    NSLog(@"%@",dataArray);
+    
     return YES;
 }
 

@@ -9,13 +9,20 @@
 
 #import <UIKit/UIKit.h>
 #import "ASIHTTPRequest.h"
+#import "FMResultSet.h"
+#import "FMDatabase.h"
 
 
 @class ViewController;
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate,ASIHTTPRequestDelegate,UIAlertViewDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate,ASIHTTPRequestDelegate>
+{
+    NSMutableArray *dataArray;
 
+}
 @property (strong, nonatomic) UIWindow *window;
+@property (retain, nonatomic) NSMutableArray *dataArray;
 
 @property (strong, nonatomic) ViewController *viewController;
 

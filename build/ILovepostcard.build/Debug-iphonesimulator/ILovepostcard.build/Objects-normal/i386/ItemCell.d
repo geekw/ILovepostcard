@@ -1,3 +1,3 @@
 dependencies: \
-  /Users/wuziyouyang/Documents/piepie/iphone\ 项目/kai7/postcard/ILovepostcard/ILovepostcard/ItemCell.m \
-  /Users/wuziyouyang/Documents/piepie/iphone\ 项目/kai7/postcard/ILovepostcard/ILovepostcard/ItemCell.h
+  /Users/wuziyouyang/Documents/piepie/iphone\ 项目/kai7/postcard/ILovepostcard1/ILovepostcard/../CellClass/ItemCell.m \
+  /Users/wuziyouyang/Documents/piepie/iphone\ 项目/kai7/postcard/ILovepostcard1/ILovepostcard/../CellClass/ItemCell.h
