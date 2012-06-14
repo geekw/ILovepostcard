@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		00316A75158A44D500CDA446 /* logo114.png in Resources */ = {isa = PBXBuildFile; fileRef = 00316A74158A44D500CDA446 /* logo114.png */; };
+		00316A78158A44DD00CDA446 /* logo57.png in Resources */ = {isa = PBXBuildFile; fileRef = 00316A77158A44DD00CDA446 /* logo57.png */; };
 		003874471585F13300865D6C /* Product.m in Sources */ = {isa = PBXBuildFile; fileRef = 003874461585F13300865D6C /* Product.m */; };
 		150000851588D184001D251F /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 150000801588D184001D251F /* FMDatabase.m */; };
 		150000861588D184001D251F /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 150000821588D184001D251F /* FMDatabaseAdditions.m */; };
@@ -208,6 +210,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		00316A74158A44D500CDA446 /* logo114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo114.png; sourceTree = "<group>"; };
+		00316A77158A44DD00CDA446 /* logo57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo57.png; sourceTree = "<group>"; };
 		003874451585F13300865D6C /* Product.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Product.h; path = ILovepostcard/ShareAndBuyView/PaymentView/Product.h; sourceTree = "<group>"; };
 		003874461585F13300865D6C /* Product.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Product.m; path = ILovepostcard/ShareAndBuyView/PaymentView/Product.m; sourceTree = "<group>"; };
 		150000641588D184001D251F /* PassValueDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PassValueDelegate.h; path = "ILovepostcard/DisplayEachTemplateDetals-Back/ChooseAddressView/PassValueDelegate.h"; sourceTree = "<group>"; };
@@ -1042,6 +1046,8 @@
 		B15EDD8B155A577A00B0C873 = {
 			isa = PBXGroup;
 			children = (
+				00316A77158A44DD00CDA446 /* logo57.png */,
+				00316A74158A44D500CDA446 /* logo114.png */,
 				B126F2EA158590DD0096D24C /* GeneralClass */,
 				B15EDDA0155A577A00B0C873 /* ILovepostcard */,
 				B102FF12155B9F4D008DC42D /* Resources */,
@@ -1693,6 +1699,8 @@
 				1500008C1588D184001D251F /* china.csv in Resources */,
 				1500008D1588D184001D251F /* mydatabase.sqlite in Resources */,
 				1534604B158897ED008F87B9 /* adressPic.png in Resources */,
+				00316A75158A44D500CDA446 /* logo114.png in Resources */,
+				00316A78158A44DD00CDA446 /* logo57.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
