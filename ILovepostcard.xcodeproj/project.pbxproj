@@ -17,9 +17,17 @@
 		1500008D1588D184001D251F /* mydatabase.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 1500008B1588D184001D251F /* mydatabase.sqlite */; };
 		1500008F1588D184001D251F /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1500008E1588D184001D251F /* libsqlite3.dylib */; };
 		150000901588D184001D251F /* DataItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 150000891588D184001D251F /* DataItem.m */; };
+		1507D39D158B38BA007E8C20 /* select.png in Resources */ = {isa = PBXBuildFile; fileRef = 1507D39C158B38BA007E8C20 /* select.png */; };
+		1507D3A5158B38BA007E8C20 /* btn-mid.png in Resources */ = {isa = PBXBuildFile; fileRef = 1507D39F158B38BA007E8C20 /* btn-mid.png */; };
+		1507D3A6158B38BA007E8C20 /* btn-midclick.png in Resources */ = {isa = PBXBuildFile; fileRef = 1507D3A0158B38BA007E8C20 /* btn-midclick.png */; };
+		1507D3A7158B38BA007E8C20 /* btn-sm.png in Resources */ = {isa = PBXBuildFile; fileRef = 1507D3A1158B38BA007E8C20 /* btn-sm.png */; };
+		1507D3A8158B38BA007E8C20 /* btn-smclick.png in Resources */ = {isa = PBXBuildFile; fileRef = 1507D3A2158B38BA007E8C20 /* btn-smclick.png */; };
+		1507D3A9158B38BA007E8C20 /* btn-smpay.png in Resources */ = {isa = PBXBuildFile; fileRef = 1507D3A3158B38BA007E8C20 /* btn-smpay.png */; };
+		1507D3AA158B38BA007E8C20 /* btn-smpayclick.png in Resources */ = {isa = PBXBuildFile; fileRef = 1507D3A4158B38BA007E8C20 /* btn-smpayclick.png */; };
+		1507D3AC158B38BA007E8C20 /* boxtopbk.png in Resources */ = {isa = PBXBuildFile; fileRef = 1507D3AB158B38BA007E8C20 /* boxtopbk.png */; };
+		1507D3AE158B38BA007E8C20 /* mboxcover.png in Resources */ = {isa = PBXBuildFile; fileRef = 1507D3AD158B38BA007E8C20 /* mboxcover.png */; };
 		150CFC53157B4B96007D0E96 /* PullingRefreshTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 150CFC4E157B4B96007D0E96 /* PullingRefreshTableView.m */; };
 		153460411588794F008F87B9 /* SeachList.m in Sources */ = {isa = PBXBuildFile; fileRef = 153460401588794F008F87B9 /* SeachList.m */; };
-		1534604B158897ED008F87B9 /* adressPic.png in Resources */ = {isa = PBXBuildFile; fileRef = 1534604A158897ED008F87B9 /* adressPic.png */; };
 		15E5D0E11588C6C600E32C49 /* AbstractActionSheetPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 15E5D0D91588C6C500E32C49 /* AbstractActionSheetPicker.m */; };
 		15E5D0E41588C6C600E32C49 /* ActionSheetStringPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 15E5D0E01588C6C600E32C49 /* ActionSheetStringPicker.m */; };
 		B102FF6B155BB303008DC42D /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B102FF6A155BB303008DC42D /* CFNetwork.framework */; };
@@ -236,6 +244,15 @@
 		1500008A1588D184001D251F /* china.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = china.csv; sourceTree = SOURCE_ROOT; };
 		1500008B1588D184001D251F /* mydatabase.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = mydatabase.sqlite; sourceTree = SOURCE_ROOT; };
 		1500008E1588D184001D251F /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		1507D39C158B38BA007E8C20 /* select.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = select.png; sourceTree = "<group>"; };
+		1507D39F158B38BA007E8C20 /* btn-mid.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn-mid.png"; sourceTree = "<group>"; };
+		1507D3A0158B38BA007E8C20 /* btn-midclick.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn-midclick.png"; sourceTree = "<group>"; };
+		1507D3A1158B38BA007E8C20 /* btn-sm.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn-sm.png"; sourceTree = "<group>"; };
+		1507D3A2158B38BA007E8C20 /* btn-smclick.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn-smclick.png"; sourceTree = "<group>"; };
+		1507D3A3158B38BA007E8C20 /* btn-smpay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn-smpay.png"; sourceTree = "<group>"; };
+		1507D3A4158B38BA007E8C20 /* btn-smpayclick.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn-smpayclick.png"; sourceTree = "<group>"; };
+		1507D3AB158B38BA007E8C20 /* boxtopbk.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = boxtopbk.png; sourceTree = "<group>"; };
+		1507D3AD158B38BA007E8C20 /* mboxcover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mboxcover.png; sourceTree = "<group>"; };
 		150CFC04157B18A2007D0E96 /* default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = default.png; path = Resources/pic/default.png; sourceTree = SOURCE_ROOT; };
 		150CFC26157B47B1007D0E96 /* heart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = heart.png; path = Resources/pic/Pic_ActivityListView/heart.png; sourceTree = SOURCE_ROOT; };
 		150CFC49157B4B96007D0E96 /* blueArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blueArrow.png; sourceTree = "<group>"; };
@@ -247,7 +264,6 @@
 		1534603E1588794F008F87B9 /* PassValueDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PassValueDelegate.h; path = "ILovepostcard/DisplayEachTemplateDetals-Back/ChooseAddressView/PassValueDelegate.h"; sourceTree = "<group>"; };
 		1534603F1588794F008F87B9 /* SeachList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SeachList.h; path = "ILovepostcard/DisplayEachTemplateDetals-Back/ChooseAddressView/SeachList.h"; sourceTree = "<group>"; };
 		153460401588794F008F87B9 /* SeachList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SeachList.m; path = "ILovepostcard/DisplayEachTemplateDetals-Back/ChooseAddressView/SeachList.m"; sourceTree = "<group>"; };
-		1534604A158897ED008F87B9 /* adressPic.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = adressPic.png; path = Resources/pic/Pic_PoatBack/adressPic.png; sourceTree = "<group>"; };
 		15E5D0D81588C6C500E32C49 /* AbstractActionSheetPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AbstractActionSheetPicker.h; path = "ILovepostcard/DisplayEachTemplateDetals-Back/ChooseAddressView/AbstractActionSheetPicker.h"; sourceTree = "<group>"; };
 		15E5D0D91588C6C500E32C49 /* AbstractActionSheetPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AbstractActionSheetPicker.m; path = "ILovepostcard/DisplayEachTemplateDetals-Back/ChooseAddressView/AbstractActionSheetPicker.m"; sourceTree = "<group>"; };
 		15E5D0DE1588C6C500E32C49 /* ActionSheetPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ActionSheetPicker.h; path = "ILovepostcard/DisplayEachTemplateDetals-Back/ChooseAddressView/ActionSheetPicker.h"; sourceTree = "<group>"; };
@@ -671,6 +687,23 @@
 			);
 			name = FMDB;
 			path = "ILovepostcard/DisplayEachTemplateDetals-Back/ChooseAddressView/FMDB";
+			sourceTree = "<group>";
+		};
+		1507D39B158B38BA007E8C20 /* PicChooseView */ = {
+			isa = PBXGroup;
+			children = (
+				1507D3AD158B38BA007E8C20 /* mboxcover.png */,
+				1507D3AB158B38BA007E8C20 /* boxtopbk.png */,
+				1507D39F158B38BA007E8C20 /* btn-mid.png */,
+				1507D3A0158B38BA007E8C20 /* btn-midclick.png */,
+				1507D3A1158B38BA007E8C20 /* btn-sm.png */,
+				1507D3A2158B38BA007E8C20 /* btn-smclick.png */,
+				1507D3A3158B38BA007E8C20 /* btn-smpay.png */,
+				1507D3A4158B38BA007E8C20 /* btn-smpayclick.png */,
+				1507D39C158B38BA007E8C20 /* select.png */,
+			);
+			name = PicChooseView;
+			path = Resources/pic/PicChooseView;
 			sourceTree = "<group>";
 		};
 		150CFC2C157B4987007D0E96 /* PullToRefresh */ = {
@@ -1255,6 +1288,7 @@
 		B19830AD15779671006C1EFF /* ChooseAddressView */ = {
 			isa = PBXGroup;
 			children = (
+				1507D39B158B38BA007E8C20 /* PicChooseView */,
 				15E5D0E61588C6D500E32C49 /* Thrid Part */,
 				1500007E1588D184001D251F /* FMDB */,
 				B104ABC615786E4600F12B57 /* FontLib */,
@@ -1389,7 +1423,6 @@
 		B1D1D3CB156A51DF0015A054 /* Pic_PostcardBack */ = {
 			isa = PBXGroup;
 			children = (
-				1534604A158897ED008F87B9 /* adressPic.png */,
 				B11C4E1F157DE1A00039B764 /* speakbtn.png */,
 				B11C4E20157DE1A00039B764 /* speakbtnpress.png */,
 				B11C4E1B157DE1580039B764 /* playbtnenablepress.png */,
@@ -1743,6 +1776,16 @@
 				B1F8DF3B158B11A8006F995F /* loading2.gif in Resources */,
 				B1F8DF3C158B11A8006F995F /* loading3.gif in Resources */,
 				B1F8DF3D158B11A8006F995F /* loading22.gif in Resources */,
+				1507D39D158B38BA007E8C20 /* select.png in Resources */,
+				1507D3A5158B38BA007E8C20 /* btn-mid.png in Resources */,
+				1507D3A6158B38BA007E8C20 /* btn-midclick.png in Resources */,
+				1507D3A7158B38BA007E8C20 /* btn-sm.png in Resources */,
+				1507D3A8158B38BA007E8C20 /* btn-smclick.png in Resources */,
+				1507D3A9158B38BA007E8C20 /* btn-smpay.png in Resources */,
+				1507D3AA158B38BA007E8C20 /* btn-smpayclick.png in Resources */,
+				1507D3AC158B38BA007E8C20 /* boxtopbk.png in Resources */,
+				1507D3AE158B38BA007E8C20 /* mboxcover.png in Resources */,
+
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
