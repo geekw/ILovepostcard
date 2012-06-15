@@ -194,11 +194,20 @@
 
     
     NSInteger i = [selectedIndex intValue];
-    [provinceBtn setTitle:[NSString stringWithString:[provinceArray objectAtIndex:i]] forState:UIControlStateNormal];
     
+    provinceSelectedStr = nil;
     provinceSelectedStr = [NSString stringWithString:[provinceArray objectAtIndex:i]];
-    [cityBtn setTitle:[NSString stringWithString:@""] forState:UIControlStateNormal];
-    [countyBtn setTitle:[NSString stringWithString:@""] forState:UIControlStateNormal];
+    
+    [provinceBtn setTitle:[NSString stringWithString:provinceSelectedStr] forState:UIControlStateNormal];
+
+    [cityBtn setTitle:[NSString stringWithString:@"市"] forState:UIControlStateNormal];
+    [countyBtn setTitle:[NSString stringWithString:@"区县"] forState:UIControlStateNormal];
+    
+    citySelectedStr = nil;
+    countySelectedStr = nil;
+    
+    postcodeSelectedStr = nil;
+    
     
     postcodeTxtView.text = nil;
     
@@ -229,11 +238,11 @@
     
     NSInteger i = [selectedIndex intValue];
 
-    [cityBtn setTitle:[NSString stringWithString:[cityArray objectAtIndex:i]] forState:UIControlStateNormal];
-    
     citySelectedStr = [NSString stringWithString:[cityArray objectAtIndex:i]];
     
-    [countyBtn setTitle:[NSString stringWithString:@""] forState:UIControlStateNormal];
+    [cityBtn setTitle:[NSString stringWithString:citySelectedStr] forState:UIControlStateNormal];
+    
+    [countyBtn setTitle:[NSString stringWithString:@"区县"] forState:UIControlStateNormal];
     
     detailTxView.text = [detailTxView.text stringByAppendingString:citySelectedStr];
     
@@ -253,7 +262,9 @@
     
     if ([set count] == 1)
     {
-        postcodeTxtView.text = ((DataItem *)[set anyObject]).postcode;
+        postcodeSelectedStr = ((DataItem *)[set anyObject]).postcode;
+        postcodeTxtView.text = postcodeSelectedStr;
+
         countyBtn.enabled = NO;
     }
     else 
@@ -362,19 +373,13 @@
         [cityPicker release];
     }
     
-    if (provinceBtn.titleLabel.text != nil && [provinceBtn.titleLabel.text isEqualToString:@""] == NO)
+    if (provinceSelectedStr != nil && [provinceSelectedStr isEqualToString:@""] == NO)
     {
         
         cityPicker = [[ActionSheetStringPicker alloc] initWithTitle:@"市/区/直辖县" rows:cityArray initialSelection:0 target:self successAction:@selector(cityWasSelected:element:) cancelAction:@selector(actionPickerCancelled:) origin:sender];
         cityPicker.hideCancel = NO;
         [cityPicker showActionSheetPicker:CGRectMake(0, 0, 320, 240)];
     }
-    
-//    
-//    [cityList updateData:cityArray];
-//    
-//    cityList.tableView.hidden = NO;
-//    [self.view bringSubviewToFront:cityList.tableView];
 
 }
 
@@ -384,9 +389,8 @@
     {
         [countPicker release];
     }
-    if (cityBtn.titleLabel.text != nil && [cityBtn.titleLabel.text isEqualToString:@""] == NO)
+    if (citySelectedStr != nil && [citySelectedStr isEqualToString:@""] == NO)
     {
-     
         countPicker = [[ActionSheetStringPicker alloc] initWithTitle:@"区县" rows:countyArray initialSelection:0 target:self successAction:@selector(countyWasSelected:element:) cancelAction:@selector(actionPickerCancelled:) origin:sender];
         countPicker.hideCancel = NO;
         [countPicker showActionSheetPicker:CGRectMake(0, 0, 320, 240)];
