@@ -202,7 +202,6 @@ bool hideOrShowBottonView;
                                 withPrompt:@"网络不通" 
                                  withFrame:CGRectMake(40, 120, 240, 240)];
     [tmpProptView  release];
-    
     NSError *error = [request error];
     NSLog(@"error:%@", error);
 }
@@ -242,8 +241,8 @@ bool hideOrShowBottonView;
     int i = [str intValue];
     
     cameraButton.hidden = NO;
-    [bottomButton setImage:nil forState:UIControlStateNormal];
-    [indicatorButton setImage:nil forState:UIControlStateNormal];
+    [bottomButton setImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
+    [indicatorButton setImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
     indicatorButton.userInteractionEnabled = NO;
     
     if (fileContent) 

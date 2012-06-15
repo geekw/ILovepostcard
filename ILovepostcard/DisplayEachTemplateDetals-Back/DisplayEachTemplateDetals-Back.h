@@ -12,6 +12,7 @@
 #import "ChooseAddressView.h"
 #import "ImageProcess.h"
 #import "TemplateDetails-Singleton.h"
+#import "ASIFormDataRequest.h"
 
 
 @interface DisplayEachTemplateDetals_Back : UIViewController<UINavigationControllerDelegate,ASIHTTPRequestDelegate>

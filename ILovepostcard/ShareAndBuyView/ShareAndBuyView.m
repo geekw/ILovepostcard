@@ -131,6 +131,7 @@
 
 - (IBAction)shareToSIna
 {
+    
 }
 
 - (IBAction)buyThisCard

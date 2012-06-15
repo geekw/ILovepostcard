@@ -73,7 +73,6 @@ static int timeNum = 0;
 -(void)getPic:(ASIHTTPRequest *)request
 {
     NSArray *tmpArray = [request responseString].JSONValue;
-    NSLog(@"tmpArray = %@",tmpArray);
     
     for (int i = 0; i < 4; i++)
     {
@@ -124,7 +123,6 @@ static int timeNum = 0;
 
 - (void)showNewestCardView:(NSArray *)tArray
 {
-    NSLog(@"tArray = %@",tArray);
     EGOImageButton *newestCardButton = [[EGOImageButton alloc] initWithPlaceholderImage:[UIImage imageNamed:@"sendbk.png"]];
     newestCardButton.frame = CGRectMake(0,0,145,100);
     NSDictionary *tmpDict = [tArray objectAtIndex:3];
@@ -230,6 +228,7 @@ static int timeNum = 0;
     {
         postOfficeView = [[PostOfficeView alloc] init];
     }
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"FromMainScene"];
     self.postOfficeView.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
     [self presentModalViewController:self.postOfficeView animated:YES];
 }
