@@ -7,6 +7,7 @@
 //
 
 #import "ChooseAddressView.h"
+#import "PromptView.h"
 
 @interface ChooseAddressView ()
 
@@ -353,6 +354,8 @@
 
 
 
+
+
 #pragma mark -
 - (IBAction)clickedProvince:(id)sender
 {
@@ -446,13 +449,40 @@
                       [familyNames objectAtIndex:indFamily]]];
         for (indFont=0; indFont<[fontNames count]; ++indFont)
         {
-            NSLog(@"    Font name: %@", [fontNames objectAtIndex:indFont]);
+            NSLog(@"Font name: %@", [fontNames objectAtIndex:indFont]);
         }
         [fontNames release];
     }
     [familyNames release];
 }
 
+
+#pragma mark - FinishAdressInfo - 地址填写完成 
+- (IBAction)finishAdressInfo 
+{
+    NSString *nameStr = [NSString stringWithFormat:@"%@",nameTextView.text];
+    NSString *postcodeStr = [NSString stringWithFormat:@"%@",postcodeTxtView.text];
+    NSString *blessStr = [NSString stringWithFormat:@"%@",adressTextView.text];
+    NSString *detailStr = [NSString stringWithFormat:@"%@",detailTxView.text];
+    
+    //姓名和邮编都存在,才可以进入下一界面
+    if ([nameStr length] != 0 && [postcodeStr length] != 0) 
+    {
+        NSLog(@"%@--%@--%@--%@",nameStr,postcodeStr,blessStr,detailStr);
+        
+        
+    }
+    else
+    {
+        PromptView *promptView = [[PromptView alloc] init];
+        [promptView showPromptWithParentView:self.view 
+                                  withPrompt:@"请输入姓名,地址" 
+                                   withFrame:CGRectMake(40, 120, 240, 240)];
+        [promptView release];
+    }
+
+    
+}
 
 
 

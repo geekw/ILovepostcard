@@ -72,6 +72,8 @@
 - (IBAction)clickedCounty:(id)sender;
 - (IBAction)backgroundTap:(id)sender;
 
+- (IBAction)finishAdressInfo;
+
 
 
 @end
