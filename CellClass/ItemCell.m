@@ -27,7 +27,7 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        // Initialization code
+        return [[[NSBundle mainBundle] loadNibNamed:@"ItemCell" owner:nil options:nil] objectAtIndex:0];
     }
     return self;
 }
@@ -39,10 +39,9 @@
     // Configure the view for the selected state
 }
 
-+ (ItemCell *)getInstance
-{
-    return [[[NSBundle mainBundle] loadNibNamed:@"ItemCell" owner:nil options:nil] objectAtIndex:0];
-}
+//+ (ItemCell *)getInstance
+//{
+//}
 
 - (void)configWithTitle:(NSString *)title 
                btnImage:(UIImage *)image

@@ -25,13 +25,13 @@
 {
     int currentPage;
     PullingRefreshTableView *dataTableView;
-    NSMutableArray *dataArray;      //  数据源
+//    NSMutableArray *dataArray;      //  数据源
 }
 
 @property (nonatomic, retain) PullingRefreshTableView *dataTableView;
 @property (retain, nonatomic) GoToPostcardList *goToPostcardList;
 @property (retain, nonatomic) PostcardList_WithoutSearchbar *postcardList_WithoutSearchbar;
-@property (retain, nonatomic) ItemCell *itemCell;
+//@property (retain, nonatomic) ItemCell *itemCell;
 @property (retain ,nonatomic) ActivityDetailView *detailView;
 
 @property (retain, nonatomic) IBOutlet UIButton *goBackButton;

@@ -8,8 +8,17 @@
 
 #import <UIKit/UIKit.h>
 #import "PaymentView.h"
+#import "ASIFormDataRequest.h"
+#import "ASIHTTPRequest.h"
+#import "PromptView.h"
+#import "TKLoadingAnimationView.h"
 
-@interface ShareAndBuyView : UIViewController
+
+@interface ShareAndBuyView : UIViewController<ASIHTTPRequestDelegate>
+{
+    UIView *spinerView;
+//    TKLoadingAnimationView *spiner;
+}
 
 @property (retain, nonatomic) PaymentView *paymentView;
 

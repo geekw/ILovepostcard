@@ -15,7 +15,7 @@
 @property (retain, nonatomic) IBOutlet UILabel *heartNumLbl;
 @property (retain, nonatomic) NSString *whichListInt;
 
-+ (ItemCell *)getInstance;
+//+ (ItemCell *)getInstance;
 - (void)configWithTitle:(NSString *)title 
                btnImage:(UIImage *)image 
                heartNum:(NSString *)heartNum            

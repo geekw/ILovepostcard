@@ -94,9 +94,9 @@
 - (void)initData
 {
     AppDelegate *delegate = (AppDelegate*)[UIApplication sharedApplication].delegate;
-    NSLog(@"%@",delegate.dataArray);
+//    NSLog(@"%@",delegate.dataArray);
     dataArray = [[NSMutableArray alloc] initWithArray:delegate.dataArray]; 
-    NSLog(@"%@",dataArray);
+//    NSLog(@"%@",dataArray);
 
     if (provinceArray != nil)
     {
@@ -436,13 +436,13 @@
     NSInteger indFamily, indFont;
     for (indFamily=0; indFamily<[familyNames count]; ++indFamily)
     {
-        NSLog(@"Family name: %@", [familyNames objectAtIndex:indFamily]);
+//        NSLog(@"Family name: %@", [familyNames objectAtIndex:indFamily]);
         fontNames = [[NSArray alloc] initWithArray:
                      [UIFont fontNamesForFamilyName:
                       [familyNames objectAtIndex:indFamily]]];
         for (indFont=0; indFont<[fontNames count]; ++indFont)
         {
-            NSLog(@"    Font name: %@", [fontNames objectAtIndex:indFont]);
+//            NSLog(@"    Font name: %@", [fontNames objectAtIndex:indFont]);
         }
         [fontNames release];
     }

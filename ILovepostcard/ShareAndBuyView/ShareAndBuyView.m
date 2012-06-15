@@ -5,9 +5,14 @@
 //  Created by 进 吴 on 12-5-25.
 //  Copyright (c) 2012年 开趣. All rights reserved.
 //
+#define FD_IMAGE_PATH(file) [NSString stringWithFormat:@"%@/Documents/ScreenShot/%@",NSHomeDirectory(),file]
+#define UploadPicUrl @"http://kai7.cn/image/upload"
+#define UploadPicUrl @"http://kai7.cn/image/upload"
+#define UploadAllUrl @"http://61.155.238.30/postcards/interface/submit_postcard"
+
 
 #import "ShareAndBuyView.h"
-
+#import "JSON.h"
 
 @interface ShareAndBuyView ()
 
@@ -76,6 +81,8 @@
 
 - (void)dealloc 
 {
+    spinerView = nil;[spinerView release];
+//    spiner = nil;[spiner release];
     priceArray = nil;
     paymentView = nil;[paymentView release];
     [goBackButton release];
@@ -134,24 +141,242 @@
     
 }
 
+- (void)addWaitView//等待界面
+{
+    spinerView = [[UIView alloc] initWithFrame:CGRectMake(20, 64, 281, 270)];
+    spinerView.backgroundColor = [UIColor grayColor];
+    spinerView.alpha = 0.7;
+//    UIImageView *spinerImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 281, 270)];
+//    spinerImgView.image = [UIImage imageNamed:@"hintBar.png"];
+//    [spinerView addSubview:spinerImgView];
+//    [spinerImgView release];
+    
+    UILabel *spinerLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 168, 293, 44)];
+    spinerLabel.text = [NSString stringWithFormat:@"正在上传明信片,请稍侯..."];
+    spinerLabel.textAlignment = UITextAlignmentCenter;
+    spinerLabel.backgroundColor = [UIColor clearColor];
+    [spinerLabel setFont:[UIFont fontWithName:@"System" size:17]];
+    [spinerView addSubview:spinerLabel];
+    [spinerLabel release];
+    
+    TKLoadingAnimationView *spiner = [[TKLoadingAnimationView alloc] initWithFrame:CGRectMake(120, 115, 40, 40)tkLoadingAnimationViewStyle:TKLoadingAnimationViewStyleNormal];
+        [spiner startAnimating];
+    [spinerView addSubview:spiner];
+    [spiner release];
+    
+    [self.view addSubview:spinerView];
+    [spinerView release];
+}
+
 - (IBAction)buyThisCard
 {
+    [self addWaitView];
+    [self performSelector:@selector(uploadFrontPic)];//上传正面图
+}
+
+#pragma mark - UploadFrontPic - 上传正面图片
+-(void)uploadFrontPic
+{
+    NSString *screenShotNumber = [NSString stringWithFormat:@"%d",[[NSUserDefaults standardUserDefaults] integerForKey:@"ScreenShotNumber"]];
+    NSString *picSaveStr = [NSString stringWithFormat:@"frontPic%@.png",screenShotNumber];//定义图片文件名
+    NSString *str = [NSString stringWithFormat:@"%@",FD_IMAGE_PATH(picSaveStr)];
+    UIImage *tmpImg = [UIImage imageWithContentsOfFile:str];
+    
+    NSData  *data = UIImagePNGRepresentation(tmpImg);
+    
+    if (data != nil)
+    {
+        ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:UploadPicUrl]];
+        [request setDelegate:self];
+        [request setData: data
+            withFileName: picSaveStr
+          andContentType: @"image/png"
+                  forKey: @"pic"];  
+        [request appendPostData:[@"{\"postcard\":\"1\"}" dataUsingEncoding:NSUTF8StringEncoding]];
+        [request setDidFinishSelector:@selector(requestUploadFrontImageFinish:)];
+        [request setDidFailSelector:@selector(requestUploadFrontImageFail:)];
+        [request startAsynchronous];
+        
+    }
+    else 
+    {
+        PromptView  *tmpPromptView = [[PromptView alloc] init];
+        [tmpPromptView showPromptWithParentView:self.view
+                                     withPrompt:@"上传图片失败" 
+                                      withFrame:CGRectMake(40, 120, 240, 240)];
+        [tmpPromptView release];
+        return;
+    }    
+}
+
+- (void)requestUploadFrontImageFinish:(ASIFormDataRequest *)request
+{
+    NSString *tmpStr = [NSString stringWithFormat:@"%@",[request responseString]];
+    [[NSUserDefaults standardUserDefaults] setObject:tmpStr forKey:@"FRONT_PIC"];
+    
+    [self performSelector:@selector(uploadBackPic)];//上传背面图
+}
+
+- (void)requestUploadFrontImageFail:(ASIFormDataRequest *)request
+{
+    PromptView *promptView = [[PromptView alloc] init];
+    [promptView showPromptWithParentView:self.view
+                              withPrompt:@"网络不好,请稍后再试" 
+                               withFrame:CGRectMake(40, 120, 240, 240)];
+    [promptView release];
+    return;
+}
+
+#pragma mark - UploadBackPic - 上传背面图片
+-(void)uploadBackPic
+{    
+    NSString *screenShotNumber = [NSString stringWithFormat:@"%d",[[NSUserDefaults standardUserDefaults] integerForKey:@"ScreenShotNumber"]];    
+    NSString *picSaveStr = [NSString stringWithFormat:@"backPic%@.png",screenShotNumber];//定义图片文件名
+    NSString *str = [NSString stringWithFormat:@"%@",FD_IMAGE_PATH(picSaveStr)];
+    UIImage *tmpImg = [UIImage imageWithContentsOfFile:str];
+    
+    NSData  *data = UIImagePNGRepresentation(tmpImg);
+    
+    if (data != nil)
+    {
+        ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:UploadPicUrl]];
+        [request setDelegate:self];
+        [request setData: data
+            withFileName: picSaveStr
+          andContentType: @"image/png"
+                  forKey: @"pic"];  
+        [request appendPostData:[@"{\"postcard\":\"1\"}" dataUsingEncoding:NSUTF8StringEncoding]];
+        [request setDidFinishSelector:@selector(requestUploadImageFinish:)];
+        [request setDidFailSelector:@selector(requestUploadImageFail:)];
+        [request startAsynchronous];
+        
+    }
+    else 
+    {
+        PromptView  *tmpPromptView = [[PromptView alloc] init];
+        [tmpPromptView showPromptWithParentView:self.view
+                                     withPrompt:@"上传图片失败" 
+                                      withFrame:CGRectMake(40, 120, 240, 240)];
+        [tmpPromptView release];
+        return;
+    }    
+}
+
+- (void)requestUploadImageFinish:(ASIFormDataRequest *)request
+{
+    NSString *tmpStr = [NSString stringWithFormat:@"%@",[request responseString]];
+    [[NSUserDefaults standardUserDefaults] setObject:tmpStr forKey:@"BACK_PIC"];
+    [self performSelector:@selector(uploadAll)];//上传所有数据
+}
+
+- (void)requestUploadImageFail:(ASIFormDataRequest *)request
+{
+    PromptView *promptView = [[PromptView alloc] init];
+    [promptView showPromptWithParentView:self.view
+                              withPrompt:@"网络不好,请稍后再试" 
+                               withFrame:CGRectMake(40, 120, 240, 240)];
+    [promptView release];
+    return;
+}
+
+#pragma mark - UploadAll - 上传所有数据
+-(void)uploadAll
+{
+    NSString *cidStr = [NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"ClientId"]];
+    NSString *tidStr = [NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"ID"]];
+    NSString *pic_a = [NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"FRONT_PIC"]];
+    NSString *pic_b = [NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"BACK_PIC"]];
+    
+    //    NSString *card_sender = [NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"ID"]];
+    //    NSString *card_sender_address = [NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"ID"]];
+    //    NSString *card_sender_postcode = [NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"ID"]];
+    //    NSString *card_recevier = [NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"ID"]];
+    //    NSString *card_recevier_address = [NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"ID"]];
+    //    NSString *card_recevier_postcode = [NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"ID"]];
+    //    NSString *blessings = [NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"ID"]];
+    
+    NSString *tmpStr = [NSString stringWithFormat:@"123456789"];
+    NSString *adressStr = [NSString stringWithFormat:@"1~2~3~4~5~6~7"];
+    NSString *qrcode = [[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"QRURL"]] retain];
+    NSString *audio = [[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"VOICEURL"]] retain];
+    
+    ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:UploadAllUrl]];
+    
+    [request setDelegate:self];
+    //  [request setRequestMethod:@"POST"];
+    [request setPostValue:cidStr forKey:@"cid"];
+    [request setPostValue:tidStr forKey:@"tid"];
+    [request setPostValue:pic_a  forKey:@"pic_a"];
+    [request setPostValue:pic_b  forKey:@"pic_b"];
+    [request setPostValue:tmpStr forKey:@"card_sender"];
+    [request setPostValue:adressStr forKey:@"card_sender_address"];
+    [request setPostValue:tmpStr forKey:@"card_sender_postcode"];
+    [request setPostValue:tmpStr forKey:@"card_receiver"];
+    [request setPostValue:adressStr forKey:@"card_receiver_address"];
+    [request setPostValue:tmpStr forKey:@"card_receivier_postcode"];
+    [request setPostValue:tmpStr forKey:@"blessings"];
+    [request setPostValue:qrcode forKey:@"qrcode"];
+    [request setPostValue:audio  forKey:@"audio"];
+    [request setDidFinishSelector:@selector(requestUploadAllFinish:)];
+    
+    NSLog(@"cid:%@ tid:%@ a:%@ b:%@ tmp:%@ qrcode:%@ audio:%@", cidStr, tidStr, pic_a, pic_b, tmpStr, qrcode, audio);
+    [request setDidFailSelector:@selector(requestUploadDataFail:)];
+    
+    [request startAsynchronous];
+}
+
+- (void)requestUploadDataFail:(ASIFormDataRequest *)request
+{
+    PromptView *promptView = [[PromptView alloc] init];
+    [promptView showPromptWithParentView:self.view
+                              withPrompt:@"网络不好,请稍后再试" 
+                               withFrame:CGRectMake(40, 120, 240, 240)];
+    [promptView release];
+    return;
+}
+
+
+-(void)requestUploadAllFinish:(ASIFormDataRequest *)request
+{    
+    if ([request responseStatusCode] == 200) 
+    {
+        NSArray *tmpPriceArray = [request responseString].JSONValue;
+    
+        NSLog(@"array = %@",tmpPriceArray);
+
+        if (!paymentView)
+        {
+            paymentView = [[PaymentView alloc] init];
+        }
+        
+        if (self.paymentView.priceArray == nil)
+        {
+            self.paymentView.priceArray = [[NSMutableArray alloc] initWithArray:tmpPriceArray];
+        }
+        else
+        {
+            [self.paymentView.priceArray removeAllObjects];
+            self.paymentView.priceArray = [[NSMutableArray alloc] initWithArray:tmpPriceArray];
+        }
+        
+        
+        [[NSUserDefaults standardUserDefaults] setValue:nil forKey:@"VOICEURL"];
+        [[NSUserDefaults standardUserDefaults] setValue:nil forKey:@"QRURL"];//上传成功后,清空声音和二维码的地址!
+        [self performSelector:@selector(payThisPostcard)];
+    }
+}
+
+-(void)payThisPostcard
+{
+    [spinerView removeFromSuperview];
+    
     if (!paymentView)
-    {
-        paymentView = [[PaymentView alloc] init];
-    }
-    
-    if (self.paymentView.priceArray == nil)
-    {
-        self.paymentView.priceArray = [[NSMutableArray alloc] initWithArray:self.priceArray];
-    }
-    else
-    {
-        [self.paymentView.priceArray removeAllObjects];
-        self.paymentView.priceArray = [[NSMutableArray alloc] initWithArray:self.priceArray];
-    }
-    
+     {
+       paymentView = [[PaymentView alloc] init];
+     }
     self.paymentView.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
     [self presentModalViewController:paymentView animated:YES];
 }
+
+
 @end

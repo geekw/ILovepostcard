@@ -31,12 +31,12 @@
     IBOutlet UIView *postcard_FrontView;//明信片正面
     IBOutlet UIButton *openPhotoLibraryButton;//打开本地相册按钮
     MKMapView *myMapView;
-    UIButton *cameraButton;
-    UIButton *bottomButton;
-    UIButton *indicatorButton;
     TouchView *fileContent;
 }
 
+@property (retain, nonatomic) UIButton *cameraButton;
+@property (retain, nonatomic) UIButton *bottomButton;
+@property (retain, nonatomic) UIButton *indicatorButton;
 
 @property (retain, nonatomic) UIImagePickerController *imagePicker;//相机
 

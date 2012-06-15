@@ -20,7 +20,7 @@
 
 @implementation ActivityListView
 @synthesize goBackButton;
-@synthesize goToPostcardList,postcardList_WithoutSearchbar,itemCell;
+@synthesize goToPostcardList,postcardList_WithoutSearchbar;
 @synthesize dataArray,dataTableView,page,refreshing,detailView;
 
 
@@ -35,7 +35,7 @@
 - (void)dealloc
 {
     detailView = nil;[detailView release];
-    itemCell = nil;[itemCell release];
+//    itemCell = nil;[itemCell release];
     goToPostcardList = nil;[goToPostcardList release];
     postcardList_WithoutSearchbar = nil;[postcardList_WithoutSearchbar release];
     [dataArray release];
@@ -51,17 +51,16 @@
     {
         page = 0;
         dataArray = [[NSMutableArray alloc] init];
-    if ([dataArray count] > 0)
-    {
-        [dataArray removeAllObjects];//清空数组
-    }
+        if ([self.dataArray count] > 0)
+        {
+            [self.dataArray removeAllObjects];//清空数组
+        }
         dataTableView = [[PullingRefreshTableView alloc] initWithFrame:CGRectMake(5, 54, 310, 420)];
         dataTableView.delegate   = self;
         dataTableView.dataSource = self;
         dataTableView.backgroundColor = [UIColor clearColor];
         dataTableView.separatorColor = [UIColor clearColor];
         [self.view addSubview:dataTableView];
-
     }
     return self;
 }
@@ -153,7 +152,9 @@
 {
     if ([request responseStatusCode] == 200) 
     {
-        dataArray = [request responseString].JSONValue;
+        NSLog(@"%@",[request responseString]);
+        self.dataArray = [request responseString].JSONValue;
+        NSLog(@"data = %@",self.dataArray);
     }    
     [dataTableView reloadData];
 }
@@ -173,38 +174,43 @@
 - (NSInteger)tableView:(UITableView *)tableView 
  numberOfRowsInSection:(NSInteger)section
 {
-    return [dataArray count];
+    NSLog(@"count =%d",[self.dataArray count]);
+    return [self.dataArray count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString *uniqueIdentifier = @"ItemCell";
-    ItemCell  *cell = [tableView dequeueReusableCellWithIdentifier:uniqueIdentifier];
-    if (!cell)
-    {
-        cell = [ItemCell getInstance];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;//取消row的选中
-    }
+//    NSString *uniqueIdentifier = @"ItemCell";
+//    ItemCell  *cell = [tableView dequeueReusableCellWithIdentifier:uniqueIdentifier];
+//    if (!cell)
+//    {
+       ItemCell *cell = [[ItemCell alloc] init];
+       cell.selectionStyle = UITableViewCellSelectionStyleNone;//取消row的选中
+//    }
     
-    if (dataArray.count > 0) 
-    {
-        NSDictionary *detailDict = [dataArray objectAtIndex:indexPath.row];
+//    if (dataArray.count > 0) 
+//    {
+    
+    NSLog(@"dataarray = %@",self.dataArray);
+
+    NSDictionary *detailDict = [self.dataArray objectAtIndex:indexPath.row];
+    NSLog(@"dict = %@",detailDict);
         
         UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[detailDict objectForKey:@"small"]]]];
         NSString *title  = [detailDict objectForKey:@"name"];
         NSString *heartNum = [detailDict objectForKey:@"partnum"];
         NSString *tagStr = [detailDict objectForKey:@"id"];
         
-        
         [cell configWithTitle:title 
                      btnImage:image 
                      heartNum:heartNum 
                      tagValue:[tagStr intValue] 
                   listInteger:indexPath.row];
-    }
+//    }
+    
     return cell;
     
-    currentPage ++;
+//    currentPage ++;
 }
 
 #pragma mark - PullingRefreshTableViewDelegate

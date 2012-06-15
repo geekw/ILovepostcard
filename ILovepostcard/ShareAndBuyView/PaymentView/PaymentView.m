@@ -74,6 +74,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) 
     {
+        goBackButton.hidden = YES;
     }
     return self;
 }
@@ -332,7 +333,6 @@
 #pragma mark - ClientPay - 客户端支付
 - (void)clientPay
 {   
-    [self performSelector:@selector(finishPay)];
     [[NSNotificationCenter defaultCenter] addObserver:self 
                                              selector:@selector(fromZhiFuBaoClient) 
                                                  name:@"fromZhiFuBaoClient" 
@@ -394,6 +394,9 @@
         NSLog(@"签名错误！");
         return;
     }
+    
+    [self performSelector:@selector(finishPay)];
+    
     [[NSUserDefaults standardUserDefaults] setObject:product.body forKey:@"pay_way"];//交易方式id号
     [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%.2f",product.price] forKey:@"alipay_fee"];//交易费用
     [[NSUserDefaults standardUserDefaults] setObject:order.tradeNO forKey:@"ZhiFuBaoSn"];
@@ -402,7 +405,6 @@
 #pragma mark - WapPay - 网页支付
 - (void)wapPay 
 {
-    [self performSelector:@selector(finishPay)];
     
     int i = [[NSUserDefaults standardUserDefaults] integerForKey:@"MailType"]; 
     NSLog(@"i = %d",i);
@@ -465,6 +467,8 @@
         
     [[UIApplication sharedApplication] openURL:url];
     
+    [self performSelector:@selector(finishPay)];
+
     [[NSUserDefaults standardUserDefaults] setObject:product.body forKey:@"pay_way"];//交易方式id号
     [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%.2f",product.price] forKey:@"alipay_fee"];//交易费用
     [[NSUserDefaults standardUserDefaults] setObject:order.tradeNO forKey:@"ZhiFuBaoSn"];

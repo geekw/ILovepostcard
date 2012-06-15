@@ -29,6 +29,7 @@
 @synthesize idName,displayEachTemplateDetals_Back;
 @synthesize tagValueStr,imagePicker,mapImgView;
 @synthesize idName_Activity;
+@synthesize cameraButton,indicatorButton,bottomButton;
 
 bool hideOrShowMaterial;
 bool hideOrShowMap;
@@ -240,10 +241,10 @@ bool hideOrShowBottonView;
 {
     int i = [str intValue];
     
-    cameraButton.hidden = NO;
-    [bottomButton setImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
-    [indicatorButton setImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
-    indicatorButton.userInteractionEnabled = NO;
+    self.cameraButton.hidden = NO;
+    [self.bottomButton setImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
+    [self.indicatorButton setImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
+    self.indicatorButton.userInteractionEnabled = NO;
     
     if (fileContent) 
     {
@@ -252,7 +253,7 @@ bool hideOrShowBottonView;
     
     if (cameraButton)
     {
-        [cameraButton removeFromSuperview];
+        [self.cameraButton removeFromSuperview];
     }
     
     NSArray *areasArray = [[TemplateDetails_Singleton sharedTemplateDetails_Singleton].templateDetailsDict objectForKey:@"areas"];
@@ -881,57 +882,8 @@ bool hideOrShowBottonView;
     [self presentModalViewController:self.displayEachTemplateDetals_Back 
                             animated:YES];
     
-    [self performSelector:@selector(uploadFrontPic:) withObject:picSaveStr];
+//    [self performSelector:@selector(uploadFrontPic:) withObject:picSaveStr];
 }
 
-#pragma mark - UploadFrontPic - 上传图片
--(void)uploadFrontPic:(NSString *)tmpStr
-{
-    NSLog(@"%@",tmpStr);
-    NSString *str = [NSString stringWithFormat:@"%@",FD_IMAGE_PATH(tmpStr)];
-    UIImage *tmpImg = [UIImage imageWithContentsOfFile:str];
-    
-    NSData  *data = UIImagePNGRepresentation(tmpImg);
-    
-    if (data != nil)
-    {
-        ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:UploadPicUrl]];
-        [request setDelegate:self];
-        [request setData: data
-            withFileName: tmpStr
-          andContentType: @"image/png"
-                  forKey: @"pic"];  
-        [request appendPostData:[@"{\"postcard\":\"1\"}" dataUsingEncoding:NSUTF8StringEncoding]];
-        [request setDidFinishSelector:@selector(requestUploadImageFinish:)];
-        [request setDidFailSelector:@selector(requestUploadImageFail:)];
-        [request startAsynchronous];
-        
-    }
-    else 
-    {
-        PromptView  *tmpPromptView = [[PromptView alloc] init];
-        [tmpPromptView showPromptWithParentView:self.view
-                                       withPrompt:@"上传图片失败" 
-                                        withFrame:CGRectMake(40, 120, 240, 240)];
-        [tmpPromptView release];
-        return;
-    }    
-}
-
-- (void)requestUploadImageFinish:(ASIFormDataRequest *)request
-{
-    NSString *tmpStr = [NSString stringWithFormat:@"%@",[request responseString]];
-    [[NSUserDefaults standardUserDefaults] setObject:tmpStr forKey:@"FRONT_PIC"];
-}
-
-- (void)requestUploadImageFail
-{
-    PromptView *promptView = [[PromptView alloc] init];
-    [promptView showPromptWithParentView:self.view
-                                   withPrompt:@"网络不好,请稍后再试" 
-                                    withFrame:CGRectMake(40, 120, 240, 240)];
-    [promptView release];
-    return;
-}
 
 @end

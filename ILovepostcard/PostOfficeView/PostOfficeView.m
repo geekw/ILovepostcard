@@ -4,11 +4,11 @@
 //
 //  Created by 进 吴 on 12-6-11.
 //  Copyright (c) 2012年 开趣. All rights reserved.
-//
 
 #define FD_IMAGE_PATH(file) [NSString stringWithFormat:@"%@/Documents/ScreenShot/%@",NSHomeDirectory(),file]
 
 #define Self_Record @"http://61.155.238.30/postcards/interface/self_record"
+#define degreesToRadian(x) (M_PI * (x) / 180.0)//定义弧度
 
 #import "PostOfficeView.h"
 #import "ViewController.h"
@@ -77,6 +77,8 @@ int current_page;
 
 - (void)viewDidUnload
 {
+    [address removeAllObjects];address = nil;
+    [paid removeAllObjects];paid = nil;
     [self setGoBackBtn:nil];
     [self setMyScrollView:nil];
     [self setDisplayView:nil];
@@ -99,8 +101,8 @@ int current_page;
     
     NSArray *tmpArray = [[NSUserDefaults standardUserDefaults] objectForKey:@"SaveArray"];
     
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"FromMainScene"])
-    {
+//    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"FromMainScene"])
+//    {
         NSInteger i = [[NSUserDefaults standardUserDefaults] integerForKey:@"ScreenShotNumber"]; 
         if (i > 0)//判断有明信片记录
         {
@@ -112,13 +114,12 @@ int current_page;
             {
                 UIView *tmpView = [[UIView alloc] initWithFrame:CGRectMake(0, 115 * y, 320, 115)];
 //                tmpView.tag = y + 1;
-                
-                UIImageView *tmpImgView = [[UIImageView alloc] initWithFrame:CGRectMake(20, 8 , 150, 100)];
+                UIImageView *tmpImgView = [[UIImageView alloc] initWithFrame:CGRectMake(20, 8, 150, 100)];
                 
                 NSString *picSaveStr = [NSString stringWithFormat:@"frontPic%d.png",y];//定义图片文件名
                 NSString *str = [NSString stringWithFormat:@"%@",FD_IMAGE_PATH(picSaveStr)];
+//                tmpImgView.transform = CGAffineTransformMakeRotation(degreesToRadian(90));
                 tmpImgView.image = [UIImage imageWithContentsOfFile:str];
-//                
                 tmpImgView.backgroundColor = [UIColor redColor];
                 [tmpView addSubview:tmpImgView];
                 [tmpImgView release];
@@ -172,7 +173,7 @@ int current_page;
                 [tmpView release];
             }
         }
-    }
+//    }
 }
 
 
@@ -190,7 +191,9 @@ int current_page;
 {
     NSLog(@"%@",[request url]);
     
-    NSString *snStr = [[NSString stringWithFormat:@"%@",[request url]] substringWithRange:NSMakeRange([Self_Record length] + 13, 28)];
+//    NSString *snStr = [[NSString stringWithFormat:@"%@",[request url]] substringWithRange:NSMakeRange([Self_Record length] + 13, 28)];
+    
+    NSString *snStr = [[NSString stringWithFormat:@"%@",[request url]] substringFromIndex:[Self_Record length] + 13];
 
     NSLog(@"SN:%@", snStr);
     

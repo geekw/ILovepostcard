@@ -241,6 +241,7 @@ bool HideOrShowPostmark;
 {
     self.blessMessageText.frame = CGRectMake(53.5,31.5,150,143);
     self.blessMessageText.transform = CGAffineTransformMakeRotation(degreesToRadian(90));
+    self.blessMessageText.userInteractionEnabled = NO;
     
     self.QRImg2.frame = CGRectMake(22, 18, 29, 32);
     self.QRImg2.transform = CGAffineTransformMakeRotation(degreesToRadian(90));
@@ -253,12 +254,16 @@ bool HideOrShowPostmark;
     
     self.recevierAdressText.frame = CGRectMake(56, 254, 144, 30);
     self.recevierAdressText.transform = CGAffineTransformMakeRotation(degreesToRadian(90));
+    self.recevierAdressText.userInteractionEnabled = NO;
     
     self.receiverNameLabel.frame = CGRectMake(26, 254, 144, 30);
     self.receiverNameLabel.transform = CGAffineTransformMakeRotation(degreesToRadian(90));
+    self.receiverNameLabel.userInteractionEnabled = NO;
     
     self.senderAdressText.frame = CGRectMake(-4, 254, 144, 30);
     self.senderAdressText.transform = CGAffineTransformMakeRotation(degreesToRadian(90));
+    self.senderAdressText.userInteractionEnabled = NO;
+
     
 //    self.snLabel.frame = CGRectMake(-64, 94, 158, 10);
 //    self.snLabel.transform = CGAffineTransformMakeRotation(degreesToRadian(90));
@@ -304,8 +309,10 @@ bool HideOrShowPostmark;
 #pragma mark - ScaleFont - NSNotification - 放大字体 
 - (void)scaleFont
 {
-    [self.blessMessageText setFont:[UIFont fontWithName:@"System" size:40]];
-    [self.senderAdressText setFont:[UIFont fontWithName:@"System" size:35]];
+    [self.blessMessageText setFont:[UIFont fontWithName:@"System" size:20]];
+    [self.senderAdressText setFont:[UIFont fontWithName:@"System" size:20]];
+    [self.receiverNameLabel setFont:[UIFont fontWithName:@"System" size:20]];
+    [self.recevierAdressText setFont:[UIFont fontWithName:@"System" size:20]];
 }
 
 #pragma mark - ShrinkBottom - 底部收缩
@@ -344,131 +351,6 @@ bool HideOrShowPostmark;
     NSString *picSaveStr = [NSString stringWithFormat:@"backPic%@.png",screenShotNumber];//定义图片文件名
     [imgData writeToFile:FD_IMAGE_PATH(picSaveStr) atomically:YES];
     
-    [self performSelector:@selector(uploadBackPic:) withObject:picSaveStr];//上传背面图片,得到地址
-}
-
-#pragma mark - UploadFrontPic - 上传图片
--(void)uploadBackPic:(NSString *)tmpStr
-{
-    NSLog(@"%@",tmpStr);
-    NSString *str = [NSString stringWithFormat:@"%@",FD_IMAGE_PATH(tmpStr)];
-    UIImage *tmpImg = [UIImage imageWithContentsOfFile:str];
-    
-    NSData  *data = UIImagePNGRepresentation(tmpImg);
-    
-    if (data != nil)
-    {
-        ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:UploadPicUrl]];
-        [request setDelegate:self];
-        [request setData: data
-            withFileName: tmpStr
-          andContentType: @"image/png"
-                  forKey: @"pic"];  
-        [request appendPostData:[@"{\"postcard\":\"1\"}" dataUsingEncoding:NSUTF8StringEncoding]];
-        [request setDidFinishSelector:@selector(requestUploadImageFinish:)];
-        [request setDidFailSelector:@selector(requestUploadImageFail:)];
-        [request startAsynchronous];
-        
-    }
-    else 
-    {
-        PromptView  *tmpPromptView = [[PromptView alloc] init];
-        [tmpPromptView showPromptWithParentView:self.view
-                                     withPrompt:@"上传图片失败" 
-                                      withFrame:CGRectMake(40, 120, 240, 240)];
-        [tmpPromptView release];
-        return;
-    }    
-}
-
-- (void)requestUploadImageFinish:(ASIFormDataRequest *)request
-{
-    NSString *tmpStr = [NSString stringWithFormat:@"%@",[request responseString]];
-    [[NSUserDefaults standardUserDefaults] setObject:tmpStr forKey:@"BACK_PIC"];
-    
-    //最后一个数据得到,开始上传所有已得到的数据
-    [self performSelector:@selector(uploadAll)];
-}
-
-- (void)requestUploadImageFail
-{
-    PromptView *promptView = [[PromptView alloc] init];
-    [promptView showPromptWithParentView:self.view
-                              withPrompt:@"网络不好,请稍后再试" 
-                               withFrame:CGRectMake(40, 120, 240, 240)];
-    [promptView release];
-    return;
-}
-
--(void)uploadAll
-{
-    NSString *cidStr = [NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"ClientId"]];
-    NSString *tidStr = [NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"ID"]];
-    NSString *pic_a = [NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"FRONT_PIC"]];
-    NSString *pic_b = [NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"BACK_PIC"]];
-//    NSString *card_sender = [NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"ID"]];
-//    NSString *card_sender_address = [NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"ID"]];
-//    NSString *card_sender_postcode = [NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"ID"]];
-//    NSString *card_recevier = [NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"ID"]];
-//    NSString *card_recevier_address = [NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"ID"]];
-//    NSString *card_recevier_postcode = [NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"ID"]];
-//    NSString *blessings = [NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"ID"]];
-    
-    NSString *tmpStr = [NSString stringWithFormat:@"123456789"];
-    NSString *adressStr = [NSString stringWithFormat:@"1~2~3~4~5~6~7"];
-    NSString *qrcode = [[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"QRURL"]] retain];
-    NSString *audio = [[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"VOICEURL"]] retain];
-         
-   ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:UploadAllUrl]];
-    
-    [request setDelegate:self];
-//  [request setRequestMethod:@"POST"];
-    [request setPostValue:cidStr forKey:@"cid"];
-    [request setPostValue:tidStr forKey:@"tid"];
-    [request setPostValue:pic_a  forKey:@"pic_a"];
-    [request setPostValue:pic_b  forKey:@"pic_b"];
-    [request setPostValue:tmpStr forKey:@"card_sender"];
-    [request setPostValue:adressStr forKey:@"card_sender_address"];
-    [request setPostValue:tmpStr forKey:@"card_sender_postcode"];
-    [request setPostValue:tmpStr forKey:@"card_receiver"];
-    [request setPostValue:adressStr forKey:@"card_receiver_address"];
-    [request setPostValue:tmpStr forKey:@"card_receivier_postcode"];
-    [request setPostValue:tmpStr forKey:@"blessings"];
-    [request setPostValue:qrcode forKey:@"qrcode"];
-    [request setPostValue:audio  forKey:@"audio"];
-    [request setDidFinishSelector:@selector(requestUploadAllFinish:)];
-    
-//    NSLog(@"cid:%@ tid:%@ a:%@ b:%@ tmp:%@ qrcode:%@ audio:%@", cidStr, tidStr, pic_a, pic_b, tmpStr, qrcode, audio);
-//  [request setDidFailSelector:@selector(requestUploadImageFail:)];
-    
-    [request startAsynchronous];
-}
-
--(void)requestUploadAllFinish:(ASIFormDataRequest *)request
-{    
-    if ([request responseStatusCode] == 200) 
-    {
-        if (!shareAndBuyView)
-        {
-            shareAndBuyView = [[ShareAndBuyView alloc] init];
-        }
-        
-        NSArray *priceArray = [request responseString].JSONValue;
-        if (shareAndBuyView.priceArray == nil)
-        {
-            shareAndBuyView.priceArray = [[NSMutableArray alloc] initWithArray:priceArray];
-    
-        }
-        else if (shareAndBuyView.priceArray != nil)
-        {
-            [shareAndBuyView.priceArray removeAllObjects];
-            shareAndBuyView.priceArray = [[NSMutableArray alloc] initWithArray:priceArray];
-        }  
-    }
-    
-    [[NSUserDefaults standardUserDefaults] setValue:nil forKey:@"VOICEURL"];
-    [[NSUserDefaults standardUserDefaults] setValue:nil forKey:@"QRURL"];//上传成功后,清空声音和二维码的地址!
-
     [self performSelector:@selector(jumpShareAndBuyViewScene)];
 }
 
