@@ -1,5 +1,3 @@
-#Exclude the build directory 
-build/* 
 # Exclude temp nibs and swap files *~.nib *.swp 
 # Exclude user-specific XCode 3 and 4 files 
 *.mode1 
@@ -12,4 +10,5 @@ build/*
 xcuserdata
 # Exclude OS X folder attributes 
 .DS_Store
-.DS_Store
+#Exclude the build directory 
+build/* 
