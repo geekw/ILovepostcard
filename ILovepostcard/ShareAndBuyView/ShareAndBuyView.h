@@ -38,15 +38,32 @@
 
 @property (retain, nonatomic) NSMutableArray *priceArray;
 
+@property (retain, nonatomic) IBOutlet UIButton *resignBtn;
+
+@property (retain, nonatomic) IBOutlet UIView *sinaWeiBoShareView;
+
+@property (retain, nonatomic) IBOutlet UIButton *shareBtn;
+
+
 - (IBAction)goBack;
 
 - (IBAction)flip;
 
 - (IBAction)flip2;
 
-- (IBAction)shareToSIna;
+- (IBAction)shareToSina;
 
 - (IBAction)buyThisCard;
+
+- (IBAction)resignKeyboard;
+
+- (IBAction)goToShareView;
+
+
+
+
+
+
 
 
 @end

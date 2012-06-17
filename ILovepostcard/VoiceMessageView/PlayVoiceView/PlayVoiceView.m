@@ -97,7 +97,7 @@
 
     NSString *voiceUrlStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"voiceURLStr"];
     NSLog(@"%@",voiceUrlStr);
-    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:VOICEURL]];
+    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:voiceUrlStr]];
     request.delegate = self;
     [request setDidFinishSelector:@selector(getVoiceFinished:)];
     [request startAsynchronous];    
@@ -107,6 +107,7 @@
 {
     NSData *voiceData = [request responseData];
     audioPlayer = [[AVAudioPlayer alloc] initWithData:voiceData error:nil];
+    [audioPlayer setNumberOfLoops:1];
     audioPlayer.delegate = self;
     [audioPlayer stop];
     [audioPlayer prepareToPlay];

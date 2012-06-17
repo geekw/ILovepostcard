@@ -29,6 +29,9 @@
 @synthesize flipButton2;
 @synthesize paymentView;
 @synthesize priceArray;
+@synthesize resignBtn;
+@synthesize sinaWeiBoShareView;
+@synthesize shareBtn;
 
 
 #pragma mark - goBack - 返回按钮
@@ -59,6 +62,9 @@
     [self.goBackButton setImage:[UIImage imageNamed:@"titlebtnbackclick.png"] forState:UIControlStateHighlighted];
     flipButton_Back.backgroundColor = [UIColor blueColor];
     
+    self.view.frame = CGRectMake(0, 0, 320, 460);
+    self.sinaWeiBoShareView.frame = CGRectMake(-320, 0, 320, 460);
+    
 }
 
 - (void)viewDidUnload
@@ -70,6 +76,9 @@
     [self setFlipButton_Back:nil];
     [self setFlipView:nil];
     [self setFlipButton2:nil];
+    [self setResignBtn:nil];
+    [self setSinaWeiBoShareView:nil];
+    [self setShareBtn:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -93,6 +102,9 @@
     [flipView release];
     [flipButton release];
     [flipButton2 release];
+    [resignBtn release];
+    [sinaWeiBoShareView release];
+    [shareBtn release];
     [super dealloc];
 }
 - (IBAction)flip 
@@ -137,9 +149,11 @@
 	[UIView commitAnimations];
 }
 
-- (IBAction)shareToSIna
+
+#pragma mark - BuyThisCard - 1.购买明信片流程-------------------------
+- (IBAction)buyThisCard
 {
-    
+    [self performSelector:@selector(getAddress)];//判断是否得到了地址
 }
 
 - (void)addWaitView//等待界面
@@ -157,7 +171,7 @@
     [spinerLabel release];
     
     TKLoadingAnimationView *spiner = [[TKLoadingAnimationView alloc] initWithFrame:CGRectMake(120, 115, 40, 40)tkLoadingAnimationViewStyle:TKLoadingAnimationViewStyleNormal];
-        [spiner startAnimating];
+    [spiner startAnimating];
     [spinerView addSubview:spiner];
     [spiner release];
     
@@ -165,10 +179,6 @@
     [spinerView release];
 }
 
-- (IBAction)buyThisCard
-{
-    [self performSelector:@selector(getAddress)];//判断是否得到了地址
-}
 #pragma mark - GetAddress - 判断是否得到了地址
 -(void)getAddress
 {
@@ -347,7 +357,6 @@
     return;
 }
 
-
 -(void)requestUploadAllFinish:(ASIFormDataRequest *)request
 {    
     if ([request responseStatusCode] == 200) 
@@ -391,6 +400,21 @@
      }
     self.paymentView.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
     [self presentModalViewController:paymentView animated:YES];
+}
+
+#pragma mark - ShareToSIna - 1.分享明信片流程
+
+- (IBAction)shareToSina
+{
+    
+}
+
+- (IBAction)resignKeyboard
+{
+    
+}
+
+- (IBAction)goToShareView {
 }
 
 

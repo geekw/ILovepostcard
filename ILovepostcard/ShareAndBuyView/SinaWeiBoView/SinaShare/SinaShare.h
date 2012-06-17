@@ -7,7 +7,32 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "WBEngine.h"
+#import "PromptView.h"
 
-@interface SinaShare : NSObject
+
+@protocol SinaShareDelegate <NSObject>
+
+- (void)sinaLoginFinished;
+- (void)sinaLoginFailed;
+- (void)sinaSendFinished;
+- (void)sinaSendFailed;
+
+@end
+
+@interface SinaShare : NSObject <WBEngineDelegate>
+{
+    WBEngine *engine;
+}
+
+@property (retain, nonatomic) id <SinaShareDelegate> delegate;
+
+- (void)logInSinaWB;
+
+- (void)logOutSinaWB;
+
+- (void)sendContentWith:(NSString *)sendTxt 
+                sendImg:(UIImage *)_image;
+
 
 @end
