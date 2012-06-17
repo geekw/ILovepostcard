@@ -217,6 +217,7 @@ bool HideOrShowPostmark;
 #pragma mark - GoToChooseAdressView - 进入地址选择界面
 - (IBAction)goToChooseAdressView 
 {
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"From_Back"];
     if (!chooseAddressView)
     {
         chooseAddressView = [[ChooseAddressView alloc] init];
@@ -281,6 +282,11 @@ bool HideOrShowPostmark;
                                              selector:@selector(scaleFont)
                                                  name:@"scaleFont" 
                                                object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self 
+                                             selector:@selector(getAddress)
+                                                 name:@"getAddress" 
+                                               object:nil];
+    
 }
 
 #pragma mark - GetQRPic - NSNotification 
@@ -309,10 +315,28 @@ bool HideOrShowPostmark;
 #pragma mark - ScaleFont - NSNotification - 放大字体 
 - (void)scaleFont
 {
-    [self.blessMessageText setFont:[UIFont fontWithName:@"System" size:20]];
-    [self.senderAdressText setFont:[UIFont fontWithName:@"System" size:20]];
-    [self.receiverNameLabel setFont:[UIFont fontWithName:@"System" size:20]];
-    [self.recevierAdressText setFont:[UIFont fontWithName:@"System" size:20]];
+    [self.blessMessageText   setFont:[UIFont fontWithName:@"System" size:30]];
+    [self.senderAdressText   setFont:[UIFont fontWithName:@"System" size:18]];
+    [self.receiverNameLabel  setFont:[UIFont fontWithName:@"System" size:18]];
+    [self.recevierAdressText setFont:[UIFont fontWithName:@"System" size:18]];
+}
+
+#pragma mark - GetAddress - NSNotification - 得到地址
+-(void)getAddress
+{   
+    NSString *blessStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"BLESS"];
+    NSString *nameStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"RECEIVER_NAME"];
+    NSString *postcodeStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"RECEIVER_POSTCODE"];
+    NSString *detailStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"DETAILS_ADDRESS"];
+    
+    NSString *postcodeStr_Sender = [[NSUserDefaults standardUserDefaults] objectForKey:@"SENDER_POSTCODE"];
+    NSString *detailStr_Sender = [[NSUserDefaults standardUserDefaults] objectForKey:@"SENDER_ADDRESS"];
+    
+    self.receiverNameLabel.text = [NSString stringWithFormat:@"%@(收)",nameStr];
+    self.postNumberLabel.text  = [NSString stringWithFormat:@"邮编:%@",postcodeStr];
+    self.blessMessageText.text = [NSString stringWithFormat:@"%@",blessStr];
+    self.senderAdressText.text = [NSString stringWithFormat:@"%@",detailStr];
+    self.recevierAdressText.text = [NSString stringWithFormat:@"%@",detailStr_Sender];
 }
 
 #pragma mark - ShrinkBottom - 底部收缩
@@ -364,5 +388,4 @@ bool HideOrShowPostmark;
     self.shareAndBuyView.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
     [self presentModalViewController:self.shareAndBuyView animated:YES];
 }
-
 @end

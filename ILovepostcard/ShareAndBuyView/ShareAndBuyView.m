@@ -13,6 +13,7 @@
 
 #import "ShareAndBuyView.h"
 #import "JSON.h"
+#import "ChooseAddressView.h"
 
 @interface ShareAndBuyView ()
 
@@ -146,10 +147,6 @@
     spinerView = [[UIView alloc] initWithFrame:CGRectMake(20, 64, 281, 270)];
     spinerView.backgroundColor = [UIColor grayColor];
     spinerView.alpha = 0.7;
-//    UIImageView *spinerImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 281, 270)];
-//    spinerImgView.image = [UIImage imageNamed:@"hintBar.png"];
-//    [spinerView addSubview:spinerImgView];
-//    [spinerImgView release];
     
     UILabel *spinerLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 168, 293, 44)];
     spinerLabel.text = [NSString stringWithFormat:@"正在上传明信片,请稍侯..."];
@@ -170,8 +167,28 @@
 
 - (IBAction)buyThisCard
 {
+    [self performSelector:@selector(getAddress)];//判断是否得到了地址
+}
+#pragma mark - GetAddress - 判断是否得到了地址
+-(void)getAddress
+{
+    NSString *receiverNameStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"RECEIVER_NAME"];
+//    NSString *senderNameStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"SENDER_NAME"];
+    NSString *receiverAddressStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"DETAILS_ADDRESS_URL"];
+    if ([receiverNameStr length] == 0 || [receiverAddressStr length] == 0 )
+    {
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"From_Back"];
+        ChooseAddressView *chooseAddressView = [[ChooseAddressView alloc] init];
+        chooseAddressView.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+        [self presentModalViewController:chooseAddressView animated:YES];
+        [chooseAddressView release];
+    }
+    
+    else if ([receiverNameStr length] != 0  && [receiverAddressStr length] != 0)
+    {
     [self addWaitView];
     [self performSelector:@selector(uploadFrontPic)];//上传正面图
+    }
 }
 
 #pragma mark - UploadFrontPic - 上传正面图片
@@ -181,7 +198,6 @@
     NSString *picSaveStr = [NSString stringWithFormat:@"frontPic%@.png",screenShotNumber];//定义图片文件名
     NSString *str = [NSString stringWithFormat:@"%@",FD_IMAGE_PATH(picSaveStr)];
     UIImage *tmpImg = [UIImage imageWithContentsOfFile:str];
-    
     NSData  *data = UIImagePNGRepresentation(tmpImg);
     
     if (data != nil)
@@ -196,7 +212,6 @@
         [request setDidFinishSelector:@selector(requestUploadFrontImageFinish:)];
         [request setDidFailSelector:@selector(requestUploadFrontImageFail:)];
         [request startAsynchronous];
-        
     }
     else 
     {
@@ -287,41 +302,38 @@
     NSString *pic_a = [NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"FRONT_PIC"]];
     NSString *pic_b = [NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"BACK_PIC"]];
     
-    //    NSString *card_sender = [NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"ID"]];
-    //    NSString *card_sender_address = [NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"ID"]];
-    //    NSString *card_sender_postcode = [NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"ID"]];
-    //    NSString *card_recevier = [NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"ID"]];
-    //    NSString *card_recevier_address = [NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"ID"]];
-    //    NSString *card_recevier_postcode = [NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"ID"]];
-    //    NSString *blessings = [NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"ID"]];
+    NSString *card_sender = [NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"SENDER_NAME"]];
+    NSString *card_sender_address = [NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"SENDER_ADDRESS"]];
+    NSString *card_sender_postcode = [NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"SENDER_POSTCODE"]];
+    NSString *card_recevier = [NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"RECEIVER_NAME"]];
+    NSString *card_recevier_address = [NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"DETAILS_ADDRESS_URL"]];
+    NSString *card_recevier_postcode = [NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"RECEIVER_POSTCODE"]];
+    NSString *blessings = [NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"BLESS"]];
     
-    NSString *tmpStr = [NSString stringWithFormat:@"123456789"];
-    NSString *adressStr = [NSString stringWithFormat:@"1~2~3~4~5~6~7"];
     NSString *qrcode = [[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"QRURL"]] retain];
     NSString *audio = [[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"VOICEURL"]] retain];
     
     ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:UploadAllUrl]];
     
     [request setDelegate:self];
-    //  [request setRequestMethod:@"POST"];
     [request setPostValue:cidStr forKey:@"cid"];
     [request setPostValue:tidStr forKey:@"tid"];
     [request setPostValue:pic_a  forKey:@"pic_a"];
     [request setPostValue:pic_b  forKey:@"pic_b"];
-    [request setPostValue:tmpStr forKey:@"card_sender"];
-    [request setPostValue:adressStr forKey:@"card_sender_address"];
-    [request setPostValue:tmpStr forKey:@"card_sender_postcode"];
-    [request setPostValue:tmpStr forKey:@"card_receiver"];
-    [request setPostValue:adressStr forKey:@"card_receiver_address"];
-    [request setPostValue:tmpStr forKey:@"card_receivier_postcode"];
-    [request setPostValue:tmpStr forKey:@"blessings"];
+    [request setPostValue:card_sender forKey:@"card_sender"];
+    [request setPostValue:card_sender_address forKey:@"card_sender_address"];
+    [request setPostValue:card_sender_postcode forKey:@"card_sender_postcode"];
+    [request setPostValue:card_recevier forKey:@"card_receiver"];
+    [request setPostValue:card_recevier_address forKey:@"card_receiver_address"];
+    [request setPostValue:card_recevier_postcode forKey:@"card_receivier_postcode"];
+    [request setPostValue:blessings forKey:@"blessings"];
     [request setPostValue:qrcode forKey:@"qrcode"];
     [request setPostValue:audio  forKey:@"audio"];
     [request setDidFinishSelector:@selector(requestUploadAllFinish:)];
     
-    NSLog(@"cid:%@ tid:%@ a:%@ b:%@ tmp:%@ qrcode:%@ audio:%@", cidStr, tidStr, pic_a, pic_b, tmpStr, qrcode, audio);
-    [request setDidFailSelector:@selector(requestUploadDataFail:)];
+    NSLog(@"cid:%@ tid:%@ a:%@ b:%@ qrcode:%@ audio:%@ :%@---%@---%@---%@---%@---%@---%@", cidStr, tidStr, pic_a, pic_b, qrcode, audio,card_sender,card_sender_address,card_sender_postcode,card_recevier,card_recevier_address,card_recevier_postcode,blessings);
     
+    [request setDidFailSelector:@selector(requestUploadDataFail:)];
     [request startAsynchronous];
 }
 
@@ -359,9 +371,12 @@
             self.paymentView.priceArray = [[NSMutableArray alloc] initWithArray:tmpPriceArray];
         }
         
-        
         [[NSUserDefaults standardUserDefaults] setValue:nil forKey:@"VOICEURL"];
         [[NSUserDefaults standardUserDefaults] setValue:nil forKey:@"QRURL"];//上传成功后,清空声音和二维码的地址!
+        
+        [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"RECEIVER_NAME"];
+        [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"DETAILS_ADDRESS_URL"];
+
         [self performSelector:@selector(payThisPostcard)];
     }
 }

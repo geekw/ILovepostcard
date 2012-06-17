@@ -17,7 +17,7 @@
 #define COUNTY_LIST 2
 #define POSTCODE_LIST 3
 
-@interface ChooseAddressView : UIViewController <PassValueDelegate,UITextViewDelegate>
+@interface ChooseAddressView : UIViewController <PassValueDelegate,UITextViewDelegate,UIScrollViewDelegate>
 {
     NSInteger provincePickerIndex;
     NSInteger cityPickerIndex;
@@ -44,12 +44,9 @@
     NSString *countySelectedStr;
     NSString *postcodeSelectedStr;
 
-    
     ActionSheetStringPicker *provincePicker;
     ActionSheetStringPicker *cityPicker;
     ActionSheetStringPicker *countPicker;
-
-
 }
 @property (retain, nonatomic) IBOutlet UITextView *postcodeTxtView;
 @property (retain, nonatomic) IBOutlet UITextView *adressTextView;
@@ -64,16 +61,42 @@
 @property (retain, nonatomic) IBOutlet UIButton *countyBtn;
 
 
+@property (retain, nonatomic) NSString *addressStr;
+
+@property (retain, nonatomic) IBOutlet UITextView *streetAddress;
+
+@property (retain, nonatomic) IBOutlet UIScrollView *addressScrollView;
+
+@property (retain, nonatomic) IBOutlet UITextView *senderNameTextView;
+
+@property (retain, nonatomic) IBOutlet UIButton *provinceBtn_Sender;
+
+@property (retain, nonatomic) IBOutlet UIButton *cityBtn_Sender;
+
+@property (retain, nonatomic) IBOutlet UIButton *countryBtn_Sender;
+
+@property (retain, nonatomic) IBOutlet UITextView *postcodeTextView_Sender;
+
+@property (retain, nonatomic) IBOutlet UITextView *detailTextView_Sender;
+
+@property (retain, nonatomic) IBOutlet UITextView *streetAddress_Sender;
+
+
 - (void)initData;
 -(IBAction)goBack:(id)sender;
 
 - (IBAction)clickedProvince:(id)sender;
 - (IBAction)clickedCity:(id)sender;
 - (IBAction)clickedCounty:(id)sender;
+
 - (IBAction)backgroundTap:(id)sender;
 
 - (IBAction)finishAdressInfo;
 
+- (IBAction)clickedProvince_Sender:(id)sender;
+- (IBAction)clickedCity_Sender:(id)sender;
+- (IBAction)clickedCounty_Sender:(id)sender;
 
+//- (IBAction)resignKeyboard;
 
 @end

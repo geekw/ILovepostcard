@@ -21,6 +21,16 @@
 @synthesize cancelBtn;
 @synthesize confirmBtn;
 @synthesize provinceBtn,cityBtn,countyBtn;
+@synthesize addressStr;
+@synthesize streetAddress;
+@synthesize addressScrollView;
+@synthesize senderNameTextView;
+@synthesize provinceBtn_Sender;
+@synthesize cityBtn_Sender;
+@synthesize countryBtn_Sender;
+@synthesize postcodeTextView_Sender;
+@synthesize detailTextView_Sender;
+@synthesize streetAddress_Sender;
 
 #pragma mark - goBack - 返回按钮
 -(IBAction)goBack:(id)sender
@@ -28,10 +38,10 @@
     [self dismissModalViewControllerAnimated:YES];
 }
 
-
 #pragma mark - View lifecycle - 系统函数
 - (void)dealloc 
 {
+    addressStr = nil;
     [provinceArray release];
     [cityArray release];
     [countyArray release];
@@ -47,6 +57,15 @@
     [confirmBtn release];
     [postcodeTxtView release];
     [detailTxView release];
+    [streetAddress release];
+    [addressScrollView release];
+    [senderNameTextView release];
+    [provinceBtn_Sender release];
+    [cityBtn_Sender release];
+    [countryBtn_Sender release];
+    [postcodeTextView_Sender release];
+    [detailTextView_Sender release];
+    [streetAddress_Sender release];
     [super dealloc];
 }
 
@@ -87,7 +106,6 @@
 //        [postcodeList setTagList:POSTCODE_LIST];
 //
 //        [self.view addSubview:postcodeList.view];
-
     }
     return self;
 }
@@ -95,9 +113,7 @@
 - (void)initData
 {
     AppDelegate *delegate = (AppDelegate*)[UIApplication sharedApplication].delegate;
-//    NSLog(@"%@",delegate.dataArray);
     dataArray = [[NSMutableArray alloc] initWithArray:delegate.dataArray]; 
-//    NSLog(@"%@",dataArray);
 
     if (provinceArray != nil)
     {
@@ -118,15 +134,12 @@
     {
         [postcodeArray removeAllObjects];
     }
-    
         
     provinceArray = [[NSMutableArray alloc] init];
-    cityArray = [[NSMutableArray alloc] init];
+    cityArray   = [[NSMutableArray alloc] init];
     countyArray = [[NSMutableArray alloc] init];
     postcodeArray = [[NSMutableArray alloc] init];
-    
-    
-    
+        
     NSMutableSet *provinceSet = [NSMutableSet set];
     NSMutableSet *cityceSet = [NSMutableSet set];
     NSMutableSet *countySet = [NSMutableSet set];
@@ -165,14 +178,33 @@
     {
         [postcodeArray addObject:postcodeStr];
     }
+    
 }
 
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self performSelector:@selector(getCustomFont)];//寻找字体
-    [self.adressTextView setFont:[UIFont fontWithName:@"FZJLJW--GB1-0" size:25]];
+//    [self performSelector:@selector(getCustomFont)];//寻找字体
+//    [self.adressTextView setFont:[UIFont fontWithName:@"FZJLJW--GB1-0" size:25]];
+    self.addressStr = nil;    
+    self.addressScrollView.contentSize = CGSizeMake(320, 1000);
+    self.addressScrollView.bounces = YES;
+    self.addressScrollView.scrollEnabled = YES;
+    self.addressScrollView.delegate = self;
+    
+    bool fromBack = [[NSUserDefaults standardUserDefaults] boolForKey:@"From_Back"];
+    
+    if (fromBack == YES)
+    {
+        self.addressScrollView.frame = CGRectMake(0, 0, 320, 700);
+    }
+    else
+    {
+        self.addressScrollView.frame = CGRectMake(0, -110, 320, 700);
+        self.adressTextView.backgroundColor = [UIColor grayColor];
+        self.adressTextView.userInteractionEnabled = NO;
+    }
 }
 
 - (void)viewDidUnload
@@ -182,24 +214,34 @@
     [self setConfirmBtn:nil];
     [self setPostcodeTxtView:nil];
     [self setDetailTxView:nil];
+    [self setStreetAddress:nil];
+    [self setAddressScrollView:nil];
+    [self setSenderNameTextView:nil];
+    [self setProvinceBtn_Sender:nil];
+    [self setCityBtn_Sender:nil];
+    [self setCountryBtn_Sender:nil];
+    [self setPostcodeTextView_Sender:nil];
+    [self setDetailTextView_Sender:nil];
+    [self setStreetAddress_Sender:nil];
     [super viewDidUnload];
 }
 
 
 #pragma mark - Picker
 
-- (void)provinceWasSelected:(NSNumber *)selectedIndex element:(id)element
+- (void)provinceWasSelected:(NSNumber *)selectedIndex 
+                    element:(id)element
 {
     //Todo
     // Clear city and county set
 
-    
     NSInteger i = [selectedIndex intValue];
     
     provinceSelectedStr = nil;
     provinceSelectedStr = [NSString stringWithString:[provinceArray objectAtIndex:i]];
     
-    [provinceBtn setTitle:[NSString stringWithString:provinceSelectedStr] forState:UIControlStateNormal];
+    [provinceBtn setTitle:[NSString stringWithString:provinceSelectedStr]
+                 forState:UIControlStateNormal];
 
     [cityBtn setTitle:[NSString stringWithString:@"市"] forState:UIControlStateNormal];
     [countyBtn setTitle:[NSString stringWithString:@"区县"] forState:UIControlStateNormal];
@@ -209,10 +251,10 @@
     
     postcodeSelectedStr = nil;
     
-    
     postcodeTxtView.text = nil;
     
     detailTxView.text = provinceSelectedStr;
+    self.addressStr = [NSString stringWithFormat:@"%@~",provinceSelectedStr];
     
     //Todo
     //Query and refresh set
@@ -236,18 +278,20 @@
 
 - (void)cityWasSelected:(NSNumber *)selectedIndex element:(id)element
 {
-    
     NSInteger i = [selectedIndex intValue];
 
     citySelectedStr = [NSString stringWithString:[cityArray objectAtIndex:i]];
     
-    [cityBtn setTitle:[NSString stringWithString:citySelectedStr] forState:UIControlStateNormal];
+    [cityBtn setTitle:[NSString stringWithString:citySelectedStr]
+             forState:UIControlStateNormal];
     
-    [countyBtn setTitle:[NSString stringWithString:@"区县"] forState:UIControlStateNormal];
+    [countyBtn setTitle:[NSString stringWithString:@"区县"]
+               forState:UIControlStateNormal];
     
     detailTxView.text = [detailTxView.text stringByAppendingString:citySelectedStr];
     
-    
+    self.addressStr = [self.addressStr stringByAppendingFormat:@"%@~",citySelectedStr];
+
     [countyArray removeAllObjects];
     NSMutableSet *set = [NSMutableSet set];
     
@@ -279,12 +323,14 @@
 {
     NSInteger i = [selectedIndex intValue];
     
-    [countyBtn setTitle:[NSString stringWithString:[countyArray objectAtIndex:i]] forState:UIControlStateNormal];
+    [countyBtn setTitle:[NSString stringWithString:[countyArray objectAtIndex:i]] 
+               forState:UIControlStateNormal];
     
     countySelectedStr = [NSString stringWithString:[countyArray objectAtIndex:i]];
     
     detailTxView.text = [detailTxView.text stringByAppendingString:countySelectedStr];
     
+    self.addressStr   = [self.addressStr stringByAppendingFormat:@"%@~",countySelectedStr];
     
     for (int i = 0; i < [dataArray count]; i++)
     {
@@ -318,7 +364,6 @@
     }
 }
 
-
 - (void)textViewDidEndEditing:(UITextView *)textView
 {
     if (moveheight == -200)
@@ -339,7 +384,11 @@
     [postcodeTxtView resignFirstResponder];
     [nameTextView resignFirstResponder];
     [detailTxView resignFirstResponder];
+    [streetAddress resignFirstResponder];
     
+    [senderNameTextView resignFirstResponder];
+    [postcodeTextView_Sender resignFirstResponder];
+    [streetAddress_Sender resignFirstResponder];
     if (moveheight == -200)
     {
         NSTimeInterval animationDuration = 0.30f;
@@ -353,9 +402,6 @@
 }
 
 
-
-
-
 #pragma mark -
 - (IBAction)clickedProvince:(id)sender
 {
@@ -364,7 +410,13 @@
         [provincePicker release];
     }
     
-    provincePicker = [[ActionSheetStringPicker alloc] initWithTitle:@"省" rows:provinceArray initialSelection:0 target:self successAction:@selector(provinceWasSelected:element:) cancelAction:@selector(actionPickerCancelled:) origin:sender];
+    provincePicker = [[ActionSheetStringPicker alloc] initWithTitle:@"省" 
+                                                               rows:provinceArray 
+                                                   initialSelection:0 
+                                                             target:self 
+                                                      successAction:@selector(provinceWasSelected:element:) 
+                                                       cancelAction:@selector(actionPickerCancelled:) 
+                                                             origin:sender];
     provincePicker.hideCancel = NO;
     [provincePicker showActionSheetPicker:CGRectMake(0, 0, 320, 240)];
 }
@@ -379,7 +431,13 @@
     if (provinceSelectedStr != nil && [provinceSelectedStr isEqualToString:@""] == NO)
     {
         
-        cityPicker = [[ActionSheetStringPicker alloc] initWithTitle:@"市/区/直辖县" rows:cityArray initialSelection:0 target:self successAction:@selector(cityWasSelected:element:) cancelAction:@selector(actionPickerCancelled:) origin:sender];
+        cityPicker = [[ActionSheetStringPicker alloc] initWithTitle:@"市/区/直辖县" 
+                                                               rows:cityArray 
+                                                   initialSelection:0 
+                                                             target:self 
+                                                      successAction:@selector(cityWasSelected:element:) 
+                                                       cancelAction:@selector(actionPickerCancelled:)
+                                                             origin:sender];
         cityPicker.hideCancel = NO;
         [cityPicker showActionSheetPicker:CGRectMake(0, 0, 320, 240)];
     }
@@ -394,7 +452,13 @@
     }
     if (citySelectedStr != nil && [citySelectedStr isEqualToString:@""] == NO)
     {
-        countPicker = [[ActionSheetStringPicker alloc] initWithTitle:@"区县" rows:countyArray initialSelection:0 target:self successAction:@selector(countyWasSelected:element:) cancelAction:@selector(actionPickerCancelled:) origin:sender];
+        countPicker = [[ActionSheetStringPicker alloc] initWithTitle:@"区县" 
+                                                                rows:countyArray
+                                                    initialSelection:0 
+                                                              target:self
+                                                       successAction:@selector(countyWasSelected:element:) 
+                                                        cancelAction:@selector(actionPickerCancelled:) 
+                                                              origin:sender];
         countPicker.hideCancel = NO;
         [countPicker showActionSheetPicker:CGRectMake(0, 0, 320, 240)];
         
@@ -407,11 +471,6 @@
 }
 
 #pragma mark PassValue protocol
-- (void)passValue:(NSString *)value
-{
-
-}
-
 - (void)selected:(NSNumber *)index displayLabel:(NSString *)v
 {
     NSInteger i = [index intValue];
@@ -432,8 +491,6 @@
         default:
             break;
     }
-
-
 }
 
 -(void)getCustomFont
@@ -452,33 +509,211 @@
 }
 
 
-#pragma mark - FinishAdressInfo - 地址填写完成 
-- (IBAction)finishAdressInfo 
+#pragma mark -填写寄件人信息
+- (IBAction)clickedProvince_Sender:(id)sender
 {
-    NSString *nameStr = [NSString stringWithFormat:@"%@",nameTextView.text];
-    NSString *postcodeStr = [NSString stringWithFormat:@"%@",postcodeTxtView.text];
-    NSString *blessStr = [NSString stringWithFormat:@"%@",adressTextView.text];
-    NSString *detailStr = [NSString stringWithFormat:@"%@",detailTxView.text];
+    if (provincePicker != nil)
+    {
+        [provincePicker release];
+    }
     
-    //姓名和邮编都存在,才可以进入下一界面
-    if ([nameStr length] != 0 && [postcodeStr length] != 0) 
-    {
-        NSLog(@"%@--%@--%@--%@",nameStr,postcodeStr,blessStr,detailStr);
-        
-        
-    }
-    else
-    {
-        PromptView *promptView = [[PromptView alloc] init];
-        [promptView showPromptWithParentView:self.view 
-                                  withPrompt:@"请输入姓名,地址" 
-                                   withFrame:CGRectMake(40, 120, 240, 240)];
-        [promptView release];
-    }
+    provincePicker = [[ActionSheetStringPicker alloc] initWithTitle:@"省" 
+                                                               rows:provinceArray 
+                                                   initialSelection:0 
+                                                             target:self 
+                                                      successAction:@selector(provinceWasSelected_Sender:element:) 
+                                                       cancelAction:@selector(actionPickerCancelled:) 
+                                                             origin:sender];
+    provincePicker.hideCancel = NO;
+    [provincePicker showActionSheetPicker:CGRectMake(0, 0, 320, 240)];
+}
 
+- (IBAction)clickedCity_Sender:(id)sender
+{
+    if (cityPicker != nil)
+    {
+        [cityPicker release];
+    }
+    
+    if (provinceSelectedStr != nil && [provinceSelectedStr isEqualToString:@""] == NO)
+    {
+        
+        cityPicker = [[ActionSheetStringPicker alloc] initWithTitle:@"市/区/直辖县" 
+                                                               rows:cityArray 
+                                                   initialSelection:0 
+                                                             target:self 
+                                                      successAction:@selector(cityWasSelected_Sender:element:) 
+                                                       cancelAction:@selector(actionPickerCancelled:)
+                                                             origin:sender];
+        cityPicker.hideCancel = NO;
+        [cityPicker showActionSheetPicker:CGRectMake(0, 0, 320, 240)];
+    }
     
 }
 
+- (IBAction)clickedCounty_Sender:(id)sender
+{
+    if (countPicker != nil)
+    {
+        [countPicker release];
+    }
+    if (citySelectedStr != nil && [citySelectedStr isEqualToString:@""] == NO)
+    {
+        countPicker = [[ActionSheetStringPicker alloc] initWithTitle:@"区县" 
+                                                                rows:countyArray
+                                                    initialSelection:0 
+                                                              target:self
+                                                       successAction:@selector(countyWasSelected_Sender:element:) 
+                                                        cancelAction:@selector(actionPickerCancelled:) 
+                                                              origin:sender];
+        countPicker.hideCancel = NO;
+        [countPicker showActionSheetPicker:CGRectMake(0, 0, 320, 240)];
+    }
+}
 
+
+- (void)provinceWasSelected_Sender:(NSNumber *)selectedIndex 
+                    element:(id)element
+{
+    //Todo
+    // Clear city and county set
+    
+    NSInteger i = [selectedIndex intValue];
+    
+    provinceSelectedStr = nil;
+    provinceSelectedStr = [NSString stringWithString:[provinceArray objectAtIndex:i]];
+    
+    [provinceBtn_Sender setTitle:[NSString stringWithString:provinceSelectedStr]
+                 forState:UIControlStateNormal];
+    
+    [cityBtn_Sender setTitle:[NSString stringWithString:@"市"] forState:UIControlStateNormal];
+    [countryBtn_Sender setTitle:[NSString stringWithString:@"区县"] forState:UIControlStateNormal];
+    
+    citySelectedStr = nil;
+    countySelectedStr = nil;
+    
+    postcodeSelectedStr = nil;
+    
+    postcodeTextView_Sender.text = nil;
+    
+    detailTextView_Sender.text = provinceSelectedStr;
+    
+    [cityArray removeAllObjects];
+    
+    NSMutableSet *set = [NSMutableSet set];
+    for (int i = 0; i < [dataArray count]; i++)
+    {
+        DataItem *di = [dataArray objectAtIndex:i];
+        if ([di.province isEqualToString:provinceBtn_Sender.titleLabel.text])
+        {
+            [set addObject:di.city];
+        }
+    } 
+    
+    for (NSString *cityString in set) 
+    {
+        [cityArray addObject:cityString];
+    }
+}
+
+- (void)cityWasSelected_Sender:(NSNumber *)selectedIndex
+                element:(id)element
+{
+    NSInteger i = [selectedIndex intValue];
+    
+    citySelectedStr = [NSString stringWithString:[cityArray objectAtIndex:i]];
+    
+    [cityBtn_Sender setTitle:[NSString stringWithString:citySelectedStr]
+             forState:UIControlStateNormal];
+    
+    [countryBtn_Sender setTitle:[NSString stringWithString:@"区县"]
+               forState:UIControlStateNormal];
+    
+    detailTextView_Sender.text = [detailTextView_Sender.text stringByAppendingString:citySelectedStr];
+    
+    [countyArray removeAllObjects];
+    NSMutableSet *set = [NSMutableSet set];
+    
+    for (int i = 0; i < [dataArray count]; i++)
+    {
+        DataItem *di = [dataArray objectAtIndex:i];
+        if ([di.city isEqualToString:cityBtn_Sender.titleLabel.text])
+        {
+            [countyArray addObject:di.county];
+            [set addObject:di];
+        }
+    }
+    
+    if ([set count] == 1)
+    {
+        postcodeSelectedStr = ((DataItem *)[set anyObject]).postcode;
+        postcodeTextView_Sender.text = postcodeSelectedStr;
+        
+        countryBtn_Sender.enabled = NO;
+    }
+    else 
+    {
+        countryBtn_Sender.enabled = YES;
+    }
+    
+}
+
+- (void)countyWasSelected_Sender:(NSNumber *)selectedIndex 
+                  element:(id)element
+{
+    NSInteger i = [selectedIndex intValue];
+    
+    [countryBtn_Sender setTitle:[NSString stringWithString:[countyArray objectAtIndex:i]] 
+               forState:UIControlStateNormal];
+    
+    countySelectedStr = [NSString stringWithString:[countyArray objectAtIndex:i]];
+    
+    detailTextView_Sender.text = [detailTextView_Sender.text stringByAppendingString:countySelectedStr];
+    
+    for (int i = 0; i < [dataArray count]; i++)
+    {
+        DataItem *di = [dataArray objectAtIndex:i];
+        if ([di.county isEqualToString:countryBtn_Sender.titleLabel.text]
+            && [di.city isEqualToString:cityBtn_Sender.titleLabel.text])
+        {
+            postcodeTextView_Sender.text = di.postcode;
+            break;
+        }
+    }
+}
+
+
+#pragma mark - FinishAdressInfo - 地址填写完成 
+- (IBAction)finishAdressInfo 
+{
+    self.addressStr = [self.addressStr stringByAppendingFormat:@"%@",self.streetAddress.text];
+    
+    [[NSUserDefaults standardUserDefaults] setObject:self.addressStr forKey:@"DETAILS_ADDRESS_URL"];//要上传服务器的收件人地址
+    
+    NSString *blessStr  = [NSString stringWithFormat:@"%@",adressTextView.text];//收件人祝福语
+    NSString *nameStr = [NSString stringWithFormat:@"%@",nameTextView.text];//收件人姓名
+    NSString *postcodeStr = [NSString stringWithFormat:@"%@",postcodeTxtView.text];//收件人邮编
+    NSString *detailStr = [detailTxView.text stringByAppendingFormat:@"%@",self.streetAddress.text];//收件人详细地址
+    
+    [[NSUserDefaults standardUserDefaults] setObject:blessStr forKey:@"BLESS"];
+    [[NSUserDefaults standardUserDefaults] setObject:nameStr forKey:@"RECEIVER_NAME"];
+    [[NSUserDefaults standardUserDefaults] setObject:postcodeStr forKey:@"RECEIVER_POSTCODE"];
+    [[NSUserDefaults standardUserDefaults] setObject:detailStr forKey:@"DETAILS_ADDRESS"];  
+    
+    
+    NSString *senderNameStr = [NSString stringWithFormat:@"%@",self.senderNameTextView.text];//寄件人姓名
+    NSString *postcodeStr_Sender = [NSString stringWithFormat:@"%@",self.postcodeTextView_Sender.text];//寄件人邮编
+    NSString *detailStr_Sender = [detailTextView_Sender.text stringByAppendingFormat:@"%@",self.streetAddress_Sender.text];//寄件人详细地址
+    
+    [[NSUserDefaults standardUserDefaults] setObject:senderNameStr forKey:@"SENDER_NAME"];
+    [[NSUserDefaults standardUserDefaults] setObject:postcodeStr_Sender forKey:@"SENDER_POSTCODE"];
+    [[NSUserDefaults standardUserDefaults] setObject:detailStr_Sender forKey:@"SENDER_ADDRESS"];
+        
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"From_Back"] == YES)
+    {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"getAddress" object:nil];//通知填写地址
+    }
+    [self dismissModalViewControllerAnimated:YES];
+}
 
 @end

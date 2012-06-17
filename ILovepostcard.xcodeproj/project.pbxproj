@@ -125,6 +125,8 @@
 		B141042F1565EB49004DF34C /* flashoff.png in Resources */ = {isa = PBXBuildFile; fileRef = B141042B1565EB49004DF34C /* flashoff.png */; };
 		B14104301565EB49004DF34C /* flashon.png in Resources */ = {isa = PBXBuildFile; fileRef = B141042C1565EB49004DF34C /* flashon.png */; };
 		B14C8AC7157CB80800481A7F /* libzbar.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B1348FE2156E2F770099B9D2 /* libzbar.a */; };
+		B14EAF5B158CD3FB007AAF8B /* PostOfficeViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B14EAF59158CD3FB007AAF8B /* PostOfficeViewCell.m */; };
+		B14EAF5C158CD3FB007AAF8B /* PostOfficeViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B14EAF5A158CD3FB007AAF8B /* PostOfficeViewCell.xib */; };
 		B15E86EA1564F06F00108271 /* TemplateDetails-Singleton.m in Sources */ = {isa = PBXBuildFile; fileRef = B15E86E91564F06F00108271 /* TemplateDetails-Singleton.m */; };
 		B15EDD9B155A577A00B0C873 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B15EDD9A155A577A00B0C873 /* UIKit.framework */; };
 		B15EDD9D155A577A00B0C873 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B15EDD9C155A577A00B0C873 /* Foundation.framework */; };
@@ -404,6 +406,9 @@
 		B141042A1565EB49004DF34C /* flashauto.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = flashauto.png; path = Resources/pic/flashauto.png; sourceTree = SOURCE_ROOT; };
 		B141042B1565EB49004DF34C /* flashoff.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = flashoff.png; path = Resources/pic/flashoff.png; sourceTree = SOURCE_ROOT; };
 		B141042C1565EB49004DF34C /* flashon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = flashon.png; path = Resources/pic/flashon.png; sourceTree = SOURCE_ROOT; };
+		B14EAF58158CD3FB007AAF8B /* PostOfficeViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PostOfficeViewCell.h; path = PostOfficeView/PostOfficeViewCell.h; sourceTree = "<group>"; };
+		B14EAF59158CD3FB007AAF8B /* PostOfficeViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PostOfficeViewCell.m; path = PostOfficeView/PostOfficeViewCell.m; sourceTree = "<group>"; };
+		B14EAF5A158CD3FB007AAF8B /* PostOfficeViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PostOfficeViewCell.xib; path = PostOfficeView/PostOfficeViewCell.xib; sourceTree = "<group>"; };
 		B15E86E81564F06F00108271 /* TemplateDetails-Singleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "TemplateDetails-Singleton.h"; path = "ILovepostcard/TemplateDetails-Singleton/TemplateDetails-Singleton.h"; sourceTree = "<group>"; };
 		B15E86E91564F06F00108271 /* TemplateDetails-Singleton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "TemplateDetails-Singleton.m"; path = "ILovepostcard/TemplateDetails-Singleton/TemplateDetails-Singleton.m"; sourceTree = "<group>"; };
 		B15EDD96155A577A00B0C873 /* ILovepostcard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ILovepostcard.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -904,6 +909,7 @@
 			isa = PBXGroup;
 			children = (
 				B1AC1FF91589FAE00006949C /* Pic_PostofficeView */,
+				B14EAF5E158CD412007AAF8B /* PostOfficeViewCell */,
 				B126F2E015858AF30096D24C /* PostOfficeView.h */,
 				B126F2E115858AF30096D24C /* PostOfficeView.m */,
 				B126F2E215858AF30096D24C /* PostOfficeView.xib */,
@@ -1087,6 +1093,16 @@
 				B13E998E157206DB00D03344 /* UIDevice+IdentifierAddition.m */,
 			);
 			path = MacAddressIdentifier;
+			sourceTree = "<group>";
+		};
+		B14EAF5E158CD412007AAF8B /* PostOfficeViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				B14EAF58158CD3FB007AAF8B /* PostOfficeViewCell.h */,
+				B14EAF59158CD3FB007AAF8B /* PostOfficeViewCell.m */,
+				B14EAF5A158CD3FB007AAF8B /* PostOfficeViewCell.xib */,
+			);
+			name = PostOfficeViewCell;
 			sourceTree = "<group>";
 		};
 		B15E86E31564E5CB00108271 /* TemplateDetails-Singleton */ = {
@@ -1767,7 +1783,6 @@
 				B1AC20001589FFA70006949C /* huixingzheng.png in Resources */,
 				1500008C1588D184001D251F /* china.csv in Resources */,
 				1500008D1588D184001D251F /* mydatabase.sqlite in Resources */,
-				1534604B158897ED008F87B9 /* adressPic.png in Resources */,
 				00316A75158A44D500CDA446 /* logo114.png in Resources */,
 				00316A78158A44DD00CDA446 /* logo57.png in Resources */,
 				B1B2B116158AC6BF0098F509 /* Default@2x.png in Resources */,
@@ -1785,7 +1800,7 @@
 				1507D3AA158B38BA007E8C20 /* btn-smpayclick.png in Resources */,
 				1507D3AC158B38BA007E8C20 /* boxtopbk.png in Resources */,
 				1507D3AE158B38BA007E8C20 /* mboxcover.png in Resources */,
-
+				B14EAF5C158CD3FB007AAF8B /* PostOfficeViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1868,6 +1883,7 @@
 				15E5D0E41588C6C600E32C49 /* ActionSheetStringPicker.m in Sources */,
 				B1F8DF32158B115A006F995F /* AnimatedGif.m in Sources */,
 				B1F8DF33158B115A006F995F /* TKLoadingAnimationView.m in Sources */,
+				B14EAF5B158CD3FB007AAF8B /* PostOfficeViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1999,7 +2015,7 @@
 					armv7,
 				);
 				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Wei Wei";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Wei Wei (D4S7U535YV)";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ILovepostcard/ILovepostcard-Prefix.pch";
@@ -2025,7 +2041,7 @@
 					"-Objc",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "5189B308-58BD-40B6-8B83-E42EFADD001F";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "76887534-6B8F-45E2-8C4B-9EAA5E4D3D26";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "";

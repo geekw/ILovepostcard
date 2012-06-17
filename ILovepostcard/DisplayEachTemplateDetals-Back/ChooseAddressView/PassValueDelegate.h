@@ -10,7 +10,7 @@
 
 @protocol PassValueDelegate
 
-- (void)passValue:(NSString *)value;
+//- (void)passValue:(NSString *)value;
 - (void)selected:(NSNumber *)index displayLabel:(NSString *)v;//委托 通过tag值确定当前选中项
 
 @end

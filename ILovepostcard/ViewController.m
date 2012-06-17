@@ -73,8 +73,9 @@ static int timeNum = 0;
 -(void)getPic:(ASIHTTPRequest *)request
 {
     NSArray *tmpArray = [request responseString].JSONValue;
+    NSLog(@"%@",tmpArray);
     
-    for (int i = 0; i < 4; i++)
+    for (int i = 0; i < tmpArray.count; i++)
     {
         NSDictionary *tmpDict = [tmpArray objectAtIndex:i];
         
@@ -109,13 +110,13 @@ static int timeNum = 0;
             timeNum = 2;
             break;
         case 2:
-            [self.loopScrollView scrollRectToVisible:CGRectMake( 3 * 280,0,280,157) animated:YES];
-            timeNum = 3;
-            break;
-        case 3:
             [self.loopScrollView scrollRectToVisible:CGRectMake( 0 * 280,0,280,157) animated:NO];
             timeNum = 0;
             break;
+//        case 3:
+//            [self.loopScrollView scrollRectToVisible:CGRectMake( 0 * 280,0,280,157) animated:NO];
+//            timeNum = 0;
+//            break;
         default:
             break;
     }
@@ -124,8 +125,8 @@ static int timeNum = 0;
 - (void)showNewestCardView:(NSArray *)tArray
 {
     EGOImageButton *newestCardButton = [[EGOImageButton alloc] initWithPlaceholderImage:[UIImage imageNamed:@"sendbk.png"]];
-    newestCardButton.frame = CGRectMake(0,0,145,100);
-    NSDictionary *tmpDict = [tArray objectAtIndex:3];
+    newestCardButton.frame = CGRectMake(5,5,135,90);
+    NSDictionary *tmpDict = [tArray objectAtIndex:1];
     NSString *tmpUrl = [tmpDict objectForKey:@"pic"];
     [newestCardButton setImageURL:[NSURL URLWithString:tmpUrl]];
     [newestCardButton addTarget:self action:@selector(goToNewestCardView) forControlEvents:UIControlEventTouchUpInside];

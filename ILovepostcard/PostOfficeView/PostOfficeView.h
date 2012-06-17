@@ -10,7 +10,7 @@
 #import "ASIHTTPRequest.h"
 
 
-@interface PostOfficeView : UIViewController<ASIHTTPRequestDelegate>
+@interface PostOfficeView : UIViewController<ASIHTTPRequestDelegate, UITableViewDataSource, UITableViewDelegate>
 
 @property (retain, nonatomic) IBOutlet UIButton *goBackBtn;
 
@@ -21,6 +21,10 @@
 @property (retain, nonatomic) NSMutableDictionary *address;
 
 @property (retain, nonatomic) NSMutableDictionary *paid;
+
+@property (retain, nonatomic) IBOutlet UITableView *table;
+
+@property (retain, nonatomic) NSMutableArray *tableArray;
 
 - (IBAction)goBack;
 
