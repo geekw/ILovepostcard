@@ -25,6 +25,11 @@
 
 @property (retain, nonatomic) IBOutlet UIWebView *voiceWebView;
 
+@property (retain, nonatomic) IBOutlet UIImageView *tapeRoll1;
+
+@property (retain, nonatomic) IBOutlet UIImageView *tapeRoll2;
+
+
 - (IBAction)goBack;
 
 - (IBAction)playAndStop;

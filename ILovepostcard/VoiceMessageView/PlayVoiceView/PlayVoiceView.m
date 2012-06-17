@@ -7,6 +7,7 @@
 //
 
 #import "PlayVoiceView.h"
+#import "Effects.h"
 
 #define VOICEURL @"http://5.gaosu.com/download/ring/000/093/646453d2fbddb1caaea4ee36f1c5fd35.mp3"
 
@@ -15,6 +16,8 @@
 
 @implementation PlayVoiceView
 @synthesize voiceWebView;
+@synthesize tapeRoll1;
+@synthesize tapeRoll2;
 @synthesize openWebViewButton;
 @synthesize playAndStopButton;
 @synthesize goBackButton,audioPlayer;
@@ -29,6 +32,8 @@
     [playAndStopButton release];
     [openWebViewButton release];
     [voiceWebView release];
+    [tapeRoll1 release];
+    [tapeRoll2 release];
     [super dealloc];
 }
 
@@ -42,9 +47,15 @@
 #pragma mark - PlayAndStop - 播放或者停止音乐
 - (IBAction)playAndStop
 {
+    [self.playAndStopButton setImage:[UIImage imageNamed:@"btn-playclick.png"] 
+                            forState:UIControlStateNormal];
     [audioPlayer play];
+    [Effects rotate360DegreeWithImageView:self.tapeRoll1];
+    [Effects rotate360DegreeWithImageView:self.tapeRoll2];
+    self.playAndStopButton.userInteractionEnabled = NO;
 }
 
+/*
 #pragma mark - OpenWebView - 打开网页播放器播放
 - (IBAction)openWebView
 {
@@ -53,11 +64,12 @@
     [self.view addSubview:voiceWebView];
 }
 
+
 -(void)webViewDidFinishLoad:(UIWebView *)webView
 {
     [voiceWebView release];
 }
-
+*/
 
 #pragma mark - View lifecycle - 系统函数
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -73,21 +85,44 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-//    PlayOrStop = YES;
-//    NSString *voiceUrlStr = [[NSUserDefaults standardUserDefaults] valueForKey:@"voiceURLStr"];
+    self.playAndStopButton.userInteractionEnabled = NO;
+    [self.playAndStopButton setImage:nil forState:UIControlStateNormal];
+    self.playAndStopButton.backgroundColor = [UIColor grayColor];
+    [self.playAndStopButton setTitle:@"请稍侯..." forState:UIControlStateNormal];
+    [self.playAndStopButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    
+    
+    [self.goBackButton setImage:[UIImage imageNamed:@"titlebtnbackclick.png"] 
+                       forState:UIControlStateHighlighted];
 
+    NSString *voiceUrlStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"voiceURLStr"];
+    NSLog(@"%@",voiceUrlStr);
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:VOICEURL]];
     request.delegate = self;
     [request setDidFinishSelector:@selector(getVoiceFinished:)];
-    [request startAsynchronous];
+    [request startAsynchronous];    
 }
 
 -(void)getVoiceFinished:(ASIHTTPRequest *)request
 {
     NSData *voiceData = [request responseData];
     audioPlayer = [[AVAudioPlayer alloc] initWithData:voiceData error:nil];
+    audioPlayer.delegate = self;
     [audioPlayer stop];
     [audioPlayer prepareToPlay];
+    self.playAndStopButton.userInteractionEnabled = YES;
+    self.playAndStopButton.backgroundColor = [UIColor clearColor];
+    [self.playAndStopButton setImage:[UIImage imageNamed:@"btn-play.png"] 
+                            forState:UIControlStateNormal];
+}
+
+-(void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag
+{
+    [self.playAndStopButton setImage:[UIImage imageNamed:@"btn-play.png"] 
+                            forState:UIControlStateNormal ];
+    [self.playAndStopButton setUserInteractionEnabled:YES];
+    [self.tapeRoll1.layer removeAllAnimations];
+    [self.tapeRoll2.layer removeAllAnimations];
 }
 
 - (void)viewDidUnload
@@ -96,6 +131,8 @@
     [self setPlayAndStopButton:nil];
     [self setOpenWebViewButton:nil];
     [self setVoiceWebView:nil];
+    [self setTapeRoll1:nil];
+    [self setTapeRoll2:nil];
     [super viewDidUnload];
 }
 

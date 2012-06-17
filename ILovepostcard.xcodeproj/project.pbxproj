@@ -189,6 +189,12 @@
 		B1B8CD54157B4DD400E474B9 /* recordpic.png in Resources */ = {isa = PBXBuildFile; fileRef = B1B8CD50157B4DD400E474B9 /* recordpic.png */; };
 		B1D1D3B01569E6B80015A054 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1D1D3AE1569E6B80015A054 /* ViewController.m */; };
 		B1D1D3B11569E6B80015A054 /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1D1D3AF1569E6B80015A054 /* ViewController.xib */; };
+		B1D51CBA158DAC290023AA8C /* listnpic.png in Resources */ = {isa = PBXBuildFile; fileRef = B1D51CB9158DAC290023AA8C /* listnpic.png */; };
+		B1D51CBD158DB3100023AA8C /* btn-play.png in Resources */ = {isa = PBXBuildFile; fileRef = B1D51CBB158DB3100023AA8C /* btn-play.png */; };
+		B1D51CBE158DB3100023AA8C /* btn-playclick.png in Resources */ = {isa = PBXBuildFile; fileRef = B1D51CBC158DB3100023AA8C /* btn-playclick.png */; };
+		B1D51CC1158DB4200023AA8C /* tape.png in Resources */ = {isa = PBXBuildFile; fileRef = B1D51CBF158DB4200023AA8C /* tape.png */; };
+		B1D51CC2158DB4200023AA8C /* taperoll.png in Resources */ = {isa = PBXBuildFile; fileRef = B1D51CC0158DB4200023AA8C /* taperoll.png */; };
+		B1D51CC6158DC4F00023AA8C /* Effects.m in Sources */ = {isa = PBXBuildFile; fileRef = B1D51CC5158DC4F00023AA8C /* Effects.m */; };
 		B1D8438915747D0C00EAEE7D /* bk.png in Resources */ = {isa = PBXBuildFile; fileRef = B1D8438815747D0C00EAEE7D /* bk.png */; };
 		B1E037C31585C8440057F128 /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = B1E037B81585C8440057F128 /* NSObject+SBJSON.m */; };
 		B1E037C41585C8440057F128 /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = B1E037BA1585C8440057F128 /* NSString+SBJSON.m */; };
@@ -515,6 +521,13 @@
 		B1D1D3AD1569E6B80015A054 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		B1D1D3AE1569E6B80015A054 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		B1D1D3AF1569E6B80015A054 /* ViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewController.xib; sourceTree = "<group>"; };
+		B1D51CB9158DAC290023AA8C /* listnpic.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = listnpic.png; path = Resources/pic/Pic_VoiceMessageView/listnpic.png; sourceTree = SOURCE_ROOT; };
+		B1D51CBB158DB3100023AA8C /* btn-play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "btn-play.png"; path = "Resources/pic/Pic_VoiceMessageView/btn-play.png"; sourceTree = SOURCE_ROOT; };
+		B1D51CBC158DB3100023AA8C /* btn-playclick.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "btn-playclick.png"; path = "Resources/pic/Pic_VoiceMessageView/btn-playclick.png"; sourceTree = SOURCE_ROOT; };
+		B1D51CBF158DB4200023AA8C /* tape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = tape.png; path = Resources/pic/Pic_VoiceMessageView/tape.png; sourceTree = SOURCE_ROOT; };
+		B1D51CC0158DB4200023AA8C /* taperoll.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = taperoll.png; path = Resources/pic/Pic_VoiceMessageView/taperoll.png; sourceTree = SOURCE_ROOT; };
+		B1D51CC4158DC4F00023AA8C /* Effects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Effects.h; path = ILovepostcard/RotateClass/Effects.h; sourceTree = "<group>"; };
+		B1D51CC5158DC4F00023AA8C /* Effects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Effects.m; path = ILovepostcard/RotateClass/Effects.m; sourceTree = "<group>"; };
 		B1D8438815747D0C00EAEE7D /* bk.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bk.png; sourceTree = "<group>"; };
 		B1E037B61585C8440057F128 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
 		B1E037B71585C8440057F128 /* NSObject+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJSON.h"; sourceTree = "<group>"; };
@@ -930,6 +943,7 @@
 		B126F2EA158590DD0096D24C /* GeneralClass */ = {
 			isa = PBXGroup;
 			children = (
+				B1D51CC3158DC4B20023AA8C /* RotateClass */,
 				B1F8DF2C158B1102006F995F /* WaitClass */,
 				B1E038441585E5E10057F128 /* AliPay */,
 				B16F9D3C1584DD780002BD38 /* FileManager */,
@@ -970,6 +984,7 @@
 		B1330B54156E0A0E0013CC62 /* VoiceMessageView */ = {
 			isa = PBXGroup;
 			children = (
+				B1D51CB7158DABDE0023AA8C /* Pic_VoiceMessageView */,
 				B1348FDC156E29900099B9D2 /* PlayVoiceView */,
 				B1348FAD156E1E880099B9D2 /* ZBarSDK */,
 				B1330B55156E0AD80013CC62 /* VoiceMessageView.h */,
@@ -1455,6 +1470,27 @@
 			name = Pic_PostcardBack;
 			sourceTree = "<group>";
 		};
+		B1D51CB7158DABDE0023AA8C /* Pic_VoiceMessageView */ = {
+			isa = PBXGroup;
+			children = (
+				B1D51CBF158DB4200023AA8C /* tape.png */,
+				B1D51CC0158DB4200023AA8C /* taperoll.png */,
+				B1D51CBB158DB3100023AA8C /* btn-play.png */,
+				B1D51CBC158DB3100023AA8C /* btn-playclick.png */,
+				B1D51CB9158DAC290023AA8C /* listnpic.png */,
+			);
+			name = Pic_VoiceMessageView;
+			sourceTree = "<group>";
+		};
+		B1D51CC3158DC4B20023AA8C /* RotateClass */ = {
+			isa = PBXGroup;
+			children = (
+				B1D51CC4158DC4F00023AA8C /* Effects.h */,
+				B1D51CC5158DC4F00023AA8C /* Effects.m */,
+			);
+			name = RotateClass;
+			sourceTree = "<group>";
+		};
 		B1E037AF1585BFA50057F128 /* SinaWeiBoView */ = {
 			isa = PBXGroup;
 			children = (
@@ -1801,6 +1837,11 @@
 				1507D3AC158B38BA007E8C20 /* boxtopbk.png in Resources */,
 				1507D3AE158B38BA007E8C20 /* mboxcover.png in Resources */,
 				B14EAF5C158CD3FB007AAF8B /* PostOfficeViewCell.xib in Resources */,
+				B1D51CBA158DAC290023AA8C /* listnpic.png in Resources */,
+				B1D51CBD158DB3100023AA8C /* btn-play.png in Resources */,
+				B1D51CBE158DB3100023AA8C /* btn-playclick.png in Resources */,
+				B1D51CC1158DB4200023AA8C /* tape.png in Resources */,
+				B1D51CC2158DB4200023AA8C /* taperoll.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1884,6 +1925,7 @@
 				B1F8DF32158B115A006F995F /* AnimatedGif.m in Sources */,
 				B1F8DF33158B115A006F995F /* TKLoadingAnimationView.m in Sources */,
 				B14EAF5B158CD3FB007AAF8B /* PostOfficeViewCell.m in Sources */,
+				B1D51CC6158DC4F00023AA8C /* Effects.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

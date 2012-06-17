@@ -12,6 +12,7 @@
 @synthesize readQRView;
 @synthesize goBackButton;
 @synthesize voiceURLStr;
+@synthesize strLabel;
 @synthesize startScanQRButton;
 @synthesize playVoiceView;
 
@@ -45,6 +46,7 @@
     [playVoiceView release];
     [self cleanup];
     [startScanQRButton release];
+    [strLabel release];
     [super dealloc];
 }
 
@@ -63,15 +65,20 @@
     // Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
 }
+-(void)viewWillAppear:(BOOL)animated
+{
+    readQRView.hidden = YES;
+}
 
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad
 {
-    readQRView.hidden = YES;
     voiceURLStr = nil;
     [ZBarReaderView class];
     readQRView.readerDelegate = self;
+    [self.goBackButton setImage:[UIImage imageNamed:@"titlebtnbackclick.png"] 
+                       forState:UIControlStateHighlighted];
     [super viewDidLoad];
     
 }
@@ -90,6 +97,7 @@
     [self setGoBackButton:nil];
     [self cleanup];
     [self setStartScanQRButton:nil];
+    [self setStrLabel:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -116,11 +124,13 @@
 {
     for(ZBarSymbol *sym in symbols) 
     {
-        voiceURLStr = sym.data;
-        if (voiceURLStr != nil) 
+        self.voiceURLStr = sym.data;
+        if (self.voiceURLStr != nil) 
         {
-            [[NSUserDefaults standardUserDefaults] setValue:voiceURLStr forKey:@"voiceURLStr"];
-            NSLog(@"voiceURLStr = %@",[[NSUserDefaults standardUserDefaults] valueForKey:@"voiceURLStr"]);
+//            self.strLabel.text = [NSString stringWithFormat:@"%@",self.voiceURLStr];
+//            NSLog(@"%@",sym.data);
+            [[NSUserDefaults standardUserDefaults] setObject:self.voiceURLStr forKey:@"voiceURLStr"];
+//            NSLog(@"voiceURLStr = %@",[[NSUserDefaults standardUserDefaults] valueForKey:@"voiceURLStr"]);
             [self performSelector:@selector(goToPlayVoiceView)];//进入播放录音界面
         }
     }

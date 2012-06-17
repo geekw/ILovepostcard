@@ -22,6 +22,10 @@
 
 @property (retain, nonatomic) NSString *voiceURLStr;
 
+
+@property (retain, nonatomic) IBOutlet UILabel *strLabel;
+
+
 - (IBAction)goBack;
 
 - (IBAction)startScanQR;
