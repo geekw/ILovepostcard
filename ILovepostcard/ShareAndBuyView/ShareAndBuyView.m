@@ -518,12 +518,6 @@
 
 }
 
-
-- (void)changeFrame1{
-    self.view.frame = CGRectMake(0, 20, 320, 460);
-    self.sinaWeiBoShareView.frame = CGRectMake(-320, 20, 320, 460);
-}
-
 - (IBAction)backShareAndBuyView//返回分享,购买界面
 {
     [self.sinaWeiBoShareView removeFromSuperview];

@@ -75,37 +75,7 @@
     if (self)
     {
         [self initData];
-        
-//        provinceList = [[SeachList alloc] initWithStyle:UITableViewStylePlain];
-//        provinceList.delegate = self;
-//        [provinceList.view setFrame:CGRectMake(160, 240, 152, 88)];
-//        provinceList.tableView.hidden = YES;
-//        [provinceList setTagList:PROVINCE_LIST];
-//        [self.view addSubview:provinceList.view];
-//        
-//        cityList = [[SeachList alloc] initWithStyle:UITableViewStylePlain];
-//        cityList.delegate = self;
-//        [cityList.view setFrame:CGRectMake(160, 240, 152, 88)];
-//        cityList.tableView.hidden = YES;
-//        [cityList setTagList:CITY_LIST];
-//
-//        [self.view addSubview:cityList.view];
-//        
-//        countyList = [[SeachList alloc] initWithStyle:UITableViewStylePlain];
-//        countyList.delegate = self;
-//        [countyList.view setFrame:CGRectMake(160, 240, 52, 31)];
-//        countyList.tableView.hidden = YES;
-//        [countyList setTagList:COUNTY_LIST];
-//
-//        [self.view addSubview:countyList.view];
-//        
-//        postcodeList = [[SeachList alloc] initWithStyle:UITableViewStylePlain];
-//        postcodeList.delegate = self;
-//        [postcodeList.view setFrame:CGRectMake(160, 240, 52, 31)];
-//        postcodeList.tableView.hidden = YES;
-//        [postcodeList setTagList:POSTCODE_LIST];
-//
-//        [self.view addSubview:postcodeList.view];
+
     }
     return self;
 }
@@ -181,12 +151,10 @@
     
 }
 
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-//    [self performSelector:@selector(getCustomFont)];//寻找字体
-//    [self.adressTextView setFont:[UIFont fontWithName:@"FZJLJW--GB1-0" size:25]];
+
     self.addressStr = nil;    
     self.addressScrollView.contentSize = CGSizeMake(320, 1000);
     self.addressScrollView.bounces = YES;
@@ -377,6 +345,21 @@
         moveheight = 0;
     }
 }
+
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
+{
+
+    if (range.length==0)
+    {
+        if ([text isEqualToString:@"\n"]) 
+        {
+            [textView resignFirstResponder];
+            return NO;
+        }
+    }
+    return YES;
+}
+
 
 - (IBAction)backgroundTap:(id)sender
 {    

@@ -7,12 +7,24 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ASIHTTPRequest.h"
 
-@interface NewestCardView : UIViewController
+@interface NewestCardView : UIViewController<UITableViewDelegate,UITableViewDataSource,ASIHTTPRequestDelegate>
+{
+    int loopNumber;
+}
 
 @property (retain, nonatomic) IBOutlet UIButton *goBackBtn;
+@property (retain, nonatomic) NSMutableArray *tableArray;
+@property (retain, nonatomic) NSString *total_pageStr;
+
+@property (retain, nonatomic) IBOutlet UITableView *table;
+
+@property (retain, nonatomic) IBOutlet UILabel *totalLabel;
 
 - (IBAction)goBack;
 
+-(void)showNewestCards:(NSArray *)array;
+-(void)displayNewestCard;
 
 @end

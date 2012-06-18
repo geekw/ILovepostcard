@@ -78,7 +78,8 @@ int current_page;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self.goBackBtn setImage:[UIImage imageNamed:@"titlebtnbackclick.png"] forState:UIControlStateHighlighted];
+    [self.goBackBtn setImage:[UIImage imageNamed:@"titlebtnbackclick.png"] 
+                    forState:UIControlStateHighlighted];
     
     tableArray = [[NSMutableArray alloc] init];
 }
@@ -116,8 +117,6 @@ int current_page;
         NSInteger i = [[NSUserDefaults standardUserDefaults] integerForKey:@"ScreenShotNumber"]; 
         if (i > 0)//判断有明信片记录
         {
-            //得到总页数
-            page_total = (i - 1) / 4 + 1;
             current_page = 1;
             
             for (NSInteger y = 0 ; y < i ; y ++)
