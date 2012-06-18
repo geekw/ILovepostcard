@@ -17,7 +17,7 @@
 #define COUNTY_LIST 2
 #define POSTCODE_LIST 3
 
-@interface ChooseAddressView : UIViewController <PassValueDelegate,UITextViewDelegate,UIScrollViewDelegate>
+@interface ChooseAddressView : UIViewController <PassValueDelegate,UITextViewDelegate,UIScrollViewDelegate,UIKeyInput>
 {
     NSInteger provincePickerIndex;
     NSInteger cityPickerIndex;

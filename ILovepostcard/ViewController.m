@@ -249,7 +249,13 @@ static int timeNum = 0;
 
 }
 
-- (IBAction)goNewestCardView {
+- (IBAction)goNewestCardView 
+{
+    if (!newestCardView) {
+        newestCardView = [[NewestCardView alloc] init];
+    }
+    self.newestCardView.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    [self presentModalViewController:self.newestCardView animated:YES];
 }
 
 @end

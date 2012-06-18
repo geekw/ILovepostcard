@@ -79,8 +79,6 @@
         sinashare = [[SinaShare alloc] init];
     }
     self.sinashare.delegate = self;
-
-    
 }
 
 - (void)viewDidUnload
@@ -496,12 +494,6 @@
                                   withFrame:CGRectMake(40, 120, 240, 240)];
     [tmpPromptView release];
 
-}
-
-
-- (void)changeFrame1{
-    self.view.frame = CGRectMake(0, 20, 320, 460);
-    self.sinaWeiBoShareView.frame = CGRectMake(-320, 20, 320, 460);
 }
 
 - (IBAction)backShareAndBuyView//返回分享,购买界面

@@ -124,6 +124,8 @@
 		B141042F1565EB49004DF34C /* flashoff.png in Resources */ = {isa = PBXBuildFile; fileRef = B141042B1565EB49004DF34C /* flashoff.png */; };
 		B14104301565EB49004DF34C /* flashon.png in Resources */ = {isa = PBXBuildFile; fileRef = B141042C1565EB49004DF34C /* flashon.png */; };
 		B14C8AC7157CB80800481A7F /* libzbar.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B1348FE2156E2F770099B9D2 /* libzbar.a */; };
+		B14D9447158F04660024A75C /* NewestCardViewCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = B14D9445158F04660024A75C /* NewestCardViewCellView.m */; };
+		B14D9448158F04660024A75C /* NewestCardViewCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B14D9446158F04660024A75C /* NewestCardViewCellView.xib */; };
 		B14EAF5B158CD3FB007AAF8B /* PostOfficeViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B14EAF59158CD3FB007AAF8B /* PostOfficeViewCell.m */; };
 		B14EAF5C158CD3FB007AAF8B /* PostOfficeViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B14EAF5A158CD3FB007AAF8B /* PostOfficeViewCell.xib */; };
 		B1561139158DCDF9008EBB68 /* GTMBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = B1561111158DCDF9008EBB68 /* GTMBase64.m */; };
@@ -439,6 +441,9 @@
 		B141042A1565EB49004DF34C /* flashauto.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = flashauto.png; path = Resources/pic/flashauto.png; sourceTree = SOURCE_ROOT; };
 		B141042B1565EB49004DF34C /* flashoff.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = flashoff.png; path = Resources/pic/flashoff.png; sourceTree = SOURCE_ROOT; };
 		B141042C1565EB49004DF34C /* flashon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = flashon.png; path = Resources/pic/flashon.png; sourceTree = SOURCE_ROOT; };
+		B14D9444158F04660024A75C /* NewestCardViewCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NewestCardViewCellView.h; path = NewestCardView/NewestCardViewCellView/NewestCardViewCellView.h; sourceTree = "<group>"; };
+		B14D9445158F04660024A75C /* NewestCardViewCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NewestCardViewCellView.m; path = NewestCardView/NewestCardViewCellView/NewestCardViewCellView.m; sourceTree = "<group>"; };
+		B14D9446158F04660024A75C /* NewestCardViewCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = NewestCardViewCellView.xib; path = NewestCardView/NewestCardViewCellView/NewestCardViewCellView.xib; sourceTree = "<group>"; };
 		B14EAF58158CD3FB007AAF8B /* PostOfficeViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PostOfficeViewCell.h; path = PostOfficeView/PostOfficeViewCell.h; sourceTree = "<group>"; };
 		B14EAF59158CD3FB007AAF8B /* PostOfficeViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PostOfficeViewCell.m; path = PostOfficeView/PostOfficeViewCell.m; sourceTree = "<group>"; };
 		B14EAF5A158CD3FB007AAF8B /* PostOfficeViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PostOfficeViewCell.xib; path = PostOfficeView/PostOfficeViewCell.xib; sourceTree = "<group>"; };
@@ -1180,6 +1185,16 @@
 			path = MacAddressIdentifier;
 			sourceTree = "<group>";
 		};
+		B14D9442158F04020024A75C /* NewestCardViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				B14D9444158F04660024A75C /* NewestCardViewCellView.h */,
+				B14D9445158F04660024A75C /* NewestCardViewCellView.m */,
+				B14D9446158F04660024A75C /* NewestCardViewCellView.xib */,
+			);
+			name = NewestCardViewCell;
+			sourceTree = "<group>";
+		};
 		B14EAF5E158CD412007AAF8B /* PostOfficeViewCell */ = {
 			isa = PBXGroup;
 			children = (
@@ -1380,6 +1395,7 @@
 		B16F9D401584F1640002BD38 /* NewestCardView */ = {
 			isa = PBXGroup;
 			children = (
+				B14D9442158F04020024A75C /* NewestCardViewCell */,
 				B156116C158EC0A1008EBB68 /* Pic_NewestCardView */,
 				B16F9D411584F17A0002BD38 /* NewestCardView.h */,
 				B16F9D421584F17A0002BD38 /* NewestCardView.m */,
@@ -2018,6 +2034,7 @@
 				B1561147158DCDF9008EBB68 /* logo.png in Resources */,
 				B1561148158DCDF9008EBB68 /* logo@2x.png in Resources */,
 				B156116F158EC0F0008EBB68 /* searchbarem.png in Resources */,
+				B14D9448158F04660024A75C /* NewestCardViewCellView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2113,6 +2130,7 @@
 				B1561150158DCDF9008EBB68 /* WBUtil.m in Sources */,
 				B1561154158DCE38008EBB68 /* SinaShare.m in Sources */,
 				B1561179158EDCF1008EBB68 /* SinaInstance.m in Sources */,
+				B14D9447158F04660024A75C /* NewestCardViewCellView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
