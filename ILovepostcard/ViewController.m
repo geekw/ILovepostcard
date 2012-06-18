@@ -19,6 +19,7 @@
 @synthesize loopScrollView;
 @synthesize numberLabel;
 @synthesize newestCardBtnView;
+@synthesize newestCardBtn;
 @synthesize postcardList, activityListView, voiceMessageView;
 @synthesize newestCardView;
 @synthesize postOfficeView,getMoreView;
@@ -41,6 +42,7 @@ static int timeNum = 0;
     [loopScrollView release];
     [numberLabel release];
     [newestCardBtnView release];
+    [newestCardBtn release];
     [super dealloc];
 }
 
@@ -139,7 +141,7 @@ static int timeNum = 0;
 {
     [super viewDidLoad];
     
-    [self requestPicUrl];
+//    [self requestPicUrl];
     [goToPostcardListButton setBackgroundImage:[UIImage imageNamed:@"makepress.png"] forState:UIControlStateHighlighted];
     [listenVoiceMessageButton setBackgroundImage:[UIImage imageNamed:@"listenpress.png"] forState:UIControlStateHighlighted];
     [goToPostOfficeButton setBackgroundImage:[UIImage imageNamed:@"postofficepress.png"] forState:UIControlStateHighlighted];
@@ -157,6 +159,7 @@ static int timeNum = 0;
     [self setLoopScrollView:nil];
     [self setNumberLabel:nil];
     [self setNewestCardBtnView:nil];
+    [self setNewestCardBtn:nil];
     [super viewDidUnload];
 }
 
@@ -244,6 +247,9 @@ static int timeNum = 0;
     self.getMoreView.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
     [self presentModalViewController:self.getMoreView animated:YES];
 
+}
+
+- (IBAction)goNewestCardView {
 }
 
 @end

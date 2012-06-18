@@ -31,8 +31,7 @@
 
 - (void)logOutSinaWB;
 
-- (void)sendContentWith:(NSString *)sendTxt 
-                sendImg:(UIImage *)_image;
+- (void)sendContentWith:(NSString *)sendTxt withImg:(UIImage *)myImg;
 
 
 @end

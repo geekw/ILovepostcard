@@ -19,6 +19,8 @@
 
 + (PostOfficeViewCell *)getInstance;
 
-- (void)configCellWithIndex:(int)index address:(NSString *)address paymentStatus:(NSString *)paymentStatus;
+- (void)configCellWithIndex:(int)index 
+                    address:(NSString *)address
+              paymentStatus:(NSString *)paymentStatus;
 
 @end

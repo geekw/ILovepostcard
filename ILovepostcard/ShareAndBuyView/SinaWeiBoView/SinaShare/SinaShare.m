@@ -18,22 +18,22 @@
 @implementation SinaShare
 @synthesize delegate;
 
-- (void)dealloc{
+- (void)dealloc
+{
     [engine release];
     [delegate release];
-    
     [super dealloc];
 }
 
-- (id)init{
+- (id)init
+{
     self = [super init];
     if (self)
     {
         engine = [[WBEngine alloc] initWithAppKey:kAppKey appSecret:kAppSecret];
         [engine setDelegate:self];
-        [engine setRedirectURI:@"http://www.ohbaba.com"];
+        [engine setRedirectURI:@"http://www.52mxp.com/web/index.html"];
         [engine setIsUserExclusive:NO];
-        
     }
     return self;
 }
@@ -51,11 +51,11 @@
     [engine logOut];
 }
 
-- (void)sendContentWith:(NSString *)sendTxt sendImg:(UIImage *)_image
+- (void)sendContentWith:(NSString *)sendTxt withImg:(UIImage *)myImg
 {
     if ([engine isLoggedIn])
     {
-        [engine sendWeiBoWithText:sendTxt image:_image];
+        [engine sendWeiBoWithText:sendTxt image:myImg];
     }
     else
     {

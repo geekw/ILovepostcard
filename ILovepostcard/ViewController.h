@@ -37,6 +37,7 @@
 
 @property (retain, nonatomic) IBOutlet UIView *newestCardBtnView;
 
+@property (retain, nonatomic) IBOutlet EGOImageButton *newestCardBtn;
 
 
 - (IBAction)goToVoiceMessageView;
@@ -47,6 +48,7 @@
 
 - (IBAction)getMore;
 
+- (IBAction)goNewestCardView;
 
 
 

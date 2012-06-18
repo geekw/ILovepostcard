@@ -679,6 +679,7 @@ static BOOL WBIsDeviceIPad()
     if ([delegate respondsToSelector:@selector(sendView:didFailWithError:)])
     {
         [delegate sendView:self didFailWithError:error];
+        NSLog(@"%@",error);
     }
 }
 

@@ -12,9 +12,10 @@
 #import "ASIHTTPRequest.h"
 #import "PromptView.h"
 #import "TKLoadingAnimationView.h"
+#import "SinaShare.h"
 
 
-@interface ShareAndBuyView : UIViewController<ASIHTTPRequestDelegate>
+@interface ShareAndBuyView : UIViewController<ASIHTTPRequestDelegate,SinaShareDelegate>
 {
     UIView *spinerView;
 //    TKLoadingAnimationView *spiner;
@@ -44,6 +45,12 @@
 
 @property (retain, nonatomic) IBOutlet UIButton *shareBtn;
 
+@property (retain, nonatomic) IBOutlet UITextView *shareTextView;
+
+@property (retain, nonatomic) SinaShare *sinashare;
+@property (retain, nonatomic) IBOutlet UIButton *backShareAndBuyBtn;
+
+
 
 - (IBAction)goBack;
 
@@ -59,6 +66,7 @@
 
 - (IBAction)goToShareView;
 
+- (IBAction)backShareAndBuyView;
 
 
 

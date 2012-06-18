@@ -333,6 +333,7 @@
     if ([delegate respondsToSelector:@selector(engine:requestDidFailWithError:)])
     {
         [delegate engine:self requestDidFailWithError:error];
+        NSLog(@"%@",error);
     }
 }
 

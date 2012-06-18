@@ -10,6 +10,9 @@
 #define UploadPicUrl @"http://kai7.cn/image/upload"
 #define UploadAllUrl @"http://61.155.238.30/postcards/interface/submit_postcard"
 
+#define kHasAuthoredSina @"hasAuthoredSina"
+
+
 
 #import "ShareAndBuyView.h"
 #import "JSON.h"
@@ -32,6 +35,9 @@
 @synthesize resignBtn;
 @synthesize sinaWeiBoShareView;
 @synthesize shareBtn;
+@synthesize shareTextView;
+@synthesize sinashare;
+@synthesize backShareAndBuyBtn;
 
 
 #pragma mark - goBack - 返回按钮
@@ -62,13 +68,24 @@
     [self.goBackButton setImage:[UIImage imageNamed:@"titlebtnbackclick.png"] forState:UIControlStateHighlighted];
     flipButton_Back.backgroundColor = [UIColor blueColor];
     
-    self.view.frame = CGRectMake(0, 0, 320, 460);
+    self.view.frame = CGRectMake(0, 20, 320, 460);
     self.sinaWeiBoShareView.frame = CGRectMake(-320, 0, 320, 460);
+    [self.view addSubview:self.sinaWeiBoShareView];
+    
+    [self.backShareAndBuyBtn setImage:[UIImage imageNamed:@"titlebtnbackclick.png"] forState:UIControlStateHighlighted];
+    
+    if (!sinashare)
+    {
+        sinashare = [[SinaShare alloc] init];
+    }
+    self.sinashare.delegate = self;
+
     
 }
 
 - (void)viewDidUnload
 {
+    [self setSinashare:nil];
     [self setGoBackButton:nil];
     [self setFlipButton:nil];
     [self setShareButton:nil];
@@ -79,6 +96,8 @@
     [self setResignBtn:nil];
     [self setSinaWeiBoShareView:nil];
     [self setShareBtn:nil];
+    [self setShareTextView:nil];
+    [self setBackShareAndBuyBtn:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -91,6 +110,7 @@
 
 - (void)dealloc 
 {
+    sinashare = nil;[sinashare release];
     spinerView = nil;[spinerView release];
 //    spiner = nil;[spiner release];
     priceArray = nil;
@@ -105,6 +125,8 @@
     [resignBtn release];
     [sinaWeiBoShareView release];
     [shareBtn release];
+    [shareTextView release];
+    [backShareAndBuyBtn release];
     [super dealloc];
 }
 - (IBAction)flip 
@@ -402,19 +424,89 @@
     [self presentModalViewController:paymentView animated:YES];
 }
 
-#pragma mark - ShareToSIna - 1.分享明信片流程
+#pragma mark - ShareToSIna - 2.分享明信片流程----------------------
 
-- (IBAction)shareToSina
+
+- (IBAction)goToShareView//判断是否登陆
 {
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:kHasAuthoredSina] == NO) 
+    {
+        if (!sinashare)
+        {
+            sinashare = [[SinaShare alloc] init];
+        }
+        self.sinashare.delegate = self;
+        [self.sinashare logInSinaWB];
+    }
+    else
+    {    
+        self.sinaWeiBoShareView.frame = CGRectMake(0, 0, 320, 460);
+        [self.view addSubview:self.sinaWeiBoShareView];
+    }
     
 }
+
+- (IBAction)shareToSina//分享
+{
+    NSString *screenShotNumber = [NSString stringWithFormat:@"%d",[[NSUserDefaults standardUserDefaults] integerForKey:@"ScreenShotNumber"]];
+    NSString *picSaveStr = [NSString stringWithFormat:@"frontPic%@.png",screenShotNumber];//定义图片文件名
+    NSString *str = [NSString stringWithFormat:@"%@",FD_IMAGE_PATH(picSaveStr)];
+    UIImage *tmpImg = [UIImage imageWithContentsOfFile:str];
+    
+    NSString *textStr = [NSString stringWithFormat:@"%@",self.shareTextView.text];
+    
+    NSLog(@"%@,%@",textStr,tmpImg);
+    if (!sinashare)
+    {
+        sinashare = [[SinaShare alloc] init];
+    }
+    [self.sinashare sendContentWith:textStr withImg:tmpImg];
+}
+
 
 - (IBAction)resignKeyboard
 {
-    
+    [self.shareTextView resignFirstResponder];//跳回键盘
 }
 
-- (IBAction)goToShareView {
+-(void)sinaLoginFinished//登陆完毕,跳到购买界面
+{
+    [self.view addSubview:self.sinaWeiBoShareView];
+}
+
+-(void)sinaLoginFailed//登陆失败
+{
+    PromptView *tmpPromptView = [[PromptView alloc] init];
+    [tmpPromptView showPromptWithParentView:self.view 
+                                 withPrompt:@"登录失败"
+                                  withFrame:CGRectMake(40, 120, 240, 240)];
+    [tmpPromptView release];
+    
+}
+-(void)sinaSendFinished//发送完毕
+{
+    [self performSelector:@selector(backShareAndBuyView)];//发送完毕回到主界面
+}
+
+-(void)sinaSendFailed//发送失败
+{
+    PromptView *tmpPromptView = [[PromptView alloc] init];
+    [tmpPromptView showPromptWithParentView:self.view 
+                                 withPrompt:@"发送失败"
+                                  withFrame:CGRectMake(40, 120, 240, 240)];
+    [tmpPromptView release];
+
+}
+
+
+- (void)changeFrame1{
+    self.view.frame = CGRectMake(0, 20, 320, 460);
+    self.sinaWeiBoShareView.frame = CGRectMake(-320, 20, 320, 460);
+}
+
+- (IBAction)backShareAndBuyView//返回分享,购买界面
+{
+    [self.sinaWeiBoShareView removeFromSuperview];
 }
 
 
