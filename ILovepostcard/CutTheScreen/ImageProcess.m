@@ -63,4 +63,29 @@
 }
 
 
++ (UIImage *)scale:(UIImage *)image toSize:(CGSize)size
+{
+    UIGraphicsBeginImageContext(size);
+    [image drawInRect:CGRectMake(0, 0, size.width, size.height)];
+    UIImage *scaledImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return scaledImage;
+}
+
++ (UIView *)getPortraitView:(UIView *)view{
+    //先将图转到竖立。
+    view.frame = CGRectMake((view.frame.size.width - view.frame.size.height) / 2, (view.frame.size.height - view.frame.size.width) / 2, view.frame.size.height, view.frame.size.width);
+
+    return view;
+}
+
++ (UIView *)rotateView:(UIView *)view withDegree:(int)degree{
+    //通过动画将图转横。
+//    [UIView beginAnimations:@"rotate_back" context:nil];
+    view.transform = CGAffineTransformMakeRotation(degree * M_PI / 180.0f);
+//    [UIView commitAnimations];
+
+    return view;
+}
+
 @end

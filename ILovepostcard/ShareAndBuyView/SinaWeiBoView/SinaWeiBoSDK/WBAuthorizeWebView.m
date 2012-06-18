@@ -310,6 +310,8 @@
 - (void)webView:(UIWebView *)aWebView didFailLoadWithError:(NSError *)error
 {
     [indicatorView stopAnimating];
+    
+    [self hide:YES];
 }
 
 - (BOOL)webView:(UIWebView *)aWebView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType

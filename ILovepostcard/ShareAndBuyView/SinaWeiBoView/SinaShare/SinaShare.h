@@ -17,10 +17,11 @@
 - (void)sinaLoginFailed;
 - (void)sinaSendFinished;
 - (void)sinaSendFailed;
+- (void)sinaLogoutFinished;
 
 @end
 
-@interface SinaShare : NSObject <WBEngineDelegate>
+@interface SinaShare : NSObject <WBEngineDelegate, UIAlertViewDelegate>
 {
     WBEngine *engine;
 }

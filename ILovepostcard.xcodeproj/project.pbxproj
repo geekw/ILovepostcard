@@ -30,6 +30,9 @@
 		153460411588794F008F87B9 /* SeachList.m in Sources */ = {isa = PBXBuildFile; fileRef = 153460401588794F008F87B9 /* SeachList.m */; };
 		15E5D0E11588C6C600E32C49 /* AbstractActionSheetPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 15E5D0D91588C6C500E32C49 /* AbstractActionSheetPicker.m */; };
 		15E5D0E41588C6C600E32C49 /* ActionSheetStringPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 15E5D0E01588C6C600E32C49 /* ActionSheetStringPicker.m */; };
+		7C95CF72158F175F00AE5E45 /* AboutUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C95CF70158F175F00AE5E45 /* AboutUsViewController.m */; };
+		7C95CF73158F175F00AE5E45 /* AboutUsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C95CF71158F175F00AE5E45 /* AboutUsViewController.xib */; };
+		7C9A3912158F518D00A59A6A /* ResizeImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C9A3911158F518D00A59A6A /* ResizeImage.m */; };
 		B102FF6B155BB303008DC42D /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B102FF6A155BB303008DC42D /* CFNetwork.framework */; };
 		B102FF6D155BB30D008DC42D /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B102FF6C155BB30C008DC42D /* SystemConfiguration.framework */; };
 		B102FF6F155BB314008DC42D /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B102FF6E155BB314008DC42D /* MobileCoreServices.framework */; };
@@ -153,7 +156,6 @@
 		B1561154158DCE38008EBB68 /* SinaShare.m in Sources */ = {isa = PBXBuildFile; fileRef = B1561153158DCE38008EBB68 /* SinaShare.m */; };
 		B1561162158DD8DD008EBB68 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1561161158DD8DD008EBB68 /* Security.framework */; };
 		B156116F158EC0F0008EBB68 /* searchbarem.png in Resources */ = {isa = PBXBuildFile; fileRef = B156116E158EC0F0008EBB68 /* searchbarem.png */; };
-		B1561179158EDCF1008EBB68 /* SinaInstance.m in Sources */ = {isa = PBXBuildFile; fileRef = B1561178158EDCF1008EBB68 /* SinaInstance.m */; };
 		B15E86EA1564F06F00108271 /* TemplateDetails-Singleton.m in Sources */ = {isa = PBXBuildFile; fileRef = B15E86E91564F06F00108271 /* TemplateDetails-Singleton.m */; };
 		B15EDD9B155A577A00B0C873 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B15EDD9A155A577A00B0C873 /* UIKit.framework */; };
 		B15EDD9D155A577A00B0C873 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B15EDD9C155A577A00B0C873 /* Foundation.framework */; };
@@ -304,6 +306,11 @@
 		15E5D0DE1588C6C500E32C49 /* ActionSheetPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ActionSheetPicker.h; path = "ILovepostcard/DisplayEachTemplateDetals-Back/ChooseAddressView/ActionSheetPicker.h"; sourceTree = "<group>"; };
 		15E5D0DF1588C6C500E32C49 /* ActionSheetStringPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ActionSheetStringPicker.h; path = "ILovepostcard/DisplayEachTemplateDetals-Back/ChooseAddressView/ActionSheetStringPicker.h"; sourceTree = "<group>"; };
 		15E5D0E01588C6C600E32C49 /* ActionSheetStringPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ActionSheetStringPicker.m; path = "ILovepostcard/DisplayEachTemplateDetals-Back/ChooseAddressView/ActionSheetStringPicker.m"; sourceTree = "<group>"; };
+		7C95CF6F158F175F00AE5E45 /* AboutUsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutUsViewController.h; sourceTree = "<group>"; };
+		7C95CF70158F175F00AE5E45 /* AboutUsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutUsViewController.m; sourceTree = "<group>"; };
+		7C95CF71158F175F00AE5E45 /* AboutUsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AboutUsViewController.xib; sourceTree = "<group>"; };
+		7C9A3910158F518D00A59A6A /* ResizeImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ResizeImage.h; path = ../../ResizeImage.h; sourceTree = "<group>"; };
+		7C9A3911158F518D00A59A6A /* ResizeImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ResizeImage.m; path = ../../ResizeImage.m; sourceTree = "<group>"; };
 		B102FF6A155BB303008DC42D /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		B102FF6C155BB30C008DC42D /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		B102FF6E155BB314008DC42D /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
@@ -483,8 +490,6 @@
 		B1561153158DCE38008EBB68 /* SinaShare.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SinaShare.m; path = ILovepostcard/ShareAndBuyView/SinaWeiBoView/SinaShare/SinaShare.m; sourceTree = "<group>"; };
 		B1561161158DD8DD008EBB68 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		B156116E158EC0F0008EBB68 /* searchbarem.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = searchbarem.png; path = Resources/pic/Pic_NewestCardView/searchbarem.png; sourceTree = SOURCE_ROOT; };
-		B1561177158EDCF1008EBB68 /* SinaInstance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SinaInstance.h; path = ILovepostcard/SinaWeiBoSDK/SinaInstance.h; sourceTree = "<group>"; };
-		B1561178158EDCF1008EBB68 /* SinaInstance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SinaInstance.m; path = ILovepostcard/SinaWeiBoSDK/SinaInstance.m; sourceTree = "<group>"; };
 		B15E86E81564F06F00108271 /* TemplateDetails-Singleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "TemplateDetails-Singleton.h"; path = "ILovepostcard/TemplateDetails-Singleton/TemplateDetails-Singleton.h"; sourceTree = "<group>"; };
 		B15E86E91564F06F00108271 /* TemplateDetails-Singleton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "TemplateDetails-Singleton.m"; path = "ILovepostcard/TemplateDetails-Singleton/TemplateDetails-Singleton.m"; sourceTree = "<group>"; };
 		B15EDD96155A577A00B0C873 /* ILovepostcard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ILovepostcard.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1006,6 +1011,9 @@
 				B126F2E515858B130096D24C /* GetMoreView.h */,
 				B126F2E615858B130096D24C /* GetMoreView.m */,
 				B126F2E715858B130096D24C /* GetMoreView.xib */,
+				7C95CF6F158F175F00AE5E45 /* AboutUsViewController.h */,
+				7C95CF70158F175F00AE5E45 /* AboutUsViewController.m */,
+				7C95CF71158F175F00AE5E45 /* AboutUsViewController.xib */,
 			);
 			name = GetMoreView;
 			sourceTree = "<group>";
@@ -1360,6 +1368,8 @@
 		B16F9D33158436590002BD38 /* CutTheScreen */ = {
 			isa = PBXGroup;
 			children = (
+				7C9A3910158F518D00A59A6A /* ResizeImage.h */,
+				7C9A3911158F518D00A59A6A /* ResizeImage.m */,
 				B16F9D34158436590002BD38 /* ImageProcess.h */,
 				B16F9D35158436590002BD38 /* ImageProcess.m */,
 			);
@@ -1652,8 +1662,6 @@
 				B156110E158DCDF9008EBB68 /* SinaWeiBoSDK */,
 				B1561152158DCE38008EBB68 /* SinaShare.h */,
 				B1561153158DCE38008EBB68 /* SinaShare.m */,
-				B1561177158EDCF1008EBB68 /* SinaInstance.h */,
-				B1561178158EDCF1008EBB68 /* SinaInstance.m */,
 			);
 			name = SinaWeiBoView;
 			sourceTree = "<group>";
@@ -2018,6 +2026,7 @@
 				B1561147158DCDF9008EBB68 /* logo.png in Resources */,
 				B1561148158DCDF9008EBB68 /* logo@2x.png in Resources */,
 				B156116F158EC0F0008EBB68 /* searchbarem.png in Resources */,
+				7C95CF73158F175F00AE5E45 /* AboutUsViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2112,7 +2121,8 @@
 				B156114F158DCDF9008EBB68 /* WBSendView.m in Sources */,
 				B1561150158DCDF9008EBB68 /* WBUtil.m in Sources */,
 				B1561154158DCE38008EBB68 /* SinaShare.m in Sources */,
-				B1561179158EDCF1008EBB68 /* SinaInstance.m in Sources */,
+				7C95CF72158F175F00AE5E45 /* AboutUsViewController.m in Sources */,
+				7C9A3912158F518D00A59A6A /* ResizeImage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2209,8 +2219,8 @@
 					armv6,
 					armv7,
 				);
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Wei Wei (D4S7U535YV)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: he zhendong (558KRFRKQN)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: he zhendong (558KRFRKQN)";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ILovepostcard/ILovepostcard-Prefix.pch";
@@ -2236,7 +2246,8 @@
 					"-Objc",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "76887534-6B8F-45E2-8C4B-9EAA5E4D3D26";
+				PROVISIONING_PROFILE = "A575EBDF-0DD4-4737-B79C-35C5F94B6800";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "A575EBDF-0DD4-4737-B79C-35C5F94B6800";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "";
@@ -2253,8 +2264,8 @@
 					armv6,
 					armv7,
 				);
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Wei Wei (D4S7U535YV)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: he zhendong (558KRFRKQN)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: he zhendong (558KRFRKQN)";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ILovepostcard/ILovepostcard-Prefix.pch";
@@ -2280,7 +2291,8 @@
 					"-Objc",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "76887534-6B8F-45E2-8C4B-9EAA5E4D3D26";
+				PROVISIONING_PROFILE = "A575EBDF-0DD4-4737-B79C-35C5F94B6800";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "A575EBDF-0DD4-4737-B79C-35C5F94B6800";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "";

@@ -43,7 +43,14 @@
 
 - (void)logInSinaWB
 {
-    [engine logIn];
+    if ([engine isLoggedIn] && engine.expireTime > 0) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"新浪微博" message:@"你确定要取消授权吗？" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:@"取消", nil];
+        [alertView show];
+        [alertView release];
+    }
+    else {
+        [engine logIn];
+    }
 }
 
 - (void)logOutSinaWB
@@ -88,6 +95,8 @@
 }
 
 
+
+
 - (void)engineNotAuthorized:(WBEngine *)engine
 {
     
@@ -103,6 +112,10 @@
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setBool:NO forKey:kHasAuthoredSina];
+    
+    if (delegate && [delegate respondsToSelector:@selector(sinaLogoutFinished)]) {
+        [delegate sinaLogoutFinished];
+    }
 }
 
 
@@ -126,5 +139,14 @@
     }
     
 }
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (buttonIndex == 0) 
+    {
+        [self logOutSinaWB];
+    }
+}
+
+
 
 @end
