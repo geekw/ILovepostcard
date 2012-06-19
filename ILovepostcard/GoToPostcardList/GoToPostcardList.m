@@ -10,13 +10,15 @@
 #import "Json.h"
 
 #define NumberInOnePage 6 //每页显示个数
-#define Template @"http://61.155.238.30/postcards/interface/template_list"//模板列表接口
-#define Template_Keyword @"http://61.155.238.30/postcards/interface/query_template"//模板列表接口
-#define Search_Hots @"http://61.155.238.30/postcards/interface/search_hots"//热门关键字
+#define Template @"http://www.52mxp.com/interface/template_list"//模板列表接口
+#define Template_Keyword @"http://www.52mxp.com/interface/query_template"//模板列表接口
+#define Search_Hots @"http://www.52mxp.com/interface/search_hots"//热门关键字
 
 
 @implementation GoToPostcardList
 @synthesize bottomKeywordScrollView;
+@synthesize resignBtn;
+@synthesize resignBtn_KeyWord;
 @synthesize bottomKeywordView;
 @synthesize keyword,mySearchBar;
 
@@ -29,6 +31,13 @@ int currentPage_Keyword;
     [self dismissModalViewControllerAnimated:YES];
 }
 
+#pragma mark - ResignKeyBoard - 返回键盘
+- (IBAction)resignKeyBoard 
+{
+    [self.mySearchBar resignFirstResponder];
+}
+
+
 #pragma mark - View lifecycle - 系统函数
 -(void)dealloc
 {
@@ -38,6 +47,8 @@ int currentPage_Keyword;
     backButton = nil;[backButton release];
     [bottomKeywordView release];
     [bottomKeywordScrollView release];
+    [resignBtn release];
+    [resignBtn_KeyWord release];
     [super dealloc];
 }
 
@@ -54,6 +65,8 @@ int currentPage_Keyword;
     templateScrollView_Keyword = nil;[templateScrollView_Keyword release];
     [self setBottomKeywordView:nil];
     [self setBottomKeywordScrollView:nil];
+    [self setResignBtn:nil];
+    [self setResignBtn_KeyWord:nil];
     [super viewDidUnload];
 }
 
@@ -70,24 +83,27 @@ int currentPage_Keyword;
 -(void)viewWillAppear:(BOOL)animated
 {
         self.navigationController.navigationBarHidden = NO;
-        rotationAngle = 0;
+//        rotationAngle = 0;
         currentPage = 1;
         addTemplatePageNumber = 0;
+    
+    templateScrollView.delegate = self;
+    templateScrollView_Keyword.delegate = self;
         
         [self performSelector:@selector(loadHttpRequset) withObject:nil];
         [self performSelector:@selector(dealWithSearchBar)];//美化searchBar
         [self performSelector:@selector(displayBottomKeywordView)];//显示底部热门关键字
         
         templateScrollView.hidden = NO;
-        addMoreTemplateButton.enabled = YES;
-        addMoreTemplateButton.hidden = NO;
-        [addMoreTemplateButton setImage:[UIImage imageNamed:@"addMoreTemplateButton.png"]
-                               forState:UIControlStateNormal];
+//        addMoreTemplateButton.enabled = YES;
+        addMoreTemplateButton.hidden = YES;
+//        [addMoreTemplateButton setImage:[UIImage imageNamed:@"addMoreTemplateButton.png"]
+//                               forState:UIControlStateNormal];
         
         addMoreTemplateButton_Keyword.hidden = YES;
         templateScrollView_Keyword.hidden = YES;
-        [addMoreTemplateButton_Keyword setImage:[UIImage imageNamed:@"addMoreTemplateButton.png"]
-                                       forState:UIControlStateNormal];
+//        [addMoreTemplateButton_Keyword setImage:[UIImage imageNamed:@"addMoreTemplateButton.png"]
+//                                       forState:UIControlStateNormal];
         
         self.bottomKeywordScrollView.bounces = YES;
         self.bottomKeywordScrollView.showsVerticalScrollIndicator   = NO;
@@ -217,7 +233,7 @@ int currentPage_Keyword;
                 templateButton.tag = idName ;
                 int y =   10 + addTemplatePageNumber * 391;
                 templateButton.frame = CGRectMake(20, y, 135 , 90);
-                templateButton.transform = CGAffineTransformMakeRotation(rotationAngle);//(M_PI/2) ;        
+//                templateButton.transform = CGAffineTransformMakeRotation(rotationAngle);//(M_PI/2) ;        
                 [templateButton addTarget:self 
                                    action:@selector(displayEachTemplateDetals:) 
                          forControlEvents:UIControlEventTouchUpInside];
@@ -237,7 +253,7 @@ int currentPage_Keyword;
                 [templateButton setImageURL:[NSURL URLWithString:backgroundPicUrl]];                templateButton.tag = idName;
                 int y = 10 + addTemplatePageNumber * 391; 
                 templateButton.frame = CGRectMake(164, y, 135, 90);
-                templateButton.transform = CGAffineTransformMakeRotation(rotationAngle) ;        
+//                templateButton.transform = CGAffineTransformMakeRotation(rotationAngle) ;        
                 [templateButton addTarget:self 
                                    action:@selector(displayEachTemplateDetals:) 
                          forControlEvents:UIControlEventTouchUpInside];
@@ -257,7 +273,7 @@ int currentPage_Keyword;
                 [templateButton setImageURL:[NSURL URLWithString:backgroundPicUrl]];                templateButton.tag = idName;
                 int y = 130 + addTemplatePageNumber * 391; 
                 templateButton.frame = CGRectMake(20, y, 135, 90);
-                templateButton.transform = CGAffineTransformMakeRotation(rotationAngle) ;        
+//                templateButton.transform = CGAffineTransformMakeRotation(rotationAngle) ;        
                 [templateButton addTarget:self 
                                    action:@selector(displayEachTemplateDetals:) 
                          forControlEvents:UIControlEventTouchUpInside];
@@ -277,7 +293,7 @@ int currentPage_Keyword;
                 [templateButton setImageURL:[NSURL URLWithString:backgroundPicUrl]];                templateButton.tag = idName;
                 int y = 130 + addTemplatePageNumber * 391; 
                 templateButton.frame = CGRectMake(164, y, 135, 90);
-                templateButton.transform = CGAffineTransformMakeRotation(rotationAngle) ;        
+//                templateButton.transform = CGAffineTransformMakeRotation(rotationAngle) ;        
                 [templateButton addTarget:self 
                                    action:@selector(displayEachTemplateDetals:) 
                          forControlEvents:UIControlEventTouchUpInside];
@@ -297,7 +313,7 @@ int currentPage_Keyword;
                 [templateButton setImageURL:[NSURL URLWithString:backgroundPicUrl]];                templateButton.tag = idName;
                 int y = 250 + addTemplatePageNumber * 391; 
                 templateButton.frame = CGRectMake(20, y, 135, 90);
-                templateButton.transform = CGAffineTransformMakeRotation(rotationAngle) ;        
+//                templateButton.transform = CGAffineTransformMakeRotation(rotationAngle) ;        
                 [templateButton addTarget:self 
                                    action:@selector(displayEachTemplateDetals:) 
                          forControlEvents:UIControlEventTouchUpInside];
@@ -317,7 +333,7 @@ int currentPage_Keyword;
                 [templateButton setImageURL:[NSURL URLWithString:backgroundPicUrl]];            templateButton.tag = idName;
             int y = 250 + addTemplatePageNumber * 391; 
             templateButton.frame = CGRectMake(164, y, 135, 90);
-            templateButton.transform = CGAffineTransformMakeRotation(rotationAngle) ;        
+//            templateButton.transform = CGAffineTransformMakeRotation(rotationAngle) ;        
             [templateButton addTarget:self 
                                action:@selector(displayEachTemplateDetals:) 
                      forControlEvents:UIControlEventTouchUpInside];
@@ -338,6 +354,7 @@ int currentPage_Keyword;
 {
     addTemplatePageNumber ++;//页数加一
     templateScrollView.contentSize = CGSizeMake(320, 400 * (addTemplatePageNumber +1));
+    self.resignBtn.frame = CGRectMake(0, 0, 320, 391*(addTemplatePageNumber + 1));
     [self loadHttpRequset];
 }
 
@@ -374,14 +391,18 @@ int currentPage_Keyword;
     
     if ([self.keyword isEqualToString:[NSString stringWithFormat:@""]])
     {
-        [templateScrollView removeFromSuperview];
-        templateScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 89, 320, 391)];
-        [self.view addSubview:templateScrollView];
+//        [templateScrollView removeFromSuperview];
+//        templateScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 89, 320, 391)];
+//        [self.view addSubview:templateScrollView];
+        if ([templateScrollView subviews] != nil)
+        {
+            [[templateScrollView subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
+        }
         
-        [addMoreTemplateButton addTarget:self 
-                                  action:@selector(addMoreTemplate)
-                        forControlEvents:UIControlEventTouchUpInside];
-        [self.view addSubview:addMoreTemplateButton];
+//        [addMoreTemplateButton addTarget:self 
+//                                  action:@selector(addMoreTemplate)
+//                        forControlEvents:UIControlEventTouchUpInside];
+//        [self.view addSubview:addMoreTemplateButton];
         
         [self viewDidLoad];    
     }
@@ -392,14 +413,20 @@ int currentPage_Keyword;
     currentPage_Keyword = 1;
     addTemplatePageNumber_Keyword = 0;
     
-    [templateScrollView_Keyword removeFromSuperview];
-    templateScrollView_Keyword = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 89, 320, 391)];
-    [self.view addSubview:templateScrollView_Keyword];
+//    [templateScrollView_Keyword removeFromSuperview];
+//    templateScrollView_Keyword = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 89, 320, 391)];
+//    [self.view addSubview:templateScrollView_Keyword];
     
-    [addMoreTemplateButton_Keyword addTarget:self 
-                              action:@selector(addMoreTemplate_Keyword)
-                    forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:addMoreTemplateButton_Keyword];
+    if ([templateScrollView_Keyword subviews] != nil)
+    {
+        [[templateScrollView_Keyword subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
+
+    }
+
+//    [addMoreTemplateButton_Keyword addTarget:self 
+//                              action:@selector(addMoreTemplate_Keyword)
+//                    forControlEvents:UIControlEventTouchUpInside];
+//    [self.view addSubview:addMoreTemplateButton_Keyword];
     
     [self performSelector:@selector(searchOnline_Keyword)];
 }
@@ -409,7 +436,9 @@ int currentPage_Keyword;
 {
     [self.mySearchBar resignFirstResponder];
     int i =[[[NSUserDefaults standardUserDefaults] objectForKey:@"ClientId"] intValue];
+    
     NSString *keywordString = [self urlEncodedString:self.keyword];//中文字符转换成url可用的字符串
+    
     NSString *requsetString = [Template_Keyword stringByAppendingFormat:@"?t=%@&p=%d&s=%d&cid=%d",keywordString,currentPage_Keyword,NumberInOnePage,i];
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:requsetString]];
     request.delegate = self;
@@ -463,10 +492,7 @@ int currentPage_Keyword;
     {
         templateScrollView.hidden = YES;
         templateScrollView_Keyword.hidden = NO;
-        
-        addMoreTemplateButton.hidden = YES;
-        addMoreTemplateButton_Keyword.hidden = NO;
-        
+                
         NSString *pageTotal = [dict objectForKey:@"page_total"];//---第一级解析
         page_total = [pageTotal intValue];  
         
@@ -487,12 +513,6 @@ int currentPage_Keyword;
         [self performSelector:@selector(displayEachTemplate_Keyword:) withObject:numberInOnePage];//读取保存到单例的数组,并展示  
         
         currentPage_Keyword ++;//预先加一,方便下一次请求-------重要!
-        if (currentPage_Keyword > page_total)
-        {
-            addMoreTemplateButton_Keyword.enabled = NO;
-            [addMoreTemplateButton_Keyword setImage:[UIImage imageNamed:@"noMoreTemplateButton.png"] forState:UIControlStateNormal];
-            // addMoreTemplateFlag_Keyword = YES;
-        }
     }
 }
 
@@ -509,6 +529,7 @@ int currentPage_Keyword;
 {
     addTemplatePageNumber_Keyword ++;//页数加一
     templateScrollView.contentSize = CGSizeMake(320, 391 * (addTemplatePageNumber_Keyword +1));
+    self.resignBtn_KeyWord.frame = CGRectMake(0, 0, 320, 391*(addTemplatePageNumber_Keyword + 1));
     [self performSelector:@selector(searchOnline_Keyword)];
 }
 
@@ -535,7 +556,7 @@ int currentPage_Keyword;
             templateButton.tag = idName ;
             int y = 10 + addTemplatePageNumber_Keyword * 391;
             templateButton.frame = CGRectMake(12, y, 135, 90);
-            templateButton.transform = CGAffineTransformMakeRotation(rotationAngle);//(M_PI/2) ;        
+//            templateButton.transform = CGAffineTransformMakeRotation(rotationAngle);//(M_PI/2) ;        
             [templateButton addTarget:self 
                                action:@selector(displayEachTemplateDetals:) 
                      forControlEvents:UIControlEventTouchUpInside];
@@ -557,7 +578,7 @@ int currentPage_Keyword;
             templateButton.tag = idName;
             int y = 10 + addTemplatePageNumber_Keyword * 391; 
             templateButton.frame = CGRectMake(164, y,135, 90);
-            templateButton.transform = CGAffineTransformMakeRotation(rotationAngle) ;        
+//            templateButton.transform = CGAffineTransformMakeRotation(rotationAngle) ;        
             [templateButton addTarget:self 
                                action:@selector(displayEachTemplateDetals:) 
                      forControlEvents:UIControlEventTouchUpInside];
@@ -580,7 +601,7 @@ int currentPage_Keyword;
             templateButton.tag = idName;
             int y = 130 + addTemplatePageNumber_Keyword * 391; 
             templateButton.frame = CGRectMake(20, y, 135, 90);
-            templateButton.transform = CGAffineTransformMakeRotation(rotationAngle) ;        
+//            templateButton.transform = CGAffineTransformMakeRotation(rotationAngle) ;        
             [templateButton addTarget:self 
                                action:@selector(displayEachTemplateDetals:) 
                      forControlEvents:UIControlEventTouchUpInside];
@@ -602,7 +623,7 @@ int currentPage_Keyword;
             templateButton.tag = idName;
             int y = 130 + addTemplatePageNumber_Keyword * 391; 
             templateButton.frame = CGRectMake(164, y, 135, 90);
-            templateButton.transform = CGAffineTransformMakeRotation(rotationAngle) ;        
+//            templateButton.transform = CGAffineTransformMakeRotation(rotationAngle) ;        
             [templateButton addTarget:self 
                                action:@selector(displayEachTemplateDetals:) 
                      forControlEvents:UIControlEventTouchUpInside];
@@ -623,7 +644,7 @@ int currentPage_Keyword;
             templateButton.tag = idName;
             int y = 250 + addTemplatePageNumber_Keyword * 391; 
             templateButton.frame = CGRectMake(20, y, 135, 90);
-            templateButton.transform = CGAffineTransformMakeRotation(rotationAngle) ;        
+//            templateButton.transform = CGAffineTransformMakeRotation(rotationAngle) ;        
             [templateButton addTarget:self 
                                action:@selector(displayEachTemplateDetals:) 
                      forControlEvents:UIControlEventTouchUpInside];
@@ -645,7 +666,7 @@ int currentPage_Keyword;
             templateButton.tag = idName;
             int y = 250 + addTemplatePageNumber_Keyword * 391; 
             templateButton.frame = CGRectMake(164, y, 135, 90);
-            templateButton.transform = CGAffineTransformMakeRotation(rotationAngle) ;        
+//            templateButton.transform = CGAffineTransformMakeRotation(rotationAngle) ;        
             [templateButton addTarget:self 
                                action:@selector(displayEachTemplateDetals:) 
                      forControlEvents:UIControlEventTouchUpInside];
@@ -665,7 +686,8 @@ int currentPage_Keyword;
 #pragma mark - displayBottomKeywordView - 底部热门推荐关键字
 -(void)displayBottomKeywordView
 {
-    NSString *hotWordsUrl = [Search_Hots stringByAppendingFormat:@"?cid=4"];
+    NSString *cidStr = [[ NSUserDefaults standardUserDefaults] valueForKey:@"ClientId"];
+    NSString *hotWordsUrl = [Search_Hots stringByAppendingFormat:@"?cid=%d",[cidStr intValue]];
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:hotWordsUrl]];
     request.delegate = self;
     [request setDidFinishSelector:@selector(getHotWordsFinished_Keyword:)];//带关键字-取json数据
@@ -710,32 +732,63 @@ int currentPage_Keyword;
 
 -(void)searchOnlineFromBottomView_Keyword:(UIButton *)sender
 { 
-    UILabel *tmpLable =[[UILabel alloc] init];
-    tmpLable.text = sender.titleLabel.text;
+    NSString *wordStr = [NSString stringWithFormat:@"%@",sender.titleLabel.text];
         
     currentPage_Keyword = 1;
     
     addTemplatePageNumber_Keyword = 0;
     
-    [templateScrollView_Keyword removeFromSuperview];
-    templateScrollView_Keyword = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 89, 320, 391)];
-    [self.view addSubview:templateScrollView_Keyword];
+//    [templateScrollView_Keyword removeFromSuperview];
+//    templateScrollView_Keyword = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 89, 320, 391)];
+//    [self.view addSubview:templateScrollView_Keyword];
     
-    [addMoreTemplateButton_Keyword addTarget:self 
-                                      action:@selector(addMoreTemplate_Keyword)
-                            forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:addMoreTemplateButton_Keyword];
+    if ([templateScrollView_Keyword subviews] != nil)
+    {
+        [[templateScrollView_Keyword subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    }
+
+//    [addMoreTemplateButton_Keyword addTarget:self 
+//                                      action:@selector(addMoreTemplate_Keyword)
+//                            forControlEvents:UIControlEventTouchUpInside];
+//    [self.view addSubview:addMoreTemplateButton_Keyword];
 
     NSString *cidStr = [[NSUserDefaults standardUserDefaults] valueForKey:@"ClientId"];
+    int cid = [cidStr intValue];
     
-    NSString *keywordString = [self urlEncodedString:tmpLable.text];//中文字符转换成url可用的字符串
-    NSString *requsetString = [Template_Keyword stringByAppendingFormat:@"?t=%@&p=%d&s=%d&cid=4",keywordString,currentPage_Keyword,NumberInOnePage];
+    NSString *keywordString = [self urlEncodedString:wordStr];//中文字符转换成url可用的字符串
+    NSString *requsetString = [Template_Keyword stringByAppendingFormat:@"?t=%@&p=%d&s=%d&cid=%d",keywordString,currentPage_Keyword,NumberInOnePage,cid];
+    NSLog(@"%@",requsetString);
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:requsetString]];
     request.delegate = self;
     [request setDidFinishSelector:@selector(getTemplateFinished_Keyword:)];//带关键字-取json数据
     [request setDidFailSelector:@selector(getTemplateFailed:)];//联网失败提示
     [request startAsynchronous];
 }
+
+
+
+#pragma mark - AddPage - 增加页数
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+    if (currentPage <= page_total)//如果没到最后一页
+    {
+        if (templateScrollView_Keyword.hidden == NO) 
+        {
+            if (templateScrollView_Keyword.contentOffset.y > 20)
+            {
+                [self addMoreTemplate_Keyword];
+            }
+        }
+        else if (templateScrollView.hidden == NO)
+        {
+            if (templateScrollView.contentOffset.y > 20)
+            {
+                [self addMoreTemplate];
+            }
+       }
+    }
+}
+
 
 #pragma mark - displayEachTemplateDetals - 点击进入每个模板详情
 -(void)displayEachTemplateDetals:(UIButton *)sender

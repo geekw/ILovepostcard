@@ -69,8 +69,38 @@ static int timeNum = 0;
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:requsetUrl]];
     request.delegate = self;
     [request setDidFinishSelector:@selector(getPic:)];
+    [request setDidFailSelector:@selector(badInternet:)];//没有网络
     [request startAsynchronous];
 }
+
+-(void)badInternet:(ASIHTTPRequest *)request
+{
+    [self showAlertView];
+}
+
+-(void)showAlertView
+{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil
+                                                    message:@"网络故障" 
+                                                   delegate:self 
+                                          cancelButtonTitle:@"重试" 
+                                          otherButtonTitles:@"退出", nil];
+    [alert show];
+    [alert release];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 0)
+    {
+        [self viewDidLoad];
+    }
+    else
+    {
+        exit(0);
+    }
+}
+
 
 -(void)getPic:(ASIHTTPRequest *)request
 {
@@ -141,7 +171,7 @@ static int timeNum = 0;
 {
     [super viewDidLoad];
     
-//    [self requestPicUrl];
+    [self requestPicUrl];
     [goToPostcardListButton setBackgroundImage:[UIImage imageNamed:@"makepress.png"] forState:UIControlStateHighlighted];
     [listenVoiceMessageButton setBackgroundImage:[UIImage imageNamed:@"listenpress.png"] forState:UIControlStateHighlighted];
     [goToPostOfficeButton setBackgroundImage:[UIImage imageNamed:@"postofficepress.png"] forState:UIControlStateHighlighted];

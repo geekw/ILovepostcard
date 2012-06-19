@@ -145,11 +145,7 @@
     [subjectsArray release], subjectsArray = nil;
 	[bodyArray release], bodyArray = nil;
     [mypriceArray release];mypriceArray = nil;
-    
-//    tmpID = nil;[tmpID release];
-//    tmpPrice = nil;[tmpPrice release];
-//    tmpway = nil;[tmpway release];
-    
+
 }
 
 
@@ -186,8 +182,6 @@
     NSDictionary *tmpDict = [self.priceArray objectAtIndex:0];
     NSString *postcardStr = [tmpDict objectForKey:@"postcard_sn"];
     [[NSUserDefaults standardUserDefaults] setObject:postcardStr forKey:@"postcard_sn"];
-    
-
 }
 
 
