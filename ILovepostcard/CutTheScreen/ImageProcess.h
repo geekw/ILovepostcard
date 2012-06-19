@@ -23,5 +23,9 @@
 
 + (UIImage *)maskImage:(UIImage*)image withMask:(UIImage*)mask;//把一张图盖在另一张上面
 
++ (UIImage *)scale:(UIImage *)image toSize:(CGSize)size;
+
++ (UIView *)rotateView:(UIView *)view withDegree:(int)degree;
++ (UIView *)getPortraitView:(UIView *)view;
 
 @end
