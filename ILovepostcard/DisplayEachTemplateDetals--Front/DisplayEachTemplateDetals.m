@@ -8,8 +8,8 @@
 
 #import "DisplayEachTemplateDetals.h"
 
-#define Template_Front @"http://61.155.238.30/postcards/interface/get_template"//单个模板详情接口
-#define Template_Front_Activity @"http://61.155.238.30/postcards/interface/get_activity_template"
+#define Template_Front @"http://www.52mxp.com/interface/get_template"//单个模板详情接口
+#define Template_Front_Activity @"http://www.52mxp.com/interface/get_activity_template"
 
 #define googleMapUrl   @"http://maps.google.com/maps/api/staticmap"
 #define pinUrl @"http://cdn1.iconfinder.com/data/icons/customicondesign-office6-shadow/32/pin-red.png"
@@ -24,6 +24,9 @@
 @implementation DisplayEachTemplateDetals
 @synthesize shrinkButton;
 @synthesize arrowButton;
+@synthesize cameraView;
+@synthesize openCameraBtn;
+@synthesize openPhotoLibBtn;
 @synthesize bottomScrollView;
 @synthesize bkImgView;
 @synthesize idName,displayEachTemplateDetals_Back;
@@ -61,11 +64,15 @@ bool hideOrShowBottonView;
     [bkImgView release];
     [shrinkButton release];
     [arrowButton release];
+    [cameraView release];
+    [openCameraBtn release];
+    [openPhotoLibBtn release];
     [super dealloc];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    
 }
 
 - (void)viewDidLoad
@@ -98,14 +105,16 @@ bool hideOrShowBottonView;
     [self setBkImgView:nil];
     [self setShrinkButton:nil];
     [self setArrowButton:nil];
+    [self setCameraView:nil];
+    [self setOpenCameraBtn:nil];
+    [self setOpenPhotoLibBtn:nil];
     [super viewDidUnload];
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) 
-    {
+    if (self) {
     }
     return self;
 }
@@ -131,18 +140,19 @@ bool hideOrShowBottonView;
     int activity_ID = [idName_Activity intValue];
     NSString *loadString = [Template_Front stringByAppendingFormat:@"?id=%d&activity_id=%d",idValue,activity_ID];
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:loadString]];
+//    NSLog(@"%@",loadString);
     request.delegate = self;
     [request setDidFinishSelector:@selector(getTemplateFinished:)];//正常情况取得json数据
     [request setDidFailSelector:@selector(getTemplateFailed:)];//网络故障提示
     [request startAsynchronous];
 }
 
-
 #pragma mark - RequestFrontDetails - 2.正常请求正面素材
 -(void)requestFrontDetails
 {
     int idValue = [idName intValue];
     NSString *loadString = [Template_Front stringByAppendingFormat:@"?id=%d",idValue];
+    NSLog(@"%@",loadString);
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:loadString]];
     request.delegate = self;
     [request setDidFinishSelector:@selector(getTemplateFinished:)];//正常情况取得json数据
@@ -159,18 +169,12 @@ bool hideOrShowBottonView;
     }
     NSDictionary *dict = [request responseString].JSONValue;
     
-//    NSString *back_StampStr = [dict objectForKey:@"back_stamp"];
-//    NSString *backinfoStr = [dict objectForKey:@"backinfo"];
-//    NSString *back_PostmarkStr = [dict objectForKey:@"back_PostmarkStr"];
-//    [[TemplateDetails_Singleton sharedTemplateDetails_Singleton].templateDetailsDict setObject:back_StampStr 
-//                                                                                        forKey:@"back_stamp"];
-//    
-//    [[TemplateDetails_Singleton sharedTemplateDetails_Singleton].templateDetailsDict setObject:backinfoStr
-//                                                                                        forKey:@"backinfo"];
-//    
-//    [[TemplateDetails_Singleton sharedTemplateDetails_Singleton].templateDetailsDict setObject:back_PostmarkStr 
-//                                                                                        forKey:@"back_PostmarkStr"]//背面信息
+    NSString *back_StampStr = [dict objectForKey:@"back_stamp"];
+    NSString *back_PostmarkStr = [dict objectForKey:@"back_postmark"];
     
+    [[NSUserDefaults standardUserDefaults] setObject:back_StampStr forKey:@"back_stamp"];
+    [[NSUserDefaults standardUserDefaults] setObject:back_PostmarkStr forKey:@"back_postmark"];
+        
     NSDictionary *layoutDict = [dict objectForKey:@"ly"];
     
     NSArray *areasArray = [layoutDict objectForKey:@"areas"];//可能没有
@@ -261,7 +265,6 @@ bool hideOrShowBottonView;
     NSDictionary *areasDict = [areasArray objectAtIndex:0];
     NSLog(@"areasDict = %@",areasDict);
     
-//    NSString *degreeStr = [areasDict objectForKey:@"degree"];
     NSString *hStr = [areasDict objectForKey:@"h"];
     NSString *wStr = [areasDict objectForKey:@"w"];
     NSString *xStr = [areasDict objectForKey:@"x"];
@@ -270,7 +273,7 @@ bool hideOrShowBottonView;
     cameraButton = [UIButton buttonWithType:UIButtonTypeCustom];
     cameraButton.frame = CGRectMake(([xStr intValue]-[wStr intValue]/2)/2, ([yStr intValue]-[hStr intValue]/2)/2,[wStr intValue]/2, [hStr intValue]/2);
     cameraButton.backgroundColor = [UIColor blackColor];
-    cameraButton.alpha = 0.7;
+    cameraButton.alpha = 0.6;
     [cameraButton setBackgroundImage:[UIImage imageNamed:@"addphotobk.png"] forState:UIControlStateNormal];
     [cameraButton setBackgroundImage:[UIImage imageNamed:@"addphotobkclick.png"] forState:UIControlStateHighlighted];
     [cameraButton setImage:[UIImage imageNamed:@"addphoto.png"] forState:UIControlStateNormal];
@@ -281,7 +284,6 @@ bool hideOrShowBottonView;
     cameraButton.userInteractionEnabled = YES;
     cameraButton.tag = 500 + i * 4;
     [postcard_FrontView insertSubview:cameraButton atIndex:0];
-//    [postcard_FrontView addSubview:cameraButton];
     
     bottomButton = [UIButton buttonWithType:UIButtonTypeCustom];
     bottomButton.frame = CGRectMake(10 + 80 * i, 3, 59, 59);
@@ -298,6 +300,7 @@ bool hideOrShowBottonView;
     [indicatorButton removeTarget:self action:@selector(showHollowOutPart) forControlEvents:UIControlEventTouchUpInside];
     [indicatorButton addTarget:self action:@selector(goCameraOrPhotoLibrary:)
            forControlEvents:UIControlEventTouchUpInside];
+    
     indicatorButton.tag = 501 + i * 4;
     [self.bottomScrollView addSubview:indicatorButton];
 }
@@ -306,29 +309,34 @@ bool hideOrShowBottonView;
 {
     int i = sender.tag;
     
-    UIView *tmpView = [[UIView alloc ]initWithFrame:CGRectMake(0, 0, 320, 460)];
-    tmpView.backgroundColor = [UIColor whiteColor];
-    tmpView.alpha = 0.7;
-    tmpView.tag = 99;
+    self.cameraView.frame = CGRectMake(0, 0, 320, 460);
+    self.openCameraBtn.tag = i;
+    self.openPhotoLibBtn.tag = i;
+    [self.view addSubview:self.cameraView];
     
-    UIButton *tmpButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    tmpButton.frame = CGRectMake(50, 200, 100, 100);
-    tmpButton.backgroundColor = [UIColor blackColor];
-    tmpButton.tag = i;
-    [tmpButton setTitle:@"打开相机" forState:UIControlStateNormal];
-    [tmpButton addTarget:self action:@selector(loadCamera:) forControlEvents:UIControlEventTouchUpInside];
-    [tmpView addSubview:tmpButton];
-    
-    UIButton *photoLibraryButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    photoLibraryButton.frame = CGRectMake(200, 200, 100, 100);
-    photoLibraryButton.backgroundColor = [UIColor blackColor];
-    photoLibraryButton.tag = i;
-    [photoLibraryButton setTitle:@"打开相册" forState:UIControlStateNormal];
-    [photoLibraryButton addTarget:self action:@selector(openPhotoLibrary:) forControlEvents:UIControlEventTouchUpInside];
-    [tmpView addSubview:photoLibraryButton];
-    
-    [self.view addSubview:tmpView];
-    [tmpView release];
+//    UIView *tmpView = [[UIView alloc ]initWithFrame:CGRectMake(0, 0, 320, 460)];
+//    tmpView.backgroundColor = [UIColor whiteColor];
+//    tmpView.alpha = 0.7;
+//    tmpView.tag = 99;
+//    
+//    UIButton *tmpButton = [UIButton buttonWithType:UIButtonTypeCustom];
+//    tmpButton.frame = CGRectMake(50, 200, 100, 100);
+//    tmpButton.backgroundColor = [UIColor blackColor];
+//    tmpButton.tag = i;
+//    [tmpButton setTitle:@"打开相机" forState:UIControlStateNormal];
+//    [tmpButton addTarget:self action:@selector(loadCamera:) forControlEvents:UIControlEventTouchUpInside];
+//    [tmpView addSubview:tmpButton];
+//    
+//    UIButton *photoLibraryButton = [UIButton buttonWithType:UIButtonTypeCustom];
+//    photoLibraryButton.frame = CGRectMake(200, 200, 100, 100);
+//    photoLibraryButton.backgroundColor = [UIColor blackColor];
+//    photoLibraryButton.tag = i;
+//    [photoLibraryButton setTitle:@"打开相册" forState:UIControlStateNormal];
+//    [photoLibraryButton addTarget:self action:@selector(openPhotoLibrary:) forControlEvents:UIControlEventTouchUpInside];
+//    [tmpView addSubview:photoLibraryButton];
+//    
+//    [self.view addSubview:tmpView];
+//    [tmpView release];
 }
 
 -(void)showMaterials
@@ -479,8 +487,9 @@ bool hideOrShowBottonView;
         UIImageView *tmpImgView = (UIImageView *)[self.view viewWithTag:i - 2];
         tmpImgView.hidden = YES;
         
-        UIButton *tmpButton = (UIButton *)[self.view viewWithTag:i - 1];
-        [tmpButton setImage:nil forState:UIControlStateNormal];
+//        UIButton *tmpButton = (UIButton *)[self.view viewWithTag:i - 1];
+//        [tmpButton setImage:nil forState:UIControlStateNormal];
+        
         
         UIButton *tmpButton1 = (UIButton *)[self.view viewWithTag:i];
         [tmpButton1 setImage:[UIImage imageNamed:@"slidebtnhide.png"] forState:UIControlStateNormal];
@@ -508,8 +517,8 @@ bool hideOrShowBottonView;
         UIView *tmpView = (UIView *)[self.view viewWithTag:200];
         tmpView.hidden = YES;
         
-        UIButton *tmpButton = (UIButton *)[self.view viewWithTag:201];
-        [tmpButton setImage:nil forState:UIControlStateNormal];
+//        UIButton *tmpButton = (UIButton *)[self.view viewWithTag:201];
+//        [tmpButton setImage:nil forState:UIControlStateNormal];
         
         UIButton *tmpButton1 = (UIButton *)[self.view viewWithTag:202];
         [tmpButton1 setImage:[UIImage imageNamed:@"slidebtnhide.png"] forState:UIControlStateNormal];
@@ -534,8 +543,9 @@ bool hideOrShowBottonView;
 {
     int i = sender.tag; 
     
-    UIView *tmpView = (UIView *)[self.view viewWithTag:99];
-    [tmpView removeFromSuperview];
+//    UIView *tmpView = (UIView *)[self.view viewWithTag:99];
+//    [tmpView removeFromSuperview];
+    [self.cameraView removeFromSuperview];
     
     UIImagePickerControllerSourceType sourceType;
     sourceType = UIImagePickerControllerSourceTypeCamera;
@@ -621,8 +631,9 @@ bool hideOrShowBottonView;
     
     self.tagValueStr = [NSString stringWithFormat:@"%d",i];
     
-    UIView *tmpView = (UIView *)[self.view viewWithTag:99];
-    [tmpView removeFromSuperview];
+//    UIView *tmpView = (UIView *)[self.view viewWithTag:99];
+//    [tmpView removeFromSuperview];
+    [self.cameraView removeFromSuperview];
     
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) 
     {
@@ -636,7 +647,6 @@ bool hideOrShowBottonView;
         [self presentModalViewController:self.imagePicker animated:YES];
     }
 }
-
 
 
 //takePicture得到的图片
@@ -662,7 +672,6 @@ bool hideOrShowBottonView;
         [fileContent setImage:image];
         [fileContent setViewTag: 199];
         fileContent.delegate = self;
-//        [self.view addSubview:fileContent];
         [postcard_FrontView insertSubview:fileContent atIndex:0];
         [fileContent release];
     
@@ -695,11 +704,8 @@ bool hideOrShowBottonView;
         [tmpButton3 addTarget:self action:@selector(showHollowOutPart) forControlEvents:UIControlEventTouchUpInside];
     }
     */
-    
     cameraButton.hidden = YES;
-    
     [bottomButton setImage:image forState:UIControlStateNormal];
-    
     [indicatorButton setImage:[UIImage imageNamed:@"slidebtndel.png"] forState:UIControlStateNormal];
     [indicatorButton removeTarget:self action:@selector(goCameraOrPhotoLibrary:) forControlEvents:UIControlEventTouchUpInside];
     [indicatorButton addTarget:self action:@selector(showHollowOutPart) forControlEvents:UIControlEventTouchUpInside];
@@ -741,13 +747,10 @@ bool hideOrShowBottonView;
     }
 }
 
-
-
 #pragma optional
 - (void)TouchViewActionBegin:(NSNumber *)tag
 {
     int index = [tag intValue];
-    
     switch (index)
     {
         case 0:
@@ -801,7 +804,7 @@ bool hideOrShowBottonView;
     NSString *markersStr = [[NSString stringWithFormat:@"icon:%@|%@ , %@",pinUrl,latitudeValue,longitudeValue] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSLog(@"markersStr = %@",markersStr);
     
-    NSString *sizeStr = [NSString stringWithFormat:@"128x128"];
+    NSString *sizeStr = [NSString stringWithFormat:@"180x180"];
     NSLog(@"sizeStr = %@",sizeStr);
     
     NSString *loadString = [googleMapUrl stringByAppendingFormat:@"?center=%@&size=%@&zoom=11&language=zh-cn&markers=%@&sensor=true",centerStr,sizeStr,markersStr];
@@ -882,8 +885,6 @@ bool hideOrShowBottonView;
     self.displayEachTemplateDetals_Back.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     [self presentModalViewController:self.displayEachTemplateDetals_Back 
                             animated:YES];
-    
-//    [self performSelector:@selector(uploadFrontPic:) withObject:picSaveStr];
 }
 
 

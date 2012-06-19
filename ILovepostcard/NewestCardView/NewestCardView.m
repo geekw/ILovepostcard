@@ -6,7 +6,7 @@
 //  Copyright (c) 2012年 开趣. All rights reserved.
 //
 
-#define NewestCardUrl @"http://61.155.238.30/postcards/interface/finished_items"
+#define NewestCardUrl @"http://www.52mxp.com/interface/finished_items"
 
 #import "NewestCardView.h"
 #import "JSON.h"

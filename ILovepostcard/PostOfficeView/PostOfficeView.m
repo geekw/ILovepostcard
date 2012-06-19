@@ -7,7 +7,7 @@
 
 #define FD_IMAGE_PATH(file) [NSString stringWithFormat:@"%@/Documents/ScreenShot/%@",NSHomeDirectory(),file]
 
-#define Self_Record @"http://61.155.238.30/postcards/interface/self_record"
+#define Self_Record @"http://www.52mxp.com/interface/self_record"
 #define degreesToRadian(x) (M_PI * (x) / 180.0)//定义弧度
 
 #import "PostOfficeView.h"

@@ -240,6 +240,12 @@ bool HideOrShowPostmark;
 #pragma mark - RotateAllTheObjects - 旋转控件
 -(void)rotateAllTheObjects
 {
+    NSString *stampStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"back_stamp"];
+    NSString *postMarkStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"back_postmark"];
+    
+    UIImage *stmap = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:stampStr]]];
+    UIImage *postMark = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:postMarkStr]]];
+     
     self.blessMessageText.frame = CGRectMake(53.5,31.5,150,143);
     self.blessMessageText.transform = CGAffineTransformMakeRotation(degreesToRadian(90));
     self.blessMessageText.userInteractionEnabled = NO;
@@ -248,9 +254,11 @@ bool HideOrShowPostmark;
     self.QRImg2.transform = CGAffineTransformMakeRotation(degreesToRadian(90));
     
     self.stampImgView.frame = CGRectMake(161, 290, 68, 72);
+    self.stampImgView.image = stmap;
     self.stampImgView.transform = CGAffineTransformMakeRotation(degreesToRadian(90));
     
     self.postmarkImgView.frame = CGRectMake(130, 241, 115, 85);
+    self.postmarkImgView.image = postMark;
     self.postmarkImgView.transform = CGAffineTransformMakeRotation(degreesToRadian(90));
     
     self.recevierAdressText.frame = CGRectMake(56, 254, 144, 30);
@@ -325,6 +333,7 @@ bool HideOrShowPostmark;
     NSString *detailStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"DETAILS_ADDRESS"];
     
     NSString *postcodeStr_Sender = [[NSUserDefaults standardUserDefaults] objectForKey:@"SENDER_POSTCODE"];
+    
     NSString *detailStr_Sender = [[NSUserDefaults standardUserDefaults] objectForKey:@"SENDER_ADDRESS"];
     
     self.receiverNameLabel.text = [NSString stringWithFormat:@"%@(收)",nameStr];

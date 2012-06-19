@@ -6,7 +6,7 @@
 //  Copyright (c) 2012年 开趣. All rights reserved.
 //
 
-#define ClientIdURL @"http://61.155.238.30/postcards/interface/client_id"
+#define ClientIdURL @"http://www.52mxp.com/interface/client_id"
 
 #import "AppDelegate.h"
 #import "ViewController.h"

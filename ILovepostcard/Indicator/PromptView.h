@@ -18,11 +18,4 @@
                       withPrompt:(NSString *)promptText 
                        withFrame:(CGRect)frame;
 
-
-//+ (void)showPromptWithParentViewAllTheTime:(UIView *)parentView
-//                      withPrompt:(NSString *)promptText 
-//                       withFrame:(CGRect)frame;//永久显示
-//+ (void)hideThisPromptView;//手动隐藏
-
-
 @end

@@ -6,7 +6,7 @@
 //  Copyright (c) 2012年 开趣. All rights reserved.
 //
 
-#define PicURL @"http://61.155.238.30/postcards/interface/home_activities"
+#define PicURL @"http://www.52mxp.com/interface/home_activities"
 
 #import "ViewController.h"
 #import "JSON.h"

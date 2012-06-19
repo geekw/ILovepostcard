@@ -58,6 +58,15 @@
 
 @property (retain, nonatomic) IBOutlet UIButton *arrowButton;
 
+@property (retain, nonatomic) IBOutlet UIView *cameraView;
+
+@property (retain, nonatomic) IBOutlet UIButton *openCameraBtn;
+
+@property (retain, nonatomic) IBOutlet UIButton *openPhotoLibBtn;
+
+-(IBAction)loadCamera:(UIButton *)sender;
+
+-(IBAction)openPhotoLibrary:(UIButton *)sender;
 
 -(IBAction)goback;
 
