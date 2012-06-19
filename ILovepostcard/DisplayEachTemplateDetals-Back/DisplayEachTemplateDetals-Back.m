@@ -265,11 +265,6 @@ bool HideOrShowPostmark;
     self.senderAdressText.transform = CGAffineTransformMakeRotation(degreesToRadian(90));
     self.senderAdressText.userInteractionEnabled = NO;
 
-    
-//    self.snLabel.frame = CGRectMake(-64, 94, 158, 10);
-//    self.snLabel.transform = CGAffineTransformMakeRotation(degreesToRadian(90));
-//    snLabel.text = [NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"SNStr"]];
-    
     self.postNumberLabel.frame = CGRectMake(-35, 242, 100, 10);
     self.postNumberLabel.transform = CGAffineTransformMakeRotation(degreesToRadian(90));
     
