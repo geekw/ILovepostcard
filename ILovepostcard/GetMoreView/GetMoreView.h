@@ -10,7 +10,7 @@
 #import "SinaShare.h"
 #import "AboutUsViewController.h"
 
-@interface GetMoreView : UIViewController <SinaShareDelegate>
+@interface GetMoreView : UIViewController <SinaShareDelegate, UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate>
 
 @property (retain, nonatomic) IBOutlet UIButton *goBackBtn;
 @property (retain, nonatomic) IBOutlet UIButton *weiBoShareBtn;
@@ -20,12 +20,17 @@
 
 @property (retain, nonatomic) SinaShare *sinaShare;
 @property (retain, nonatomic) AboutUsViewController *aboutUsViewController;
+@property (retain, nonatomic) IBOutlet UITableView *table;
+@property (retain, nonatomic) NSMutableArray *tableArray;
+@property (retain, nonatomic) NSMutableArray *imageArray;
+
+@property (retain, nonatomic) UISwitch *weiboSwitch;
 
 - (IBAction)goBack;
-- (IBAction)weiBoShare:(id)sender;
-- (IBAction)goAboutUsView;
-- (IBAction)giveScore;
-- (IBAction)callServer;
 
+- (void)weiBoShare;
+- (void)goAboutUsView;
+- (void)giveScore;
+- (void)callServer;
 
 @end

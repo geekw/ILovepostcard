@@ -10,6 +10,9 @@
 #import "WBEngine.h"
 #import "PromptView.h"
 
+#define kAppKey @"1086873395"
+#define kAppSecret @"23beaa470da2b1abfe3542075a3fb62a"
+#define kHasAuthoredSina @"hasAuthoredSina"
 
 @protocol SinaShareDelegate <NSObject>
 

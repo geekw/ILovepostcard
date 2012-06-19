@@ -14,6 +14,9 @@
 
 
 @interface PlayVoiceView : UIViewController<ASIHTTPRequestDelegate,AVAudioPlayerDelegate,UIWebViewDelegate>
+{
+
+}
 
 @property (retain, nonatomic) IBOutlet UIButton *openWebViewButton;
 
@@ -28,7 +31,6 @@
 @property (retain, nonatomic) IBOutlet UIImageView *tapeRoll1;
 
 @property (retain, nonatomic) IBOutlet UIImageView *tapeRoll2;
-
 
 - (IBAction)goBack;
 

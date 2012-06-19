@@ -181,7 +181,8 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
     } 
     
     [rs close];
-    NSLog(@"%@",dataArray);
+    
+    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];
     
     return YES;
 }

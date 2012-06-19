@@ -130,7 +130,6 @@
 //            self.strLabel.text = [NSString stringWithFormat:@"%@",self.voiceURLStr];
 //            NSLog(@"%@",sym.data);
             [[NSUserDefaults standardUserDefaults] setObject:self.voiceURLStr forKey:@"voiceURLStr"];
-            NSLog(@"voiceURLStr = %@",[[NSUserDefaults standardUserDefaults] valueForKey:@"voiceURLStr"]);
             [self performSelector:@selector(goToPlayVoiceView)];//进入播放录音界面
         }
     }

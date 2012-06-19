@@ -74,7 +74,6 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
-        [self initData];
 
     }
     return self;
@@ -154,6 +153,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+    [self initData];
 
     self.addressStr = nil;    
     self.addressScrollView.contentSize = CGSizeMake(320, 1000);

@@ -78,13 +78,10 @@ int addPageNumber;
     addPageNumber = 0;
     
     NSDictionary *dict = [request responseString].JSONValue;
-    NSLog(@"%@",dict);
     self.total_pageStr = [dict objectForKey:@"page_total"];
     
     self.totalLabel.text = [NSString stringWithFormat:@"%@",[dict objectForKey:@"total"]];
-    NSLog(@"%@",self.totalLabel.text);
 
-    
     NSArray *tmpArray = [dict objectForKey:@"items"];
 
     [self.tableArray addObjectsFromArray:tmpArray];
@@ -173,12 +170,14 @@ int addPageNumber;
     }
     
     addPageNumber ++;
-    NSLog(@"%d",addPageNumber);
     if (addPageNumber == 2)
     {
         currentPage ++;
     }
     
+    [ImageProcess rotateView:cell.btn1 withDegree:270];
+    [ImageProcess rotateView:cell.btn2 withDegree:270];
+
     return cell;
 }
 

@@ -7,6 +7,7 @@
 //
 
 #import "NewestCardViewCellView.h"
+#import "ImageProcess.h"
 
 @interface NewestCardViewCellView ()
 
@@ -42,21 +43,25 @@
     if (!finishOne)
     {
         UIImage *tmpImg = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:urlStr]]];
+        
         [self.btn1 setImage:tmpImg forState:UIControlStateNormal];
         
         self.btn1.tag = [tag intValue];
         self.label1.text = [NSString stringWithFormat:@"%@",address];
         finishOne = YES;
+        
     }
     else
     {
         UIImage *tmpImg = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:urlStr]]];
         [self.btn2 setImage:tmpImg forState:UIControlStateNormal];
-        
+
         self.btn2.tag = [tag intValue];
         self.label2.text = [NSString stringWithFormat:@"%@",address];
         finishOne = NO;  
+        
     }
+    
 }
 
 

@@ -14,7 +14,7 @@
 #import "ViewController.h"
 #import "SBJSON.h"
 #import "PostOfficeViewCell.h"
-
+#import "ImageProcess.h"
 
 @implementation PostOfficeView
 @synthesize goBackBtn;
@@ -268,6 +268,8 @@ int current_page;
         NSString *is_pay = [dict objectForKey:@"is_pay"];
         [cell configCellWithIndex:indexPath.row address:_address paymentStatus:is_pay];
     }
+    
+    [ImageProcess rotateView:cell.postCard withDegree:270];
 
     return cell;
 }

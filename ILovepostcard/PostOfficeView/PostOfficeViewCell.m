@@ -7,6 +7,7 @@
 //
 
 #import "PostOfficeViewCell.h"
+#import "ImageProcess.h"
 
 @implementation PostOfficeViewCell
 @synthesize postCard;
@@ -35,6 +36,7 @@
     NSString *picSaveStr = [NSString stringWithFormat:@"frontPic%d.png",index];//定义图片文件名
     NSString *str = [NSString stringWithFormat:@"%@",FD_IMAGE_PATH(picSaveStr)];
     self.postCard.image = [UIImage imageWithContentsOfFile:str];
+
     self.address.text = _address;
     
     if (_paymentStatus.intValue == 1)

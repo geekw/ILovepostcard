@@ -87,17 +87,13 @@
     NSString *screenShotNumber = [NSString stringWithFormat:@"%d",[[NSUserDefaults standardUserDefaults] integerForKey:@"ScreenShotNumber"]];
     NSString *picSaveStr = [NSString stringWithFormat:@"frontPic%@.png",screenShotNumber];//定义图片文件名
     NSString *frontImagePath = [NSString stringWithFormat:@"%@",FD_IMAGE_PATH(picSaveStr)];
-    UIImage *frontImage = [ResizeImage scale:[UIImage imageWithContentsOfFile:frontImagePath] toSize:CGSizeMake(self.flipButton.frame.size.height, self.flipButton.frame.size.width)];
+    UIImage *frontImage = [UIImage imageWithContentsOfFile:frontImagePath];
     [self.flipButton setImage:frontImage forState:UIControlStateNormal];
         
-    
     NSString *backImageStr = [NSString stringWithFormat:@"backPic%@.png",screenShotNumber];//定义图片文件名
     NSString *backImagePath = [NSString stringWithFormat:@"%@",FD_IMAGE_PATH(backImageStr)];
-    UIImage *backImage = [ResizeImage scale:[UIImage imageWithContentsOfFile:backImagePath] toSize:CGSizeMake(self.flipButton.frame.size.height, self.flipButton.frame.size.width)];
+    UIImage *backImage = [UIImage imageWithContentsOfFile:backImagePath];
     [self.flipButton_Back setImage:backImage forState:UIControlStateNormal];
-
-    [ImageProcess getPortraitView:self.flipButton];
-    [ImageProcess getPortraitView:self.flipButton_Back];
 
     [ImageProcess rotateView:self.flipButton withDegree:270];
     [ImageProcess rotateView:self.flipButton_Back withDegree:270];

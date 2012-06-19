@@ -50,6 +50,7 @@
     [self.playAndStopButton setImage:[UIImage imageNamed:@"btn-playclick.png"] 
                             forState:UIControlStateNormal];
     [audioPlayer play];
+    NSLog(@"%@",audioPlayer);
     [Effects rotate360DegreeWithImageView:self.tapeRoll1];
     [Effects rotate360DegreeWithImageView:self.tapeRoll2];
     self.playAndStopButton.userInteractionEnabled = NO;
@@ -85,32 +86,37 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+        
     self.playAndStopButton.userInteractionEnabled = NO;
     [self.playAndStopButton setImage:nil forState:UIControlStateNormal];
     self.playAndStopButton.backgroundColor = [UIColor grayColor];
     [self.playAndStopButton setTitle:@"请稍侯..." forState:UIControlStateNormal];
-    [self.playAndStopButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    
-    
+    [self.playAndStopButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];    
     [self.goBackButton setImage:[UIImage imageNamed:@"titlebtnbackclick.png"] 
                        forState:UIControlStateHighlighted];
 
     NSString *voiceUrlStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"voiceURLStr"];
-    NSLog(@"%@",voiceUrlStr);
-    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:voiceUrlStr]];
+    NSString *headStr = [NSString stringWithFormat:@"http://52mxp.com/files/"];
+    NSArray *components=[voiceUrlStr componentsSeparatedByString:@"="];
+    NSString *path = [headStr stringByAppendingString:[components objectAtIndex:1]];
+
+    NSString *mp3Path = [NSTemporaryDirectory() stringByAppendingPathComponent:@"voice.mp3"];
+    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:path]];
     request.delegate = self;
+    [request setDownloadDestinationPath:mp3Path];
     [request setDidFinishSelector:@selector(getVoiceFinished:)];
     [request startAsynchronous];    
 }
 
 -(void)getVoiceFinished:(ASIHTTPRequest *)request
 {
-    NSData *voiceData = [request responseData];
-    audioPlayer = [[AVAudioPlayer alloc] initWithData:voiceData error:nil];
-    [audioPlayer setNumberOfLoops:1];
-    audioPlayer.delegate = self;
-    [audioPlayer stop];
-    [audioPlayer prepareToPlay];
+    NSString *mp3Path = [NSTemporaryDirectory() stringByAppendingPathComponent:@"voice.mp3"];
+    
+    audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL URLWithString:mp3Path] error:nil];
+    [self.audioPlayer setNumberOfLoops:1];
+    self.audioPlayer.delegate = self;
+    self.audioPlayer.volume = 1;
+    [audioPlayer prepareToPlay];    
     self.playAndStopButton.userInteractionEnabled = YES;
     self.playAndStopButton.backgroundColor = [UIColor clearColor];
     [self.playAndStopButton setImage:[UIImage imageNamed:@"btn-play.png"] 
@@ -140,6 +146,12 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    
+    [audioPlayer stop];
 }
 
 
