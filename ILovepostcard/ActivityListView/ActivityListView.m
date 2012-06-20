@@ -184,7 +184,7 @@
 //    ItemCell  *cell = [tableView dequeueReusableCellWithIdentifier:uniqueIdentifier];
 //    if (!cell)
 //    {
-       ItemCell *cell = [[ItemCell alloc] init];
+       ItemCell *cell = [[[ItemCell alloc] init] autorelease];
        cell.selectionStyle = UITableViewCellSelectionStyleNone;//取消row的选中
 //    }
     

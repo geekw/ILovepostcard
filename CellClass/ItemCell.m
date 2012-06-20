@@ -27,7 +27,7 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        return [[[NSBundle mainBundle] loadNibNamed:@"ItemCell" owner:nil options:nil] objectAtIndex:0];
+        return [[[NSBundle mainBundle] loadNibNamed:@"ItemCell" owner:nil options:nil] objectAtIndex:0]; 
     }
     return self;
 }
@@ -39,9 +39,10 @@
     // Configure the view for the selected state
 }
 
-//+ (ItemCell *)getInstance
-//{
-//}
++ (ItemCell *)getInstance
+{
+    return [[[NSBundle mainBundle] loadNibNamed:@"ItemCell" owner:nil options:nil] objectAtIndex:0]; 
+}
 
 - (void)configWithTitle:(NSString *)title 
                btnImage:(UIImage *)image
@@ -67,6 +68,7 @@
     [tmpDict setObject:tagStr forKey:@"tagStr"];
     [tmpDict setObject:self.whichListInt forKey:@"whichListInt"];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"goToActivityDetailView" object:tmpDict];
+    [tmpDict release];
 }
 
 @end

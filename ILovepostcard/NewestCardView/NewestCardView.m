@@ -184,7 +184,7 @@ int addPageNumber;
     DisplayEachTemplateDetals *display = [[DisplayEachTemplateDetals alloc] init];
     display.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
     display.idName = [NSString stringWithFormat:@"%d",sender.tag];
-    NSLog(@"%@",display.idName);
+
     [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"FromActivityList"];
     [self presentModalViewController:display animated:YES];
 }

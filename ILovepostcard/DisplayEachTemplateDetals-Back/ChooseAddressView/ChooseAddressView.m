@@ -126,7 +126,6 @@
         [cityceSet addObject:di.city];
         [countySet addObject:di.county];
         [postcodeSet addObject:di.postcode];
-        [di release];
     }
     
     for (NSString *provinceStr in provinceSet) 

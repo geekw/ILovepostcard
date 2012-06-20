@@ -30,6 +30,7 @@
 	self.amount = nil;
 	self.notifyURL = nil;
 	[self.extraParams release];
+    
 	[super dealloc];
 }
 

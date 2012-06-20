@@ -356,8 +356,8 @@
     NSString *card_recevier_postcode = [NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"RECEIVER_POSTCODE"]];
     NSString *blessings = [NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"BLESS"]];
     
-    NSString *qrcode = [[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"QRURL"]] retain];
-    NSString *audio = [[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"VOICEURL"]] retain];
+    NSString *qrcode = [NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"QRURL"]];
+    NSString *audio = [NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"VOICEURL"]];
     
     ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:UploadAllUrl]];
     
@@ -376,9 +376,6 @@
     [request setPostValue:qrcode forKey:@"qrcode"];
     [request setPostValue:audio  forKey:@"audio"];
     [request setDidFinishSelector:@selector(requestUploadAllFinish:)];
-    
-    NSLog(@"cid:%@ tid:%@ a:%@ b:%@ qrcode:%@ audio:%@ :%@---%@---%@---%@---%@---%@---%@", cidStr, tidStr, pic_a, pic_b, qrcode, audio,card_sender,card_sender_address,card_sender_postcode,card_recevier,card_recevier_address,card_recevier_postcode,blessings);
-    
     [request setDidFailSelector:@selector(requestUploadDataFail:)];
     [request startAsynchronous];
 }
@@ -397,23 +394,23 @@
 {    
     if ([request responseStatusCode] == 200) 
     {
-        NSArray *tmpPriceArray = [request responseString].JSONValue;
+        NSMutableArray *tmpPriceArray = [request responseString].JSONValue;
     
-        NSLog(@"array = %@",tmpPriceArray);
+//        NSLog(@"array = %@",tmpPriceArray);
 
         if (!paymentView)
         {
             paymentView = [[PaymentView alloc] init];
         }
         
-        if (self.paymentView.priceArray == nil)
-        {
-            self.paymentView.priceArray = [[NSMutableArray alloc] initWithArray:tmpPriceArray];
-        }
-        else
+//        if (self.paymentView.priceArray == nil)
+//        {
+//            self.paymentView.priceArray = [[NSMutableArray alloc] initWithArray:tmpPriceArray];
+//        }
+//        else
         {
             [self.paymentView.priceArray removeAllObjects];
-            self.paymentView.priceArray = [[NSMutableArray alloc] initWithArray:tmpPriceArray];
+            self.paymentView.priceArray = tmpPriceArray; //[[NSMutableArray alloc] initWithArray:tmpPriceArray];
         }
         
         [[NSUserDefaults standardUserDefaults] setValue:nil forKey:@"VOICEURL"];

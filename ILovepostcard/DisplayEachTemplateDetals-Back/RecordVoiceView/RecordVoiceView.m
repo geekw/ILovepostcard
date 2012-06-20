@@ -43,7 +43,6 @@ bool StopOrSatrt;
 {
     promptView  = nil;[promptView release];
     audioPlayer = nil;[audioPlayer release];
-    audioRecorder = nil;[audioRecorder release];
     audioSession  = nil;[audioSession release];
     [goBackButton release];
     [voiceRecordButton release];
@@ -88,6 +87,12 @@ bool StopOrSatrt;
     
     [self.voiceRecordButton setImage:[UIImage imageNamed:@"speakbtnpress.png"] forState:UIControlStateHighlighted];
 
+}
+
+- (void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
+    
+    audioRecorder = nil;[audioRecorder release];
 }
 
 - (void)viewDidUnload
@@ -147,7 +152,7 @@ bool StopOrSatrt;
                 NSError *error;
                 [[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategoryPlayAndRecord error: nil];
                 
-                self.audioRecorder = [[AVAudioRecorder alloc] initWithURL:url settings:settings error:&error];
+                audioRecorder = [[AVAudioRecorder alloc] initWithURL:url settings:settings error:&error];
                 self.audioRecorder.delegate = self;
                 
                 self.audioSession= [AVAudioSession sharedInstance];
@@ -211,7 +216,7 @@ bool StopOrSatrt;
         
     NSError  *error;
     
-    self.audioPlayer= [[AVAudioPlayer alloc] initWithData:data error:&error];
+    audioPlayer= [[AVAudioPlayer alloc] initWithData:data error:&error];
     self.audioPlayer.volume = 0.7;
     self.audioPlayer.meteringEnabled=YES;
     self.audioPlayer.numberOfLoops= 0;
@@ -239,9 +244,7 @@ bool StopOrSatrt;
 #pragma mark - EndVoiceRecord - 结束录音,带着生成的二维码返回
 
 - (IBAction)endVoiceRecord 
-{    
-    [self.audioPlayer release];
-    
+{        
     NSString *voicePath = [[NSUserDefaults standardUserDefaults] valueForKey:@"LocalRecordPath"]; 
     NSData   *data =[NSData dataWithContentsOfFile:voicePath options:0 error:nil];
     if (data != nil)
@@ -288,8 +291,9 @@ bool StopOrSatrt;
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"QRPic" object:tmpImage];  
     
+    [barcode release];
+
     [self dismissModalViewControllerAnimated:YES];
-    
 }
 
 - (void)requestUploadImageFail

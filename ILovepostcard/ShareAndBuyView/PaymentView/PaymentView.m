@@ -92,7 +92,7 @@
     {
         NSDictionary *tmpDict = [tmpArray objectAtIndex:i];
         NSString *IDStr = [tmpDict objectForKey:@"id"];
-        NSString *priceStr = [tmpDict objectForKey:@"price"];
+//        NSString *priceStr = [tmpDict objectForKey:@"price"];
         NSString *wayStr = [tmpDict objectForKey:@"way"];
         
         [tmpway addObject:IDStr];
@@ -121,7 +121,6 @@
     NSArray *subjectsArray = [[NSArray alloc] initWithArray:tmpID];
     NSArray *bodyArray  = [[NSArray alloc] initWithArray:tmpway];
     NSArray *mypriceArray = [[NSArray alloc] initWithArray:tmpPrice];
-    NSLog(@"%@ : %@ : %@",subjectsArray,bodyArray,mypriceArray);
     
     if (!myProduct)
     {
@@ -145,7 +144,10 @@
     [subjectsArray release], subjectsArray = nil;
 	[bodyArray release], bodyArray = nil;
     [mypriceArray release];mypriceArray = nil;
-
+    
+    [tmpID release]; tmpID = nil;
+    [tmpPrice release]; tmpPrice = nil;
+    [tmpway release]; tmpway = nil;
 }
 
 
@@ -174,6 +176,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    priceArray = [[NSMutableArray alloc] init];
+    
     [snailMailButton setBackgroundImage:[UIImage imageNamed:@"paymentView3.png"] forState:UIControlStateNormal];
     [registeredLetterButton setBackgroundImage:[UIImage imageNamed:@"paymentView2.png"] forState:UIControlStateNormal];
     [expressDeliveryButton setBackgroundImage:[UIImage imageNamed:@"paymentView2.png"] forState:UIControlStateNormal];
@@ -352,7 +356,6 @@
 	
 	//将商品信息拼接成字符串
 	NSString *orderSpec = [order description];
-	NSLog(@"orderSpec = %@",orderSpec);
 	
 	//获取私钥并将商户信息签名,外部商户可以根据情况存放私钥和签名,只需要遵循RSA签名规范,并将签名字符串base64编码和UrlEncode
 	id <DataSigner> signer = CreateRSADataSigner([[NSBundle mainBundle] objectForInfoDictionaryKey:@"RSA private key"]);
@@ -394,6 +397,8 @@
     [[NSUserDefaults standardUserDefaults] setObject:product.body forKey:@"pay_way"];//交易方式id号
     [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%.2f",product.price] forKey:@"alipay_fee"];//交易费用
     [[NSUserDefaults standardUserDefaults] setObject:order.tradeNO forKey:@"ZhiFuBaoSn"];
+    
+    [order release];
 }
 
 #pragma mark - WapPay - 网页支付
@@ -467,6 +472,8 @@
     [[NSUserDefaults standardUserDefaults] setObject:product.body forKey:@"pay_way"];//交易方式id号
     [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%.2f",product.price] forKey:@"alipay_fee"];//交易费用
     [[NSUserDefaults standardUserDefaults] setObject:order.tradeNO forKey:@"ZhiFuBaoSn"];
+    
+    [order release];
 }
 
 - (void)cancelBill

@@ -132,6 +132,7 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
     {
         NSMutableArray *saveArray = [[NSMutableArray alloc] initWithCapacity:1000];
         [[NSUserDefaults standardUserDefaults] setObject:saveArray forKey:@"SaveArray"];
+        [saveArray release];
     }
         
     NSString *clienIdStr = [[NSUserDefaults standardUserDefaults] stringForKey:@"ClientId"];

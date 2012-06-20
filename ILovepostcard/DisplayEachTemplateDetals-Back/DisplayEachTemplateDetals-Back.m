@@ -332,7 +332,7 @@ bool HideOrShowPostmark;
     NSString *postcodeStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"RECEIVER_POSTCODE"];
     NSString *detailStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"DETAILS_ADDRESS"];
     
-    NSString *postcodeStr_Sender = [[NSUserDefaults standardUserDefaults] objectForKey:@"SENDER_POSTCODE"];
+//    NSString *postcodeStr_Sender = [[NSUserDefaults standardUserDefaults] objectForKey:@"SENDER_POSTCODE"];
     
     NSString *detailStr_Sender = [[NSUserDefaults standardUserDefaults] objectForKey:@"SENDER_ADDRESS"];
     
