@@ -44,17 +44,13 @@ int addPageNumber;
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) 
     {
-        // Custom initialization
     }
     return self;
 }
 
 - (void)didReceiveMemoryWarning
 {
-    // Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
-    
-    // Release any cached data, images, etc that aren't in use.
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -89,29 +85,6 @@ int addPageNumber;
 
 }
 
-/*
--(void)getTheNewestCard:(ASIHTTPRequest *)request
-{
-    NSDictionary *dict = [request responseString].JSONValue;
-    self.total_pageStr = [dict objectForKey:@"page_total"];
-    
-    NSArray *tmpArray = [dict objectForKey:@"items"];
-    loopNumber = ceil(tmpArray.count/2);
-    
-    NSMutableArray *array = [[NSMutableArray alloc] init];
-    for (int i = 0; i < loopNumber; i++)
-    {
-        if (array != nil) 
-        {
-            [array removeAllObjects];
-        }
-        [array addObject:[tmpArray objectAtIndex:loopNumber*2+0]];
-        [array addObject:[tmpArray objectAtIndex:loopNumber*2+1]];
-
-    }
-    
-}
-*/
 
 -(void)getTheNewestCard_Failed:(ASIHTTPRequest *)request
 {
@@ -174,7 +147,6 @@ int addPageNumber;
     {
         currentPage ++;
     }
-    
     [ImageProcess rotateView:cell.btn1 withDegree:270];
     [ImageProcess rotateView:cell.btn2 withDegree:270];
 
@@ -196,18 +168,16 @@ int addPageNumber;
 
 }
 
-
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
     if (scrollView.contentOffset.y + (scrollView.frame.size.height) > scrollView.contentSize.height)
     {
-        if (currentPage < [self.total_pageStr intValue]) 
+        if (currentPage <= [self.total_pageStr intValue]) 
         {
             [self displayNewestCard];
         }
     }
 }
-
 
 -(void)goToDisplayView:(UIButton *)sender
 {
@@ -225,13 +195,10 @@ int addPageNumber;
     [self setTable:nil];
     [self setTotalLabel:nil];
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 

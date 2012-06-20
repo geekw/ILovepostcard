@@ -105,7 +105,6 @@ static int timeNum = 0;
 -(void)getPic:(ASIHTTPRequest *)request
 {
     NSArray *tmpArray = [request responseString].JSONValue;
-    NSLog(@"%@",tmpArray);
     
     for (int i = 0; i < tmpArray.count; i++)
     {
@@ -145,10 +144,6 @@ static int timeNum = 0;
             [self.loopScrollView scrollRectToVisible:CGRectMake( 0 * 280,0,280,157) animated:NO];
             timeNum = 0;
             break;
-//        case 3:
-//            [self.loopScrollView scrollRectToVisible:CGRectMake( 0 * 280,0,280,157) animated:NO];
-//            timeNum = 0;
-//            break;
         default:
             break;
     }

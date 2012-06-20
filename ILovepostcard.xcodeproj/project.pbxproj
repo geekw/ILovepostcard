@@ -2302,7 +2302,7 @@
 					"\"$(SRCROOT)/AliPay\"",
 				);
 				INFOPLIST_FILE = "ILovepostcard/ILovepostcard-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/ILovepostcard/VoiceMessageView/ZBarSDK\"",
@@ -2346,7 +2346,7 @@
 					"\"$(SRCROOT)/AliPay\"",
 				);
 				INFOPLIST_FILE = "ILovepostcard/ILovepostcard-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/ILovepostcard/VoiceMessageView/ZBarSDK\"",

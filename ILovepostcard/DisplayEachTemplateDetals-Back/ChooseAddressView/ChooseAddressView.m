@@ -74,10 +74,11 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
-
+        [self initData];
     }
     return self;
 }
+
 
 - (void)initData
 {
@@ -163,7 +164,6 @@
     self.addressScrollView.delegate = self;
     
     bool fromBack = [[NSUserDefaults standardUserDefaults] boolForKey:@"From_Back"];
-    
     if (fromBack == YES)
     {
         self.addressScrollView.frame = CGRectMake(0, 0, 320, 700);

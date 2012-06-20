@@ -33,7 +33,10 @@
 @synthesize tagValueStr,imagePicker,mapImgView;
 @synthesize idName_Activity;
 @synthesize cameraButton,indicatorButton,bottomButton;
+@synthesize orientationStr;
+@synthesize cameraButton1,bottomButton1,indicatorButton1;
 
+bool fromFirstCamera;
 bool hideOrShowMaterial;
 bool hideOrShowMap;
 bool hideOrShowBottonView;
@@ -48,6 +51,10 @@ bool hideOrShowBottonView;
 #pragma mark - View lifecycle - 系统函数
 - (void)dealloc
 {
+    cameraButton1 = nil;[cameraButton1 release];
+    bottomButton1 = nil;[bottomButton1 release];
+    indicatorButton1 = nil;[indicatorButton1 release];
+    orientationStr  = nil;
     idName_Activity = nil;
     cameraButton = nil;[cameraButton release];
     bottomButton = nil;[bottomButton release];
@@ -83,10 +90,12 @@ bool hideOrShowBottonView;
     [goDisplayEachTemplateDetals_BackButton setImage:[UIImage imageNamed:@"titlebtnokclick.png"] forState:UIControlStateHighlighted];
     hideOrShowMaterial = NO;
     
-    imagePicker = [[UIImagePickerController alloc] init];
+    if (!imagePicker)
+    {
+        imagePicker = [[UIImagePickerController alloc] init];
+    }
     
     [[NSUserDefaults standardUserDefaults] setObject:self.idName forKey:@"ID"];
-
     
     if (![[NSUserDefaults standardUserDefaults] boolForKey:@"FromActivityList"])
     {
@@ -94,7 +103,9 @@ bool hideOrShowBottonView;
     }
     else if ([[NSUserDefaults standardUserDefaults] boolForKey:@"FromActivityList"])
     {
-        [[NSUserDefaults standardUserDefaults] setObject:self.idName_Activity forKey:@"ID_ACTIVITY"];
+        [[NSUserDefaults standardUserDefaults] setObject:self.idName_Activity 
+                                                  forKey:@"ID_ACTIVITY"];
+        
         [self performSelector:@selector(requestFromDetails_Activity)];//活动列表请求
     }
 }
@@ -177,6 +188,8 @@ bool hideOrShowBottonView;
         
     NSDictionary *layoutDict = [dict objectForKey:@"ly"];
     
+    self.orientationStr = [dict objectForKey:@"orientation"];
+    
     NSArray *areasArray = [layoutDict objectForKey:@"areas"];//可能没有
     if (areasArray != nil)
     {
@@ -184,9 +197,6 @@ bool hideOrShowBottonView;
     }    
     NSString *backgroundStr = [layoutDict objectForKey:@"background"];
     [[TemplateDetails_Singleton sharedTemplateDetails_Singleton].templateDetailsDict setObject:backgroundStr forKey:@"background"];
-    
-        NSString *orientationStr = [layoutDict objectForKey:@"orientation"];
-    [[TemplateDetails_Singleton sharedTemplateDetails_Singleton].templateDetailsDict setObject:orientationStr forKey:@"orientation"];
     
     NSDictionary *backpicDict = [layoutDict objectForKey:@"backpic"];//可能没有
     if (backpicDict != nil) 
@@ -245,98 +255,156 @@ bool hideOrShowBottonView;
 - (void)displayEachHollowOutPart:(NSString *)str
 {
     int i = [str intValue];
-    
-    self.cameraButton.hidden = NO;
-    [self.bottomButton setImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
-    [self.indicatorButton setImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
-    self.indicatorButton.userInteractionEnabled = NO;
-    
-    if (fileContent) 
+    if (i == 0) 
     {
-        [fileContent removeFromSuperview];
+        if (cameraButton)
+        {
+            self.cameraButton.hidden = NO;
+            [self.cameraButton removeFromSuperview];
+        }
+        if (bottomButton)
+        {
+            [self.bottomButton setImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
+        }
+        if (indicatorButton) 
+        {
+            [self.indicatorButton setImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
+            self.indicatorButton.userInteractionEnabled = NO;
+        }
+        
+        if (fileContent) 
+        {
+            [fileContent removeFromSuperview];
+        }
+                
+        NSArray *areasArray = [[TemplateDetails_Singleton sharedTemplateDetails_Singleton].templateDetailsDict objectForKey:@"areas"];
+        NSDictionary *areasDict = [areasArray objectAtIndex:0];
+        NSLog(@"areasDict = %@",areasDict);
+        
+        NSString *hStr = [areasDict objectForKey:@"h"];
+        NSString *wStr = [areasDict objectForKey:@"w"];
+        NSString *xStr = [areasDict objectForKey:@"x"];
+        NSString *yStr = [areasDict objectForKey:@"y"];
+        
+        cameraButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        cameraButton.frame = CGRectMake(([xStr intValue]-[wStr intValue]/2)/2, ([yStr intValue]-[hStr intValue]/2)/2,[wStr intValue]/2, [hStr intValue]/2);
+        cameraButton.backgroundColor = [UIColor blackColor];
+        cameraButton.alpha = 0.6;
+        [cameraButton setBackgroundImage:[UIImage imageNamed:@"addphotobk.png"] forState:UIControlStateNormal];
+        [cameraButton setBackgroundImage:[UIImage imageNamed:@"addphotobkclick.png"] forState:UIControlStateHighlighted];
+        [cameraButton setImage:[UIImage imageNamed:@"addphoto.png"] forState:UIControlStateNormal];
+        [cameraButton setImage:[UIImage imageNamed:@"addphotoclick.png"] forState:UIControlStateHighlighted];
+        [cameraButton addTarget:self 
+                         action:@selector(goCameraOrPhotoLibrary:) 
+               forControlEvents:UIControlEventTouchUpInside];//打开相机
+        cameraButton.userInteractionEnabled = YES;
+        cameraButton.tag = 500 + i * 4;
+        [postcard_FrontView insertSubview:cameraButton atIndex:0];
+        
+        bottomButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        bottomButton.frame = CGRectMake(10 + 80 * i, 3, 59, 59);
+        bottomButton.backgroundColor = [UIColor whiteColor];
+        [bottomButton setAlpha:0.7];
+        bottomButton.tag = 502 + i * 4 ;
+        [self.bottomScrollView addSubview:bottomButton];
+        
+        indicatorButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        indicatorButton.frame = CGRectMake(50 + 80 * i, 0, 30, 30);
+        [indicatorButton setImage:[UIImage imageNamed:@"slidebtnadd.png"]
+                         forState:UIControlStateNormal];
+        
+        [indicatorButton removeTarget:self action:@selector(showHollowOutPart) forControlEvents:UIControlEventTouchUpInside];
+        [indicatorButton addTarget:self action:@selector(goCameraOrPhotoLibrary:)
+                  forControlEvents:UIControlEventTouchUpInside];
+        
+        indicatorButton.tag = 501 + i * 4;
+        [self.bottomScrollView addSubview:indicatorButton];   
+    }
+    else if(i == 1)
+    {
+        if (cameraButton1)
+        {
+            self.cameraButton1.hidden = NO;
+            [self.cameraButton1 removeFromSuperview];
+        }
+        if (bottomButton1)
+        {
+            [self.bottomButton1 setImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
+        }
+        if (indicatorButton1) 
+        {
+            [self.indicatorButton1 setImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
+            self.indicatorButton1.userInteractionEnabled = NO;
+        }
+        
+        if (fileContent) 
+        {
+            [fileContent removeFromSuperview];
+        }        
+        
+        NSArray *areasArray = [[TemplateDetails_Singleton sharedTemplateDetails_Singleton].templateDetailsDict objectForKey:@"areas"];
+        NSDictionary *areasDict = [areasArray objectAtIndex:1];
+        NSLog(@"areasDict = %@",areasDict);
+        
+        NSString *hStr = [areasDict objectForKey:@"h"];
+        NSString *wStr = [areasDict objectForKey:@"w"];
+        NSString *xStr = [areasDict objectForKey:@"x"];
+        NSString *yStr = [areasDict objectForKey:@"y"];
+        
+        cameraButton1 = [UIButton buttonWithType:UIButtonTypeCustom];
+        cameraButton1.frame = CGRectMake(([xStr intValue]-[wStr intValue]/2)/2, ([yStr intValue]-[hStr intValue]/2)/2,[wStr intValue]/2, [hStr intValue]/2);
+        cameraButton1.backgroundColor = [UIColor blackColor];
+        cameraButton1.alpha = 0.6;
+        [cameraButton1 setBackgroundImage:[UIImage imageNamed:@"addphotobk.png"] forState:UIControlStateNormal];
+        [cameraButton1 setBackgroundImage:[UIImage imageNamed:@"addphotobkclick.png"] forState:UIControlStateHighlighted];
+        [cameraButton1 setImage:[UIImage imageNamed:@"addphoto.png"] forState:UIControlStateNormal];
+        [cameraButton1 setImage:[UIImage imageNamed:@"addphotoclick.png"] forState:UIControlStateHighlighted];
+        [cameraButton1 addTarget:self 
+                         action:@selector(goCameraOrPhotoLibrary:) 
+               forControlEvents:UIControlEventTouchUpInside];//打开相机
+        cameraButton1.userInteractionEnabled = YES;
+        cameraButton1.tag = 500 + i * 4;
+        [postcard_FrontView insertSubview:cameraButton1 atIndex:0];
+        
+        bottomButton1 = [UIButton buttonWithType:UIButtonTypeCustom];
+        bottomButton1.frame = CGRectMake(10 + 80 * i, 3, 59, 59);
+        bottomButton1.backgroundColor = [UIColor whiteColor];
+        [bottomButton1 setAlpha:0.7];
+        bottomButton1.tag = 502 + i * 4 ;
+        [self.bottomScrollView addSubview:bottomButton1];
+        
+        indicatorButton1 = [UIButton buttonWithType:UIButtonTypeCustom];
+        indicatorButton1.frame = CGRectMake(50 + 80 * i, 0, 30, 30);
+        [indicatorButton1 setImage:[UIImage imageNamed:@"slidebtnadd.png"]
+                         forState:UIControlStateNormal];
+        
+        [indicatorButton1 removeTarget:self action:@selector(showHollowOutPart) forControlEvents:UIControlEventTouchUpInside];
+        [indicatorButton1 addTarget:self action:@selector(goCameraOrPhotoLibrary:)
+                  forControlEvents:UIControlEventTouchUpInside];
+        
+        indicatorButton1.tag = 501 + i * 4;
+        [self.bottomScrollView addSubview:indicatorButton1]; 
+    
     }
     
-    if (cameraButton)
-    {
-        [self.cameraButton removeFromSuperview];
-    }
-    
-    NSArray *areasArray = [[TemplateDetails_Singleton sharedTemplateDetails_Singleton].templateDetailsDict objectForKey:@"areas"];
-    NSDictionary *areasDict = [areasArray objectAtIndex:0];
-    NSLog(@"areasDict = %@",areasDict);
-    
-    NSString *hStr = [areasDict objectForKey:@"h"];
-    NSString *wStr = [areasDict objectForKey:@"w"];
-    NSString *xStr = [areasDict objectForKey:@"x"];
-    NSString *yStr = [areasDict objectForKey:@"y"];
-    
-    cameraButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    cameraButton.frame = CGRectMake(([xStr intValue]-[wStr intValue]/2)/2, ([yStr intValue]-[hStr intValue]/2)/2,[wStr intValue]/2, [hStr intValue]/2);
-    cameraButton.backgroundColor = [UIColor blackColor];
-    cameraButton.alpha = 0.6;
-    [cameraButton setBackgroundImage:[UIImage imageNamed:@"addphotobk.png"] forState:UIControlStateNormal];
-    [cameraButton setBackgroundImage:[UIImage imageNamed:@"addphotobkclick.png"] forState:UIControlStateHighlighted];
-    [cameraButton setImage:[UIImage imageNamed:@"addphoto.png"] forState:UIControlStateNormal];
-    [cameraButton setImage:[UIImage imageNamed:@"addphotoclick.png"] forState:UIControlStateHighlighted];
-    [cameraButton addTarget:self 
-                     action:@selector(goCameraOrPhotoLibrary:) 
-           forControlEvents:UIControlEventTouchUpInside];//打开相机
-    cameraButton.userInteractionEnabled = YES;
-    cameraButton.tag = 500 + i * 4;
-    [postcard_FrontView insertSubview:cameraButton atIndex:0];
-    
-    bottomButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    bottomButton.frame = CGRectMake(10 + 80 * i, 3, 59, 59);
-    bottomButton.backgroundColor = [UIColor whiteColor];
-    [bottomButton setAlpha:0.7];
-    bottomButton.tag = 502 + i * 4 ;
-    [self.bottomScrollView addSubview:bottomButton];
-    
-    indicatorButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    indicatorButton.frame = CGRectMake(50 + 80 * i, 0, 30, 30);
-    [indicatorButton setImage:[UIImage imageNamed:@"slidebtnadd.png"]
-                     forState:UIControlStateNormal];
-    
-    [indicatorButton removeTarget:self action:@selector(showHollowOutPart) forControlEvents:UIControlEventTouchUpInside];
-    [indicatorButton addTarget:self action:@selector(goCameraOrPhotoLibrary:)
-           forControlEvents:UIControlEventTouchUpInside];
-    
-    indicatorButton.tag = 501 + i * 4;
-    [self.bottomScrollView addSubview:indicatorButton];
 }
 
 - (void)goCameraOrPhotoLibrary:(UIButton *)sender//选择相机还是相册
 {
     int i = sender.tag;
-    
+    if (i == 500) 
+    {
+        fromFirstCamera = YES;
+    }
+    else if(i == 504)
+    {
+        fromFirstCamera = NO;
+    }
     self.cameraView.frame = CGRectMake(0, 0, 320, 460);
     self.openCameraBtn.tag = i;
     self.openPhotoLibBtn.tag = i;
     [self.view addSubview:self.cameraView];
-    
-//    UIView *tmpView = [[UIView alloc ]initWithFrame:CGRectMake(0, 0, 320, 460)];
-//    tmpView.backgroundColor = [UIColor whiteColor];
-//    tmpView.alpha = 0.7;
-//    tmpView.tag = 99;
-//    
-//    UIButton *tmpButton = [UIButton buttonWithType:UIButtonTypeCustom];
-//    tmpButton.frame = CGRectMake(50, 200, 100, 100);
-//    tmpButton.backgroundColor = [UIColor blackColor];
-//    tmpButton.tag = i;
-//    [tmpButton setTitle:@"打开相机" forState:UIControlStateNormal];
-//    [tmpButton addTarget:self action:@selector(loadCamera:) forControlEvents:UIControlEventTouchUpInside];
-//    [tmpView addSubview:tmpButton];
-//    
-//    UIButton *photoLibraryButton = [UIButton buttonWithType:UIButtonTypeCustom];
-//    photoLibraryButton.frame = CGRectMake(200, 200, 100, 100);
-//    photoLibraryButton.backgroundColor = [UIColor blackColor];
-//    photoLibraryButton.tag = i;
-//    [photoLibraryButton setTitle:@"打开相册" forState:UIControlStateNormal];
-//    [photoLibraryButton addTarget:self action:@selector(openPhotoLibrary:) forControlEvents:UIControlEventTouchUpInside];
-//    [tmpView addSubview:photoLibraryButton];
-//    
-//    [self.view addSubview:tmpView];
-//    [tmpView release];
+
 }
 
 -(void)showMaterials
@@ -487,10 +555,6 @@ bool hideOrShowBottonView;
         UIImageView *tmpImgView = (UIImageView *)[self.view viewWithTag:i - 2];
         tmpImgView.hidden = YES;
         
-//        UIButton *tmpButton = (UIButton *)[self.view viewWithTag:i - 1];
-//        [tmpButton setImage:nil forState:UIControlStateNormal];
-        
-        
         UIButton *tmpButton1 = (UIButton *)[self.view viewWithTag:i];
         [tmpButton1 setImage:[UIImage imageNamed:@"slidebtnhide.png"] forState:UIControlStateNormal];
     }
@@ -516,10 +580,7 @@ bool hideOrShowBottonView;
         hideOrShowMap = YES;
         UIView *tmpView = (UIView *)[self.view viewWithTag:200];
         tmpView.hidden = YES;
-        
-//        UIButton *tmpButton = (UIButton *)[self.view viewWithTag:201];
-//        [tmpButton setImage:nil forState:UIControlStateNormal];
-        
+            
         UIButton *tmpButton1 = (UIButton *)[self.view viewWithTag:202];
         [tmpButton1 setImage:[UIImage imageNamed:@"slidebtnhide.png"] forState:UIControlStateNormal];
     }
@@ -543,8 +604,6 @@ bool hideOrShowBottonView;
 {
     int i = sender.tag; 
     
-//    UIView *tmpView = (UIView *)[self.view viewWithTag:99];
-//    [tmpView removeFromSuperview];
     [self.cameraView removeFromSuperview];
     
     UIImagePickerControllerSourceType sourceType;
@@ -631,8 +690,6 @@ bool hideOrShowBottonView;
     
     self.tagValueStr = [NSString stringWithFormat:@"%d",i];
     
-//    UIView *tmpView = (UIView *)[self.view viewWithTag:99];
-//    [tmpView removeFromSuperview];
     [self.cameraView removeFromSuperview];
     
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) 
@@ -658,57 +715,55 @@ bool hideOrShowBottonView;
         [self dismissModalViewControllerAnimated:YES];
     
         NSArray *areasArray = [[TemplateDetails_Singleton sharedTemplateDetails_Singleton].templateDetailsDict objectForKey:@"areas"];
-        
-        NSDictionary *areasDict = [areasArray objectAtIndex:0];
-        NSString *degreeStr = [areasDict objectForKey:@"degree"];
-        NSString *hStr = [areasDict objectForKey:@"h"];
-        NSString *wStr = [areasDict objectForKey:@"w"];
-        NSString *xStr = [areasDict objectForKey:@"x"];
-        NSString *yStr = [areasDict objectForKey:@"y"];
-        
-        fileContent = [[TouchView alloc] initWithFrame:CGRectMake(([xStr intValue]-[wStr intValue]/2)/2, ([yStr intValue]-[hStr intValue]/2)/2,[wStr intValue]/2, [hStr intValue]/2)];
-        float degreeFloat = [degreeStr floatValue];
-        fileContent.transform = CGAffineTransformMakeRotation(degreesToRadian(degreeFloat));
-        [fileContent setImage:image];
-        [fileContent setViewTag: 199];
-        fileContent.delegate = self;
-        [postcard_FrontView insertSubview:fileContent atIndex:0];
-        [fileContent release];
-    
-    /*  
-    if ([self.tagValueStr intValue] % 2 == 0)
-    {
-        UIButton *tmpButton = (UIButton *)[self.view viewWithTag:[self.tagValueStr intValue]];
-        tmpButton.hidden = YES;//隐藏页面上的button
-        
-        UIButton *tmpButton2 = (UIButton *)[self.view viewWithTag:[self.tagValueStr intValue] + 1];
-        [tmpButton2 setImage:image forState:UIControlStateNormal];
-        [tmpButton2 addTarget:self action:@selector(showHollowOutPart) forControlEvents:UIControlEventTouchUpInside];
-
-        UIButton *tmpButton3 = (UIButton *)[self.view viewWithTag:[self.tagValueStr intValue] + 2];
-        [tmpButton3 setImage:[UIImage imageNamed:@"slidebtndel.png"] forState:UIControlStateNormal];
-        [tmpButton3 addTarget:self action:@selector(showHollowOutPart) forControlEvents:UIControlEventTouchUpInside];
-        
-    }
-    else
-    {
-        UIButton *tmpButton = (UIButton *)[self.view viewWithTag:[self.tagValueStr intValue] - 1];
-        tmpButton.hidden = YES;//隐藏页面上的button
-        
-        UIButton *tmpButton2 = (UIButton *)[self.view viewWithTag:[self.tagValueStr intValue]];
-        [tmpButton2 setImage:image forState:UIControlStateNormal];
-        [tmpButton2 addTarget:self action:@selector(showHollowOutPart) forControlEvents:UIControlEventTouchUpInside];
-        
-        UIButton *tmpButton3 = (UIButton *)[self.view viewWithTag:[self.tagValueStr intValue] + 1];
-        [tmpButton3 setImage:[UIImage imageNamed:@"slidebtndel.png"] forState:UIControlStateNormal];
-        [tmpButton3 addTarget:self action:@selector(showHollowOutPart) forControlEvents:UIControlEventTouchUpInside];
-    }
-    */
-    cameraButton.hidden = YES;
-    [bottomButton setImage:image forState:UIControlStateNormal];
-    [indicatorButton setImage:[UIImage imageNamed:@"slidebtndel.png"] forState:UIControlStateNormal];
-    [indicatorButton removeTarget:self action:@selector(goCameraOrPhotoLibrary:) forControlEvents:UIControlEventTouchUpInside];
-    [indicatorButton addTarget:self action:@selector(showHollowOutPart) forControlEvents:UIControlEventTouchUpInside];
+  
+        if (fromFirstCamera)
+        {
+            NSDictionary *areasDict = [areasArray objectAtIndex:0];
+            NSString *degreeStr = [areasDict objectForKey:@"degree"];
+            NSString *hStr = [areasDict objectForKey:@"h"];
+            NSString *wStr = [areasDict objectForKey:@"w"];
+            NSString *xStr = [areasDict objectForKey:@"x"];
+            NSString *yStr = [areasDict objectForKey:@"y"];
+            
+            fileContent = [[TouchView alloc] initWithFrame:CGRectMake(([xStr intValue]-[wStr intValue]/2)/2, ([yStr intValue]-[hStr intValue]/2)/2,[wStr intValue]/2, [hStr intValue]/2)];
+            float degreeFloat = [degreeStr floatValue];
+            fileContent.transform = CGAffineTransformMakeRotation(degreesToRadian(degreeFloat));
+            [fileContent setImage:image];
+            [fileContent setViewTag: 199];
+            fileContent.delegate = self;
+            [postcard_FrontView insertSubview:fileContent atIndex:0];
+            [fileContent release];
+            
+            cameraButton.hidden = YES;
+            [bottomButton setImage:image forState:UIControlStateNormal];
+            [indicatorButton setImage:[UIImage imageNamed:@"slidebtndel.png"] forState:UIControlStateNormal];
+            [indicatorButton removeTarget:self action:@selector(goCameraOrPhotoLibrary:) forControlEvents:UIControlEventTouchUpInside];
+            [indicatorButton addTarget:self action:@selector(showHollowOutPart) forControlEvents:UIControlEventTouchUpInside];
+        }   
+        else
+        {
+            NSDictionary *areasDict = [areasArray objectAtIndex:1];
+            NSString *degreeStr = [areasDict objectForKey:@"degree"];
+            NSString *hStr = [areasDict objectForKey:@"h"];
+            NSString *wStr = [areasDict objectForKey:@"w"];
+            NSString *xStr = [areasDict objectForKey:@"x"];
+            NSString *yStr = [areasDict objectForKey:@"y"];
+            
+            fileContent1 = [[TouchView alloc] initWithFrame:CGRectMake(([xStr intValue]-[wStr intValue]/2)/2, ([yStr intValue]-[hStr intValue]/2)/2,[wStr intValue]/2, [hStr intValue]/2)];
+            float degreeFloat = [degreeStr floatValue];
+            fileContent1.transform = CGAffineTransformMakeRotation(degreesToRadian(degreeFloat));
+            [fileContent1 setImage:image];
+            [fileContent1 setViewTag: 198];
+            fileContent1.delegate = self;
+            [postcard_FrontView insertSubview:fileContent1 atIndex:0];
+            [fileContent1 release];
+            
+            cameraButton1.hidden = YES;
+            [bottomButton1 setImage:image forState:UIControlStateNormal];
+            [indicatorButton1 setImage:[UIImage imageNamed:@"slidebtndel.png"] forState:UIControlStateNormal];
+            [indicatorButton1 removeTarget:self action:@selector(goCameraOrPhotoLibrary:) forControlEvents:UIControlEventTouchUpInside];
+            [indicatorButton1 addTarget:self action:@selector(showHollowOutPart) forControlEvents:UIControlEventTouchUpInside];
+        }
 }
 
 //切换闪光灯

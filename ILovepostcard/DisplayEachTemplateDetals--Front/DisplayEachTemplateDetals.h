@@ -32,11 +32,16 @@
     IBOutlet UIButton *openPhotoLibraryButton;//打开本地相册按钮
     MKMapView *myMapView;
     TouchView *fileContent;
+    TouchView *fileContent1;
 }
 
 @property (retain, nonatomic) UIButton *cameraButton;
 @property (retain, nonatomic) UIButton *bottomButton;
 @property (retain, nonatomic) UIButton *indicatorButton;
+
+@property (retain, nonatomic) UIButton *cameraButton1;
+@property (retain, nonatomic) UIButton *bottomButton1;
+@property (retain, nonatomic) UIButton *indicatorButton1;
 
 @property (retain, nonatomic) UIImagePickerController *imagePicker;//相机
 
@@ -63,6 +68,8 @@
 @property (retain, nonatomic) IBOutlet UIButton *openCameraBtn;
 
 @property (retain, nonatomic) IBOutlet UIButton *openPhotoLibBtn;
+
+@property (retain, nonatomic) NSString *orientationStr;
 
 -(IBAction)loadCamera:(UIButton *)sender;
 
