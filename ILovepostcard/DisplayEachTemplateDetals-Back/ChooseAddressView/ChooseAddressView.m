@@ -155,6 +155,8 @@
 {
     [super viewDidLoad];
 
+    [self initData];
+
     self.addressStr = nil;    
     self.addressScrollView.contentSize = CGSizeMake(320, 1000);
     self.addressScrollView.bounces = YES;

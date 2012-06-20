@@ -31,7 +31,7 @@
         promptLbl.alpha = 0.0f;
         promptLbl.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.1];
         promptLbl.textAlignment = UITextAlignmentCenter;
-        promptLbl.textColor = [UIColor orangeColor];
+        promptLbl.textColor = [UIColor darkTextColor];
         promptLbl.layer.cornerRadius = 8;
         promptLbl.font = [UIFont systemFontOfSize:20];
     }

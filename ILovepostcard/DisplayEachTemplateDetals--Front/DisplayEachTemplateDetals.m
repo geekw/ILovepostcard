@@ -715,9 +715,8 @@ bool hideOrShowBottonView;
         [self dismissModalViewControllerAnimated:YES];
     
         NSArray *areasArray = [[TemplateDetails_Singleton sharedTemplateDetails_Singleton].templateDetailsDict objectForKey:@"areas"];
-    for (int i = 0; i < [areasArray count]; i++)
-    {
-        if (i == 0)
+  
+        if (fromFirstCamera)
         {
             NSDictionary *areasDict = [areasArray objectAtIndex:0];
             NSString *degreeStr = [areasDict objectForKey:@"degree"];
@@ -741,7 +740,7 @@ bool hideOrShowBottonView;
             [indicatorButton removeTarget:self action:@selector(goCameraOrPhotoLibrary:) forControlEvents:UIControlEventTouchUpInside];
             [indicatorButton addTarget:self action:@selector(showHollowOutPart) forControlEvents:UIControlEventTouchUpInside];
         }   
-        else if (i == 1)
+        else
         {
             NSDictionary *areasDict = [areasArray objectAtIndex:1];
             NSString *degreeStr = [areasDict objectForKey:@"degree"];
@@ -765,7 +764,6 @@ bool hideOrShowBottonView;
             [indicatorButton1 removeTarget:self action:@selector(goCameraOrPhotoLibrary:) forControlEvents:UIControlEventTouchUpInside];
             [indicatorButton1 addTarget:self action:@selector(showHollowOutPart) forControlEvents:UIControlEventTouchUpInside];
         }
-    }
 }
 
 //切换闪光灯

@@ -26,6 +26,5 @@
 + (UIImage *)scale:(UIImage *)image toSize:(CGSize)size;
 
 + (UIView *)rotateView:(UIView *)view withDegree:(int)degree;
-+ (UIView *)getPortraitView:(UIView *)view;
 
 @end

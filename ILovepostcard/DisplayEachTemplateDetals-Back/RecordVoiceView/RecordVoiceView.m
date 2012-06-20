@@ -208,9 +208,7 @@ bool StopOrSatrt;
 
     NSString *voicePath = [[NSUserDefaults standardUserDefaults] valueForKey:@"LocalRecordPath"]; 
     NSData   *data =[NSData dataWithContentsOfFile:voicePath options:0 error:nil];
-    
-    NSLog(@"voiceData = %@",data);
-    
+        
     NSError  *error;
     
     self.audioPlayer= [[AVAudioPlayer alloc] initWithData:data error:&error];
@@ -226,7 +224,6 @@ bool StopOrSatrt;
     }
     else
     {
-        NSLog(@"I am playing");
         [[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategorySoloAmbient error: nil];
         [self.audioPlayer play];
     }
@@ -240,6 +237,7 @@ bool StopOrSatrt;
 }
 
 #pragma mark - EndVoiceRecord - 结束录音,带着生成的二维码返回
+
 - (IBAction)endVoiceRecord 
 {    
     [self.audioPlayer release];
@@ -338,8 +336,13 @@ bool StopOrSatrt;
 {
     NSString *QRStr = [NSString stringWithFormat:@"%@",[request responseString]];
     [[NSUserDefaults standardUserDefaults] setObject:QRStr forKey:@"QRURL"];
-    NSLog(@"%@",[request responseString]);
 
+}
+
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    
+    [audioPlayer stop];
 }
 
 @end

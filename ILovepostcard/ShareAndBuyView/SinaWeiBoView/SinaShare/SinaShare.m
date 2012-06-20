@@ -9,12 +9,6 @@
 #import "SinaShare.h"
 #import "JSON.h"
 
-#define kAppKey @"1086873395"
-#define kAppSecret @"23beaa470da2b1abfe3542075a3fb62a"
-#define kHasAuthoredSina @"hasAuthoredSina"
-
-
-
 @implementation SinaShare
 @synthesize delegate;
 

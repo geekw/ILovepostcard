@@ -95,9 +95,6 @@
     UIImage *backImage = [UIImage imageWithContentsOfFile:backImagePath];
     [self.flipButton_Back setImage:backImage forState:UIControlStateNormal];
 
-    [ImageProcess getPortraitView:self.flipButton];
-    [ImageProcess getPortraitView:self.flipButton_Back];
-
     [ImageProcess rotateView:self.flipButton withDegree:270];
     [ImageProcess rotateView:self.flipButton_Back withDegree:270];
 }
