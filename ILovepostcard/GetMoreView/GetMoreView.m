@@ -9,6 +9,7 @@
 #import "GetMoreView.h"
 #import "PromptView.h"
 #import "WeiBoCell.h"
+#import "ResizeImage.h"
 
 @implementation GetMoreView
 @synthesize goBackBtn;
@@ -21,7 +22,7 @@
 @synthesize table;
 @synthesize tableArray;
 @synthesize imageArray;
-@synthesize weiboSwitch;
+@synthesize authorizeBtn;
 
 #pragma mark - GoBack - 返回按钮
 -(IBAction)goBack
@@ -43,7 +44,7 @@
     [tableArray release];
     [table release];
     [imageArray release];
-    [weiboSwitch release];
+    [authorizeBtn release];
     
     [super dealloc];
 }
@@ -88,7 +89,7 @@
     [self setTableArray:nil];
     [self setTable:nil];
     [self setImageArray:nil];
-    [self setWeiboSwitch:nil];
+    [self setWeiBoShareBtn:nil];
     
     [super viewDidUnload];
 
@@ -108,7 +109,7 @@
     [promptView showPromptWithParentView:self.view withPrompt:@"登录成功" withFrame:CGRectMake(120, 400, 80, 40)];
     [promptView release];
     
-    [weiboSwitch setOn:YES animated:YES];
+    [self.authorizeBtn setImage:[UIImage imageNamed:@"authorize.png"] forState:UIControlStateNormal];
 }
 
 - (void)sinaLoginFailed {
@@ -116,7 +117,7 @@
     [promptView showPromptWithParentView:self.view withPrompt:@"登录失败" withFrame:CGRectMake(120, 400, 80, 40)];
     [promptView release];
     
-    [weiboSwitch setOn:YES animated:YES];
+    [self.authorizeBtn setImage:[UIImage imageNamed:@"unauthorize.png"] forState:UIControlStateNormal];
 }
 
 - (void)sinaLogoutFinished{
@@ -124,7 +125,7 @@
     [promptView showPromptWithParentView:self.view withPrompt:@"登出成功" withFrame:CGRectMake(120, 400, 80, 40)];
     [promptView release];
     
-    [weiboSwitch setOn:NO animated:YES];
+    [self.authorizeBtn setImage:[UIImage imageNamed:@"unauthorize.png"] forState:UIControlStateNormal];
 }
 
 
@@ -133,10 +134,6 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     if (buttonIndex == 0) {
         [sinaShare logOutSinaWB];
-    }
-    else
-    {
-        [weiboSwitch setOn:YES];
     }
 }
 
@@ -156,7 +153,7 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    NSString *cellIdentifier = @"MoreCell";
+    static NSString *cellIdentifier = @"MoreCell";
     if (indexPath.row == 0) 
     {
         WeiBoCell *weiboCell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
@@ -174,7 +171,7 @@
     {
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
         if (!cell) {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellIdentifier];
+            cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellIdentifier] autorelease];
         }
 
         if (indexPath.row == 3)
@@ -186,9 +183,9 @@
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
         
-        cell.imageView.image = [imageArray objectAtIndex:indexPath.row];
+        cell.imageView.image = [ResizeImage scale:[imageArray objectAtIndex:indexPath.row] toSize:CGSizeMake(35, 35)];
         cell.textLabel.text = [tableArray objectAtIndex:indexPath.row];
-        cell.textLabel.font = [UIFont boldSystemFontOfSize:15];
+        cell.textLabel.font = [UIFont boldSystemFontOfSize:18];
         
         return cell;
     }
@@ -218,20 +215,9 @@
         sinaShare.delegate = self;
     }
     
-    if (![weiboSwitch isOn])
-    {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"新浪微博" message:@"你确定要取消授权吗？" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:@"取消", nil];
-        [alertView show];
-        [alertView release];
-
-    }
-    else 
-    {
-        [sinaShare logInSinaWB];
-    }
+    [sinaShare logInSinaWB];
     
 }
-
 
 - (void)goAboutUsView {
     if (!aboutUsViewController) {
@@ -255,9 +241,8 @@
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     
-    weiboSwitch = (UISwitch *)[self.view viewWithTag:SWITCHTAG];
-    [weiboSwitch addTarget:self action:@selector(weiBoShare) forControlEvents:UIControlEventTouchUpInside];
-
+    authorizeBtn = (UIButton *)[self.view viewWithTag:WEIBOBTNTAG];
+    [authorizeBtn addTarget:self action:@selector(weiBoShare) forControlEvents:UIControlEventTouchUpInside];
 }
 
 

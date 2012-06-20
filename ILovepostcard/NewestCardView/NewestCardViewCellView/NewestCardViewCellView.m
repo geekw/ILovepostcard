@@ -49,7 +49,6 @@
         self.btn1.tag = [tag intValue];
         self.label1.text = [NSString stringWithFormat:@"%@",address];
         finishOne = YES;
-        
     }
     else
     {

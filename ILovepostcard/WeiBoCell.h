@@ -7,12 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
-#define SWITCHTAG 1000
+
+#define WEIBOBTNTAG 1000
 
 @interface WeiBoCell : UITableViewCell
 @property (retain, nonatomic) IBOutlet UIImageView *portraitImag;
 @property (retain, nonatomic) IBOutlet UILabel *titleLbl;
-@property (retain, nonatomic) IBOutlet UISwitch *weiboSwitch;
+@property (retain, nonatomic) IBOutlet UIButton *authorizeBtn;
+
 
 + (WeiBoCell *)getInstance;
 - (void)configCellWithImage:(UIImage *)image title:(NSString *)title state:(BOOL)state;

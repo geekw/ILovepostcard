@@ -24,7 +24,7 @@
 @property (retain, nonatomic) NSMutableArray *tableArray;
 @property (retain, nonatomic) NSMutableArray *imageArray;
 
-@property (retain, nonatomic) UISwitch *weiboSwitch;
+@property (retain, nonatomic) UIButton *authorizeBtn;
 
 - (IBAction)goBack;
 

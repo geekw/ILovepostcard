@@ -40,6 +40,8 @@
 		7C9A392915901ABB00A59A6A /* weiboico.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C9A392415901ABB00A59A6A /* weiboico.png */; };
 		7C9A392C1590210E00A59A6A /* WeiBoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C9A392B1590210E00A59A6A /* WeiBoCell.xib */; };
 		7C9A392F1590213600A59A6A /* WeiBoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C9A392E1590213600A59A6A /* WeiBoCell.m */; };
+		7CE9177D159161A500E711F3 /* authorize.png in Resources */ = {isa = PBXBuildFile; fileRef = 7CE9177B159161A500E711F3 /* authorize.png */; };
+		7CE9177E159161A500E711F3 /* unauthorize.png in Resources */ = {isa = PBXBuildFile; fileRef = 7CE9177C159161A500E711F3 /* unauthorize.png */; };
 		B102FF6B155BB303008DC42D /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B102FF6A155BB303008DC42D /* CFNetwork.framework */; };
 		B102FF6D155BB30D008DC42D /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B102FF6C155BB30C008DC42D /* SystemConfiguration.framework */; };
 		B102FF6F155BB314008DC42D /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B102FF6E155BB314008DC42D /* MobileCoreServices.framework */; };
@@ -328,6 +330,8 @@
 		7C9A392B1590210E00A59A6A /* WeiBoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WeiBoCell.xib; sourceTree = "<group>"; };
 		7C9A392D1590213600A59A6A /* WeiBoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeiBoCell.h; sourceTree = "<group>"; };
 		7C9A392E1590213600A59A6A /* WeiBoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WeiBoCell.m; sourceTree = "<group>"; };
+		7CE9177B159161A500E711F3 /* authorize.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = authorize.png; sourceTree = "<group>"; };
+		7CE9177C159161A500E711F3 /* unauthorize.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = unauthorize.png; sourceTree = "<group>"; };
 		B102FF6A155BB303008DC42D /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		B102FF6C155BB30C008DC42D /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		B102FF6E155BB314008DC42D /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
@@ -850,6 +854,8 @@
 		7C9A391F15901ABB00A59A6A /* MorePic */ = {
 			isa = PBXGroup;
 			children = (
+				7CE9177B159161A500E711F3 /* authorize.png */,
+				7CE9177C159161A500E711F3 /* unauthorize.png */,
 				7C9A392015901ABB00A59A6A /* aboutus.png */,
 				7C9A392115901ABB00A59A6A /* mailico.png */,
 				7C9A392215901ABB00A59A6A /* qtico.png */,
@@ -2082,6 +2088,8 @@
 				7C9A392815901ABB00A59A6A /* starico.png in Resources */,
 				7C9A392915901ABB00A59A6A /* weiboico.png in Resources */,
 				7C9A392C1590210E00A59A6A /* WeiBoCell.xib in Resources */,
+				7CE9177D159161A500E711F3 /* authorize.png in Resources */,
+				7CE9177E159161A500E711F3 /* unauthorize.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

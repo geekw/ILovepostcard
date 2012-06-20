@@ -37,14 +37,14 @@
 
 - (void)logInSinaWB
 {
-//    if ([engine isLoggedIn] && engine.expireTime > 0) {
-//        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"新浪微博" message:@"你确定要取消授权吗？" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:@"取消", nil];
-//        [alertView show];
-//        [alertView release];
-//    }
-//    else {
+    if ([engine isLoggedIn] && engine.expireTime > 0) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"新浪微博" message:@"你确定要取消授权吗？" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:@"取消", nil];
+        [alertView show];
+        [alertView release];
+    }
+    else {
         [engine logIn];
-//    }
+    }
 }
 
 - (void)logOutSinaWB
