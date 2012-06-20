@@ -32,7 +32,6 @@
 		15E5D0E41588C6C600E32C49 /* ActionSheetStringPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 15E5D0E01588C6C600E32C49 /* ActionSheetStringPicker.m */; };
 		7C95CF72158F175F00AE5E45 /* AboutUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C95CF70158F175F00AE5E45 /* AboutUsViewController.m */; };
 		7C95CF73158F175F00AE5E45 /* AboutUsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C95CF71158F175F00AE5E45 /* AboutUsViewController.xib */; };
-		7C9A3912158F518D00A59A6A /* ResizeImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C9A3911158F518D00A59A6A /* ResizeImage.m */; };
 		7C9A392515901ABB00A59A6A /* aboutus.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C9A392015901ABB00A59A6A /* aboutus.png */; };
 		7C9A392615901ABB00A59A6A /* mailico.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C9A392115901ABB00A59A6A /* mailico.png */; };
 		7C9A392715901ABB00A59A6A /* qtico.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C9A392215901ABB00A59A6A /* qtico.png */; };
@@ -42,6 +41,7 @@
 		7C9A392F1590213600A59A6A /* WeiBoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C9A392E1590213600A59A6A /* WeiBoCell.m */; };
 		7CE9177D159161A500E711F3 /* authorize.png in Resources */ = {isa = PBXBuildFile; fileRef = 7CE9177B159161A500E711F3 /* authorize.png */; };
 		7CE9177E159161A500E711F3 /* unauthorize.png in Resources */ = {isa = PBXBuildFile; fileRef = 7CE9177C159161A500E711F3 /* unauthorize.png */; };
+		7CE917921591780A00E711F3 /* ResizeImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CE917911591780A00E711F3 /* ResizeImage.m */; };
 		B102FF6B155BB303008DC42D /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B102FF6A155BB303008DC42D /* CFNetwork.framework */; };
 		B102FF6D155BB30D008DC42D /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B102FF6C155BB30C008DC42D /* SystemConfiguration.framework */; };
 		B102FF6F155BB314008DC42D /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B102FF6E155BB314008DC42D /* MobileCoreServices.framework */; };
@@ -320,8 +320,6 @@
 		7C95CF6F158F175F00AE5E45 /* AboutUsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutUsViewController.h; sourceTree = "<group>"; };
 		7C95CF70158F175F00AE5E45 /* AboutUsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutUsViewController.m; sourceTree = "<group>"; };
 		7C95CF71158F175F00AE5E45 /* AboutUsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AboutUsViewController.xib; sourceTree = "<group>"; };
-		7C9A3910158F518D00A59A6A /* ResizeImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ResizeImage.h; path = ../../ResizeImage.h; sourceTree = "<group>"; };
-		7C9A3911158F518D00A59A6A /* ResizeImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ResizeImage.m; path = ../../ResizeImage.m; sourceTree = "<group>"; };
 		7C9A392015901ABB00A59A6A /* aboutus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = aboutus.png; sourceTree = "<group>"; };
 		7C9A392115901ABB00A59A6A /* mailico.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mailico.png; sourceTree = "<group>"; };
 		7C9A392215901ABB00A59A6A /* qtico.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = qtico.png; sourceTree = "<group>"; };
@@ -332,6 +330,8 @@
 		7C9A392E1590213600A59A6A /* WeiBoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WeiBoCell.m; sourceTree = "<group>"; };
 		7CE9177B159161A500E711F3 /* authorize.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = authorize.png; sourceTree = "<group>"; };
 		7CE9177C159161A500E711F3 /* unauthorize.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = unauthorize.png; sourceTree = "<group>"; };
+		7CE917901591780A00E711F3 /* ResizeImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResizeImage.h; sourceTree = "<group>"; };
+		7CE917911591780A00E711F3 /* ResizeImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResizeImage.m; sourceTree = "<group>"; };
 		B102FF6A155BB303008DC42D /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		B102FF6C155BB30C008DC42D /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		B102FF6E155BB314008DC42D /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
@@ -1421,8 +1421,8 @@
 		B16F9D33158436590002BD38 /* CutTheScreen */ = {
 			isa = PBXGroup;
 			children = (
-				7C9A3910158F518D00A59A6A /* ResizeImage.h */,
-				7C9A3911158F518D00A59A6A /* ResizeImage.m */,
+				7CE917901591780A00E711F3 /* ResizeImage.h */,
+				7CE917911591780A00E711F3 /* ResizeImage.m */,
 				B16F9D34158436590002BD38 /* ImageProcess.h */,
 				B16F9D35158436590002BD38 /* ImageProcess.m */,
 			);
@@ -2185,9 +2185,9 @@
 				B1561150158DCDF9008EBB68 /* WBUtil.m in Sources */,
 				B1561154158DCE38008EBB68 /* SinaShare.m in Sources */,
 				7C95CF72158F175F00AE5E45 /* AboutUsViewController.m in Sources */,
-				7C9A3912158F518D00A59A6A /* ResizeImage.m in Sources */,
 				B14D9447158F04660024A75C /* NewestCardViewCellView.m in Sources */,
 				7C9A392F1590213600A59A6A /* WeiBoCell.m in Sources */,
+				7CE917921591780A00E711F3 /* ResizeImage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2237,7 +2237,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_IDENTITY = "iPhone Developer: he zhendong (558KRFRKQN)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: he zhendong (558KRFRKQN)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "com.apple.ubiquity.peer-uuid.8F3239F9-62CD-4AEC-B8E6-2320CEAED732";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -2253,7 +2253,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				PROVISIONING_PROFILE = "A575EBDF-0DD4-4737-B79C-35C5F94B6800";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "A575EBDF-0DD4-4737-B79C-35C5F94B6800";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos5.1;
 				VALID_ARCHS = "armv6 armv7 i386";
 			};
@@ -2291,7 +2291,7 @@
 					armv7,
 				);
 				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Wei Wei (D4S7U535YV)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: he zhendong (558KRFRKQN)";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ILovepostcard/ILovepostcard-Prefix.pch";
@@ -2317,7 +2317,7 @@
 					"-Objc",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "76887534-6B8F-45E2-8C4B-9EAA5E4D3D26";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "A575EBDF-0DD4-4737-B79C-35C5F94B6800";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "";
@@ -2335,7 +2335,7 @@
 					armv7,
 				);
 				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Wei Wei (D4S7U535YV)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: he zhendong (558KRFRKQN)";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ILovepostcard/ILovepostcard-Prefix.pch";
@@ -2361,7 +2361,7 @@
 					"-Objc",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "76887534-6B8F-45E2-8C4B-9EAA5E4D3D26";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "A575EBDF-0DD4-4737-B79C-35C5F94B6800";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "";

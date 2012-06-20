@@ -201,7 +201,7 @@ static int timeNum = 0;
 #pragma mark - HandleLoopScrollView --图片循环播放
 -(void)handleLoopScrollView
 {
-    [self.loopScrollView setContentSize:CGSizeMake(280 * 4, 157)];
+    [self.loopScrollView setContentSize:CGSizeMake(280 * 3, 157)];
     self.loopScrollView.delegate = self;
     self.loopScrollView.pagingEnabled = YES;
     self.loopScrollView.userInteractionEnabled = YES;
