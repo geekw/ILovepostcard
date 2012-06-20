@@ -191,6 +191,7 @@ int currentPage_Keyword;
 -(void)layOutTemplate:(NSDictionary *)dict//解析json数据
 {
     NSMutableDictionary *tmpDictionary = [[NSMutableDictionary alloc] init];
+    NSLog(@"%@",dict);
     
     NSString *idString = [dict objectForKey:@"id"];
     [tmpDictionary setObject:idString forKey:@"id"];
@@ -201,8 +202,8 @@ int currentPage_Keyword;
     NSString *backgroundPicUrl = [dict objectForKey:@"preview"];
     [tmpDictionary setObject:backgroundPicUrl forKey:@"preview"];
     
-    NSString *tagsString = [dict objectForKey:@"tags"];
-    [tmpDictionary setObject:tagsString forKey:@"tags"];
+//    NSString *tagsString = [dict objectForKey:@"tags"];
+//    [tmpDictionary setObject:tagsString forKey:@"tags"];
     
     [[ILPostcardList sharedILPostcardList].templateAbstractList addObject:tmpDictionary];
 
@@ -333,7 +334,6 @@ int currentPage_Keyword;
                 [templateButton setImageURL:[NSURL URLWithString:backgroundPicUrl]];            templateButton.tag = idName;
             int y = 250 + addTemplatePageNumber * 391; 
             templateButton.frame = CGRectMake(164, y, 135, 90);
-//            templateButton.transform = CGAffineTransformMakeRotation(rotationAngle) ;        
             [templateButton addTarget:self 
                                action:@selector(displayEachTemplateDetals:) 
                      forControlEvents:UIControlEventTouchUpInside];

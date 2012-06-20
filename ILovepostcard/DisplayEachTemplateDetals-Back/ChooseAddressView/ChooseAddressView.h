@@ -83,6 +83,7 @@
 
 
 - (void)initData;
+
 -(IBAction)goBack:(id)sender;
 
 - (IBAction)clickedProvince:(id)sender;
@@ -96,7 +97,5 @@
 - (IBAction)clickedProvince_Sender:(id)sender;
 - (IBAction)clickedCity_Sender:(id)sender;
 - (IBAction)clickedCounty_Sender:(id)sender;
-
-//- (IBAction)resignKeyboard;
 
 @end

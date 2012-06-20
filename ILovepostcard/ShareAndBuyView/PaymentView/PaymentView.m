@@ -87,7 +87,7 @@
     NSMutableArray *tmpID    = [[NSMutableArray alloc] initWithCapacity:[tmpArray count]];
     NSMutableArray *tmpPrice = [[NSMutableArray alloc] initWithCapacity:[tmpArray count]];
     NSMutableArray *tmpway   = [[NSMutableArray alloc] initWithCapacity:[tmpArray count]];
-//    
+
     for (int i = 0; i < [tmpArray count]; i ++)
     {
         NSDictionary *tmpDict = [tmpArray objectAtIndex:i];
@@ -174,12 +174,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [snailMailButton setBackgroundImage:[UIImage imageNamed:@"paymentView2.png"] forState:UIControlStateNormal];
-    [registeredLetterButton setBackgroundImage:[UIImage imageNamed:@"paymentView3.png"] forState:UIControlStateNormal];
+    [snailMailButton setBackgroundImage:[UIImage imageNamed:@"paymentView3.png"] forState:UIControlStateNormal];
+    [registeredLetterButton setBackgroundImage:[UIImage imageNamed:@"paymentView2.png"] forState:UIControlStateNormal];
     [expressDeliveryButton setBackgroundImage:[UIImage imageNamed:@"paymentView2.png"] forState:UIControlStateNormal];
-    [self performSelector:@selector(registeredLetter)];    
+    
+    [self performSelector:@selector(snailMail)];//默认加载平邮
 
     NSDictionary *tmpDict = [self.priceArray objectAtIndex:0];
+    
     NSString *postcardStr = [tmpDict objectForKey:@"postcard_sn"];
     [[NSUserDefaults standardUserDefaults] setObject:postcardStr forKey:@"postcard_sn"];
 }
@@ -198,8 +200,6 @@
     [self setRegisteredMailLabel:nil];
     [self setExpressLabel:nil];
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -452,8 +452,9 @@
 	}
     NSLog(@"orderString = %@",orderString);
     
+    NSString *postcard_snStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"postcard_sn"];
     
-    NSString *stringURL = [NSString stringWithFormat:@"http://61.155.238.30:31801/pay/index.php?subject=%@&out_trade_no=%@&total_fee=%@",order.productName,order.tradeNO,order.amount];
+    NSString *stringURL = [NSString stringWithFormat:@"http://61.155.238.30:31801/pay/index.php?subject=%@&out_trade_no=%@&total_fee=%@",order.productName,postcard_snStr,order.amount];
     NSLog(@"%@",stringURL);
     
     NSURL *url = [NSURL URLWithString:[stringURL stringByAddingPercentEscapesUsingEncoding: NSUTF8StringEncoding]];

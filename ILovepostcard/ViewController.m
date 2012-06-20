@@ -105,7 +105,6 @@ static int timeNum = 0;
 -(void)getPic:(ASIHTTPRequest *)request
 {
     NSArray *tmpArray = [request responseString].JSONValue;
-    NSLog(@"%@",tmpArray);
     
     for (int i = 0; i < tmpArray.count; i++)
     {
@@ -145,10 +144,6 @@ static int timeNum = 0;
             [self.loopScrollView scrollRectToVisible:CGRectMake( 0 * 280,0,280,157) animated:NO];
             timeNum = 0;
             break;
-//        case 3:
-//            [self.loopScrollView scrollRectToVisible:CGRectMake( 0 * 280,0,280,157) animated:NO];
-//            timeNum = 0;
-//            break;
         default:
             break;
     }
@@ -201,7 +196,7 @@ static int timeNum = 0;
 #pragma mark - HandleLoopScrollView --图片循环播放
 -(void)handleLoopScrollView
 {
-    [self.loopScrollView setContentSize:CGSizeMake(280 * 4, 157)];
+    [self.loopScrollView setContentSize:CGSizeMake(280 * 3, 157)];
     self.loopScrollView.delegate = self;
     self.loopScrollView.pagingEnabled = YES;
     self.loopScrollView.userInteractionEnabled = YES;
