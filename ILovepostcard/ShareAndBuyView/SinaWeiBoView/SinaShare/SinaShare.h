@@ -33,6 +33,8 @@
 
 - (void)logInSinaWB;
 
+- (void)justLogInSinaWB;
+
 - (void)logOutSinaWB;
 
 - (void)sendContentWith:(NSString *)sendTxt withImg:(UIImage *)myImg;

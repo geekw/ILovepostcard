@@ -16,7 +16,7 @@
 #define FD_IMAGE_PATH(file) [NSString stringWithFormat:@"%@/Documents/ScreenShot/%@",NSHomeDirectory(),file]
 #define UploadPicUrl @"http://kai7.cn/image/upload"
 #define UploadPicUrl @"http://kai7.cn/image/upload"
-#define UploadAllUrl @"http://61.155.238.30/postcards/interface/submit_postcard"
+#define UploadAllUrl @"http://www.52mxp.com/interface/submit_postcard"
 
 
 
@@ -115,8 +115,6 @@
     [self setShareTextView:nil];
     [self setBackShareAndBuyBtn:nil];
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -422,7 +420,17 @@
         [[NSUserDefaults standardUserDefaults] setValue:nil forKey:@"QRURL"];//上传成功后,清空声音和二维码的地址!
         
         [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"RECEIVER_NAME"];
-        [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"DETAILS_ADDRESS_URL"];
+        [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"DETAILS_ADDRESS_URL"];//上报的地址
+        
+        [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"ID"];
+        [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"FRONT_PIC"];
+        [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"BACK_PIC"];
+        [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"SENDER_NAME"];
+        [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"SENDER_ADDRESS"];
+        [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"SENDER_POSTCODE"];
+        [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"RECEIVER_POSTCODE"];
+        [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"BLESS"];
+        [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"DETAILS_ADDRESS"];//非上报的地址
 
         [self performSelector:@selector(payThisPostcard)];
     }
@@ -452,7 +460,7 @@
             sinashare = [[SinaShare alloc] init];
         }
         self.sinashare.delegate = self;
-        [self.sinashare logInSinaWB];
+        [self.sinashare justLogInSinaWB];
     }
     else
     {    
@@ -487,6 +495,7 @@
 
 -(void)sinaLoginFinished//登陆完毕,跳到购买界面
 {
+    self.sinaWeiBoShareView.frame = CGRectMake(0, 0, 320, 460);
     [self.view addSubview:self.sinaWeiBoShareView];
 }
 
@@ -501,6 +510,12 @@
 }
 -(void)sinaSendFinished//发送完毕
 {
+    PromptView *tmpPromptView = [[PromptView alloc] init];
+    [tmpPromptView showPromptWithParentView:self.view 
+                                 withPrompt:@"发送成功"
+                                  withFrame:CGRectMake(40, 120, 240, 240)];
+    [tmpPromptView release];
+
     [self performSelector:@selector(backShareAndBuyView)];//发送完毕回到主界面
 }
 
@@ -518,6 +533,5 @@
 {
     [self.sinaWeiBoShareView removeFromSuperview];
 }
-
 
 @end

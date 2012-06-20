@@ -34,6 +34,14 @@
 
 
 #pragma mark - Events
+- (void)justLogInSinaWB
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];    
+    if ([userDefaults boolForKey:@"kHasAuthoredSina"] == NO || [engine isAuthorizeExpired]) 
+    {
+        [engine logIn]; 
+    }
+}
 
 - (void)logInSinaWB
 {

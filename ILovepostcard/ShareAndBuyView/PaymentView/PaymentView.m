@@ -6,9 +6,9 @@
 //  Copyright (c) 2012年 开趣. All rights reserved.
 //
 
-#define UploadPostcardPrice @"http://61.155.238.30/postcards/interface/submit_price"
+#define UploadPostcardPrice @"http://www.52mxp.com/interface/submit_price"
 
-#define PurchaseFromClient @"http://61.155.238.30/postcards/interface/submit_alipay"
+#define PurchaseFromClient @"http://www.52mxp.com/interface/submit_alipay"
 
 
 #define Partner @"2088701817081672"
@@ -145,11 +145,7 @@
     [subjectsArray release], subjectsArray = nil;
 	[bodyArray release], bodyArray = nil;
     [mypriceArray release];mypriceArray = nil;
-    
-//    tmpID = nil;[tmpID release];
-//    tmpPrice = nil;[tmpPrice release];
-//    tmpway = nil;[tmpway release];
-    
+
 }
 
 
@@ -186,8 +182,6 @@
     NSDictionary *tmpDict = [self.priceArray objectAtIndex:0];
     NSString *postcardStr = [tmpDict objectForKey:@"postcard_sn"];
     [[NSUserDefaults standardUserDefaults] setObject:postcardStr forKey:@"postcard_sn"];
-    
-
 }
 
 
@@ -524,8 +518,6 @@
 
 -(void)saveCompletePostcard
 {
-//    NSLog(@"%d",[[NSUserDefaults standardUserDefaults] integerForKey:@"ScreenShotNumber"]);
-
     NSInteger i = [[NSUserDefaults standardUserDefaults] integerForKey:@"ScreenShotNumber"];
     NSMutableDictionary *tmpDict = [[NSMutableDictionary dictionary] retain];
 
@@ -602,7 +594,5 @@
     NSError *error = [requset error];
     NSLog(@"error:%@", error);
 }
-
-
 
 @end

@@ -17,7 +17,8 @@
 
 @implementation PromptView
 
-- (void)dealloc{
+- (void)dealloc
+{
     [promptLbl release];
     [super dealloc];
 }
@@ -32,7 +33,7 @@
         promptLbl.textAlignment = UITextAlignmentCenter;
         promptLbl.textColor = [UIColor darkTextColor];
         promptLbl.layer.cornerRadius = 8;
-        promptLbl.font = [UIFont systemFontOfSize:15];
+        promptLbl.font = [UIFont systemFontOfSize:20];
     }
     return self;
 }

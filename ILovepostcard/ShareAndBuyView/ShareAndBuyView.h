@@ -48,8 +48,8 @@
 @property (retain, nonatomic) IBOutlet UITextView *shareTextView;
 
 @property (retain, nonatomic) SinaShare *sinashare;
-@property (retain, nonatomic) IBOutlet UIButton *backShareAndBuyBtn;
 
+@property (retain, nonatomic) IBOutlet UIButton *backShareAndBuyBtn;
 
 
 - (IBAction)goBack;
@@ -67,11 +67,6 @@
 - (IBAction)goToShareView;
 
 - (IBAction)backShareAndBuyView;
-
-
-
-
-
 
 
 @end

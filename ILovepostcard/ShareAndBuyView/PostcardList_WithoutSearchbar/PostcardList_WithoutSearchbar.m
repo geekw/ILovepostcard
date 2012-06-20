@@ -94,7 +94,10 @@ bool fromSearch;
 - (void)loadHttpRequset
 {
     fromSearch = NO;
-    [[self.listScrollView subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    if ([self.listScrollView subviews] != nil)
+    {
+        [[self.listScrollView subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    }
 
     NSString *idStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"ActivityID"];
 
@@ -129,7 +132,6 @@ bool fromSearch;
             [self performSelector:@selector(showNoneSearchResult)];//没有模板的提示    
         }
     }
-    
     
     NSString *pageTotal = [dict objectForKey:@"page_total"];//---第一级解析
     page_total = [pageTotal intValue];  
@@ -437,7 +439,7 @@ bool fromSearch;
 }
 
 #pragma mark - AddPage - 增加页数
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
     if (currentPage < page_total)//如果没到最后一页
     {

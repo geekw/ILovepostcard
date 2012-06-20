@@ -14,7 +14,7 @@
 #import "PostOfficeView.h"
 #import "GetMoreView.h"
 
-@interface ViewController : UIViewController<UIScrollViewDelegate>
+@interface ViewController : UIViewController<UIScrollViewDelegate,UIAlertViewDelegate>
 
 @property (retain, nonatomic) GoToPostcardList *postcardList;
 @property (retain, nonatomic) ActivityListView *activityListView;
@@ -49,6 +49,8 @@
 - (IBAction)getMore;
 
 - (IBAction)goNewestCardView;
+
+- (void)showAlertView;
 
 
 

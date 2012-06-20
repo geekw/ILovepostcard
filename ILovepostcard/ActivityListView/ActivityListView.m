@@ -6,7 +6,7 @@
 //  Copyright (c) 2012年 开趣. All rights reserved.
 //
 
-#define ActivityList @"http://61.155.238.30/postcards/interface/activity_list"//活动列表接口
+#define ActivityList @"http://www.52mxp.com/interface/activity_list"//活动列表接口
 #define NumberInPage 3
 
 #import "ActivityListView.h"
